@@ -7,9 +7,10 @@
 <summary><strong>Correct Answer:</strong></summary>
 
 ✅ facilitates an end goal
-</details>
 
-**Explanation:** D.J. Patil, who served as the first U.S. Chief Data Scientist, emphasized that data products should ultimately serve a purpose by facilitating an end goal. This definition highlights the practical, outcome-oriented nature of data science applications.
+<strong>Explanation:</strong>
+D.J. Patil, who served as the first U.S. Chief Data Scientist, emphasized that data products should ultimately serve a purpose by facilitating an end goal. This definition highlights the practical, outcome-oriented nature of data science applications.
+</details>
 
 ## Question 2
 **Which of the following are course objectives? (select all that apply)**
@@ -30,9 +31,12 @@
 ✅ Discuss the ethical implications of working with data  
 ⬜ Describe the key steps in the process of conducting data science  
 ⬜ Learn advanced machine learning techniques  
+
+<strong>Explanation:</strong>
+The course focuses on practical Python skills for data visualization, manipulation, and analysis, as well as ethical considerations in data science. It appears to be an applied course rather than one focused on theoretical processes or advanced machine learning.
 </details>
 
-**Explanation:** The course focuses on practical Python skills for data visualization, manipulation, and analysis, as well as ethical considerations in data science. It appears to be an applied course rather than one focused on theoretical processes or advanced machine learning.
+
 
 ## Question 3
 **Veracity in 5V's of big data refers to**
@@ -47,8 +51,8 @@
 <summary><strong>Correct Answer:</strong></summary>
 
 ✅ Authenticity/Correctness of data
-</details>
 
+<strong>Explanation:</strong>
 **Explanation:** The 5V's of big data are:
 - Volume (size of data)
 - Velocity (influx rate of data)
@@ -57,6 +61,7 @@
 - Value (actionable insights from data)
 
 Veracity specifically addresses the trustworthiness and accuracy of data, which becomes increasingly important as data volumes grow.
+</details>
 
 ## Question 4
 **Team collaboration is an important aspect of data science**
@@ -68,9 +73,10 @@ Veracity specifically addresses the trustworthiness and accuracy of data, which 
 <summary><strong>Correct Answer:</strong></summary>
 
 ✅ True
-</details>
 
-**Explanation:** Data science projects typically require diverse expertise including domain knowledge, statistical skills, programming abilities, and business acumen. Effective collaboration across these different skill sets is essential for successful data science initiatives.
+<strong>Explanation:</strong>
+Data science projects typically require diverse expertise including domain knowledge, statistical skills, programming abilities, and business acumen. Effective collaboration across these different skill sets is essential for successful data science initiatives.
+</details>
 
 ## Question 5
 **Why is Python so popular in Data Science? (select all that apply)**
@@ -91,9 +97,12 @@ Veracity specifically addresses the trustworthiness and accuracy of data, which 
 ✅ Python is used as "glue language"  
 ⬜ Python is the only language that supports data science  
 ⬜ Python is compiled language  
+
+<strong>Explanation:</strong>
+Python's popularity in data science stems from its extensive ecosystem of specialized libraries (NumPy, pandas, scikit-learn, etc.), its open-source nature making it accessible, its widespread adoption in the field, and its versatility in connecting different tools and languages as a "glue language." Python is an interpreted language, not compiled, and while popular, it's certainly not the only language used in data science (R, Julia, and SQL are also widely used).
 </details>
 
-**Explanation:** Python's popularity in data science stems from its extensive ecosystem of specialized libraries (NumPy, pandas, scikit-learn, etc.), its open-source nature making it accessible, its widespread adoption in the field, and its versatility in connecting different tools and languages as a "glue language." Python is an interpreted language, not compiled, and while popular, it's certainly not the only language used in data science (R, Julia, and SQL are also widely used).
+
 
 ## Question 6
 **As per the video, what are some of the reasons for Netflix to adopt Jupyter Notebooks? (select all that apply)**
@@ -112,9 +121,10 @@ Veracity specifically addresses the trustworthiness and accuracy of data, which 
 ⬜ IDE integrations  
 ✅ Parameterized notebooks allowed running experiments with different coefficients  
 ⬜ Helped in reducing security concerns  
-</details>
 
-**Explanation:** According to the course material, Netflix adopted Jupyter Notebooks primarily to enhance collaboration through shared queries and visualizations, standardize data access across teams, and enable efficient experimentation through parameterized notebooks. These capabilities support Netflix's data-driven decision-making processes.
+<strong>Explanation:</strong>
+According to the course material, Netflix adopted Jupyter Notebooks primarily to enhance collaboration through shared queries and visualizations, standardize data access across teams, and enable efficient experimentation through parameterized notebooks. These capabilities support Netflix's data-driven decision-making processes.
+</details>
 
 ## Question 7
 **What is the correct order of phases of a data science project**
@@ -129,9 +139,9 @@ Veracity specifically addresses the trustworthiness and accuracy of data, which 
 <summary><strong>Correct Answer:</strong></summary>
 
 ✅ Acquire, Process, Analyze, Report, Act
-</details>
 
-**Explanation:** The standard data science workflow follows this logical sequence:
+<strong>Explanation:</strong>
+The standard data science workflow follows this logical sequence:
 1. **Acquire**: Gather and collect relevant data
 2. **Process**: Clean, transform, and prepare the data
 3. **Analyze**: Apply statistical methods and models to extract insights
@@ -139,6 +149,7 @@ Veracity specifically addresses the trustworthiness and accuracy of data, which 
 5. **Act**: Implement decisions or changes based on the insights
 
 This sequence ensures that insights are based on properly prepared data and that findings lead to actionable outcomes.
+</details>
 
 ## Question 8
 **Data science phases can be an iterative process**
@@ -150,9 +161,10 @@ This sequence ensures that insights are based on properly prepared data and that
 <summary><strong>Correct Answer:</strong></summary>
 
 ✅ True
-</details>
 
-**Explanation:** Data science rarely follows a strictly linear path. As new insights emerge or challenges arise, data scientists often need to revisit earlier phases. For example, analysis might reveal the need for additional data (returning to Acquire) or different preprocessing approaches (returning to Process). This iterative nature allows for continuous refinement and improvement of results.
+<strong>Explanation:</strong>
+Data science rarely follows a strictly linear path. As new insights emerge or challenges arise, data scientists often need to revisit earlier phases. For example, analysis might reveal the need for additional data (returning to Acquire) or different preprocessing approaches (returning to Process). This iterative nature allows for continuous refinement and improvement of results.
+</details>
 
 ---
 
