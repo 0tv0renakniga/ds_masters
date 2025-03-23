@@ -152,7 +152,6 @@ These examples correctly match the learning paradigms:
 ✅ Predicting stock price → Regression  
 ✅ Credit Card transaction is legitimate or fraudulent → Binary classification  
 
-<strong>Explanation:</strong>
 These matches correctly identify the type of machine learning problem:
 - Weather prediction with multiple possible outcomes (sunny, rainy, etc.) is a multi-class classification problem
 - Stock price prediction involves estimating a continuous numerical value, making it a regression problem
