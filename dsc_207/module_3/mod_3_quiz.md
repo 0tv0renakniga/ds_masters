@@ -2,7 +2,7 @@
 
 *Note: All questions refer to the 'dogs' DataFrame unless specified otherwise.*
 
-![alt text](../images/mod_3_q1.png)
+![alt text](/dsc_207/images/mod_3_q1.png)
 
 ## DataFrame Context
 The quiz questions refer to a DataFrame called 'dogs' that contains information about different dog breeds. While the exact data is not fully visible in the provided content, we can infer it contains at least these columns:
