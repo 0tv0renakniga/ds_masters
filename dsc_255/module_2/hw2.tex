@@ -1,0 +1,730 @@
+\documentclass{article}
+
+% Required packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Set page geometry
+\geometry{a4paper, margin=1in}
+
+% Configure listings for Python
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  commentstyle=\color{gray}\textit,
+  keywordstyle=\color{blue}\bfseries,
+  stringstyle=\color{red}
+}
+
+% For centering images and tables
+\usepackage{float}
+
+\begin{document}
+
+\begin{flushright}
+   Randall Rogers\\
+   DSC 255: Machine Learning Fundamentals\\
+   Homework 2 \\
+   Spring 2025 \\
+\end{flushright}
+
+\subsection*{Question 1}
+\textit{Consider the two points}\\
+
+   $$
+   x = 
+   \begin{bmatrix}
+   -1 \\
+    1 \\
+   -1 \\
+    1
+   \end{bmatrix},
+   x^{\prime}
+   \begin{bmatrix}
+   1 \\
+   1 \\
+   1 \\
+   1
+   \end{bmatrix}
+   $$
+
+\begin{enumerate}[label=(a)]
+  \item \textit{What is the $L_2$ distance between them}
+\end{enumerate}
+
+\begin{enumerate}[label=(b)]
+  \item \textit{What is the $L_1$ distance between them}
+\end{enumerate}
+
+\begin{enumerate}[label=(c)]
+  \item \textit{What is the $L_{\infty}$ distance between them}
+\end{enumerate}
+
+\textbf{Solution (a)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{The $L_2$ distance is defined as:}\\
+
+$$L_2 = \sqrt{\sum_{i=1}^{n} (x_i - x^{\prime}_i)^2}$$\\
+
+\parbox{\textwidth}{Let, $n = 4$, $x_1 = -1$, $x_2 = 1$, $x_3 = -1$, $x_4 = 1$, $x^{\prime}_1 = 1$, $x^{\prime}_2 = 1$, $x^{\prime}_3 = 1$, $x^{\prime}_4 = 1$.}\\
+
+\parbox{\textwidth}{Use the $L_2$ equation and do the following:}\\
+
+\begin{itemize}
+    \item {substitute $n$, expand the summation and subsitute values for $x_1$,..., $x^{\prime}_4$}\\
+\end{itemize}
+
+$L_2 = \sqrt{\left((-1 - 1)^2+(1 - 1)^2+(-1 - 1)^2+(1 - 1)^2\right)}$\\
+
+$L_2 = \sqrt{\left((-2)^2+(0)^2+(-2)^2+(0)^2\right)}$\\
+
+$L_2 = \sqrt{\left(4+4\right)}$\\
+
+$L_2 = \sqrt{\left(8\right)}$\\
+
+\parbox{\textwidth}{$\therefore$ the $L_2$ distance between $x$ and $x^{\prime}$ is $\sqrt{8}$.}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{The $L_1$ distance is defined as:}\\
+
+$$L_1 = \sum_{i=1}^{n} |x_i - x^{\prime}_i|$$\\
+
+\parbox{\textwidth}{Let, $n = 4$, $x_1 = -1$, $x_2 = 1$, $x_3 = -1$, $x_4 = 1$, $x^{\prime}_1 = 1$, $x^{\prime}_2 = 1$, $x^{\prime}_3 = 1$, $x^{\prime}_4 = 1$.}\\
+
+\parbox{\textwidth}{Use the $L_1$ equation and do the following:}\\
+
+\begin{itemize}
+    \item {substitue $n$, expand the summation and substitute values for $x_1$,..., $x^{\prime}_4$}\\
+\end{itemize}
+
+$L_1 = |(-1 - 1)| + |(1 - 1)| + |(-1 - 1)| + |(1 - 1)|$\\
+
+$L_1 = |(-2)| + |(0)| + |(-2)| + |(0)|$\\
+
+$L_1 = 2 + 0 + 2 + 0$\\
+
+$L_1 = 4$\\
+
+\parbox{\textwidth}{$\therefore$ the $L_1$ distance between $x$ and $x^{\prime}$ is $4$.}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (c)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{The $L_{\infty}$ distance is defined as:}\\
+
+$$L_{\infty} = \max_{i=1,2,...,n} |x_i - x^{\prime}_i|$$\\
+
+\parbox{\textwidth}{Let, $n = 4$, $x_1 = -1$, $x_2 = 1$, $x_3 = -1$, $x_4 = 1$, $x^{\prime}_1 = 1$, $x^{\prime}_2 = 1$, $x^{\prime}_3 = 1$, $x^{\prime}_4 = 1$.}\\
+
+\parbox{\textwidth}{Use the $L_{\infty}$ equation and do the following:}\\
+
+\begin{itemize}
+    \item {calculate the absolute differences for each component and find the maximum}\\
+\end{itemize}
+
+$L_{\infty} = \max\{|(-1 - 1)|, |(1 - 1)|, |(-1 - 1)|, |(1 - 1)|\}$\\
+
+$L_{\infty} = \max\{|(-2)|, |(0)|, |(-2)|, |(0)|\}$\\
+
+$L_{\infty} = \max\{2, 0, 2, 0\}$\\
+
+$L_{\infty} = 2$\\
+
+\parbox{\textwidth}{$\therefore$ the $L_{\infty}$ distance between $x$ and $x^{\prime}$ is $2$.}\\
+
+
+\noindent\rule{\textwidth}{0.4pt}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Question 2}
+\textit{For the point $\begin{bmatrix}
+    1 \\
+    2 \\
+    3 \\
+\end{bmatrix} \in \mathbb{R}^3$ , compute the following}\\
+
+\begin{enumerate}[label=(a)]
+  \item \textit{$\|x\|_1$}
+\end{enumerate}
+
+\begin{enumerate}[label=(b)]
+  \item \textit{$\|x\|_2$}
+\end{enumerate}
+
+\begin{enumerate}[label=(c)]
+  \item \textit{$\|x\|_{\infty}$}
+\end{enumerate}
+
+
+\textbf{Solution (a)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{The $L_1$ is defined as:}\\
+
+$$\|x\|_1 = \sum_{i=1}^{n} |x_i|$$\\
+
+\parbox{\textwidth}{Let, $n=3$, $x_1 = 1$, $x_2 = 2$, $x_3 = 3$}\\
+
+\parbox{\textwidth}{Use the $L_1$ equation and do the following:}\\
+
+\begin{itemize}
+    \item {substitute $n$, expand the summation and substitute values for $x_1$, $x_2$, $x_3$}
+\end{itemize}
+
+$\|x\|_1 = \sum_{i=1}^{3} |x_i|$\\
+
+$\|x\|_1 = |1| + |2| + |3|$\\
+
+$\|x\|_1 = 6$\\
+
+\parbox{\textwidth}{$\therefore$ the $L_1$ norm of the vector $x$ is $6$.}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{The $L_2$ is defined as:}\\
+
+$$\|x\|_2 = \sqrt{\sum_{i=1}^{n} x_i^2}$$\\
+
+\parbox{\textwidth}{Let, $n=3$, $x_1 = 1$, $x_2 = 2$, $x_3 = 3$}\\
+
+\parbox{\textwidth}{Use the $L_2$ equation and do the following:}\\
+
+\begin{itemize}
+    \item {substitute $n$, expand the summation and substitute values for $x_1$, $x_2$, $x_3$}
+\end{itemize}
+
+$\|x\|_2 = \sqrt{\sum_{i=1}^{3} x_i^2}$\\
+
+$\|x\|_2 = \sqrt{1^2 + 2^2 + 3^2}$\\
+
+$\|x\|_2 = \sqrt{1 + 4 + 9}$\\
+
+$\|x\|_2 = \sqrt{14}$\\
+
+\parbox{\textwidth}{$\therefore$ the $L_2$ norm of the vector $x$ is $\sqrt{14}$.}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (c)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{The $L_{\infty}$ is defined as:}\\
+
+$$\|x\|_{\infty} = \max_{i=1,2,...,n} |x_i|$$\\
+
+\parbox{\textwidth}{Let, $n=3$, $x_1 = 1$, $x_2 = 2$, $x_3 = 3$}\\
+
+\parbox{\textwidth}{Use the $L_{\infty}$ equation and do the following:}\\
+
+\begin{itemize}
+    \item {substitute $n$, find the maximum absolute value among $x_1$, $x_2$, $x_3$}
+\end{itemize}
+
+$\|x\|_{\infty} = \max_{i=1,2,3} |x_i|$\\
+
+$\|x\|_{\infty} = \max\{|1|, |2|, |3|\}$\\
+
+$\|x\|_{\infty} = \max\{1, 2, 3\}$\\
+
+$\|x\|_{\infty} = 3$\\
+
+\parbox{\textwidth}{$\therefore$ the $L_{\infty}$ norm of the vector $x$ is $3$.}\\
+
+\noindent\rule{\textwidth}{0.4pt}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Question 3}
+\textit{The following table specifies a distance on the space $\chi = \{A, B, C, D\}$. Is this a metric? Justify your answer.}\\
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|cccc}
+  & A & B & C & D \\ \hline
+A & 0 & 2 & 1 & 5 \\
+B & 2 & 0 & 4 & 3 \\
+C & 1 & 4 & 0 & 2 \\
+D & 5 & 3 & 2 & 0 \\
+\end{tabular}
+\caption{Table that specifies a distance function for $\chi$}
+\label{tab:example}
+\end{table}
+
+\textbf{Solution}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{To determine if the given distance function is a metric, it needs to satisfiy the properties of a meteric.}\\
+
+\parbox{\textwidth}{The four properties of a metric are:}\\
+
+\begin{enumerate}
+    \item \textbf{Non-negativity}: $d(x,y) \geq 0$ for all $x,y \in \chi$
+    \item \textbf{Identity of Indiscernibles}: $d(x,y) = 0$ if and only if $x = y$
+    \item \textbf{Symmetry}: $d(x,y) = d(y,x)$ for all $x,y \in \chi$
+    \item \textbf{Triangle Inequality}: $d(x,z) \leq d(x,y) + d(y,z)$ for all $x,y,z \in \chi$
+\end{enumerate}
+
+\parbox{\textwidth}{Check the first property, Non-negativity.}\\
+
+\parbox{\textwidth}{$0,2,1,5,2,0,4,3,1,4,0,2,5,3,2,0 \geq 0$}\\
+
+\parbox{\textwidth}{Hence, all values are all non-negative and the first property is satisfied.}\\
+
+\parbox{\textwidth}{Now,check the second property, Identity of Indiscernibles.}\\
+
+\parbox{\textwidth}{The diagonal elements are $(A,A)$, $(B,B)$, $(C,C)$, and $(D,D)$.}
+
+$$d(A,A) = 0 , d(B,B) = 0 , d(C,C) = 0 , d(D,D) = 0$$
+
+\parbox{\textwidth}{Hence, all diagonal elements are zero and the second property is satisfied.}\\
+
+\parbox{\textwidth}{Next,check the third property, Symmetry.}\\
+
+\parbox{\textwidth}{The symmetry elements are: $(A,B)$ and $(B,A)$; $(A,C)$ and $(C,A)$; $(A,D)$ and $(D,A)$; $(B,C)$ and $(C,B)$; $(B,D)$ and $(D,B)$; $(C,D)$ and $(D,C)$.}\\
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+$d(x,y)$ & $d(y,x)$ & Distance \\
+\hline
+$d(A,B)$ & $d(B,A)$  & $2$ \\
+$d(A,C)$ & $d(C,A)$  & $1$ \\
+$d(A,D)$ & $d(D,A)$  & $5$ \\
+$d(B,C)$ & $d(C,B)$  & $4$ \\
+$d(B,D)$ & $d(D,B)$  & $3$ \\
+$d(C,D)$ & $d(D,C)$  & $2$ \\
+\hline
+\end{tabular}
+\caption{Table that compares distance for $d(x,y)$ and $d(y,x)$ for $\chi$.}
+\label{tab:solution}
+\end{table}
+
+\parbox{\textwidth}{Hence, all symmetry elements are equal and the third property is satisfied}\\
+
+\parbox{\textwidth}{Lastly,check the fourth property, Triangle Inequality.}\\
+
+\parbox{\textwidth}{Check if $d(x,z) \leq d(x,y) + d(y,z)$ for all possible combinations of $x$, $y$, and $z$.}\\
+
+\parbox{\textwidth}{Let $x=A$, $y=B$ and $z=C$}\\
+
+\parbox{\textwidth}{Subsitute, $x$, $y$, $z$ into the triangle inequality and evaluate using \textit{Table 2}:}\\
+
+$$d(A,C) \leq d(A,B) + d(B,C) \rightarrow 1 \leq 2 + 4 \rightarrow 1 \leq 6$$
+
+\parbox{\textwidth}{Hence, the Triangle Inequality holds for $x=A$, $y=B$ and $z=C$}\\
+
+\parbox{\textwidth}{Let $x=A$, $y=C$ and $z=D$}\\
+
+\parbox{\textwidth}{Subsitute, $x$, $y$, $z$ into the triangle inequality and evaluate using \textit{Table 2}:}\\
+
+$$d(A,D) \leq d(A,C) + d(C,D) \rightarrow 5 \leq 1 + 2 \rightarrow 5 \nleq 3$$
+
+\parbox{\textwidth}{Hence, for $x=A$, $y=C$ and $z=D$ the Triangle Inequality is not satisfied.}\\
+
+\parbox{\textwidth}{$\therefore$ a distance on the space $\chi$ is not a metric}\\
+
+\noindent\rule{\textwidth}{0.4pt}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Question 4}
+\textit{The following vectors $p$ and $q$ specify probability distributions over a set of five out comes. What is the KL divergence between them, $K(p,q)$}\\
+
+$$p =\begin{bmatrix}
+    \frac{1}{2} , \frac{1}{4} , \frac{1}{8} , \frac{1}{16} , \frac{1}{16}
+\end{bmatrix} , q = \begin{bmatrix}
+    \frac{1}{4} , \frac{1}{4} , \frac{1}{6} , \frac{1}{6} , \frac{1}{6}
+\end{bmatrix}$$
+
+\textbf{Solution}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{The Kullback-Leibler (KL) divergence is defined as:}\\
+
+$$K(p,q) = \sum^n_{i=1} p_i \log\left(\frac{p_i}{q_i}\right)$$\\
+
+
+\parbox{\textwidth}{Let $n = 5$,}\\
+
+\parbox{\textwidth}{$p_1 = \frac{1}{2}$, $p_2 = \frac{1}{4}$, $p_3 = \frac{1}{8}$, $p_4 = \frac{1}{16}$, $p_5 = \frac{1}{16}$}\\
+
+\parbox{\textwidth}{$q_1 = \frac{1}{4}$, $q_2 = \frac{1}{4}$, $q_3 = \frac{1}{6}$, $q_4 = \frac{1}{6}$, $q_5 = \frac{1}{6}$}\\
+
+\begin{itemize}
+    \item {substitute $n$, expand the summation and subsitute values for $p_1$,..., $q_5$ in the KL divergence equation}\\
+\end{itemize}
+
+$$K(p,q) = \sum^5_{i=1} p_i \log\left(\frac{p_i}{q_i}\right)$$\\
+
+$K(p,q) = p_1 \log\left(\frac{p_1}{q_1}\right) + p_2 \log\left(\frac{p_2}{q_2}\right) + p_3 \log\left(\frac{p_3}{q_3}\right) + p_4 \log\left(\frac{p_4}{q_4}\right) + p_5 \log\left(\frac{p_5}{q_5}\right)$\\
+
+$K(p,q) = \frac{1}{2} \log\left(\frac{\frac{1}{2}}{\frac{1}{4}}\right) + \frac{1}{4} \log\left(\frac{\frac{1}{4}}{\frac{1}{4}}\right) + \frac{1}{8} \log\left(\frac{\frac{1}{8}}{\frac{1}{6}}\right) + \frac{1}{16} \log\left(\frac{\frac{1}{16}}{\frac{1}{6}}\right) + \frac{1}{16} \log\left(\frac{\frac{1}{16}}{\frac{1}{6}}\right)$\\
+
+$K(p,q) = \frac{1}{2} \log(2) + \frac{1}{4} \log(1) + \frac{1}{8} \log\left(\frac{3}{4}\right) + \frac{1}{16} \log\left(\frac{3}{8}\right) + \frac{1}{16} \log\left(\frac{3}{8}\right)$\\
+
+$K(p,q) \approx 0.082$\\
+
+\parbox{\textwidth}{$\therefore$ the KL divergence between p and q is approximately $0.082$ }\\
+
+\noindent\rule{\textwidth}{0.4pt}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\newpage
+
+\subsection*{Question 5}
+\textit{For each of the following prediction tasks, state whether it is best thought of as a classification problem
+or a regression problem.}\\
+
+\begin{enumerate}[label=(a)]
+  \item \textit{ased on sensors in a person's cell phone, predict whether they are walking, sitting, or running.}
+\end{enumerate}
+
+\begin{enumerate}[label=(b)]
+  \item \textit{Based on sensors in a moving car, predict the speed of the car directly in front.}
+\end{enumerate}
+
+\begin{enumerate}[label=(c)]
+  \item \textit{Based on a student's high-school SAT score, predict their GPA during freshman year of college.}
+\end{enumerate}
+
+\begin{enumerate}[label=(d)]
+  \item \textit{Based on a student's high-school SAT score, predict whether or not they will complete college.}
+\end{enumerate}
+
+\textbf{Solution (a)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution A}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution B}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (c)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution C}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (d)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution D}\\
+
+\noindent\rule{\textwidth}{0.4pt}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Question 6}
+\textit{Variance examples. In each of the following cases, compute the variance.}\\
+
+\begin{enumerate}[label=(a)]
+  \item \textit{X takes on values -1 and 1 with equal probability.}
+\end{enumerate}
+
+\begin{enumerate}[label=(b)]
+  \item \textit{X always takes on same value.}
+\end{enumerate}
+
+\begin{enumerate}[label=(c)]
+  \item \textit{X $\in \{0,1\}$ and X is 1 with probability $\frac{1}{4}$.}
+\end{enumerate}
+
+\textbf{Solution (a)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution A}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution B}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (c)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution C}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Question 7}
+\textit{ndependence and uncorrelatedness. Random variables X; Y take on values in the range $\{-1,0,1\}$ and have the following joint distribution.}\\
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|ccc}
+  $(X\downarrow ,Y \rightarrow)$ & -1 & 0 & 1 \\ \hline
+-1 & 0 & 0 & 1/3 \\
+ 0 & 0 & 1/3 & 0 \\
+ 1 & 1/3 & 0 & 0 \\
+\end{tabular}
+\caption{Joint distribution for random variables X and Y.}
+\label{tab:example_fractions}
+\end{table}
+
+\begin{enumerate}[label=(a)]
+  \item \textit{What is the covariance between X and Y ?}
+\end{enumerate}
+
+\begin{enumerate}[label=(b)]
+  \item \textit{What is the correlation between X and Y ?}
+\end{enumerate}
+
+\textbf{Solution (a)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution A}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution B}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Question 8}
+\textit{Independence and uncorrelatedness. Random variables X; Y take on values in the range $\{-1,0,1\}$ and have the following joint distribution.}\\
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|ccc}
+$(X\downarrow ,Y \rightarrow)$ & -1 & 0 & 1 \\ \hline
+-1 & 1/6 & 0 & 1/6 \\
+0 & 0 & 1/3 & 0 \\
+1 & 1/6 & 0 & 1/6 \\
+\end{tabular}
+\caption{Joint distribution for random variables X and Y.}
+\label{tab:example_fractions}
+\end{table}
+
+
+
+\begin{enumerate}[label=(a)]
+  \item \textit{Are X and Y independent?}
+\end{enumerate}
+
+\begin{enumerate}[label=(b)]
+  \item \textit{Are X and Y uncorrelated?}
+\end{enumerate}
+
+\textbf{Solution (a)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution A}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution B}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+
+\newpage
+
+\subsection*{Programming Exercises}
+
+\parbox{\textwidth}{\textit{Before starting on this section, download the archive \textbf{hw2.zip} from the course website.}}\\
+\begin{itemize}
+    \item \textit{In these problems, you are asked to perform nearest neighbor classification with different distance functions and to calculate error using a hold-out set or by cross-validation. The code for these tasks is neither lengthy nor complex, so you should be able to write up your own routines. Alternatively, you may invoke modules from \textbf{sklearn}.}
+\end{itemize}
+
+\parbox{\textwidth}{}
+
+\subsection*{Question 9}
+
+\textit{Classifying back injuries. In this problem, you will use nearest neighbor to classify patients' back
+injuries based on measurements of the shape and orientation of their pelvis and spine.
+The data set spine-data.txt contains information from 310 patients. For each patient, there are:
+six numeric features (the x) and a label (the y): 'NO' (normal), 'DH' (herniated disk), or 'SL'
+(spondilolysthesis). We will divide this data into a training set with 250 points and a separate test set
+of 60 points.}
+
+\begin{itemize}
+    \item \textit{Make sure you have the data set spine-data.txt. You can load it into Python using the following.}\\
+    import numpy as np\\
+    \# Load data set and code labels as 0 = 'NO', 1 = 'DH', 2 = 'SL'\\
+    labels = [b'NO', b'DH', b'SL']\\
+    data = np.loadtxt('spine-data.txt', converters=\{6: lambda s: labels.index(s)\})\\
+    \item \textit{Split the data into a training set, consisting of the rst 250 points, and a test set, consisting of
+the remaining 60 points.}
+    \item \textit{Code up a nearest neighbor classifier based on this training set. Try both $\ell_2$ and $\ell_1$ distance. Recall $x, x^{\prime} \in \mathbb{R}^d$}
+\end{itemize}
+
+$$\|x-x^{\prime}\|_2 = \sqrt{\sum_{i=1}^{d} (x_i - x^{\prime}_i)^2}$$\\
+
+$$\|x-x^{\prime}\|_1 = \sum_{i=1}^{d} |x_i - x^{\prime}_i|$$\\
+
+\textit{Now do the following exercises, to be turned in.}
+
+\begin{enumerate}[label=(a)]
+  \item \textit{What error rates do you get on the test set for each of the two distance functions?}
+\end{enumerate}
+\begin{enumerate}[label=(b)]
+  \item \textit{For each of the two distance functions, give the confusion matrix of the NN classifier. This is a
+$3 \times 3$ table of the form:}
+\end{enumerate}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|c|c|c}
+  & NO & DH & SL \\ \hline
+NO &   &   &   \\ \hline
+DH &   &   &   \\ \hline
+SL &   &   &   \\ \hline
+\end{tabular}
+\caption{he entry at row DH, column SL, for instance, contains the number of test points whose correct
+label was DH and got classied as SL.}
+\label{tab:empty3x3}
+\end{table}
+
+
+\textbf{Solution (a)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution A}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\begin{itemize}
+    \item \textit{desc}
+\end{itemize}
+
+\parbox{\textwidth}{text for Soution B}\\
+
+\begin{itemize}
+    \item \textit{desc 2}
+\end{itemize}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+\subsection*{Question 10}
+\textit{Cross-validation for nearest neighbor classification.
+The wine.data data set is described in detail at:\newline \newline$$\textbf{https://archive.ics.uci.edu/ml/datasets/wine}$$
+\newline This small data set has 178 observations. Each data point x consists of 13 features that capture visual
+and chemical properties of a bottle of wine. The label $y \in \{1,2,3\}$ indicates which of three wineries
+the bottle came from. The goal is to use the data to learn a classifier that can predict $y$ from $x$.\newline
+\newline Suppose we use the entire data set of 178 points as the training set for 1-NN classification with Euclidean distance. We would like to estimate the quality of this classifier.}\\
+
+\begin{enumerate}[label=(a)]
+  \item \textit{Use leave-one-out cross-validation (LOOCV) to estimate the accuracy of the classifier and also
+to estimate the $3 \times3$ confusion matrix.}
+\end{enumerate}
+
+\begin{enumerate}[label=(b)]
+  \item \textit{Estimate the accuracy of the 1-NN classifier using k-fold cross-validation using 20 different choices
+of k that are fairly well spread out across the range 2 to 100. Plot these estimates: put $k$ on the
+horizontal axis and accuracy estimate on the vertical axis.}
+\end{enumerate}
+
+\begin{enumerate}[label=(c)]
+  \item \textit{The various features in this data set have different ranges.Perhaps it would be better to normalize them so as to equalize their contributions to the distance function. There are many ways to do this; one option is to linearly rescale each coordinate so that the values lie in $[0,1]$(i.e. the minimum value on that coordinate maps to 0 and the maximum value maps to 1). Do this, and then re-estimate the accuracy and confusion matrix using LOOCV. Did the normalization helpperformance?}
+\end{enumerate}
+
+\textbf{Solution (a)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution A}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution B}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\textbf{Solution (c)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{text for Soution C}
+
+
+\end{document}
