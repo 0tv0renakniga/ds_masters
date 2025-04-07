@@ -495,7 +495,40 @@ or a regression problem.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution A}\\
+\parbox{\textwidth}{The variance of a random variable $X$ is defined as:}\\
+
+$$\text{Var}(X) = E[(X - \mu)^2] = E[X^2] - (E[X])^2$$
+
+\begin{itemize}
+    \item $E[X]$ is the expected value (mean) of $X$
+    \item $\mu = E[X]$
+\end{itemize}
+
+\parbox{\textwidth}{Since the random variable $X$ takes on values -1 or 1 with equal probability, the probability is $0.50$ or $\frac{1}{2}$.}\\
+
+\parbox{\textwidth}{Let $n = 2$, $x_1 = -1$, $x_2 = 1$, $P(X = x_1) = \frac{1}{2}$, $P(X = x_2) = \frac{1}{2}$.}\\
+
+\parbox{\textwidth}{Calculate the expected value $E[X]$.}\\
+
+$$E[X] = \sum^{n}_{i=1} x_i P(X = x_i)$$
+
+\parbox{\textwidth}{Subsitute $n$, $x_1$, $x_2$, $P(X = x_1), \frac{1}{2}$, $P(X = x_2)$ and expand summation.}\\
+
+$$E[X] = \sum^2_{i=1} x_i \cdot P(X = x_i) = (-1) \cdot \frac{1}{2} + (1) \cdot \frac{1}{2} = -\frac{1}{2} + \frac{1}{2} = 0$$\\
+
+\parbox{\textwidth}{Calculate $E[X^2]$.}\\
+
+\parbox{\textwidth}{Subsitute $n$, $x_1$, $x_2$, $P(X = x_1), \frac{1}{2}$, $P(X = x_2)$ and expand summation.}\\
+
+$$E[X^2] = \sum^2_{i=1} x_i^2 \cdot P(X = x_i) = (-1)^2 \cdot \frac{1}{2} + (1)^2 \cdot \frac{1}{2} = \frac{1}{2} + \frac{1}{2} = 1$$\\
+
+\parbox{\textwidth}{Calculate the variance.}\\
+
+\parbox{\textwidth}{Subsitute $E[X^2]$ and $E[X]$ into the variance equation.}\\
+
+$$\text{Var}(X) = E[X^2] - (E[X])^2 = 1 - (0)^2 = 1 - 0 = 1$$\\
+
+\parbox{\textwidth}{$\therefore$ the variance of $X$ is 1.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -503,15 +536,79 @@ or a regression problem.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution B}\\
+\parbox{\textwidth}{The variance of a random variable $X$ is defined as:}\\
+
+$$\text{Var}(X) = E[(X - \mu)^2] = E[X^2] - (E[X])^2$$
+
+\begin{itemize}
+    \item $E[X]$ is the expected value (mean) of $X$
+    \item $\mu = E[X]$
+\end{itemize}
+
+\parbox{\textwidth}{Since the random variable $X$ always takes on the same value, $\exists$ $x$ $\in$ $\mathbb{R}$ such that $P(X=x) =1$.}
+
+\parbox{\textwidth}{Calculate the expected value $E[X]$.}
+
+$$E[X] = \sum^{n}_{i=1} x_i P(X = x_i)$$
+
+\parbox{\textwidth}{Subsitute $n=1$, $x_1=x$, $P(X = x_1) =1$ and expand summation.}\\
+
+$$E[X] = \sum^1_{i=1} x_i \cdot P(X = x_i) = (x) \cdot 1 = x$$
+
+\parbox{\textwidth}{Calculate $E[X^2]$.}
+
+\parbox{\textwidth}{Subsitute $n=1$, $x_1=x$, $P(X = x_1) =1$ and expand summation.}\\
+
+$$E[X^2] = \sum^1_{i=1} x_i^2 \cdot P(X = x_i) = (x)^2 \cdot 1 = x^2$$
+
+\parbox{\textwidth}{Calculate the variance.}\\
+
+\parbox{\textwidth}{Subsitute $E[X^2]$ and $E[X]$ into the variance equation.}\\
+
+$$\text{Var}(X) = E[X^2] - (E[X])^2 = x^2 - x^2 = 0$$
+
+\parbox{\textwidth}{$\therefore$ the variance of $X$ is 0.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
 
 \textbf{Solution (c)}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution C}\\
+\parbox{\textwidth}{The variance of a random variable $X$ is defined as:}\\
+
+$$\text{Var}(X) = E[(X - \mu)^2] = E[X^2] - (E[X])^2$$
+
+\begin{itemize}
+    \item $E[X]$ is the expected value (mean) of $X$
+    \item $\mu = E[X]$
+\end{itemize}
+
+\parbox{\textwidth}{Let $n = 2$, $x_1 = 1$, $x_2 = 0$, $P(X = x_1) = \frac{1}{4}$, $P(X = x_2) = \frac{3}{4}$.}\\
+
+\parbox{\textwidth}{Calculate the expected value $E[X]$.}\\
+
+$$E[X] = \sum^{n}_{i=1} x_i P(X = x_i)$$
+
+\parbox{\textwidth}{Subsitute $n$, $x_1$, $x_2$, $P(X = x_1)$, $P(X = x_2)$ and expand summation.}\\
+
+$$E[X] = \sum^2_{i=1} x_i \cdot P(X = x_i) = (1) \cdot \frac{1}{4} + (0) \cdot \frac{3}{4} = \frac{1}{4} $$\\
+
+\parbox{\textwidth}{Calculate $E[X^2]$.}\\
+
+\parbox{\textwidth}{Subsitute $n$, $x_1$, $x_2$, $P(X = x_1)$, $P(X = x_2)$ and expand summation.}\\
+
+$$E[X^2] = \sum^2_{i=1} x_i^2 \cdot P(X = x_i) = (1)^2 \cdot \frac{1}{4} + (0)^2 \cdot \frac{3}{4} = \frac{1}{4}$$\\
+
+\parbox{\textwidth}{Calculate the variance.}\\
+
+\parbox{\textwidth}{Subsitute $E[X^2]$ and $E[X]$ into the variance equation.}\\
+
+$$\text{Var}(X) = E[X^2] - (E[X])^2 = \frac{1}{4} - (\frac{1}{4})^2 = \frac{1}{4} - \frac{1}{16} = \frac{3}{16}$$\\
+
+\parbox{\textwidth}{$\therefore$ the variance of $X$ is $\frac{3}{16}$.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 \noindent\rule{\textwidth}{0.4pt}\\
