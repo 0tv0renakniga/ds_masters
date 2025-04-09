@@ -642,7 +642,63 @@ $$\text{Var}(X) = E[X^2] - (E[X])^2 = \frac{1}{4} - (\frac{1}{4})^2 = \frac{1}{4
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution A}\\
+\parbox{\textwidth}{Covariance for random variables $A$ and $B$ is defined as:}\\
+
+$$Cov(A, B) = E[AB] - E[A]E[B]$$
+
+\parbox{\textwidth}{The expected value of a random variable $A$ is defined as:}\\
+
+$$E[A] = \sum^{n}_{i=1} a_i P(A=a)$$
+
+\parbox{\textwidth}{The expected value of $AB$  where A and B are random variables is defined as:}\\
+
+$$E[AB] = \sum_{a \in P(A)} \sum_{b \in P(B)} ab \cdot P(A = a, B = b)$$
+
+\parbox{\textwidth}{Calculate the expected value $E[X]$.}\\
+
+\parbox{\textwidth}{Let $x_1 = -1$, $x_2 = 0$, $x_3 = 1$, and $P(X=-1) = P(X=0) = P(X=1) = \frac{1}{3}$.}\\
+
+$E[X] = (-1) \cdot P(X = -1) + (0) \cdot P(X = 0) + (1) \cdot P(X = 1)$\\
+
+$E[X] = (-1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
+
+$E[X] = -\frac{1}{3} + 0 + \frac{1}{3}$\\
+
+$E[X] = 0$\\
+
+\parbox{\textwidth}{Calculate the expected value $E[Y]$.}\\
+
+\parbox{\textwidth}{Let $y_1 = -1$, $y_2 = 0$, $y_3 = 1$, and $P(Y=-1) = P(Y=0) = P(Y=1) = \frac{1}{3}$.}\\
+
+$E[Y] = (-1) \cdot P(Y = -1) + (0) \cdot P(Y = 0) + (1) \cdot P(Y = 1)$\\
+
+$E[Y] = (-1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
+
+$E[Y] = -\frac{1}{3} + 0 + \frac{1}{3}$\\
+
+$E[Y] = 0$\\
+
+\parbox{\textwidth}{Calculate the expected value $E[XY]$.}\\
+
+\begin{itemize}
+    \item \parbox{\textwidth}{Since we have a diagonal matrix our $E[XY]$ equation becomes the following:}
+\end{itemize}
+
+$E[XY] = x_1 y_1\cdot P(X=-1,Y=1) + x_2 y_2\cdot P(X=0,Y=0)+ x_3 y_3\cdot P(X=1,Y=1)$\\
+
+$E[XY] = (-1)(1) \cdot \frac{1}{3} + (0)(0) \cdot \frac{1}{3}+ (1)(-1)\cdot \frac{1}{3}$\\
+
+$E[XY] = -\frac{1}{3} + 0 - \frac{1}{3}$\\
+
+$E[XY] = -\frac{2}{3}$\\
+
+\parbox{\textwidth}{Calculate the covariance.}\\
+
+\parbox{\textwidth}{Subsitute $E[XY]$, $E[X]$ and $E[Y]$ into the covariance equation.}\\
+
+$$Cov(X, Y) = E[XY] - E[X]E[Y] = -\frac{2}{3} - (0)(0) = -\frac{2}{3}$$\\
+
+\parbox{\textwidth}{$\therefore$ the covariance between $X$ and $Y$ is $-\frac{2}{3}$.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -650,7 +706,61 @@ $$\text{Var}(X) = E[X^2] - (E[X])^2 = \frac{1}{4} - (\frac{1}{4})^2 = \frac{1}{4
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution B}\\
+\textbf{Solution (b)}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{Correlation for random variables $A$ and $B$ is defined as:}\\
+
+$$Corr(A, B) = \frac{Cov(A, B)}{\sqrt{Var(A) \cdot Var(B)}}$$
+
+\parbox{\textwidth}{The variance of a random variable $A$ is defined as:}\\
+
+$$Var(A) = E[A^2] - (E[A])^2$$
+
+\parbox{\textwidth}{From part (a), we know that $Cov(X,Y) = -\frac{2}{3}$ and $E[X] = E[Y] = 0$.}\\
+
+\parbox{\textwidth}{Calculate the variance of $X$.}\\
+
+\parbox{\textwidth}{First, calculate $E[X^2]$.}\\
+
+$E[X^2] = (-1)^2 \cdot P(X = -1) + (0)^2 \cdot P(X = 0) + (1)^2 \cdot P(X = 1)$\\
+
+$E[X^2] = (1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
+
+$E[X^2] = \frac{1}{3} + 0 + \frac{1}{3}$\\
+
+$E[X^2] = \frac{2}{3}$\\
+
+\parbox{\textwidth}{Now, calculate $Var(X)$.}\\
+
+$Var(X) = E[X^2] - (E[X])^2 = \frac{2}{3} - (0)^2 = \frac{2}{3}$\\
+
+\parbox{\textwidth}{Calculate the variance of $Y$.}\\
+
+\parbox{\textwidth}{First, calculate $E[Y^2]$.}\\
+
+$E[Y^2] = (-1)^2 \cdot P(Y = -1) + (0)^2 \cdot P(Y = 0) + (1)^2 \cdot P(Y = 1)$\\
+
+$E[Y^2] = (1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
+
+$E[Y^2] = \frac{1}{3} + 0 + \frac{1}{3}$\\
+
+$E[Y^2] = \frac{2}{3}$\\
+
+\parbox{\textwidth}{Now, calculate $Var(Y)$.}\\
+
+$Var(Y) = E[Y^2] - (E[Y])^2 = \frac{2}{3} - (0)^2 = \frac{2}{3}$\\
+
+\parbox{\textwidth}{Calculate the correlation.}\\
+
+\parbox{\textwidth}{Substitute $Cov(X,Y)$, $Var(X)$, and $Var(Y)$ into the correlation equation.}\\
+
+$Corr(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X) \cdot Var(Y)}} = \frac{-\frac{2}{3}}{\sqrt{\frac{2}{3} \cdot \frac{2}{3}}} = \frac{-\frac{2}{3}}{\sqrt{\frac{4}{9}}} = \frac{-\frac{2}{3}}{\frac{2}{3}} = -1$\\
+
+\parbox{\textwidth}{$\therefore$ the correlation between $X$ and $Y$ is $-1$.}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
