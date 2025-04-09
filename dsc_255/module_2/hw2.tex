@@ -781,8 +781,6 @@ $(X\downarrow ,Y \rightarrow)$ & -1 & 0 & 1 \\ \hline
 \label{tab:example_fractions}
 \end{table}
 
-
-
 \begin{enumerate}[label=(a)]
   \item \textit{Are X and Y independent?}
 \end{enumerate}
@@ -795,7 +793,62 @@ $(X\downarrow ,Y \rightarrow)$ & -1 & 0 & 1 \\ \hline
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution A}\\
+\parbox{\textwidth}{Two random variables $A$ and $B$ are independent if:}\\
+
+$$P(A, B) = P(A) \cdot P(B)$$
+
+
+\parbox{\textwidth}{Calculate probabilities $P(X = x)$ from \textit{Table 4}.}\\
+
+$P(X = -1) = P(X = -1, Y = -1) + P(X = -1, Y = 0) + P(X = -1, Y = 1)$\\
+
+$P(X = -1) = \frac{1}{6} + 0 + \frac{1}{6}$ \\
+
+$P(X = -1)= \frac{1}{3}$\\
+
+$P(X = 0) = P(X = 0, Y = -1) + P(X = 0, Y = 0) + P(X = 0, Y = 1)$\\
+
+$P(X = 0) = 0 + \frac{1}{3} + 0 $\\
+
+$P(X = 0)= \frac{1}{3}$\\
+
+$P(X = 1) = P(X = 1, Y = -1) + P(X = 1, Y = 0) + P(X = 1, Y = 1)$\\
+
+$P(X = 1) = \frac{1}{6} + 0 + \frac{1}{6} $\\
+
+$P(X = 1)= \frac{1}{3}$\\
+
+\parbox{\textwidth}{Calculate probabilities $P(Y = y)$ from \textit{Table 4}.}\\
+
+$P(Y = -1) = P(X = -1, Y = -1) + P(X = 0, Y = -1) + P(X = 1, Y = -1)$\\
+
+$P(Y = -1) = \frac{1}{6} + 0 + \frac{1}{6} $\\
+
+$P(Y = -1) = \frac{1}{3}$\\
+
+$P(Y = 0) = P(X = -1, Y = 0) + P(X = 0, Y = 0) + P(X = 1, Y = 0)$\\
+
+$P(Y = 0) = 0 + \frac{1}{3} + 0 $\\
+
+$P(Y = 0) = \frac{1}{3}$\\
+
+$P(Y = 1) = P(X = -1, Y = 1) + P(X = 0, Y = 1) + P(X = 1, Y = 1)$\\
+
+$P(Y = 1) = \frac{1}{6} + 0 + \frac{1}{6} = \frac{1}{3}$\\
+
+$P(Y = 1) = \frac{1}{3}$\\
+
+\parbox{\textwidth}{Check if $P(X , Y) = P(X) \cdot P(Y)$ for all combinations:}\\
+
+\parbox{\textwidth}{For $(X = -1, Y = -1)$:}\\
+
+$P(X = -1, Y = -1) = \frac{1}{6}$\\
+
+$P(X = -1) \cdot P(Y = -1) = \frac{1}{3} \cdot \frac{1}{3} = \frac{1}{9}$\\
+
+$$ \frac{1}{6} \neq \frac{1}{9} \rightarrow P(X = -1, Y = -1) \neq P(X = -1) \cdot P(Y = -1)$$\\
+
+\parbox{\textwidth}{$\therefore$ $X$ and $Y$ are not independent.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -803,7 +856,54 @@ $(X\downarrow ,Y \rightarrow)$ & -1 & 0 & 1 \\ \hline
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution B}\\
+\parbox{\textwidth}{Two random variables $A$ and $B$ are uncorrelated if and only if their covariance is zero:}\\
+
+$$\text{Cov}(A, B) = 0$$
+
+\parbox{\textwidth}{The covariance between $A$ and $B$ is defined as:}\\
+
+$$\text{Cov}(A, B) = E[AB] - E[A]E[B]$$
+
+\parbox{\textwidth}{Calculate the expected value $E[X]$.}\\
+
+$E[X] = \sum_{x \in P(X)} x \cdot P(X = x)$\\
+
+$E[X] = (-1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
+
+$E[X] = -\frac{1}{3} + 0 + \frac{1}{3}$\\
+
+$E[X] = 0$\\
+
+\parbox{\textwidth}{Calculate the expected value $E[Y]$.}\\
+
+$E[Y] = \sum_{y \in P(Y)} y \cdot P(Y = y)$\\
+
+$E[Y] = (-1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
+
+$E[Y] = -\frac{1}{3} + 0 + \frac{1}{3}$\\
+
+$E[Y] = 0$\\
+
+\parbox{\textwidth}{Calculate the expected value $E[XY]$.}\\
+
+$E[XY] = \sum_{x \in P(X)} \sum_{y \in P(Y)} xy \cdot P(X = x, Y = y)$\\
+
+$E[XY] = (-1)(-1) \cdot \frac{1}{6} + (-1)(0) \cdot 0 + (-1)(1) \cdot \frac{1}{6}+ (0)(-1) \cdot 0 + (0)(0) \cdot \frac{1}{3} + $\\
+$(0)(1) \cdot 0+ (1)(-1) \cdot \frac{1}{6} + (1)(0) \cdot 0 + (1)(1) \cdot \frac{1}{6}$\\
+
+$E[XY] = \frac{1}{6} + 0 + (-\frac{1}{6}) + 0 + 0 + 0 + (-\frac{1}{6}) + 0 + \frac{1}{6}$\\
+
+$E[XY] = \frac{1}{6} - \frac{1}{6} - \frac{1}{6} + \frac{1}{6}$\\
+
+$E[XY] = 0$\\
+
+\parbox{\textwidth}{Calculate the covariance.}\\
+
+$\text{Cov}(X, Y) = E[XY] - E[X]E[Y] = 0 - (0)(0) = 0$\\
+
+\parbox{\textwidth}{Since $\text{Cov}(X, Y) = 0$, the variables $X$ and $Y$ are uncorrelated.}\\
+
+\parbox{\textwidth}{$\therefore$ $X$ and $Y$ are uncorrelated.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
