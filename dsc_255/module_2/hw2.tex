@@ -936,7 +936,7 @@ of 60 points.}
     \# Load data set and code labels as 0 = 'NO', 1 = 'DH', 2 = 'SL'\\
     labels = [b'NO', b'DH', b'SL']\\
     data = np.loadtxt('spine-data.txt', converters=\{6: lambda s: labels.index(s)\})\\
-    \item \textit{Split the data into a training set, consisting of the rst 250 points, and a test set, consisting of
+    \item \textit{Split the data into a training set, consisting of the first 250 points, and a test set, consisting of
 the remaining 60 points.}
     \item \textit{Code up a nearest neighbor classifier based on this training set. Try both $\ell_2$ and $\ell_1$ distance. Recall $x, x^{\prime} \in \mathbb{R}^d$}
 \end{itemize}
@@ -964,7 +964,7 @@ DH &   &   &   \\ \hline
 SL &   &   &   \\ \hline
 \end{tabular}
 \caption{he entry at row DH, column SL, for instance, contains the number of test points whose correct
-label was DH and got classied as SL.}
+label was DH and got classified as SL.}
 \label{tab:empty3x3}
 \end{table}
 
@@ -973,7 +973,76 @@ label was DH and got classied as SL.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution A}\\
+\parbox{\textwidth}{Python code for nearest neighbor classifier using $\ell_1$, $\ell_2$, and error rates:}\\
+\begin{center}
+
+\begin{lstlisting}
+## import libraries
+import numpy as np
+
+## initialize labels for data
+data_labels = ['NO','DH','SL']
+  
+## load data from spine-data.txt and relabel the 7th column (NO:1, DH:1, SL:2)          
+data = np.loadtxt('spine-data.txt', converters={6: lambda s: data_labels.index(s)})
+  
+## split data into features and labels
+features = data[:, :-1]
+labels = data[:, -1]
+  
+## split data into training and test sets
+features_train = features[:250]
+features_test = features[250:]
+labels_train = labels[:250]
+labels_test = labels[250:]
+
+## define l1 distance function
+def l1_distance(x, x_prime):
+    l1_dist = np.sum(np.abs(x - x_prime))
+    return l1_dist
+
+## define l2 distance function
+def l2_distance(x, x_prime):
+    l2_dist = np.sqrt(np.sum((x - x_prime) ** 2))
+    return l2_dist
+
+## define nn_classifier function
+def nn_classifier(features_train, features_test, labels_train,distance_function):
+    """
+    1. loop through each test point in the features_test list
+    2. get the distance between the test point and each training point for every training point
+    3. find the index of the training point with the smallest distance
+    4. use the index to get the label of the training point
+    5. append the label to the predictions list
+    6. return the predictions list
+    """
+    predictions = []
+    for test_point in features_test:
+        distances = [distance_function(test_point, train_point) for train_point in features_train]
+        nearest_neighbor_index = np.argmin(distances)
+        predictions.append(labels_train[nearest_neighbor_index])
+    predictions = np.array(predictions)
+    return predictions
+
+## define error rate function
+def get_error_rate(predictions, labels):
+    correct = sum(p == l for p, l in zip(predictions, labels))
+    accuracy = correct / len(labels)
+    er = 1 - accuracy
+    return er
+
+## evaluate l1 distance classifier and get error rate
+predictions_l1 = nn_classifier(features_train, features_test, labels_train, l1_distance)
+error_rate_l1 = get_error_rate(predictions_l1, labels_test)
+
+## evaluate l2 distance classifier and get error rate
+predictions_l2 = nn_classifier(features_train, features_test, labels_train, l2_distance)
+error_rate_l2 = get_error_rate(predictions_l2, labels_test)
+\end{lstlisting}
+    
+\end{center}
+
+\parbox{\textwidth}{$\therefore$ the error rates for the two distance functions are: $ER_{\ell_1} = 0.183$ and $ER_{\ell_2} = 0.117$}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -981,17 +1050,51 @@ label was DH and got classied as SL.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\begin{itemize}
-    \item \textit{desc}
-\end{itemize}
+\parbox{\textwidth}{Python code for confusion matrix for nearest neighbor using $\ell_1$, $\ell_2$, and confusion matrix visualization:}\\
 
-\parbox{\textwidth}{text for Soution B}\\
+\parbox{\textwidth}{Note: Utilize functions and variables defined in \textbf{Solution (a)}}\\
 
-\begin{itemize}
-    \item \textit{desc 2}
-\end{itemize}
 
+\begin{center}
+
+\begin{lstlisting}
+## define confusion matrix function
+def get_confusion_matrix(predictions, labels):
+    cm = confusion_matrix(predictions,labels)
+    return cm
+  
+## visualize confusion matrix function
+def plot_confusion_matrix(l1_er, cm1, l2_er, cm2, labels):
+    fig, ax = plt.subplots(1,2,figsize=(10, 8),sharey=True)
+    ax = ax.flatten()
+    sns.heatmap(cm1, annot=True, fmt='d', cmap=sns.color_palette("rocket", as_cmap=True), xticklabels=labels, yticklabels=labels, ax=ax[0])
+    ax[0].set_title(f'L1 Distance Confusion Matrix\nError Rate: {l1_er:.3f}')
+    sns.heatmap(cm2, annot=True, fmt='d', cmap=sns.color_palette("rocket", as_cmap=True), xticklabels=labels, yticklabels=labels, ax=ax[1])
+    ax[1].set_title(f'L2 Distance Confusion Matrix\nError Rate: {l2_er:.3f}')
+    ax[0].set_xlabel('Predicted')
+    ax[1].set_xlabel('Predicted')
+    ax[0].set_ylabel('True')
+    plt.tight_layout()
+    plt.show()
+
+## get confusion matrix for l1 and l2 distance classifier
+cm_l1 = get_confusion_matrix(predictions_l1, labels_test)
+cm_l2 = get_confusion_matrix(predictions_l2, labels_test)
+
+## visualize confusion matrix for l1 and l2 distance classifier
+plot_confusion_matrix(error_rate_l1, cm_l1, error_rate_l2, cm_l2, data_labels)
+\end{lstlisting}
+    
+\end{center}
+
+\begin{figure}[htbp]
+\includegraphics[width=1\textwidth]{q9.png} \\
+\caption{Confusion matrix for $\ell_1$ and $\ell_2$ nearest neighbor classifiers.}
+\label{fig:image_comparison}
+\end{figure} 
+      
 \noindent\rule{\textwidth}{0.4pt}\\
+
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
@@ -1022,7 +1125,72 @@ horizontal axis and accuracy estimate on the vertical axis.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution A}\\
+\parbox{\textwidth}{Python code for reading \textit{wine.DATA}, and splitting data}
+
+\begin{center}
+
+\begin{lstlisting}
+## import libraries
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+import sklearn
+
+## read wine.DATA file
+df = pd.read_csv('wine.data', header=None)
+
+## name columns
+df.columns = ['Class', 'Alcohol', 'Malic Acid', 'Ash', 'Alcalinity of Ash', 'Magnesium', 'Total Phenols', 'Flavanoids', 'Nonflavanoid Phenols', 'Proanthocyanins', 'Color Intensity', 'Hue', 'OD280/OD315 of Diluted Wines', 'Proline']
+
+## define wine labels
+wine_labels = ['Class 1', 'Class 2', 'Class 3']
+
+## split data into features and labels
+features = df.iloc[:, 1:].values
+labels = df.iloc[:, 0].values
+
+\end{lstlisting}
+    
+\end{center}
+
+\parbox{\textwidth}{Python code for estimating accuracy and confusion matrix for classifier}
+\begin{center}
+\begin{lstlisting}
+
+## initalize 1-NN classifier
+NN_1 = sklearn.neighbors.KNeighborsClassifier(n_neighbors=1, algorithm='brute', metric='euclidean')
+  
+## initalize LOOCV
+loocv = sklearn.model_selection.LeaveOneOut()
+  
+## get predictions from cross-validation
+predictions = sklearn.model_selection.cross_val_predict(NN_1, features, labels, cv=loocv)
+  
+## estimate accuracy
+accuracy = sklearn.metrics.accuracy_score(labels, predictions)
+print(f'Accuracy: {accuracy:.3f}')
+## get confusion matrix
+cm = sklearn.metrics.confusion_matrix(labels, predictions)
+  
+## visualize confusion matrix
+plt.figure(figsize=(10, 8))
+sns.heatmap(cm, annot=True, fmt='d', cmap=sns.color_palette("rocket", as_cmap=True), xticklabels=wine_labels, yticklabels=wine_labels)
+plt.title(f'Wine Classification Confusion Matrix\n Accuracy: {accuracy:.3f}')
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.tight_layout()
+plt.show()
+
+\end{lstlisting}
+\end{center}
+  
+\begin{figure}[htbp]
+\includegraphics[width=1\textwidth]{q10_a.png} \\
+\caption{Estimate of confusion matrix using leave-one-out cross-validation (LOOCV) and 1-NN classification with Euclidean distance.}
+\label{fig:image_comparison}
+\end{figure} 
+
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -1030,7 +1198,38 @@ horizontal axis and accuracy estimate on the vertical axis.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution B}\\
+\parbox{\textwidth}{Python code for estimating accuracy using k-fold cross-validation and visualization of the estimates}\\
+
+\begin{center}
+\begin{lstlisting}
+## initialize k values such that we have  20 k's spread out across the range 2 to 100
+k_values = np.linspace(2, 100, 20, dtype=int)
+  
+## initialize accuracy list
+accuracies = []
+  
+## perform k-fold cross-validation for each k
+for k in k_values:
+    cv = sklearn.model_selection.KFold(n_splits=k, shuffle=True, random_state=42)
+    scores = sklearn.model_selection.cross_val_score(NN_1, features, labels, cv=cv)
+    accuracies.append(np.mean(scores))
+  
+## plot results
+plt.figure(figsize=(10, 6))
+plt.plot(k_values, accuracies, marker='o', linestyle='-')
+plt.xlabel('Number of Folds (k)')
+plt.ylabel('Accuracy Estimate')
+plt.title('Accuracy Estimates for Different Values of k in k-Fold Cross-Validation')
+plt.grid(True)
+plt.show()
+\end{lstlisting}
+\end{center}
+
+\begin{figure}[htbp]
+\includegraphics[width=1\textwidth]{q10_b.png} \\
+\caption{Estimates of k-fold cross validation accuracies.}
+\label{fig:image_comparison}
+\end{figure} 
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -1038,7 +1237,51 @@ horizontal axis and accuracy estimate on the vertical axis.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{text for Soution C}
+\parbox{\textwidth}{Python code for normalizing data and estimating accuracy and confusion matrix using LOOCV}\\
+\begin{center}
+\begin{lstlisting}
+## normalize the features
+norm_features = sklearn.preprocessing.normalize(features,norm='max')
+  
+## initalize 1-NN classifier
+NN_1_n = sklearn.neighbors.KNeighborsClassifier(n_neighbors=1, algorithm='brute', metric='euclidean')
+  
+## initalize LOOCV
+loocv_n = sklearn.model_selection.LeaveOneOut()
+  
+## get predictions from cross-validation
+predictions_n = sklearn.model_selection.cross_val_predict(NN_1_n, norm_features, labels, cv=loocv_n)
+  
+## estimate accuracy
+accuracy_n = sklearn.metrics.accuracy_score(labels, predictions_n)
+print(f'Accuracy: {accuracy:.3f}')
+  
+## get confusion matrix
+cm_n = sklearn.metrics.confusion_matrix(labels, predictions_n)
+  
+## compare confusion matrices
+def compare_confusion_matrix(acc, cm, acc_norm, cm_n, labels):
+    fig, ax = plt.subplots(1,2,figsize=(10, 8),sharey=True)
+    ax = ax.flatten()
+    sns.heatmap(cm, annot=True, fmt='d', cmap=sns.color_palette("rocket", as_cmap=True), xticklabels=labels, yticklabels=labels, ax=ax[0])
+    ax[0].set_title(f'Part (a) Confusion Matrix\nAccuracy: {acc:.3f}')
+    sns.heatmap(cm_n, annot=True, fmt='d', cmap=sns.color_palette("rocket", as_cmap=True), xticklabels=labels, yticklabels=labels, ax=ax[1])
+    ax[1].set_title(f'Confusion Matrix for Normalized Features\nAccuracy: {acc_norm:.3f}')
+    ax[0].set_xlabel('Predicted')
+    ax[1].set_xlabel('Predicted')
+    ax[0].set_ylabel('True')
+    plt.tight_layout()
+    plt.show()
+  
+  compare_confusion_matrix(accuracy, cm, accuracy_n, cm_n, wine_labels)
+\end{lstlisting}
+\end{center}
+\begin{figure}[htbp]
+\includegraphics[width=1\textwidth]{q10_c.png} 
+\caption{Estimate of confusion matrix for orginal data and normalized data using leave-one-out cross-validation (LOOCV) and 1-NN classification with Euclidean distance.}
+\end{figure}
+
+\parbox{\textwidth}{$\therefore$ from \textit{Figure 4} normalizing data improved the performance of the classifier.}\\
 
 
 \end{document}
