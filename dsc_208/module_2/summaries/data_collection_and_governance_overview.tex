@@ -1,0 +1,288 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Study Guide: Data Collection and Governance},
+    pdfpagemode=FullScreen,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{DSC 208R}
+\lhead{Data Collection and Governance}
+\cfoot{\thepage}
+
+\title{Study Guide: Data Collection and Governance}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Overview]
+This study guide covers the sourcing stage of the data science lifecycle, focusing on data acquisition, reorganization, preparation, and labeling. It also addresses principles of data governance and privacy laws that every data scientist should understand.
+\end{tcolorbox}
+
+\section{Learning Objectives}
+
+By the end of this module, you should be able to:
+
+\begin{itemize}
+    \item Understand the complete lifecycle of real-world data science projects
+    \item Identify the time allocation challenges in data science work
+    \item Explain the sourcing stage and its importance in the data science pipeline
+    \item Describe the four main activities in the sourcing stage
+    \item Recognize the challenges in data sourcing and preparation
+    \item Understand the principles of data-centric AI
+    \item Apply best practices in data governance and privacy
+\end{itemize}
+
+\section{The Data Science Lifecycle}
+
+\subsection{Key Components}
+\begin{enumerate}
+    \item Data acquisition
+    \item Data preparation
+    \item Data cleaning
+    \item Feature engineering
+    \item Model selection
+    \item Training \& inference
+    \item Serving
+    \item Monitoring
+\end{enumerate}
+
+\subsection{Time Allocation in Data Science}
+\begin{tcolorbox}[colback=gray!10!white,colframe=gray!50!black,title=Research Findings]
+Multiple industry surveys (CrowdFlower 2016, Kaggle 2018, IDC-Alteryx 2019) consistently show that data scientists spend the majority of their time on:
+\begin{itemize}
+    \item Data collection
+    \item Data cleaning
+    \item Data organization
+\end{itemize}
+Rather than on model building and algorithm development.
+\end{tcolorbox}
+
+\section{The Sourcing Stage}
+
+\subsection{Definition}
+The sourcing stage is where raw datasets are transformed into "analytics/ML-ready" datasets. This stage ends when data is prepared for:
+\begin{itemize}
+    \item SQL analytics for Business Intelligence
+    \item Feature engineering for ML/AI analytics
+\end{itemize}
+
+\subsection{Challenges in Data Sourcing}
+\begin{enumerate}
+    \item \textbf{Heterogeneity}: Diverse data modalities, file formats, and sources
+    \item \textbf{Access constraints}: Limited availability or permissions
+    \item \textbf{Application diversity}: Various prediction applications with different requirements
+    \item \textbf{Data volatility}: Unpredictable and continual edits to datasets
+    \item \textbf{Data quality issues}: Messy, incomplete, ambiguous, or erroneous data
+    \item \textbf{Scale}: Managing large volumes of data
+    \item \textbf{Governance}: Poor data management practices in organizations
+\end{enumerate}
+
+\section{Four Key Activities in the Sourcing Stage}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Sourcing Process Flow]
+Raw Data Sources → Acquiring → Reorganizing → Cleaning → Data/Feature Engineering → Analytics Results
+
+\textit{Note: Labeling \& Amplification may be required in some cases}
+\end{tcolorbox}
+
+\subsection{1. Data Acquisition}
+\begin{itemize}
+    \item Methods for obtaining data from various sources
+    \item Understanding data access protocols and permissions
+    \item Techniques for data extraction and collection
+\end{itemize}
+
+\subsection{2. Data Reorganization}
+\begin{itemize}
+    \item Transforming data into usable formats
+    \item Structuring unstructured or semi-structured data
+    \item Normalizing data representations
+\end{itemize}
+
+\subsection{3. Data Cleaning}
+\begin{itemize}
+    \item Identifying and handling missing values
+    \item Detecting and correcting errors
+    \item Removing duplicates and outliers
+    \item Standardizing formats and units
+\end{itemize}
+
+\subsection{4. Data/Feature Engineering}
+\begin{itemize}
+    \item Creating new features from existing data
+    \item Transforming variables for better model performance
+    \item Dimensionality reduction techniques
+    \item Feature selection methods
+\end{itemize}
+
+\section{Data-Centric AI}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Data-Centric Approach]
+The Data-Centric AI movement emphasizes improving data quality rather than just model architecture. This approach recognizes that high-quality, well-prepared data is often more important than sophisticated algorithms.
+\end{tcolorbox}
+
+\subsection{Principles}
+\begin{itemize}
+    \item Focus on systematic data improvement
+    \item Iterative data refinement
+    \item Consistent data labeling
+    \item Comprehensive data documentation
+\end{itemize}
+
+\section{Data Governance and Privacy}
+
+\subsection{Data Governance}
+\begin{itemize}
+    \item Policies for data management
+    \item Data quality standards
+    \item Data lifecycle management
+    \item Roles and responsibilities
+\end{itemize}
+
+\subsection{Privacy Considerations}
+\begin{itemize}
+    \item Relevant privacy laws and regulations
+    \item Anonymization and pseudonymization techniques
+    \item Consent management
+    \item Data minimization principles
+\end{itemize}
+
+\section{Study Questions}
+
+\begin{enumerate}
+    \item Why do data scientists spend more time on data preparation than on model building?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Data scientists spend more time on data preparation because real-world data is typically messy, incomplete, and not immediately usable for analysis. Industry surveys consistently show that 70-80\% of a data scientist's time is spent on data collection, cleaning, and organization. This is necessary because high-quality data is fundamental to accurate models and insights. Even the most sophisticated algorithms will produce poor results with low-quality data, making thorough preparation an essential investment.
+    \end{tcolorbox}
+    
+    \item What are the main challenges in the sourcing stage of the data science lifecycle?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    The main challenges include: (1) Data heterogeneity - dealing with diverse formats, structures, and sources; (2) Access constraints - limited permissions or availability; (3) Application diversity - different use cases requiring different data preparations; (4) Data volatility - constantly changing data; (5) Quality issues - missing values, errors, and inconsistencies; (6) Scale - managing large volumes of data efficiently; and (7) Governance issues - navigating organizational data management practices and policies.
+    \end{tcolorbox}
+    
+    \item How does heterogeneity of data sources affect the data preparation process?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Heterogeneity of data sources significantly complicates data preparation by requiring:
+    \begin{itemize}
+        \item Multiple data extraction methods for different source systems
+        \item Various transformation techniques to standardize formats
+        \item Complex integration processes to merge disparate data
+        \item Additional validation steps to ensure consistency
+        \item Custom handling for different data types (structured, semi-structured, unstructured)
+        \item More extensive documentation to track data lineage
+    \end{itemize}
+    This heterogeneity increases the time and complexity of the preparation process and requires broader technical expertise.
+    \end{tcolorbox}
+    
+    \item Explain the relationship between data cleaning and feature engineering.
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Data cleaning and feature engineering are sequential but interconnected processes:
+    \begin{itemize}
+        \item Data cleaning comes first and focuses on correcting errors, handling missing values, and ensuring data quality
+        \item Feature engineering builds upon cleaned data to create meaningful variables for analysis
+        \item Clean data is a prerequisite for effective feature engineering
+        \item The boundary between them can blur, as some cleaning operations (like normalization) also serve as feature engineering
+        \item Both processes require domain knowledge and understanding of the analytical goals
+        \item Decisions made during cleaning (e.g., how to impute missing values) can impact subsequent feature engineering options
+    \end{itemize}
+    Together, they transform raw data into analysis-ready features that maximize model performance.
+    \end{tcolorbox}
+    
+    \item What is the data-centric AI movement, and why is it significant?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    The data-centric AI movement, championed by Andrew Ng and others, shifts focus from model architecture to data quality. It's significant because:
+    \begin{itemize}
+        \item It recognizes that improving data quality often yields better results than refining algorithms
+        \item It promotes systematic approaches to data improvement rather than ad-hoc fixes
+        \item It encourages consistent labeling standards and documentation
+        \item It addresses the reality that most AI projects fail due to data issues, not model limitations
+        \item It provides a framework for iterative data refinement
+        \item It helps organizations allocate resources more effectively by focusing on data quality
+    \end{itemize}
+    This movement represents a paradigm shift in how AI practitioners approach problem-solving, emphasizing the foundation (data) rather than just the structure built upon it (models).
+    \end{tcolorbox}
+    
+    \item How do data governance policies impact the work of data scientists?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Data governance policies impact data scientists by:
+    \begin{itemize}
+        \item Defining what data can be accessed and for what purposes
+        \item Establishing protocols for data sharing and collaboration
+        \item Setting standards for data quality and documentation
+        \item Creating frameworks for data security and privacy compliance
+        \item Determining data retention periods and archiving requirements
+        \item Establishing roles and responsibilities in the data lifecycle
+        \item Providing processes for resolving data-related issues
+    \end{itemize}
+    While these policies may initially seem to constrain data scientists, they ultimately enable more reliable, ethical, and sustainable data science work by ensuring data integrity and appropriate use.
+    \end{tcolorbox}
+    
+    \item What are the four main activities in the sourcing stage, and how do they relate to each other?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    The four main activities in the sourcing stage are:
+    \begin{enumerate}
+        \item \textbf{Data Acquisition:} Obtaining data from various sources
+        \item \textbf{Data Reorganization:} Transforming data into usable formats
+        \item \textbf{Data Cleaning:} Correcting errors and handling missing values
+        \item \textbf{Data/Feature Engineering:} Creating meaningful features for analysis
+    \end{enumerate}
+    
+    These activities form a sequential but iterative process. Acquisition provides the raw material, reorganization structures it into a workable format, cleaning improves its quality, and feature engineering transforms it into analytically useful variables. Each stage depends on the previous one, but discoveries in later stages often necessitate revisiting earlier steps (e.g., finding data quality issues during cleaning might require returning to acquisition for additional data).
+    \end{tcolorbox}
+    
+    \item Why is data labeling sometimes necessary, and what challenges does it present?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Data labeling is necessary for supervised machine learning tasks where algorithms learn from labeled examples. It presents several challenges:
+    \begin{itemize}
+        \item \textbf{Resource intensity:} Labeling often requires significant human effort and time
+        \item \textbf{Consistency issues:} Different labelers may interpret guidelines differently
+        \item \textbf{Subjectivity:} Some tasks involve inherently subjective judgments
+        \item \textbf{Expertise requirements:} Specialized domains may require expert knowledge
+        \item \textbf{Scale limitations:} Large datasets may be impractical to label manually
+        \item \textbf{Bias introduction:} Labelers may inadvertently introduce their biases
+        \item \textbf{Evolving contexts:} Labels may need updates as real-world contexts change
+    \end{itemize}
+    Organizations address these challenges through clear guidelines, quality control processes, semi-automated approaches, and active learning techniques that prioritize which items to label.
+    \end{tcolorbox}
+\end{enumerate}
+
+\section{Additional Resources}
+
+\begin{itemize}
+    \item \href{https://datacentricai.org/}{Data-Centric AI Movement}
+    \item CrowdFlower Data Science Report 2016
+    \item Kaggle State of ML and Data Science Survey 2018
+    \item IDC-Alteryx State of Data Science and Analytics Report 2019
+\end{itemize}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Key Takeaway]
+The sourcing stage is the foundation of successful data science projects. Mastering the skills of data acquisition, reorganization, cleaning, and engineering is essential for any data scientist, as these activities consume the majority of time in real-world projects.
+\end{tcolorbox}
+
+\end{document}

@@ -1,0 +1,207 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Study Guide: Data Governance and Privacy},
+    pdfpagemode=FullScreen,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{DSC 208R}
+\lhead{Data Governance and Privacy}
+\cfoot{\thepage}
+
+\title{Module 2: Data Governance and Privacy}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+
+\section{Data Collection and Governance: Overview}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Overview}]
+    In this module, you will learn about the sourcing stage of the data science lifecycle and the various “hats” data scientists need to wear when acquiring, reorganizing, preparing, and potentially labeling data. It also covers the principles of data governance and data privacy laws.
+\end{tcolorbox}
+
+\subsection{Real-World Data Science Tasks}
+
+\begin{itemize}
+    \item Building and training sets
+    \item Cleaning and organizing data
+    \item Collecting data sets
+    \item Mining data for patterns
+    \item Refining algorithms
+\end{itemize}
+
+\parbox{\textwidth}{Data workers spend 90\% of their time on data preparation, which includes data collection, cleaning, and organization.}
+
+\subsection{Data Science Lifecycle: Sourcing}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={What is Sourcing?}]
+    The sourcing stage of the data science lifecycle involves acquiring data from various sources, which can include databases, APIs, web scraping, and more. Data scientists must ensure that the data collected is relevant, accurate, and compliant with privacy regulations. It is the stage where you go from raw datasets to analytics-ready datasets/ML-ready datasets.
+\end{tcolorbox}
+
+\subsubsection{Sourcing Challenages}
+
+\begin{itemize}
+    \item Heterogeneity of data modalities, file formats, and Sources
+    \item Data access constraints
+    \item Bespoke/diverse kinds of prediction applications
+    \item Unpredictable and continual edits to datasets
+    \item Data quality issues
+    \item Large scale of data
+    \item Poor data governance in organization
+\end{itemize}
+
+\subsubsection{Sourcing Lifecycle}
+
+\begin{enumerate}
+    \item Raw data
+    \item Acquiring
+    \item Reorganizing
+    \item Cleaning
+    \item Labeling and Amplification (sometimes)
+    \item Data Engineering for Analytics
+    \item Results
+\end{enumerate}
+
+\section{Data Organization and File Formats}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Overview]
+    This study guide covers the fundamental concepts of data organization, file formats, and data models in data science. It explores the relationship between different data structures and their file representations, with a focus on structured, semi-structured, and unstructured data formats. Understanding these concepts is crucial for effective data acquisition, storage, and processing in the data science lifecycle.
+\end{tcolorbox}
+
+\subsection{Acquiring Data}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Acquiring Data}]
+    Acquiring data involves obtaining data from various sources, which can include databases, APIs, web scraping, and more. Data scientists must ensure that the data collected is relevant, accurate, and compliant with privacy regulations.
+\end{tcolorbox}
+
+\subsection{Data Organization}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Acquiring Data}]
+    Data organization refers to the way data is structured and stored in a system. It involves categorizing and arranging data in a manner that makes it easily accessible and usable for analysis. Proper data organization is essential for efficient data retrieval, processing, and analysis.
+\end{tcolorbox}
+
+\subsubsection{Data Modalities}
+\begin{itemize}
+    \item Structured Data: Data that is organized in a predefined format, such as tables or spreadsheets. 
+    \begin{itemize}
+        \item Examples include relational databases (e.g., SQL).
+    \end{itemize}
+
+    \item Semi-Structured Data: Data that does not have a fixed schema but still contains some organizational properties. 
+    \begin{itemize}
+        \item Examples include JSON and XML files.
+    \end{itemize}
+
+    \item Sequence Data: Data that is organized in a sequential manner, such as time series data or ordered lists.
+    \begin{itemize}
+        \item Examples include time series data, such as stock prices or sensor readings.
+    \end{itemize}
+
+    \item Graph-Structured Data: Data that is represented as a graph, where entities are nodes and relationships are edges. 
+    \begin{itemize}
+        \item Examples include social networks and recommendation systems.
+    \end{itemize}
+
+    \item Text Data: Data that consists of written language.
+    \begin{itemize}
+        \item Examples include documents, emails, and web pages.
+    \end{itemize}
+
+    \item Multimedia Data: Data that includes images, audio, and video files.
+    \begin{itemize}
+        \item Examples include PDFs, notebooks, images, audio files, and video files.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Key Terms}
+\begin{itemize}
+    \item File: A collection of data or information that is stored on a computer or other digital device.
+    \item File Format: The specific way data is encoded and stored in a file.
+    \item Metadata: Data that provides information about other data, such as its structure, format, and context.
+    \item Directory: A cataloging structure with a list of references to files or other directories.
+    \item Database: An organized collection of interrelated data
+    \item Data Model: A conceptual representation of data structures and relationships.
+    \item Logical Level: Data model for higher-level reasoning.
+    \item Physical Level: How bytes are layered on top of files.
+\end{itemize}
+
+\subsubsection{Structured Data: Common Forms}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Structured Data}]
+    Structured data has a regular substructure
+\end{tcolorbox}
+\begin{itemize}
+    \item Relational Data
+    \begin{itemize}
+        \item Can be used for customer churn prediction
+    \end{itemize}
+
+    \item Data Frame Data
+    \begin{itemize}
+        \item Can be used for tabular data
+    \end{itemize}
+
+    \item Matrix/Tensor Data
+    \begin{itemize}
+        \item Can be used for statistical computing or scientific computing
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Structured Data: Differences}
+\begin{itemize}
+    \item Ordering: matrix and dataframe have row/columns while relational is orderless.
+    \item Schema Flexibility: matrix has cell numbers, relational conform to schema, and dataframe has no pre-defined schema.
+    \item Transpose: Supported by matrix and dataframe but not relational
+\end{itemize}
+
+\subsubsection{Semistructured Data}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Semistructured Data}]
+    Semistructured data has less regular or more flexible substructure than structured data.
+\end{tcolorbox}
+\begin{itemize}
+    \item Typically serialized with JSON or similar formats
+    \item Some data systems offer binary file formats
+    \item It is possible to layer Relations 
+    \item Graph-Structured would be an example
+\end{itemize}
+
+\subsubsection{Data Lakes}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Data Lakes}]
+    Loose coupling of data file format for storage and data/query processing stack(vs. RDBM's tight coupling).
+\end{tcolorbox}
+
+\subsubsection{Parquet vs Text-Based:Pros and Cons}
+\begin{itemize}
+    \item Less storage: Parquet stores in compressed form; can be much smaller (even 10x);
+    lowers read latency
+    \item Column pruning: Enables app to read only columns needed to DRAM; even lower
+    query latency
+    \item Schema on file: Rich metadata, stats inside format itself
+    \item Complex types: Can store them in a column
+    \item Human-readability: Cannot open with text apps directly
+    \item Mutability: Parquet is immutable/read-only; no in-place edits
+    \item Decompression/Deserialization overhead: Depends on application tool; can go
+    either way
+    \item Adoption in practice: CSV/JSON support more pervasive but Parquet is catching up
+\end{itemize}
+
+
+\end{document}
+

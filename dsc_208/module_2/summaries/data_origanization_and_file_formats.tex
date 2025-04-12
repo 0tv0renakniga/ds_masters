@@ -1,0 +1,405 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Study Guide: Data Models and File Formats},
+    pdfpagemode=FullScreen,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{DSC 208R}
+\lhead{Data Models and File Formats}
+\cfoot{\thepage}
+
+\title{Study Guide: Data Models and File Formats}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Overview]
+This study guide covers the fundamental concepts of data organization, file formats, and data models in data science. It explores the relationship between different data structures and their file representations, with a focus on structured, semi-structured, and unstructured data formats. Understanding these concepts is crucial for effective data acquisition, storage, and processing in the data science lifecycle.
+\end{tcolorbox}
+
+\section{Learning Objectives}
+
+By the end of this module, you should be able to:
+
+\begin{itemize}
+    \item Understand the relationship between data models and file formats
+    \item Differentiate between structured, semi-structured, and unstructured data
+    \item Compare and contrast relations, matrices, and DataFrames
+    \item Evaluate tradeoffs between different file formats (e.g., Parquet vs. CSV/JSON)
+    \item Recognize how data lakes organize and store different types of data
+    \item Explain the role of file formats in the data sourcing stage of the data science lifecycle
+\end{itemize}
+
+\section{The Data Science Lifecycle Context}
+
+\subsection{Sourcing Stage Review}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Sourcing Process Flow]
+Raw Data Sources → Acquiring → Reorganizing → Cleaning → Data/Feature Engineering → Analytics Results
+
+\textit{Note: Labeling \& Amplification may be required in some cases}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=gray!10!white,colframe=gray!50!black,title=Research Findings]
+Multiple industry surveys (CrowdFlower 2016, Kaggle 2018, IDC-Alteryx 2019) consistently show that data scientists spend the majority of their time on:
+\begin{itemize}
+    \item Data collection
+    \item Data cleaning
+    \item Data organization
+\end{itemize}
+Rather than on model building and algorithm development.
+\end{tcolorbox}
+
+\section{Fundamental Concepts}
+
+\subsection{Files and File Formats}
+\begin{itemize}
+    \item \textbf{File}: A persistent sequence of bytes that stores a logically coherent digital object for an application
+    \item \textbf{File Format}: An application-specific standard that dictates how to interpret and process a file's bytes
+    \item \textbf{Metadata}: Summary or organizing information about file content (payload) stored with the file itself
+    \item \textbf{Directory}: A cataloging structure with references to files and/or other directories
+\end{itemize}
+
+\subsection{Databases and Data Models}
+\begin{itemize}
+    \item \textbf{Database}: An organized collection of interrelated data
+    \item \textbf{Data Model}: An abstract model that defines the organization of data in a formal, mathematically precise way
+    \item \textbf{Logical Level}: Data model for higher-level reasoning
+    \item \textbf{Physical Level}: How bytes are layered on top of files
+\end{itemize}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Key Insight]
+Every database is just an abstraction on top of data files. All data systems (RDBMSs, Spark, TensorFlow, etc.) are software systems that manipulate data files under the hood.
+\end{tcolorbox}
+
+\section{Data Modalities and Organization}
+
+\subsection{Types of Data}
+Modern data-intensive applications typically work with multiple data modalities:
+
+\begin{itemize}
+    \item Structured data (e.g., relational data)
+    \item Sequence data (e.g., IoT time series)
+    \item Semi-structured data (e.g., JSON logs)
+    \item Graph-structured data (e.g., social media)
+    \item Text files, documents (e.g., reviews)
+    \item Multimedia data (images, audio, video, etc.)
+    \item Multimodal files (e.g., PDFs, notebooks)
+\end{itemize}
+
+\section{Structured Data Models}
+
+\subsection{Relations}
+\begin{itemize}
+    \item Based on relational algebra
+    \item Implemented in Relational Database Management Systems (RDBMSs)
+    \item Data organized in tables with rows and columns
+    \item Rows (tuples) conform to a predefined schema
+    \item No inherent ordering of rows or columns
+\end{itemize}
+
+\subsection{Matrices}
+\begin{itemize}
+    \item Mathematical structure of rows and columns
+    \item Cells typically contain numerical values of the same type
+    \item Inherent ordering by row and column indices
+    \item Support for transpose operations
+    \item Common in scientific computing and machine learning
+\end{itemize}
+
+\subsection{DataFrames}
+\begin{itemize}
+    \item Tabular data structure with named columns
+    \item Columns can contain different data types
+    \item Rows and columns have indices/names
+    \item More flexible schema than relations
+    \item Support for transpose operations
+    \item Popular in data analysis libraries (pandas, R)
+\end{itemize}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Comparing Structured Data Models]
+\textbf{Key Differences:}
+\begin{itemize}
+    \item \textbf{Ordering}: Matrices and DataFrames have row/column numbers; Relations are orderless on both axes
+    \item \textbf{Schema Flexibility}: Matrix cells are numbers. Relation tuples conform to a pre-defined schema. DataFrame has no pre-defined schema but all rows/columns can have names; column cells can be mixed types
+    \item \textbf{Transpose}: Supported by Matrices \& DataFrames, not by Relations
+\end{itemize}
+\end{tcolorbox}
+
+\section{File Formats for Structured Data}
+
+\subsection{Relational File Formats}
+\begin{itemize}
+    \item Most RDBMSs serialize relations as binary file(s), often compressed
+    \item RDBMS vendor-specific formats vs. open Apache formats
+    \item Row-oriented vs. columnar (e.g., ORC, Parquet) vs. hybrid formats
+\end{itemize}
+
+\subsection{DataFrame and Matrix File Formats}
+\begin{itemize}
+    \item Often serialized as restricted ASCII text files (TSV, CSV, etc.)
+    \item Matrices/tensors can also use binary formats
+    \item Can be layered on Relations
+\end{itemize}
+
+\subsection{Sequence Data Formats}
+\begin{itemize}
+    \item Includes time-series data
+    \item Can be layered on Relations, Matrices, or DataFrames
+    \item Can be treated as a first-class data model
+    \item Inherits flexibility in file formats (text, binary, etc.)
+\end{itemize}
+
+\section{Semi-structured Data Models}
+
+\subsection{Tree-Structured Data}
+\begin{itemize}
+    \item Hierarchical organization with parent-child relationships
+    \item Typically serialized as ASCII text with formatting (JSON, YAML, XML, etc.)
+    \item Some systems offer binary file formats
+    \item Can be layered on Relations
+\end{itemize}
+
+\subsection{Graph-Structured Data}
+\begin{itemize}
+    \item Represents entities (nodes) and their relationships (edges)
+    \item Often serialized with JSON or similar textual formats
+    \item Some specialized binary formats exist
+    \item Can be layered on Relations
+\end{itemize}
+
+\section{Data Lakes and File Format Tradeoffs}
+
+\subsection{Data Lake Concept}
+\begin{itemize}
+    \item Loose coupling of data file format for storage and data/query processing stack
+    \item Contrasts with RDBMS's tight coupling
+    \item Common pattern: JSON for raw data, Parquet for processed data
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Parquet vs. Text-Based Files Tradeoffs]
+\textbf{Parquet Advantages:}
+\begin{itemize}
+    \item \textbf{Storage Efficiency}: Stores data in compressed form; can be much smaller (even 10x)
+    \item \textbf{Column Pruning}: Enables applications to read only needed columns into memory
+    \item \textbf{Schema on File}: Rich metadata and statistics inside the format itself
+    \item \textbf{Complex Types}: Can store complex data types in a column
+\end{itemize}
+
+\textbf{Parquet Disadvantages:}
+\begin{itemize}
+    \item \textbf{Human Readability}: Cannot open directly with text editors
+    \item \textbf{Mutability}: Parquet is immutable/read-only; no in-place edits
+    \item \textbf{Processing Overhead}: Decompression/deserialization can add overhead
+\end{itemize}
+
+\textbf{Adoption}: CSV/JSON support is more pervasive, but Parquet is gaining popularity
+\end{tcolorbox}
+
+\section{Other Common File Formats}
+
+\subsection{Text Files}
+\begin{itemize}
+    \item Human-readable ASCII characters
+    \item Simple to create and read
+    \item No built-in support for complex data structures
+\end{itemize}
+
+\subsection{Multimedia Files}
+\begin{itemize}
+    \item Encode tensors and/or time-series of signals
+    \item Numerous binary formats, typically with (lossy) compression
+    \item Examples: WAV for audio, MP4 for video, etc.
+\end{itemize}
+
+\subsection{Document/Multimodal Files}
+\begin{itemize}
+    \item Application-specific rich binary formats
+    \item Often contain multiple data types (text, images, etc.)
+    \item Examples: PDF, DOCX, Jupyter notebooks
+\end{itemize}
+
+\section{Study Questions}
+
+\begin{enumerate}
+    \item What is the relationship between databases and files?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Databases are abstractions built on top of files. At the physical level, all database systems (whether relational, NoSQL, or specialized systems like TensorFlow) ultimately store and manipulate data as files on disk. Databases provide logical data models and operations that hide the complexity of file management, offering features like indexing, transactions, and query optimization. The database management system handles the translation between the logical data model that users interact with and the physical storage of bytes in files.
+    \end{tcolorbox}
+    
+    \item Compare and contrast Relations, Matrices, and DataFrames.
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Relations, Matrices, and DataFrames are all structured data models, but they differ in several key aspects:
+    
+    \textbf{Relations:}
+    \begin{itemize}
+        \item Based on relational algebra with rows (tuples) and columns (attributes)
+        \item Require a predefined schema that all tuples must conform to
+        \item No inherent ordering of rows or columns
+        \item Do not support transpose operations
+        \item Used primarily in database systems
+    \end{itemize}
+    
+    \textbf{Matrices:}
+    \begin{itemize}
+        \item Mathematical structures with rows and columns
+        \item All cells contain the same data type (typically numeric)
+        \item Inherent ordering by row and column indices
+        \item Support transpose and other linear algebra operations
+        \item Used primarily in scientific computing and machine learning
+    \end{itemize}
+    
+    \textbf{DataFrames:}
+    \begin{itemize}
+        \item Tabular structures with named columns that can contain different data types
+        \item More flexible schema than relations
+        \item Rows and columns have indices/names and inherent ordering
+        \item Support transpose operations
+        \item Blend features of both relations and matrices
+        \item Used primarily in data analysis and exploration
+    \end{itemize}
+    \end{tcolorbox}
+    
+    \item Why might you choose Parquet over CSV for storing large datasets?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Parquet offers several advantages over CSV for large datasets:
+    
+    \begin{itemize}
+        \item \textbf{Storage efficiency:} Parquet uses compression that can reduce file size by up to 10x compared to CSV, saving storage costs and reducing I/O time.
+        
+        \item \textbf{Column pruning:} Parquet's columnar format allows applications to read only the specific columns needed for a query, rather than loading the entire dataset, significantly improving performance for queries that access only a subset of columns.
+        
+        \item \textbf{Schema enforcement:} Parquet stores schema information with the data, ensuring consistency and reducing errors when reading the data.
+        
+        \item \textbf{Rich metadata:} Parquet files contain statistics and other metadata that query engines can use to optimize execution plans.
+        
+        \item \textbf{Support for complex types:} Parquet can efficiently store nested structures, arrays, and other complex data types that would be difficult to represent in CSV.
+        
+        \item \textbf{Better performance:} For data processing frameworks like Spark, Parquet typically offers better read performance due to its optimized format.
+    \end{itemize}
+    
+    These advantages make Parquet particularly suitable for analytical workloads on large datasets, especially in data lake environments.
+    \end{tcolorbox}
+    
+    \item What are the key differences between structured and semi-structured data?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    Structured and semi-structured data differ in several important ways:
+    
+    \textbf{Structured Data:}
+    \begin{itemize}
+        \item Has a rigid, predefined schema
+        \item Organized in a regular, predictable format (e.g., tables with rows and columns)
+        \item All records follow the same format and contain the same fields
+        \item Examples: relational databases, CSV files, matrices
+        \item Easier to query using languages like SQL
+        \item Less flexible for representing complex or variable data
+    \end{itemize}
+    
+    \textbf{Semi-structured Data:}
+    \begin{itemize}
+        \item Has a flexible, self-describing schema
+        \item Contains tags or markers to separate elements and enforce hierarchies
+        \item Records may have different fields or structures
+        \item Examples: JSON, XML, YAML, graph data
+        \item Requires specialized query languages or parsers
+        \item Better for representing complex, nested, or variable data
+        \item More adaptable to changing data requirements
+    \end{itemize}
+    
+    The key distinction is that structured data follows a strict schema where every record has the same structure, while semi-structured data allows for flexibility in the structure of individual records while still maintaining some organizational principles.
+    \end{tcolorbox}
+    
+    \item Explain the concept of a data lake and how it differs from traditional databases.
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    A data lake is a storage repository that holds a vast amount of raw data in its native format until needed. It differs from traditional databases in several key ways:
+    
+    \textbf{Data Lakes:}
+    \begin{itemize}
+        \item Store data in its raw, original format (schema-on-read)
+        \item Loosely couple the storage format from the processing system
+        \item Support multiple data types (structured, semi-structured, unstructured)
+        \item Typically use object storage (e.g., S3, HDFS)
+        \item Often use file formats like Parquet for processed data and JSON/CSV for raw data
+        \item Scale horizontally and are designed for big data
+        \item Follow an ELT approach (Extract, Load, Transform)
+        \item Optimized for flexibility and analytical processing
+    \end{itemize}
+    
+    \textbf{Traditional Databases:}
+    \begin{itemize}
+        \item Require data to conform to a predefined schema (schema-on-write)
+        \item Tightly couple storage and processing
+        \item Primarily support structured data
+        \item Use specialized storage engines
+        \item Typically use proprietary file formats
+        \item Often scale vertically with some horizontal capabilities
+        \item Follow an ETL approach (Extract, Transform, Load)
+        \item Optimized for transactional processing and data integrity
+    \end{itemize}
+    
+    The fundamental difference is that data lakes prioritize flexibility and scalability for diverse data types, while traditional databases prioritize structure, consistency, and transaction support.
+    \end{tcolorbox}
+    
+    \item How does the choice of file format impact the data science workflow?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Solution]
+    The choice of file format significantly impacts the data science workflow in several ways:
+    
+    \begin{itemize}
+        \item \textbf{Storage efficiency:} Compressed formats like Parquet reduce storage costs and can speed up I/O operations, while uncompressed formats like CSV may require more storage but are simpler to work with.
+        
+        \item \textbf{Processing speed:} Optimized formats can dramatically reduce query and analysis time. For example, columnar formats like Parquet allow for column pruning, which speeds up operations that only need certain columns.
+        
+        \item \textbf{Tool compatibility:} Some tools work better with specific formats. For instance, many BI tools work seamlessly with CSV but may require connectors for Parquet.
+        
+        \item \textbf{Data integrity:} Formats with schema enforcement help maintain data consistency and reduce errors during analysis.
+        
+        \item \textbf{Flexibility for changes:} Text-based formats like JSON allow for easy schema evolution, while binary formats may require more effort to accommodate changes.
+        
+        \item \textbf{Collaboration:} Human-readable formats facilitate easier sharing and collaboration, especially with non-technical stakeholders.
+        
+        \item \textbf{Preprocessing requirements:} Some formats require more preprocessing before analysis, affecting the time spent in the data preparation phase.
+        
+        \item \textbf{Scalability:} Certain formats are better suited for distributed processing systems, affecting how well the workflow scales to larger datasets.
+    \end{itemize}
+    
+    Choosing the right format involves balancing these factors based on the specific requirements of the data science project, including dataset size, analysis complexity, performance needs, and team expertise.
+    \end{tcolorbox}
+\end{enumerate}
+
+\section{Additional Resources}
+
+\begin{itemize}
+    \item \href{https://databricks.com/glossary/what-is-parquet}{What is Parquet? - Databricks}
+    \item \href{https://towardsdatascience.com/preventing-the-death-of-the-dataframe-8bca1c0f83c8}{Preventing the Death of the DataFrame}
+    \item \href{http://cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf}{Future of Data Lakes - CIDR 2021 Paper}
+\end{itemize}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Key Takeaway]
+Understanding data models and file formats is fundamental to effective data management in data science. The choice of data model and file format has significant implications for storage efficiency, query performance, and analytical capabilities. As data scientists spend the majority of their time on data preparation activities, mastering these concepts can substantially improve workflow efficiency and analytical outcomes.
+\end{tcolorbox}
+
+\end{document}

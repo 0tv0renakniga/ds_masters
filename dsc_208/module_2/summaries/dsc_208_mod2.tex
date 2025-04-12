@@ -1,0 +1,1678 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{array}
+
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Study Guide: Data Collection and Governance - Overview},
+    pdfpagemode=FullScreen,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{DSC 208R}
+\lhead{Data Collection and Governance: Module 2}
+\cfoot{\thepage}
+
+\title{Study Guide: Data Collection and Governance\\Module 2}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Section 1: Overview}]
+This study guide covers the first section of Module 2: Data Collection and Governance. It focuses on the data science lifecycle, with particular emphasis on the sourcing stage where raw data is transformed into analytics-ready datasets. Understanding this process is fundamental to effective data science practice, as research consistently shows that data scientists spend the majority of their time on data collection and preparation activities.
+\end{tcolorbox}
+
+\section{Section 1: Overview}
+
+\subsection{Overview}
+
+By the end of this section, you should be able to:
+
+\begin{itemize}
+    \item Describe the complete lifecycle of real-world data science projects
+    \item Explain why data scientists spend most of their time on data preparation
+    \item Define the sourcing stage and its importance in the data science pipeline
+    \item Identify the key challenges that make data sourcing difficult
+    \item Understand the data-centric AI approach to data science
+    \item Recognize the four high-level activities in the sourcing stage
+\end{itemize}
+
+\subsection{The Data Science Lifecycle}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Data Science Lifecycle Steps}]
+\begin{enumerate}
+    \item Data acquisition
+    \item Data preparation
+    \item Data cleaning
+    \item Feature Engineering
+    \item Model Selection
+    \item Training \& Inference
+    \item Serving
+    \item Monitoring
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Time Allocation in Data Science}
+\begin{tcolorbox}[colback=gray!10!white,colframe=gray!50!black,title={Research Findings}]
+Multiple industry surveys consistently show that data scientists spend the majority of their time on data-related tasks rather than on model building:
+
+\textbf{Key Sources:}
+\begin{itemize}
+    \item CrowdFlower Data Science Report 2016
+    \item Kaggle State of ML and Data Science Survey 2018
+    \item IDC-Alteryx State of Data Science and Analytics Report 2019
+\end{itemize}
+
+These reports highlight that activities like data collection, cleaning, and organization consume significantly more time than algorithm development or model training.
+\end{tcolorbox}
+
+\subsection{The Sourcing Stage}
+
+\subsubsection{Definition and Context}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Key Insight}]
+Data science applications do not exist in a vacuum. They work with the data-generating process and prediction application. The sourcing stage is where you transform raw datasets into "analytics/ML-ready" datasets.
+
+The rough end point of sourcing is when data is prepared for:
+\begin{itemize}
+    \item SQL analytics for Business Intelligence
+    \item Data/feature engineering for ML/AI analytics
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Challenges in Data Sourcing}
+\begin{enumerate}
+    \item \textbf{Heterogeneity}: Diverse data modalities, file formats, and sources
+    \item \textbf{Access constraints}: Limited data availability or permissions
+    \item \textbf{Application diversity}: Various prediction applications with different requirements
+    \item \textbf{Data volatility}: Unpredictable and continual edits to datasets
+    \item \textbf{Data quality issues}: Messy, incomplete, ambiguous, or erroneous data
+    \item \textbf{Scale}: Managing large volumes of data
+    \item \textbf{Governance}: Poor data management practices in organizations
+\end{enumerate}
+
+\subsection{The Data-Centric AI Movement}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Data-Centric AI}]
+The Data-Centric AI movement (https://datacentricai.org/) represents a shift in focus from model architecture to data quality. This approach recognizes that improving data quality often yields better results than developing more sophisticated algorithms.
+
+Key principles include:
+\begin{itemize}
+    \item Systematic approaches to data improvement
+    \item Consistent data labeling
+    \item Comprehensive data documentation
+    \item Iterative data refinement
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Sourcing Stage Activities}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Sourcing Process Flow}]
+Raw data sources/repos → Acquiring → Reorganizing → Cleaning → Data/Feature Engineering for Analytics/ML → Analytics Results
+
+\textit{Note: Labeling \& Amplification may be required in some cases}
+\end{tcolorbox}
+
+\subsection{Four High-Level Activities}
+\begin{itemize}
+    \item \textbf{Acquiring}: Obtaining data from various sources
+    \item \textbf{Reorganizing}: Transforming data into usable formats
+    \item \textbf{Cleaning}: Correcting errors and handling missing values
+    \item \textbf{Data/Feature Engineering}: Creating features for analysis
+\end{itemize}
+
+\subsection{Study Questions}
+
+\begin{enumerate}
+    \item Why do data scientists spend more time on data preparation than on model building?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Data scientists spend more time on data preparation because real-world data is typically messy, incomplete, and not immediately usable for analysis. Industry surveys consistently show that activities like data collection, cleaning, and organization consume the majority of a data scientist's time. This is necessary because high-quality data is fundamental to accurate models and insights. Even the most sophisticated algorithms will produce poor results with low-quality data, making thorough preparation an essential investment.
+    \end{tcolorbox}
+    
+    \item What is the sourcing stage in the data science lifecycle, and why is it important?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    The sourcing stage is where raw datasets are transformed into "analytics/ML-ready" datasets. It's important because it creates the foundation for all subsequent analysis. This stage includes acquiring data from various sources, reorganizing it into usable formats, cleaning it to address quality issues, and performing initial feature engineering. The sourcing stage is critical because the quality of data preparation directly impacts the effectiveness of models and analyses. Without proper sourcing, even the most sophisticated algorithms will fail to produce valuable insights.
+    \end{tcolorbox}
+    
+    \item What are the main challenges in the sourcing stage of the data science lifecycle?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    The main challenges in the sourcing stage include:
+    \begin{itemize}
+        \item Heterogeneity of data modalities, file formats, and sources
+        \item Data access and availability constraints
+        \item Diverse requirements for different prediction applications
+        \item Unpredictable and continual edits to datasets
+        \item Messy, incomplete, ambiguous, or erroneous data
+        \item Managing large volumes of data efficiently
+        \item Poor data governance practices in organizations
+    \end{itemize}
+    These challenges explain why the sourcing stage consumes so much time and requires careful attention to ensure quality results in subsequent analysis stages.
+    \end{tcolorbox}
+    
+    \item How does the data-centric AI approach differ from traditional AI development?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    The data-centric AI approach shifts focus from model architecture to data quality. Traditional AI development often emphasizes creating more sophisticated algorithms and neural network architectures. In contrast, the data-centric approach recognizes that improving data quality (through better collection, cleaning, labeling, and documentation) often yields better results than algorithmic improvements. This approach promotes systematic data improvement, consistent labeling standards, comprehensive documentation, and iterative refinement of datasets rather than just iterative refinement of models.
+    \end{tcolorbox}
+\end{enumerate}
+
+\subsection{Additional Resources}
+
+\begin{itemize}
+    \item \href{https://visit.figure-eight.com/rs/416-ZBE-142/images/CrowdFlower_DataScienceReport_2016.pdf}{CrowdFlower Data Science Report 2016}
+    \item \href{https://datacentricai.org/}{Data-Centric AI Movement}
+\end{itemize}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title={Key Takeaway}]
+The sourcing stage is the foundation of successful data science projects. Understanding the complete data science lifecycle and the challenges of data sourcing is essential for effective practice. Data scientists spend the majority of their time on data preparation activities, highlighting the critical importance of mastering the sourcing process. The data-centric AI movement further emphasizes that data quality often matters more than algorithm sophistication.
+\end{tcolorbox}
+
+\newpage
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Section 2: Data Organization}]
+This study guide covers the second section of Module 2: Data Collection and Governance, focusing on data organization and file formats. It explores the relationship between different data structures and their file representations, with a focus on structured, semi-structured, and unstructured data formats. Understanding these concepts is crucial for effective data acquisition, storage, and processing in the data science lifecycle.
+\end{tcolorbox}
+
+\section{Section 2: Data Organization}
+
+\subsection{Learning Objectives}
+
+By the end of this section, you should be able to:
+
+\begin{itemize}
+    \item Identify different data modalities in modern data-intensive applications
+    \item Understand the relationship between files, file formats, and databases
+    \item Compare and contrast different structured data models (Relations, Matrices, DataFrames)
+    \item Explain the characteristics of semi-structured data formats
+    \item Evaluate tradeoffs between different file formats (e.g., Parquet vs. CSV/JSON)
+    \item Recognize how data lakes organize and store different types of data
+\end{itemize}
+
+\subsection{Data Modalities in Modern Applications}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Data Modalities}]
+Modern data-intensive applications typically work with multiple data modalities:
+\begin{itemize}
+    \item Structured data (e.g., relational data)
+    \item Sequence data (e.g., IoT time series)
+    \item Semi-structured data (e.g., JSON logs)
+    \item Graph-structured data (e.g., social media)
+    \item Text files, documents (e.g., reviews)
+    \item Multimedia data (images, audio, video, etc.)
+    \item Multimodal files (e.g., PDFs, notebooks)
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Fundamental Concepts}
+
+\subsubsection{Files and File Formats}
+\begin{itemize}
+    \item \textbf{File}: A persistent sequence of bytes that stores a logically coherent digital object for an application
+    \item \textbf{File Format}: An application-specific standard that dictates how to interpret and process a file's bytes
+    \begin{itemize}
+        \item Hundreds of file formats exist (e.g., TXT, DOC, GIF, MPEG)
+        \item Vary by data models/types, domain-specific requirements, etc.
+    \end{itemize}
+    \item \textbf{Metadata}: Summary or organizing information about file content (payload) stored with the file itself; format dependent
+    \item \textbf{Directory}: A cataloging structure with references to files and/or other directories
+    \begin{itemize}
+        \item Treated as a special kind of file
+    \end{itemize}
+\end{itemize}
+
+\subsection{Databases and Data Models}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Key Insight}]
+\begin{itemize}
+    \item \textbf{Database}: An organized collection of interrelated data
+    \item \textbf{Data Model}: An abstract model that defines the organization of data in a formal, mathematically precise way
+    \begin{itemize}
+        \item Examples: Relations, XMLs, Matrices, DataFrames
+    \end{itemize}
+    \item \textbf{Every database is just an abstraction on top of data files!}
+    \begin{itemize}
+        \item Logical level: Data model for higher-level reasoning
+        \item Physical level: How bytes are layered on top of files
+    \end{itemize}
+    \item All data systems (RDBMSs, Spark, TensorFlow, etc.) are software systems that manipulate data files under the hood
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Structured Data Models}
+
+\subsection{Relations}
+\begin{itemize}
+    \item Form of data with regular structure
+    \item Implemented in Relational Databases
+    \item Most RDBMSs and Spark serialize a relation as binary file(s), often compressed
+\end{itemize}
+
+\subsection{Relational File Formats}
+\begin{itemize}
+    \item Different RDBMSs and Spark/HDFS-based tools serialize relation/tabular data in different binary formats, often compressed
+    \item One file per relation
+    \item Data layout can be row-oriented vs. columnar (e.g., ORC, Parquet) vs. hybrid formats
+    \item RDBMS vendor-specific vs. open Apache formats
+    \item Parquet becoming especially popular
+\end{itemize}
+
+\subsection{Other Structured Data Models}
+\begin{itemize}
+    \item \textbf{DataFrame}: Form of data with regular substructure
+    \item \textbf{Matrix}: Mathematical structure of rows and columns
+    \item \textbf{Tensor}: Multi-dimensional array
+    \begin{itemize}
+        \item Typically serialized as restricted ASCII text file (TSV, CSV, etc.)
+        \item Matrix/tensor can also use binary formats
+        \item Can layer on Relations too
+    \end{itemize}
+    \item \textbf{Sequence} (Includes Time-series):
+    \begin{itemize}
+        \item Can layer on Relations, Matrices, or DataFrames, or be treated as first-class data model
+        \item Inherits flexibility in file formats (text, binary, etc.)
+    \end{itemize}
+\end{itemize}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Comparing Structured Data Models}]
+\textbf{What is the difference between Relation, Matrix, and DataFrame?}
+\begin{itemize}
+    \item \textbf{Ordering}: Matrix and DataFrame have row/col numbers; Relation is orderless on both axes
+    \item \textbf{Schema Flexibility}: Matrix cells are numbers. Relation tuples conform to pre-defined schema. DataFrame has no pre-defined schema but all rows/cols can have names; col cells can be mixed types
+    \item \textbf{Transpose}: Supported by Matrix \& DataFrame, not by Relations
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Semi-structured Data Models}
+
+\begin{itemize}
+    \item Form of data with less regular/more flexible substructure than structured data
+    \item \textbf{Tree-Structured}:
+    \begin{itemize}
+        \item Typically serialized as restricted ASCII text file with formatting as JSON, YML, XML, etc.
+        \item Some data systems also offer binary file formats
+        \item Can layer on Relations too
+    \end{itemize}
+    \item \textbf{Graph-Structured}:
+    \begin{itemize}
+        \item Typically serialized with JSON or similar textual formats
+        \item Some data systems also offer binary file formats
+        \item Again, can layer on Relations too
+    \end{itemize}
+\end{itemize}
+
+\subsection{Data Lakes and File Format Tradeoffs}
+
+\subsection{Data Lake Concept}
+\begin{itemize}
+    \item \textbf{Data "Lake"}: Loose coupling of data file format for storage and data/query processing stack (vs. RDBMS's tight coupling)
+    \item Common pattern: JSON for raw data; Parquet for processed data
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Parquet vs. Text-Based Files Tradeoffs}]
+\textbf{Pros of Parquet:}
+\begin{itemize}
+    \item \textbf{Less storage}: Stores in compressed form; can be much smaller (even 10x); lowers read latency
+    \item \textbf{Column pruning}: Enables app to read only columns needed to DRAM; even lower query latency
+    \item \textbf{Schema on file}: Rich metadata, stats inside format itself
+    \item \textbf{Complex types}: Can store them in a column
+\end{itemize}
+
+\textbf{Cons of Parquet:}
+\begin{itemize}
+    \item \textbf{Human-readability}: Cannot open with text apps directly
+    \item \textbf{Mutability}: Parquet is immutable/read-only; no in-place edits
+    \item \textbf{Decompression/Deserialization overhead}: Depends on application tool; can go either way
+\end{itemize}
+
+\textbf{Adoption in practice}: CSV/JSON support more pervasive but Parquet is catching up
+\end{tcolorbox}
+
+\subsection{Other Common File Formats}
+
+\begin{itemize}
+    \item \textbf{Text File} (aka plaintext): Human-readable ASCII characters
+    \item \textbf{Multimedia files}: Encode tensors and/or time-series of signals
+    \begin{itemize}
+        \item Myriad binary formats, typically with (lossy) compression
+        \item Examples: WAV for audio, MP4 for video, etc.
+    \end{itemize}
+    \item \textbf{Docs/Multimodal File}: Myriad app-specific rich binary formats
+\end{itemize}
+
+\subsection{Study Questions}
+
+\begin{enumerate}
+    \item What is the relationship between databases and files?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Databases are abstractions built on top of files. At the physical level, all database systems (whether relational, NoSQL, or specialized systems) ultimately store and manipulate data as files on disk. Databases provide logical data models and operations that hide the complexity of file management, offering features like indexing, transactions, and query optimization. The database management system handles the translation between the logical data model that users interact with and the physical storage of bytes in files. This relationship is fundamental to understanding how data systems work under the hood.
+    \end{tcolorbox}
+    
+    \item Compare and contrast Relations, Matrices, and DataFrames.
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Relations, Matrices, and DataFrames differ in several key aspects:
+    
+    \textbf{Ordering:}
+    \begin{itemize}
+        \item Relations: No inherent ordering of rows or columns
+        \item Matrices and DataFrames: Have explicit row/column numbers and ordering
+    \end{itemize}
+    
+    \textbf{Schema Flexibility:}
+    \begin{itemize}
+        \item Relations: Tuples conform to a pre-defined schema
+        \item Matrices: Cells are typically numbers of the same type
+        \item DataFrames: No pre-defined schema; all rows/columns can have names; column cells can be of mixed types
+    \end{itemize}
+    
+    \textbf{Operations:}
+    \begin{itemize}
+        \item Relations: Support relational algebra operations
+        \item Matrices: Support mathematical operations like transpose
+        \item DataFrames: Support both data manipulation and transpose operations
+    \end{itemize}
+    
+    These differences make each model suitable for different types of data and analytical tasks.
+    \end{tcolorbox}
+    
+    \item Why might you choose Parquet over CSV for storing large datasets?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Parquet offers several advantages over CSV for large datasets:
+    
+    \begin{itemize}
+        \item \textbf{Storage efficiency:} Parquet uses compression that can reduce file size by up to 10x compared to CSV, saving storage costs and reducing I/O time.
+        
+        \item \textbf{Column pruning:} Parquet's columnar format allows applications to read only the specific columns needed for a query, rather than loading the entire dataset, significantly improving performance for queries that access only a subset of columns.
+        
+        \item \textbf{Schema enforcement:} Parquet stores schema information with the data, ensuring consistency and reducing errors when reading the data.
+        
+        \item \textbf{Rich metadata:} Parquet files contain statistics and other metadata that query engines can use to optimize execution plans.
+        
+        \item \textbf{Support for complex types:} Parquet can efficiently store nested structures, arrays, and other complex data types that would be difficult to represent in CSV.
+    \end{itemize}
+    
+    These advantages make Parquet particularly suitable for analytical workloads on large datasets, especially in data lake environments.
+    \end{tcolorbox}
+    
+    \item What are the key differences between structured and semi-structured data?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Structured and semi-structured data differ in several important ways:
+    
+    \textbf{Structured Data:}
+    \begin{itemize}
+        \item Has a rigid, predefined schema
+        \item Organized in a regular, predictable format (e.g., tables with rows and columns)
+        \item All records follow the same format and contain the same fields
+        \item Examples: relational databases, CSV files, matrices
+        \item Easier to query using languages like SQL
+    \end{itemize}
+    
+    \textbf{Semi-structured Data:}
+    \begin{itemize}
+        \item Has a flexible, self-describing schema
+        \item Contains tags or markers to separate elements and enforce hierarchies
+        \item Records may have different fields or structures
+        \item Examples: JSON, XML, YAML, graph data
+        \item Requires specialized query languages or parsers
+        \item Better for representing complex, nested, or variable data
+    \end{itemize}
+    
+    The key distinction is that structured data follows a strict schema where every record has the same structure, while semi-structured data allows for flexibility in the structure of individual records while still maintaining some organizational principles.
+    \end{tcolorbox}
+    
+    \item Explain the concept of a data lake and how it differs from traditional databases.
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    A data lake is a storage repository that holds a vast amount of raw data in its native format until needed. It differs from traditional databases in several key ways:
+    
+    \textbf{Data Lakes:}
+    \begin{itemize}
+        \item Store data in its raw, original format (schema-on-read)
+        \item Loosely couple the storage format from the processing system
+        \item Support multiple data types (structured, semi-structured, unstructured)
+        \item Typically use object storage (e.g., S3, HDFS)
+        \item Often use file formats like Parquet for processed data and JSON/CSV for raw data
+        \item Optimized for flexibility and analytical processing
+    \end{itemize}
+    
+    \textbf{Traditional Databases:}
+    \begin{itemize}
+        \item Require data to conform to a predefined schema (schema-on-write)
+        \item Tightly couple storage and processing
+        \item Primarily support structured data
+        \item Use specialized storage engines
+        \item Typically use proprietary file formats
+        \item Optimized for transactional processing and data integrity
+    \end{itemize}
+    
+    The fundamental difference is that data lakes prioritize flexibility and scalability for diverse data types, while traditional databases prioritize structure, consistency, and transaction support.
+    \end{tcolorbox}
+\end{enumerate}
+
+\subsection{Additional Resources}
+
+\begin{itemize}
+    \item \href{https://databricks.com/glossary/what-is-parquet}{What is Parquet? - Databricks}
+    \item \href{https://towardsdatascience.com/preventing-the-death-of-the-dataframe-8bca1c0f83c8}{Preventing the Death of the DataFrame}
+    \item \href{http://cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf}{Future of Data Lakes - CIDR 2021 Paper}
+\end{itemize}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title={Key Takeaway}]
+Understanding data organization and file formats is fundamental to effective data management in data science. Different data modalities require different storage approaches, and the choice of data model and file format has significant implications for storage efficiency, query performance, and analytical capabilities. As data scientists spend the majority of their time on data preparation activities, mastering these concepts can substantially improve workflow efficiency and analytical outcomes.
+\end{tcolorbox}
+
+\newpage
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Section 3: Data Acquisition}]
+This study guide covers the third section of Module 2: Data Collection and Governance, focusing on data acquisition. This section explores how to obtain data from various sources, the challenges involved in data acquisition, and the concept of dataset discovery. Understanding effective data acquisition strategies is crucial as it forms the first step in the sourcing stage of the data science lifecycle.
+\end{tcolorbox}
+
+\section{Section 3: Data Acquisition}
+
+\subsection{Learning Objectives}
+
+By the end of this section, you should be able to:
+
+\begin{itemize}
+    \item Identify different types of data sources and their access methods
+    \item Understand the challenges in acquiring data from diverse sources
+    \item Apply strategies to mitigate common data acquisition challenges
+    \item Explain the concept of dataset discovery and its importance
+    \item Recognize how data acquisition fits into the broader data science workflow
+\end{itemize}
+
+\subsection{Data Acquisition in the Sourcing Stage}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Sourcing Process Flow}]
+Raw data sources/repos → Acquiring → Reorganizing → Cleaning → Data/Feature Engineering for Analytics/ML → Analytics Results
+
+\textit{Note: Labeling \& Amplification may be required in some cases}
+\end{tcolorbox}
+
+\subsection{Types of Data Sources}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Data Sources and Access Methods}]
+Different sources have different "query languages" and/or APIs to acquire data:
+
+\begin{itemize}
+    \item \textbf{Structured data}: Typically managed by RDBMSs; queried using SQL
+    \item \textbf{Semistructured data}: Exported from key-value stores (e.g., MongoDB)
+    \item \textbf{Graph data}: Typically managed by graph DBMSs such as Neo4j
+    \item \textbf{JSON logs, text files, multimedia, etc.}: Typically just files on S3, HDFS, etc.
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Real-World Examples of Data Acquisition}
+
+\subsection{Recommendation Systems}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Example: Recommendation System (e.g., Netflix)}]
+\textbf{Prediction Application:} Identify top movies to display for user
+
+\textbf{Data Sources Required:}
+\begin{itemize}
+    \item User data and past click logs
+    \item Movie data
+    \item Movie images
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Social Media Analytics}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Example: Social Media Analytics}]
+\textbf{Prediction Application:} Predicts which tweets will go viral
+
+\textbf{Data Sources Required:}
+\begin{itemize}
+    \item Tweets as JSON
+    \item Structured metadata
+    \item Graph data
+    \item Entity Dictionaries
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Challenges in Data Acquisition}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title={Acquisition Challenges and Mitigation Strategies}]
+\textbf{Challenges:}
+\begin{itemize}
+    \item Different sources have different "query languages" and/or APIs to acquire data
+    \item Heterogeneity of data sources and modalities
+    \item Access control and authentication issues
+    \item Volume management
+    \item Scale issues
+    \item Manual errors in data collection
+\end{itemize}
+
+\textbf{Mitigation Strategies:}
+\begin{itemize}
+    \item \textbf{For heterogeneity}: Critically assess if you really need all data sources/modalities
+    \item \textbf{For access control}: Learn organization's data security and authentication policies
+    \item \textbf{For volume}: Evaluate if you really need all data
+    \item \textbf{For scale}: Avoid copying files one by one
+    \item \textbf{For manual errors}: Use automated workflow tools such as AirFlow
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Dataset Discovery}
+
+\subsection{Concept and Importance}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Dataset Discovery}]
+Some organizations have built "data discovery" tools to help ML users find relevant datasets. These tools aim to make it easier to locate and access the most appropriate data for specific analytical tasks.
+
+\textbf{Key Aspects:}
+\begin{itemize}
+    \item Goal: Make it easier to find relevant datasets
+    \item Approach: Relevance ranking over schemas/metadata
+    \item Metadata standards: schema.org/Dataset
+    \item Augmentation potential: Tabular datasets especially amenable for augmentation
+    \item Join suggestions: Foreign keys (FK) implicitly suggest possible joins
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Example: Google GOODS}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Example: Google GOODS}]
+GOODS (Google Dataset Search) is an internal system at Google that:
+\begin{itemize}
+    \item Catalogs billions of tables within Google
+    \item Extracts schema from files
+    \item Assigns versions and owners
+    \item Provides search functionality and dashboards
+\end{itemize}
+This system demonstrates how large organizations can address dataset discovery challenges at scale.
+\end{tcolorbox}
+
+\subsection{Study Questions}
+
+\begin{enumerate}
+    \item Why is data acquisition considered a critical first step in the data science lifecycle?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Data acquisition is the critical first step in the data science lifecycle because it determines what raw material is available for all subsequent steps. Without proper data acquisition, the entire data science process is compromised. Effective acquisition ensures that the right data, from the right sources, in the right formats is available for processing. Since different data sources require different query languages and APIs, this step requires careful planning and understanding of the various data repositories and their access methods.
+    \end{tcolorbox}
+    
+    \item How do the data acquisition requirements differ for a recommendation system versus social media analytics?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    The data acquisition requirements differ significantly between these applications:
+    
+    \textbf{For recommendation systems (e.g., Netflix):}
+    \begin{itemize}
+        \item Requires user data and past click logs (likely from relational databases)
+        \item Needs movie metadata (structured data)
+        \item Includes movie images (multimedia files)
+        \item Focus is on user-item interactions and item properties
+    \end{itemize}
+    
+    \textbf{For social media analytics:}
+    \begin{itemize}
+        \item Requires tweets as JSON (semi-structured data)
+        \item Needs structured metadata
+        \item Includes graph data (relationships between users)
+        \item Uses entity dictionaries
+        \item Focus is on content, network structure, and temporal patterns
+    \end{itemize}
+    
+    These differences highlight why data acquisition strategies must be tailored to the specific application and data sources involved.
+    \end{tcolorbox}
+    
+    \item What are the main challenges in acquiring data from heterogeneous sources, and how can they be addressed?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Main challenges in acquiring data from heterogeneous sources include:
+    
+    \begin{itemize}
+        \item \textbf{Different query languages and APIs}: Each source may require unique access methods
+        \item \textbf{Heterogeneity of data formats}: Structured, semi-structured, and unstructured data require different handling
+        \item \textbf{Access control issues}: Navigating various authentication systems
+        \item \textbf{Volume management}: Determining what subset of data is actually needed
+        \item \textbf{Scale challenges}: Inefficient file-by-file copying
+        \item \textbf{Manual errors}: Risk of human error in data collection processes
+    \end{itemize}
+    
+    These challenges can be addressed through:
+    
+    \begin{itemize}
+        \item Critical assessment of which data sources are truly necessary
+        \item Learning organization's data security policies in advance
+        \item Evaluating if all data is needed or if samples would suffice
+        \item Using automated workflow tools like Apache Airflow
+        \item Implementing systematic approaches rather than ad-hoc solutions
+    \end{itemize}
+    \end{tcolorbox}
+    
+    \item Explain the concept of dataset discovery and why it's important in large organizations.
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Dataset discovery refers to the process of finding and identifying relevant datasets within an organization's data ecosystem. It's particularly important in large organizations because:
+    
+    \begin{itemize}
+        \item Large organizations often have thousands or even millions of datasets distributed across various systems
+        \item Without discovery tools, valuable datasets may remain unknown to data scientists
+        \item Manual searching for relevant data is time-consuming and inefficient
+        \item Potential connections between datasets (like foreign key relationships) may not be obvious
+    \end{itemize}
+    
+    Systems like Google's GOODS address these issues by:
+    \begin{itemize}
+        \item Cataloging billions of tables across the organization
+        \item Automatically extracting schema information
+        \item Assigning versions and identifying owners
+        \item Providing search functionality and dashboards
+        \item Suggesting potential dataset relationships
+    \end{itemize}
+    
+    Effective dataset discovery significantly reduces the time data scientists spend searching for relevant data and helps them identify valuable connections between datasets.
+    \end{tcolorbox}
+    
+    \item How can automated workflow tools like Airflow help in the data acquisition process?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Automated workflow tools like Airflow help in the data acquisition process by:
+    
+    \begin{itemize}
+        \item \textbf{Reducing manual errors}: Automating repetitive tasks eliminates human mistakes in data collection
+        \item \textbf{Improving scalability}: Handling large-scale data acquisition that would be impractical manually
+        \item \textbf{Ensuring consistency}: Applying the same acquisition logic consistently across runs
+        \item \textbf{Scheduling}: Automating regular data refreshes on predetermined schedules
+        \item \textbf{Dependency management}: Handling complex dependencies between different data acquisition tasks
+        \item \textbf{Error handling}: Providing robust error detection and recovery mechanisms
+        \item \textbf{Monitoring}: Offering visibility into the acquisition process with logs and alerts
+    \end{itemize}
+    
+    By addressing these aspects, workflow tools help create more reliable, efficient, and maintainable data acquisition pipelines.
+    \end{tcolorbox}
+\end{enumerate}
+
+\subsection{Additional Resources}
+
+\begin{itemize}
+    \item \href{https://storage.googleapis.com/pub-tools-public-publication-data/pdf/afd0602172f297bccdb4ee720bc3832e90e62042.pdf}{Google's Data Discovery Paper}
+    \item \href{https://storage.googleapis.com/pub-tools-public-publication-data/pdf/45390.pdf}{Metadata for Dataset Search}
+    \item \href{https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45a9dcf23dbdfa24dbced358f825636c58518afa.pdf}{GOODS: Organizing Google's Datasets}
+\end{itemize}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title={Key Takeaway}]
+Data acquisition is the critical first step in the data science lifecycle that determines what raw material is available for all subsequent analysis. Effective acquisition requires understanding diverse data sources, their access methods, and the specific needs of the analytical task. As organizations accumulate more data, dataset discovery becomes increasingly important for finding relevant data efficiently. By implementing systematic approaches to data acquisition and leveraging tools for dataset discovery, data scientists can establish a solid foundation for successful analytics and machine learning projects.
+\end{tcolorbox}
+
+\newpage
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Section 4: Data Reorganization}]
+This study guide covers the fourth section of Module 2: Data Collection and Governance, focusing on data reorganization and preparation. This section explores how to transform acquired data into formats suitable for analytics and machine learning tasks. Understanding these processes is essential as they form critical steps in the sourcing stage of the data science lifecycle, where raw data is transformed into analytics-ready datasets.
+\end{tcolorbox}
+
+\section{Section 4: Data Reorganization}
+
+\subsection{Learning Objectives}
+
+By the end of this section, you should be able to:
+
+\begin{itemize}
+    \item Understand the role of data reorganization and preparation in the data science workflow
+    \item Identify common steps in the reorganization process for different data types
+    \item Apply appropriate techniques to transform data for specific analytics and ML tasks
+    \item Recognize the importance of automation, documentation, and versioning in data preparation
+    \item Explain how feature stores and ML platforms support data reorganization workflows
+\end{itemize}
+
+\subsection{Data Reorganization in the Sourcing Stage}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Sourcing Process Flow}]
+Raw data sources/repos → Acquiring → Reorganizing → Cleaning → Data/Feature Engineering for Analytics/ML → Analytics Results
+
+\textit{Note: Labeling \& Amplification may be required in some cases}
+\end{tcolorbox}
+
+\subsection{Approaches to Data Reorganization}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Key Insight}]
+How to reorganize data depends on:
+\begin{itemize}
+    \item The types of data being processed
+    \item The specific analytics or ML task at hand
+\end{itemize}
+
+Common tools and technologies used include:
+\begin{itemize}
+    \item SQL for relational data transformation
+    \item MapReduce for distributed processing
+    \item File I/O APIs for direct file manipulation
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Common Reorganization Steps}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Common Steps in Data Reorganization}]
+\begin{itemize}
+    \item \textbf{Format conversion}: Changing file formats (e.g., export table → CSV → TFRecords)
+    \item \textbf{Decompression}: Extracting compressed data (e.g., multimedia)
+    \item \textbf{Key-key joins}: Combining multimodal data using common identifiers
+    \item \textbf{Key-FK joins}: Joining relational data using foreign key relationships
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Fundamental Challenge}]
+Raw datasets sit in source systems in their own formats. The goal of reorganization is to unify and restructure them for analytics and machine learning tasks.
+\end{tcolorbox}
+
+\subsection{Real-World Examples of Data Reorganization}
+
+\subsubsection{Fraud Detection in Banking}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Example: Fraud Detection in Banking}]
+\textbf{Prediction Application:} Detect fraudulent transactions in banking data
+
+\textbf{Reorganization Steps:}
+\begin{itemize}
+    \item Start with large single-table CSV file on HDFS
+    \item Perform joins to denormalize related data
+    \item Flatten JSON records containing transaction details
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Image Captioning on Social Media}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Example: Image Captioning on Social Media}]
+\textbf{Prediction Application:} Generate descriptive captions for social media images
+
+\textbf{Reorganization Steps:}
+\begin{itemize}
+    \item Process large binary file with 1 image tensor and 1 string per line
+    \item Fuse JSON records containing metadata
+    \item Extract image tensors for computer vision processing
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Best Practices for Data Reorganization}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Best Practices}]
+\begin{itemize}
+    \item \textbf{Automation}: Use scripts for reorganization workflows; Apache Airflow
+    \item \textbf{Documentation}: Maintain notes/READMEs for code
+    \item \textbf{Provenance}: Manage metadata on source/rationale for each data source and feature
+    \item \textbf{Versioning}: Reorganization is never "one-and-done"! Maintain logs of what version has what and when
+    \item \textbf{Tools}: Typically need both code (SQL, Python) and scripts (bash)
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Advanced Concepts in Data Reorganization}
+
+\subsubsection{Feature Stores}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Feature Stores}]
+"Feature stores" in industry help catalogue ML data. They serve as a central repository for features used in machine learning models.
+
+Example: Uber's Michelangelo platform includes a feature store component.
+
+Reference: \href{https://eng.uber.com/michelangelo/}{Uber Engineering Blog: Michelangelo}
+\end{tcolorbox}
+
+\subsection{ML Platforms}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={ML Platforms}]
+"ML platforms" help streamline reorganization and preparation workflows. Key capabilities include:
+
+\begin{itemize}
+    \item Lightweight and flexible schemas
+    \item Automated data validation
+    \item Integration with feature stores and model training
+\end{itemize}
+
+Example: TensorFlow Extended (TFX) provides components for data validation, transformation, and feature engineering.
+
+Reference: \href{https://www.tensorflow.org/tfx/guide}{TensorFlow Extended (TFX) Guide}
+\end{tcolorbox}
+
+\subsection{Study Questions}
+
+\begin{enumerate}
+    \item Why is data reorganization a critical step in the data science lifecycle?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Data reorganization is critical because raw datasets typically sit in source systems in their own formats, which are often not directly suitable for analytics or machine learning. Reorganization transforms these diverse formats into unified, consistent structures that can be effectively processed by analytical tools and algorithms. Without proper reorganization, subsequent steps like cleaning and feature engineering would be significantly more difficult or impossible. The reorganization step bridges the gap between how data is stored for operational purposes and how it needs to be structured for analytical purposes.
+    \end{tcolorbox}
+    
+    \item What are the common steps involved in data reorganization, and why are they necessary?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Common steps in data reorganization include:
+    
+    \begin{itemize}
+        \item \textbf{Format conversion}: Changing file formats (e.g., export table → CSV → TFRecords) is necessary because different analytical tools require specific input formats.
+        
+        \item \textbf{Decompression}: Extracting compressed data (e.g., multimedia) is needed to access the actual content for analysis.
+        
+        \item \textbf{Key-key joins}: Combining multimodal data using common identifiers allows integration of different data types (e.g., text and images) that belong together.
+        
+        \item \textbf{Key-FK joins}: Joining relational data using foreign key relationships helps create a more complete view by combining information from multiple tables.
+    \end{itemize}
+    
+    These steps are necessary because they transform data from its original storage format into structures that are optimized for the specific analytical or machine learning task at hand. They help create a unified view of data that may originally be scattered across different systems and formats.
+    \end{tcolorbox}
+    
+    \item How do the reorganization requirements differ for fraud detection versus image captioning applications?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    The reorganization requirements differ significantly between these applications:
+    
+    \textbf{For fraud detection in banking:}
+    \begin{itemize}
+        \item Starts with structured data (large single-table CSV file on HDFS)
+        \item Requires joins to denormalize related data (e.g., account information, customer profiles)
+        \item Needs flattening of JSON records containing transaction details
+        \item Focus is on creating a comprehensive tabular dataset with all relevant features
+        \item Primarily deals with structured and semi-structured data
+    \end{itemize}
+    
+    \textbf{For image captioning on social media:}
+    \begin{itemize}
+        \item Processes binary files containing image tensors and text
+        \item Requires fusion of JSON records containing metadata
+        \item Needs extraction of image tensors for computer vision processing
+        \item Focus is on creating paired data of images and text
+        \item Deals with multimodal data (images and text)
+    \end{itemize}
+    
+    These differences highlight why reorganization approaches must be tailored to the specific data types and analytical goals of each application.
+    \end{tcolorbox}
+    
+    \item Why is versioning important in data reorganization, and how should it be implemented?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Versioning is important in data reorganization because:
+    
+    \begin{itemize}
+        \item Reorganization is never a "one-and-done" process; it evolves as data sources, requirements, and analytical techniques change
+        \item Different versions of reorganized data may produce different analytical results
+        \item Reproducibility of analyses requires knowing exactly which version of the data was used
+        \item Debugging and troubleshooting are much easier when changes between versions are tracked
+        \item Collaboration among team members requires clear communication about which data version is being used
+    \end{itemize}
+    
+    Effective versioning should be implemented by:
+    
+    \begin{itemize}
+        \item Maintaining logs that document what each version contains and when it was created
+        \item Recording the exact transformation steps applied to create each version
+        \item Using version control systems for reorganization code and scripts
+        \item Implementing naming conventions that clearly identify different versions
+        \item Documenting the rationale for changes between versions
+    \end{itemize}
+    
+    This approach ensures transparency, reproducibility, and effective collaboration in the data reorganization process.
+    \end{tcolorbox}
+    
+    \item How do feature stores and ML platforms support the data reorganization process?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Feature stores and ML platforms support data reorganization in several ways:
+    
+    \textbf{Feature Stores:}
+    \begin{itemize}
+        \item Catalog ML data, making it easier to discover and reuse features
+        \item Provide a central repository for features, reducing redundant reorganization efforts
+        \item Maintain metadata about features, including their sources and transformations
+        \item Enable consistent feature definitions across different models and applications
+        \item Support both batch and real-time feature serving
+    \end{itemize}
+    
+    \textbf{ML Platforms:}
+    \begin{itemize}
+        \item Streamline reorganization workflows with predefined components and pipelines
+        \item Support lightweight and flexible schemas that adapt to changing data
+        \item Automate data validation to ensure quality throughout the reorganization process
+        \item Provide tools for monitoring and debugging reorganization steps
+        \item Integrate with feature stores and model training systems
+    \end{itemize}
+    
+    Examples like Uber's Michelangelo platform and TensorFlow Extended (TFX) demonstrate how these systems can significantly improve the efficiency and reliability of data reorganization processes in production environments.
+    \end{tcolorbox}
+\end{enumerate}
+
+\subsection{Additional Resources}
+
+\begin{itemize}
+    \item \href{https://eng.uber.com/michelangelo/}{Uber Engineering Blog: Michelangelo ML Platform}
+    \item \href{https://www.tensorflow.org/tfx/guide}{TensorFlow Extended (TFX) Guide}
+\end{itemize}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title={Key Takeaway}]
+Data reorganization and preparation are essential steps that transform raw data from diverse sources into formats suitable for analytics and machine learning. The approach to reorganization depends on the specific data types and analytical tasks involved. Best practices include automation, documentation, provenance tracking, and versioning. Modern tools like feature stores and ML platforms can significantly streamline these processes. Effective reorganization creates a solid foundation for subsequent data cleaning and feature engineering steps.
+\end{tcolorbox}
+
+\newpage
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Section 5: Data Labeling and Amplification}]
+This study guide covers the fifth section of Module 2: Data Collection and Governance, focusing on data labeling and amplification. These processes are critical for supervised machine learning applications, where models learn from labeled examples. While not required for all data science projects, labeling and amplification are essential when working with applications that need ground truth labels for training and evaluation.
+\end{tcolorbox}
+
+\section{Section 5: Data Labeling and Amplification}
+
+\subsection{Learning Objectives}
+
+By the end of this section, you should be able to:
+
+\begin{itemize}
+    \item Understand the role of data labeling in supervised machine learning
+    \item Recognize how labeled data contributes to model performance
+    \item Define what constitutes a "label" for different prediction tasks and data types
+    \item Categorize applications based on their labeling requirements
+    \item Compare manual and programmatic labeling approaches
+    \item Explain data amplification techniques and their applications
+\end{itemize}
+
+\subsection{Data Labeling in the Sourcing Stage}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Sourcing Process Flow}]
+Raw data sources/repos → Acquiring → Reorganizing → Cleaning → Data/Feature Engineering for Analytics/ML → Analytics Results
+
+\textit{Note: Labeling \& Amplification may be required in some cases}
+\end{tcolorbox}
+
+\subsection{The Importance of Labeled Data}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Key Insight}]
+\begin{itemize}
+    \item Most recent AI successes are due to supervised machine learning
+    \item Large datasets alone are not enough—need labeled datasets, i.e., pairs of (input, output) examples
+    \item Research shows that model performance continues to improve with larger labeled datasets
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Research Example}]
+Google's research on object detection performance shows that:
+\begin{itemize}
+    \item Performance (measured by mAP@[.5,.95] on COCO-minival) increases with dataset size
+    \item Pre-training on larger subsets of JFT-300M consistently improves detection performance
+\end{itemize}
+Reference: \href{https://ai.googleblog.com/2017/07/revisiting-unreasonable-effectiveness.html}{Google AI Blog: The Unreasonable Effectiveness of Data}
+\end{tcolorbox}
+
+\subsection{Understanding Data Labeling}
+
+\subsubsection{Definition and Concepts}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Definition}]
+\textbf{Data Labeling}: Process of annotating an example (raw or featurized) with ground truth label for a given prediction task.
+
+The notion of "label" is prediction task-specific and data type-specific; can be almost any data structure!
+\end{tcolorbox}
+
+\subsubsection{Example: Image Labeling}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Example: Multiple Labels for the Same Image}]
+Q: What is a label for an image of a dog on a couch?
+
+It depends on the prediction task:
+\begin{itemize}
+    \item "Dog" (object recognition)
+    \item "Couch" (object recognition with different focus)
+    \item "Shiba Inu" (dog breed classifier)
+    \item "Yes" (meme classifier)
+    \item Dog with bounding box coordinates (object detection)
+    \item Highlighted pixels showing the dog (image segmentation)
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Categorizing Applications by Labeling Needs}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Three Types of Applications Based on Label Sources}]
+With respect to sources of labels, there are three kinds of prediction applications:
+
+\textbf{1. Data-generating process offers labels naturally}
+\begin{itemize}
+    \item Examples: Customer churn prediction, forecasting
+\end{itemize}
+
+\textbf{2. Product/service users offer labels (in)directly}
+\begin{itemize}
+    \item Examples: Email spam filters, online advertising, product recommendations, photo tagging, web search
+\end{itemize}
+
+\textbf{3. Need application-specific extra effort for labels}
+\begin{itemize}
+    \item Examples: Radiology, self-driving cars, species classification, video surveillance, machine translation, knowledge base construction, document summarization
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Programmatic Labeling}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Programmatic Labeling Approach}]
+\textbf{Basic Idea}: Instead of manually labeling each example, write programs/rules/heuristics that encode some domain intuition to label examples en masse.
+
+\textbf{Pros:}
+\begin{itemize}
+    \item Improved labeling productivity
+    \item Likely lower costs
+\end{itemize}
+
+\textbf{Cons:}
+\begin{itemize}
+    \item Need to write code
+    \item Less reliable accuracy
+    \item Unclear if complex prediction outputs are supportable
+\end{itemize}
+
+Reference: \href{http://cidrdb.org/cidr2019/papers/p58-ratner-cidr19.pdf}{Snorkel: Rapid Training Data Creation with Weak Supervision}
+\end{tcolorbox}
+
+\subsection{Data Amplification}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Data Amplification Techniques}]
+Methods to expand labeled datasets without additional manual labeling:
+
+\begin{itemize}
+    \item \textbf{Label-preserving transforms}: Common in computer vision (e.g., rotation, flipping, cropping)
+    \item \textbf{Synthesis}: Sometimes possible in robotics/scientific/engineering applications
+    \begin{itemize}
+        \item Physical laws-based
+        \item Simulation-based
+    \end{itemize}
+    \item \textbf{Challenges}: Tricky; needs knowledge of underlying data distribution
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Study Questions}
+
+\begin{enumerate}
+    \item Why is data labeling necessary for supervised machine learning, and how does it fit into the data science lifecycle?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Data labeling is necessary for supervised machine learning because these algorithms learn by example, requiring input-output pairs for training. The algorithm learns to map inputs to outputs by observing these labeled examples.
+    
+    In the data science lifecycle, labeling typically occurs after data acquisition, reorganization, and cleaning, but before feature engineering and model training. It's a critical step that:
+    
+    \begin{itemize}
+        \item Transforms raw data into training examples with ground truth outputs
+        \item Defines the prediction task by specifying what the model should learn to predict
+        \item Provides the foundation for model evaluation by establishing ground truth
+    \end{itemize}
+    
+    Unlike other steps in the sourcing stage (acquisition, reorganization, cleaning), labeling is not always required. It's specifically needed for supervised learning applications where the raw data doesn't naturally include the target outputs. For unsupervised learning or when labels are inherent in the data-generating process, this step may be skipped.
+    
+    Research from Google and others has consistently shown that the quality and quantity of labeled data directly impact model performance, often more significantly than algorithm selection or hyperparameter tuning.
+    \end{tcolorbox}
+    
+    \item What makes a "label" different for various prediction tasks, even when using the same raw data?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    A "label" differs across prediction tasks because it represents the specific output the model should learn to predict, which varies based on the task's objective. Using the example from the lecture of an image showing a dog on a couch:
+    
+    \begin{itemize}
+        \item For general object recognition, the label might be "dog" or "couch" depending on what's considered the primary subject
+        \item For breed classification, the label would be the specific breed (e.g., "Shiba Inu")
+        \item For a meme classifier, the label might be a simple "yes" or "no"
+        \item For object detection, the label includes both the class ("dog") and the bounding box coordinates
+        \item For image segmentation, the label is a pixel-level mask highlighting the dog
+    \end{itemize}
+    
+    This demonstrates that the notion of a "label" is both prediction task-specific and data type-specific. The same raw data can have completely different labels depending on what we're trying to predict. This is why clearly defining the prediction task is a crucial first step before beginning any labeling effort.
+    
+    The format and complexity of labels also vary widely - from simple class names to complex structures like bounding boxes, segmentation masks, or even sequences (for tasks like machine translation).
+    \end{tcolorbox}
+    
+    \item How do the labeling requirements differ across the three categories of applications mentioned in the lecture?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    The three categories of applications have significantly different labeling requirements:
+    
+    \textbf{1. Data-generating process offers labels naturally:}
+    \begin{itemize}
+        \item Labels are inherent in the historical data
+        \item Minimal additional labeling effort required
+        \item Examples: Customer churn prediction (label = whether customer churned), forecasting (label = actual future values)
+        \item Advantage: Labeling can be largely automated
+    \end{itemize}
+    
+    \textbf{2. Product/service users offer labels (in)directly:}
+    \begin{itemize}
+        \item Labels come from user interactions with the product/service
+        \item Moderate effort to capture and structure this feedback
+        \item Examples: Email spam filters (users mark emails as spam), product recommendations (users click or purchase)
+        \item Advantage: Labels continuously accumulate through normal product usage
+    \end{itemize}
+    
+    \textbf{3. Need application-specific extra effort for labels:}
+    \begin{itemize}
+        \item Requires dedicated labeling projects
+        \item High effort, often involving domain experts
+        \item Examples: Medical imaging, self-driving cars, document summarization
+        \item Challenge: Most resource-intensive and potentially expensive
+    \end{itemize}
+    
+    These differences significantly impact project planning, resource allocation, and timelines. Category 3 applications typically require the most upfront investment in labeling infrastructure and processes.
+    \end{tcolorbox}
+    
+    \item Compare and contrast manual and programmatic labeling approaches.
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Manual and programmatic labeling represent two fundamentally different approaches:
+    
+    \textbf{Manual Labeling:}
+    \begin{itemize}
+        \item Process: Human annotators review each example and assign labels
+        \item Accuracy: Generally high, especially with domain experts
+        \item Scalability: Limited by human resources and time
+        \item Cost: Typically high, especially for specialized domains
+        \item Flexibility: Can handle complex, nuanced labeling tasks
+    \end{itemize}
+    
+    \textbf{Programmatic Labeling:}
+    \begin{itemize}
+        \item Process: Uses code, rules, or heuristics to automatically label data
+        \item Accuracy: Generally lower than expert manual labeling
+        \item Scalability: Highly scalable to millions of examples
+        \item Cost: Higher upfront development cost, lower per-label cost
+        \item Flexibility: Limited to patterns that can be codified
+        \item Implementation: Frameworks like Snorkel help create labeling functions
+    \end{itemize}
+    
+    The optimal approach depends on the specific task, domain, budget, and quality requirements. Many modern labeling systems use hybrid approaches that combine the strengths of both methods, such as using programmatic labeling for initial passes, with human verification of uncertain cases.
+    \end{tcolorbox}
+    
+    \item What is data amplification, and what techniques are commonly used for it?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Data amplification refers to techniques that expand a labeled dataset by creating new labeled examples without requiring additional manual labeling. Based on the lecture, common techniques include:
+    
+    \textbf{1. Label-preserving transformations:}
+    \begin{itemize}
+        \item Most common in computer vision
+        \item Examples: rotation, flipping, cropping, color adjustments
+        \item Preserves the semantic meaning of the image while creating variation
+        \item Helps models become invariant to these transformations
+    \end{itemize}
+    
+    \textbf{2. Synthetic data generation:}
+    \begin{itemize}
+        \item Based on physical laws, simulations, or generative models
+        \item Common in robotics, scientific, and engineering applications
+        \item Can create examples for rare or dangerous scenarios
+        \item Requires knowledge of the underlying data distribution
+    \end{itemize}
+    
+    The key challenge with data amplification is ensuring that the generated examples are realistic and representative of the true data distribution. Poor amplification can introduce biases or unrealistic examples that harm model performance. This is why amplification techniques need to be carefully designed with domain knowledge about the data and the prediction task.
+    \end{tcolorbox}
+\end{enumerate}
+
+\subsection{Additional Resources}
+
+\begin{itemize}
+    \item \href{https://ai.googleblog.com/2017/07/revisiting-unreasonable-effectiveness.html}{Google AI Blog: The Unreasonable Effectiveness of Data}
+    \item \href{http://cidrdb.org/cidr2019/papers/p58-ratner-cidr19.pdf}{Snorkel: Rapid Training Data Creation with Weak Supervision}
+\end{itemize}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title={Key Takeaway}]
+Data labeling and amplification are critical steps for supervised machine learning applications. The approach to labeling depends on the prediction task, data type, and application category. While some applications naturally provide labels or collect them through user interactions, others require dedicated labeling efforts. Programmatic labeling offers scalability advantages but may sacrifice some accuracy. Data amplification techniques can expand labeled datasets through transformations or synthesis, but require careful implementation to maintain data quality. Understanding these concepts is essential for effectively preparing data for supervised learning tasks.
+\end{tcolorbox}
+
+\newpage
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Section 6: Data Governance and Privacy}]
+This study guide covers the sixth section of Module 2: Data Collection and Governance, focusing on data governance and privacy. This section explores the principles and practices for managing data as valuable assets, the legal regulations that govern data handling, and the challenges of provenance management. Understanding these concepts is essential for responsible and compliant data management in any data science project.
+\end{tcolorbox}
+
+\section{Section 6: Data Governance and Privacy}
+
+\subsection{Learning Objectives}
+
+By the end of this section, you should be able to:
+
+\begin{itemize}
+    \item Understand the concept of data governance and its key aspects
+    \item Identify major legal regulations governing data handling
+    \item Explain the implications of privacy laws for data science projects
+    \item Define data provenance and its importance in the data lifecycle
+    \item Recognize the challenges in implementing provenance management
+    \item Identify tools that support data governance and provenance tracking
+\end{itemize}
+
+\subsection{Data Governance Fundamentals}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Data as Valuable Entities}]
+\begin{itemize}
+    \item Data are "entities" with "value"—not unlike people!
+    \item Data have lifecycles:
+    \begin{itemize}
+        \item Born: created
+        \item Live: used
+        \item Die: deleted
+    \end{itemize}
+    \item Just as people need to be governed, so must data
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Key Aspects of Data Governance}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Six Pillars of Data Governance}]
+\begin{itemize}
+    \item \textbf{Privacy \& Security}: Who sees what, why? No breaches!
+    \item \textbf{Stewardship}: Who owns what, when? Access control.
+    \item \textbf{Cataloging}: What is it, where, how to access?
+    \item \textbf{Defining}: Data dictionaries, business knowledge.
+    \item \textbf{Quality}: Follow conventions, reduce errors.
+    \item \textbf{Provenance}: Track usage, changes, versions. Auditing.
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Legal Regulations on Data Handling}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={Key Insight}]
+Just as laws exist to govern people, laws exist to govern data. There is a long history of laws surrounding data, though notably there are no laws (yet) specifically governing ML "algorithms"—the focus is on the data used in ML.
+\end{tcolorbox}
+
+\subsection{Major Privacy Regulations}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={FERPA 1974}]
+\begin{itemize}
+    \item Family Educational Rights and Privacy Act
+    \item Broadly applies to all "education records" of students
+    \item Gives parents and eligible students rights to access and review educational records
+    \item Requires written permission to release information from a student's record
+\end{itemize}
+Reference: \href{https://www.recordnations.com/2019/07/ferpa-how-to-manage-student-records}{FERPA: How to Manage Student Records}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={HIPAA 1996}]
+\begin{itemize}
+    \item Health Insurance Portability and Accountability Act
+    \item Broadly applies to all healthcare data, especially Personally Identifiable Information (PII)
+    \item Establishes standards for the protection of sensitive patient health information
+    \item Requires appropriate safeguards to protect the privacy of personal health information
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={GDPR 2018}]
+\begin{itemize}
+    \item General Data Protection Regulation
+    \item Applies to data collected from individuals in EU and EEA
+    \item Establishes new rights on "personal data":
+    \begin{itemize}
+        \item Right to access
+        \item Right to forget/erasure
+        \item Right to object
+        \item And more
+    \end{itemize}
+    \item Many web companies scrambled to comply; some "exited" EU area
+    \item Creates new technical challenges for data/ML infrastructure:
+    \begin{itemize}
+        \item Metadata handling
+        \item Efficiency concerns
+    \end{itemize}
+    \item Raises open legal and technical questions for ML applications:
+    \begin{itemize}
+        \item Are ML models under purview?
+        \item What about derived/aggregated data?
+    \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={CCPA (California Consumer Privacy Act)}]
+\begin{itemize}
+    \item California's privacy law that went into effect in 2020
+    \item Similar to GDPR but with some key differences
+    \item Gives California residents rights over their personal information
+    \item Applies to businesses that meet specific criteria
+\end{itemize}
+Reference: \href{https://riskonnect.com/uk/regulatory-compliance/ccpa-and-gdpr-how-the-privacy-laws-stack-up/}{CCPA and GDPR: How the Privacy Laws Stack Up}
+\end{tcolorbox}
+
+\subsection{Data Provenance Management}
+
+\subsubsection{Definition and Importance}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title={What is Provenance?}]
+\textbf{Provenance}: "Chronology of the ownership, custody or location of a historical object"
+
+In data science, provenance means tracking:
+\begin{itemize}
+    \item All data objects throughout their lifecycle
+    \item The origin, transformations, and usage of data
+\end{itemize}
+
+\textbf{Why it matters:}
+\begin{itemize}
+    \item Ensures compliance with data regulations
+    \item Supports auditing requirements
+    \item Makes data easier to find and consume
+    \item Enables reproducibility of analyses
+\end{itemize}
+\end{tcolorbox}
+
+\subsubsection{Key Aspects of Provenance}
+\begin{itemize}
+    \item \textbf{Context}: Data creation, deletion, access/use, etc.
+    \item \textbf{Metadata Evolution}: How metadata changes over time
+    \item \textbf{Versioning}: Tracking versions of data and derived objects
+    \item \textbf{ML-specific Tracking}: 
+    \begin{itemize}
+        \item Derived data (e.g., feature extraction)
+        \item ML artifacts (models, code/scripts, etc.)
+        \item Configuration settings
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Provenance Management Challenges}
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title={Challenges}]
+\begin{itemize}
+    \item Heterogeneity of data/ML platforms makes tracking notoriously messy/tedious
+    \item Difficult questions about what to track:
+    \begin{itemize}
+        \item Metadata?
+        \item Usage logs?
+        \item Versioning?
+    \end{itemize}
+    \item Current state: Ad hoc, organization-specific practices and tools
+    \item Need to learn organization-specific practices and APIs
+\end{itemize}
+\end{tcolorbox}
+
+\subsubsection{Tools for Provenance Management}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title={Emerging Open Source Tools}]
+Several emerging open source tools can help with provenance management:
+
+\textbf{For ML artifacts:}
+\begin{itemize}
+    \item Weights \& Biases
+    \item MLFlow
+    \item TensorFlow Extended
+    \item TensorBoard
+\end{itemize}
+
+\textbf{For SQL transformation code:}
+\begin{itemize}
+    \item dbt (data build tool)
+\end{itemize}
+
+\textbf{For derived data:}
+\begin{itemize}
+    \item Feature stores (e.g., Feast, Tecton)
+\end{itemize}
+
+\textbf{Example:} MLFlow Experiment Tracking provides capabilities for tracking experiments, packaging code, and sharing models.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Tool Adoption in Practice}]
+The adoption of data governance and provenance tools varies widely across organizations and industries. The Kaggle Survey 2021 provides insights into which tools are most commonly used by data professionals.
+
+Reference: \href{https://www.kaggle.com/kaggle-survey-2021}{Kaggle Survey 2021}
+\end{tcolorbox}
+
+\subsection{Study Questions}
+
+\begin{enumerate}
+    \item Why is data governance important in the data science lifecycle?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Data governance is important in the data science lifecycle because:
+    
+    \begin{itemize}
+        \item Data are valuable entities with lifecycles that need to be managed responsibly
+        \item Proper governance ensures compliance with legal regulations like FERPA, HIPAA, GDPR, and CCPA
+        \item It establishes clear protocols for privacy, security, and access control
+        \item It enables effective cataloging and discovery of data assets
+        \item It promotes data quality and reduces errors
+        \item It supports provenance tracking for reproducibility and auditing
+        \item It clarifies ownership and stewardship responsibilities
+    \end{itemize}
+    
+    Without proper governance, organizations risk legal penalties, security breaches, poor data quality, and inefficient use of data assets. In the context of data science, governance provides the framework that allows data scientists to work with data responsibly and effectively.
+    \end{tcolorbox}
+    
+    \item How do privacy regulations like GDPR impact machine learning projects?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Privacy regulations like GDPR impact machine learning projects in several significant ways:
+    
+    \begin{itemize}
+        \item \textbf{Data collection limitations}: Requires explicit consent for collecting personal data, limiting what data can be used for training
+        
+        \item \textbf{Purpose limitation}: Data can only be used for the specific purposes for which it was collected
+        
+        \item \textbf{Right to erasure ("right to be forgotten")}: May require removing specific individuals' data from training sets and potentially retraining models
+        
+        \item \textbf{Right to explanation}: May require making ML models more interpretable to explain decisions
+        
+        \item \textbf{Data minimization}: Encourages using only the minimum necessary data for a specific purpose
+        
+        \item \textbf{Technical challenges}: Creates new requirements for metadata handling and efficiency in ML infrastructure
+        
+        \item \textbf{Open questions}: Raises unresolved issues about whether ML models themselves fall under regulatory purview and how to handle derived or aggregated data
+    \end{itemize}
+    
+    These impacts require ML practitioners to incorporate privacy considerations throughout the ML lifecycle, from data collection and preparation to model deployment and monitoring.
+    \end{tcolorbox}
+    
+    \item What is data provenance, and why is it critical for data science projects?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Data provenance refers to the chronology of ownership, custody, or location of data throughout its lifecycle. It tracks the origin of data and any transformations applied to it.
+    
+    Data provenance is critical for data science projects because it:
+    
+    \begin{itemize}
+        \item \textbf{Ensures compliance}: Helps meet regulatory requirements by documenting data handling practices
+        
+        \item \textbf{Enables reproducibility}: Allows others to reproduce analyses by following the same data lineage
+        
+        \item \textbf{Supports debugging}: Makes it easier to identify where errors or issues may have been introduced
+        
+        \item \textbf{Facilitates collaboration}: Helps team members understand data sources and transformations
+        
+        \item \textbf{Improves data discovery}: Makes it easier to find and understand available data assets
+        
+        \item \textbf{Builds trust}: Increases confidence in results by documenting the complete data journey
+        
+        \item \textbf{Enables auditing}: Provides a trail that can be examined for compliance or quality assurance
+    \end{itemize}
+    
+    For ML projects specifically, provenance must track not only the raw data but also derived features, model artifacts, and configuration settings to ensure full reproducibility and compliance.
+    \end{tcolorbox}
+    
+    \item What are the main challenges in implementing effective provenance management?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Implementing effective provenance management faces several significant challenges:
+    
+    \begin{itemize}
+        \item \textbf{Heterogeneity}: The diverse ecosystem of data and ML platforms makes consistent tracking difficult
+        
+        \item \textbf{Scope determination}: Deciding what to track (metadata, usage logs, versions) is not straightforward
+        
+        \item \textbf{Organizational variation}: Current practices are largely ad hoc and organization-specific
+        
+        \item \textbf{Technical complexity}: Integrating provenance tracking across different systems requires significant engineering effort
+        
+        \item \textbf{Learning curve}: Team members need to learn organization-specific practices and APIs
+        
+        \item \textbf{Overhead}: Comprehensive tracking can add computational and storage overhead
+        
+        \item \textbf{Balancing detail}: Too little tracking is insufficient, but too much creates noise
+        
+        \item \textbf{Tool immaturity}: Many provenance management tools are still evolving
+    \end{itemize}
+    
+    These challenges explain why provenance management often remains incomplete in practice, despite its recognized importance. Organizations typically need to develop custom solutions that balance comprehensiveness with practicality.
+    \end{tcolorbox}
+    
+    \item How do tools like MLFlow help with provenance management for machine learning projects?
+    
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={Solution}]
+    Tools like MLFlow help with provenance management for machine learning projects by:
+    
+    \begin{itemize}
+        \item \textbf{Experiment tracking}: Recording parameters, metrics, and artifacts for each experimental run
+        
+        \item \textbf{Model versioning}: Maintaining a history of model versions with their associated metadata
+        
+        \item \textbf{Code packaging}: Capturing the exact code used to create models for reproducibility
+        
+        \item \textbf{Model registry}: Providing a centralized repository for managing the full lifecycle of ML models
+        
+        \item \textbf{Lineage tracking}: Recording the relationships between data, features, and models
+        
+        \item \textbf{Collaboration support}: Enabling team members to share and build upon each other's work
+        
+        \item \textbf{Integration capabilities}: Connecting with other tools in the ML ecosystem
+    \end{itemize}
+    
+    These capabilities address many of the core requirements for ML provenance, though they typically need to be complemented with other tools for complete coverage of the data science lifecycle. For example, feature stores like Feast or Tecton help track derived data, while tools like dbt help manage SQL transformation code.
+    \end{tcolorbox}
+\end{enumerate}
+
+\subsection{Additional Resources}
+
+\begin{itemize}
+    \item \href{https://www.recordnations.com/2019/07/ferpa-how-to-manage-student-records}{FERPA: How to Manage Student Records}
+    \item \href{https://riskonnect.com/uk/regulatory-compliance/ccpa-and-gdpr-how-the-privacy-laws-stack-up/}{CCPA and GDPR: How the Privacy Laws Stack Up}
+    \item \href{https://www.kaggle.com/kaggle-survey-2021}{Kaggle Survey 2021}
+\end{itemize}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title={Key Takeaway}]
+Data governance and privacy are essential considerations in the data science lifecycle. Treating data as valuable entities requires implementing proper governance across six key pillars: privacy \& security, stewardship, cataloging, defining, quality, and provenance. Legal regulations like FERPA, HIPAA, GDPR, and CCPA impose specific requirements on data handling that must be incorporated into data science workflows. Provenance management—tracking the origin, transformations, and usage of data—is critical for compliance, reproducibility, and effective collaboration, though it presents significant implementation challenges. Emerging tools are helping address these challenges, but organizations still need to develop practices tailored to their specific needs and contexts.
+\end{tcolorbox}
+
+\newpage
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Module Overview]
+This guide covers fundamental data models with focus on relational and DataFrame paradigms. Key topics include structural components, constraints, and SQL operations.
+\end{tcolorbox}
+
+\section{DataFrame Model}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Core Concepts]
+\textbf{Historical Development:}
+\begin{itemize}
+    \item 1992: Originated in S language (Bell Labs)
+    \item 2000: Adopted by R
+    \item 2009: Pandas implementation in Python
+\end{itemize}
+
+\textbf{Key Features:}
+\begin{itemize}
+    \item Hybrid operations: Relational + Linear Algebra + Spreadsheet
+    \item Labeled axes (rows \& columns)
+    \item Heterogeneous data types per column
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Comparative Analysis]
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{>{\bfseries}l p{5cm} p{5cm}}
+  \textbf{Aspect} & \textbf{vs. Relational} & \textbf{vs. Matrices} \\ \hline
+  Schema & Lazily-induced & N/A \\
+  Structure & Named/ordered rows \& columns & Numeric indices \\
+  Data Types & Heterogeneous columns & Homogeneous elements \\
+  Operations & Filter/Join + Transpose + Pivot & Pure linear algebra \\
+\end{tabular}
+\end{tcolorbox}
+
+\section{Relational Model}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Structural Components]
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Students (
+    sid     CHAR(20) PRIMARY KEY,
+    name    CHAR(30),
+    age     INTEGER,
+    gpa     REAL
+);
+\end{lstlisting}
+
+\textbf{Core Elements:}
+\begin{itemize}
+    \item \textbf{Relation}: Table with attributes (columns) and tuples (rows)
+    \item \textbf{Schema}: Structural metadata (name:type pairs)
+    \item \textbf{Instance}: Current dataset conforming to schema
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Constraints]
+\textbf{Domain Constraints:}
+\begin{itemize}
+    \item Enforce data types (INT, CHAR, DATE)
+\end{itemize}
+
+\textbf{Key Constraints:}
+\begin{itemize}
+    \item Candidate Key: Minimal unique identifier
+    \item Primary Key: Chosen main identifier
+    \item Super Key: Superset containing candidate key
+\end{itemize}
+
+\textbf{Referential Integrity:}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Enrolled (
+    sid CHAR(20) REFERENCES Students(sid),
+    ...
+);
+\end{lstlisting}
+\end{tcolorbox}
+
+\section{SQL Fundamentals}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Essential Operations]
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ll}
+  \textbf{Operation} & \textbf{SQL Example} \\ \hline
+  Create Table & \texttt{CREATE TABLE Students (...);} \\
+  Insert Data & \texttt{INSERT INTO Students VALUES (...);} \\
+  Delete & \texttt{DELETE FROM Students WHERE age > 30;} \\
+  Update & \texttt{UPDATE Students SET gpa = 3.5 WHERE ...;} \\
+  Query & \texttt{SELECT name, gpa FROM Students WHERE ...;} \\
+  Alter & \texttt{ALTER TABLE Students ADD email VARCHAR;} \\
+\end{tabular}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=First Normal Form (1NF)]
+\textbf{Requirement:} Atomic values, no nested/repeating groups
+
+\textbf{Violation Example:}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE BadDesign (
+    sid INT,
+    courses_enrolled ARRAY  -- Invalid
+);
+\end{lstlisting}
+
+\textbf{1NF Solution:}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Enrolled (
+    sid INT REFERENCES Students,
+    cid CHAR(10),
+    grade REAL
+);
+\end{lstlisting}
+\end{tcolorbox}
+
+\section{Key Takeaways}
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Essential Concepts]
+\begin{enumerate}
+    \item \textbf{DataFrame Model} bridges relational and numerical computing
+    \item \textbf{Relational Model} requires explicit schema + constraints
+    \item \textbf{1NF} ensures atomic values through flat table structures
+    \item \textbf{SQL} enables declarative data definition and manipulation
+\end{enumerate}
+\end{tcolorbox}
+
+\end{document}
+
+
+\end{document}
