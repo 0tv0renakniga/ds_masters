@@ -1,0 +1,161 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage{listings}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Study Guide: Data Models},
+    pdfpagemode=FullScreen,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{DSC 208R}
+\lhead{Data Models}
+\cfoot{\thepage}
+
+\title{Study Guide: Data Models}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Module Overview]
+This guide covers fundamental data models with focus on relational and DataFrame paradigms. Key topics include structural components, constraints, and SQL operations.
+\end{tcolorbox}
+
+\section{DataFrame Model}
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Core Concepts]
+\textbf{Historical Development:}
+\begin{itemize}
+    \item 1992: Originated in S language (Bell Labs)
+    \item 2000: Adopted by R
+    \item 2009: Pandas implementation in Python
+\end{itemize}
+
+\textbf{Key Features:}
+\begin{itemize}
+    \item Hybrid operations: Relational + Linear Algebra + Spreadsheet
+    \item Labeled axes (rows \& columns)
+    \item Heterogeneous data types per column
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Comparative Analysis]
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{>{\bfseries}l p{5cm} p{5cm}}
+  \textbf{Aspect} & \textbf{vs. Relational} & \textbf{vs. Matrices} \\ \hline
+  Schema & Lazily-induced & N/A \\
+  Structure & Named/ordered rows \& columns & Numeric indices \\
+  Data Types & Heterogeneous columns & Homogeneous elements \\
+  Operations & Filter/Join + Transpose + Pivot & Pure linear algebra \\
+\end{tabular}
+\end{tcolorbox}
+
+\section{Relational Model}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Structural Components]
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Students (
+    sid     CHAR(20) PRIMARY KEY,
+    name    CHAR(30),
+    age     INTEGER,
+    gpa     REAL
+);
+\end{lstlisting}
+
+\textbf{Core Elements:}
+\begin{itemize}
+    \item \textbf{Relation}: Table with attributes (columns) and tuples (rows)
+    \item \textbf{Schema}: Structural metadata (name:type pairs)
+    \item \textbf{Instance}: Current dataset conforming to schema
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Constraints]
+\textbf{Domain Constraints:}
+\begin{itemize}
+    \item Enforce data types (INT, CHAR, DATE)
+\end{itemize}
+
+\textbf{Key Constraints:}
+\begin{itemize}
+    \item Candidate Key: Minimal unique identifier
+    \item Primary Key: Chosen main identifier
+    \item Super Key: Superset containing candidate key
+\end{itemize}
+
+\textbf{Referential Integrity:}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Enrolled (
+    sid CHAR(20) REFERENCES Students(sid),
+    ...
+);
+\end{lstlisting}
+\end{tcolorbox}
+
+\section{SQL Fundamentals}
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Essential Operations]
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ll}
+  \textbf{Operation} & \textbf{SQL Example} \\ \hline
+  Create Table & \texttt{CREATE TABLE Students (...);} \\
+  Insert Data & \texttt{INSERT INTO Students VALUES (...);} \\
+  Delete & \texttt{DELETE FROM Students WHERE age > 30;} \\
+  Update & \texttt{UPDATE Students SET gpa = 3.5 WHERE ...;} \\
+  Query & \texttt{SELECT name, gpa FROM Students WHERE ...;} \\
+  Alter & \texttt{ALTER TABLE Students ADD email VARCHAR;} \\
+\end{tabular}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=First Normal Form (1NF)]
+\textbf{Requirement:} Atomic values, no nested/repeating groups
+
+\textbf{Violation Example:}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE BadDesign (
+    sid INT,
+    courses_enrolled ARRAY  -- Invalid
+);
+\end{lstlisting}
+
+\textbf{1NF Solution:}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Enrolled (
+    sid INT REFERENCES Students,
+    cid CHAR(10),
+    grade REAL
+);
+\end{lstlisting}
+\end{tcolorbox}
+
+\section{Key Takeaways}
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Essential Concepts]
+\begin{enumerate}
+    \item \textbf{DataFrame Model} bridges relational and numerical computing
+    \item \textbf{Relational Model} requires explicit schema + constraints
+    \item \textbf{1NF} ensures atomic values through flat table structures
+    \item \textbf{SQL} enables declarative data definition and manipulation
+\end{enumerate}
+\end{tcolorbox}
+
+\end{document}
