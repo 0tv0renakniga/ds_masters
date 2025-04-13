@@ -192,13 +192,13 @@ $L_{\infty} = 2$\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{The $L_1$ is defined as:}\\
+\parbox{\textwidth}{$\|x\|_1$ is defined as:}\\
 
 $$\|x\|_1 = \sum_{i=1}^{n} |x_i|$$\\
 
 \parbox{\textwidth}{Let, $n=3$, $x_1 = 1$, $x_2 = 2$, $x_3 = 3$}\\
 
-\parbox{\textwidth}{Use the $L_1$ equation and do the following:}\\
+\parbox{\textwidth}{Use the $\|x\|_1$ equation and do the following:}\\
 
 \begin{itemize}
     \item {substitute $n$, expand the summation and substitute values for $x_1$, $x_2$, $x_3$}
@@ -210,7 +210,7 @@ $\|x\|_1 = |1| + |2| + |3|$\\
 
 $\|x\|_1 = 6$\\
 
-\parbox{\textwidth}{$\therefore$ the $L_1$ norm of the vector $x$ is $6$.}\\
+\parbox{\textwidth}{$\therefore$ $\|x\|_1$ of the point $\begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} \in \mathbb{R}^3$ is $6$.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -218,13 +218,13 @@ $\|x\|_1 = 6$\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{The $L_2$ is defined as:}\\
+\parbox{\textwidth}{$\|x\|_2$ is defined as:}\\
 
 $$\|x\|_2 = \sqrt{\sum_{i=1}^{n} x_i^2}$$\\
 
 \parbox{\textwidth}{Let, $n=3$, $x_1 = 1$, $x_2 = 2$, $x_3 = 3$}\\
 
-\parbox{\textwidth}{Use the $L_2$ equation and do the following:}\\
+\parbox{\textwidth}{Use the $\|x\|_2$ equation and do the following:}\\
 
 \newpage
 
@@ -240,7 +240,7 @@ $\|x\|_2 = \sqrt{1 + 4 + 9}$\\
 
 $\|x\|_2 = \sqrt{14}$\\
 
-\parbox{\textwidth}{$\therefore$ the $L_2$ norm of the vector $x$ is $\sqrt{14}$.}\\
+\parbox{\textwidth}{$\therefore$ $\|x\|_2$ of the point $\begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} \in \mathbb{R}^3$  is $\sqrt{14}$.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -248,13 +248,13 @@ $\|x\|_2 = \sqrt{14}$\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{The $L_{\infty}$ is defined as:}\\
+\parbox{\textwidth}{$\|x\|_{\infty}$ is defined as:}\\
 
 $$\|x\|_{\infty} = \max_{i=1,2,...,n} |x_i|$$\\
 
 \parbox{\textwidth}{Let, $n=3$, $x_1 = 1$, $x_2 = 2$, $x_3 = 3$}\\
 
-\parbox{\textwidth}{Use the $L_{\infty}$ equation and do the following:}\\
+\parbox{\textwidth}{Use the $\|x\|_{\infty}$ equation and do the following:}\\
 
 \begin{itemize}
     \item {substitute $n$, find the maximum absolute value among $x_1$, $x_2$, $x_3$}
@@ -268,7 +268,7 @@ $\|x\|_{\infty} = \max\{1, 2, 3\}$\\
 
 $\|x\|_{\infty} = 3$\\
 
-\parbox{\textwidth}{$\therefore$ the $L_{\infty}$ norm of the vector $x$ is $3$.}\\
+\parbox{\textwidth}{$\therefore$ $\|x\|_{\infty}$ of the point $\begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} \in \mathbb{R}^3$ is $3$.}\\
 
 \noindent\rule{\textwidth}{0.4pt}
 \noindent\rule{\textwidth}{0.4pt}\\
@@ -314,7 +314,9 @@ D & 5 & 3 & 2 & 0 \\
 
 \parbox{\textwidth}{Now,check the second property, Identity of Indiscernibles.}\\
 
-\parbox{\textwidth}{The diagonal elements are $(A,A)$, $(B,B)$, $(C,C)$, and $(D,D)$.}
+\parbox{\textwidth}{The points where $x=y$ are the diagonal elements, and it follows that,}\\
+
+\parbox{\textwidth}{these points are $(A,A)$, $(B,B)$, $(C,C)$, and $(D,D)$.}
 
 $$d(A,A) = 0 , d(B,B) = 0 , d(C,C) = 0 , d(D,D) = 0$$
 
@@ -343,6 +345,10 @@ $d(C,D)$ & $d(D,C)$  & $2$ \\
 \end{table}
 
 \parbox{\textwidth}{Hence, all symmetry elements are equal and the third property is satisfied}\\
+
+\begin{itemize}
+  \item \parbox{\textwidth}{Note: We could have let $A$ be a matrix that represents \textit{Table 1} and show $A=A^T$}\\
+\end{itemize}
 
 \parbox{\textwidth}{Lastly,check the fourth property, Triangle Inequality.}\\
 
@@ -452,7 +458,7 @@ or a regression problem.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{We are attempting to predict a continuous numberical variable (speed of a car).}\\
+\parbox{\textwidth}{We are attempting to predict a continuous numerical variable (speed of a car).}\\
 
 \parbox{\textwidth}{$\therefore$ This is best thought as a regression problem.}\\
 
@@ -460,7 +466,7 @@ or a regression problem.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{We are attempting to predict a continuous numberical variable (GPA).}\\
+\parbox{\textwidth}{We are attempting to predict a continuous numerical variable (GPA).}\\
 
 \parbox{\textwidth}{$\therefore$ This is best thought as a regression problem.}\\
 
@@ -646,17 +652,22 @@ $$\text{Var}(X) = E[X^2] - (E[X])^2 = \frac{1}{4} - (\frac{1}{4})^2 = \frac{1}{4
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{Covariance for random variables $A$ and $B$ is defined as:}\\
+\parbox{\textwidth}{Covariance for random variables $X$ and $Y$ is defined as:}\\
 
-$$Cov(A, B) = E[AB] - E[A]E[B]$$
+$$Cov(X,Y) = E[XY] - E[X]E[Y]$$
 
-\parbox{\textwidth}{The expected value of a random variable $A$ is defined as:}\\
+\parbox{\textwidth}{The expected value of a random variable $X$ is defined as:}\\
 
-$$E[A] = \sum^{n}_{i=1} a_i P(A)$$
+$$E[X] = \sum^{n}_{i\in \Omega} x_i P(X)$$
 
-\parbox{\textwidth}{The expected value of $AB$  where A and B are random variables is defined as:}\\
+\parbox{\textwidth}{The expected value of a random variable $Y$ is defined as:}\\
 
-$$E[AB] = \sum_{a \in \in \{-1,0,1\}} \sum_{b \in \{-1,0,1\}} ab \cdot P(A = a, B = b)$$
+$$E[Y] = \sum^{n}_{i\in \Omega} y_i P(Y)$$
+
+
+\parbox{\textwidth}{The expected value of $XY$  where X and Y are random variables is defined as:}\\
+
+$$E[XY] = \sum_{x} \sum_{y} xy \cdot P(X,Y)$$
 
 \parbox{\textwidth}{Calculate the expected value $E[X]$.}\\
 
@@ -710,49 +721,52 @@ $$Cov(X, Y) = E[XY] - E[X]E[Y] = -\frac{2}{3} - (0)(0) = -\frac{2}{3}$$\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{Correlation for random variables $A$ and $B$ is defined as:}\\
+\parbox{\textwidth}{Correlation for random variables $X$ and $Y$ is defined as:}\\
 
-$$Corr(A, B) = \frac{Cov(A, B)}{\sqrt{Var(A) \cdot Var(B)}}$$
+$$Corr(X, Y) = \frac{Cov(X, Y)}{\sqrt{Var(X) \cdot Var(Y)}}$$
 
-\parbox{\textwidth}{The variance of a random variable $A$ is defined as:}\\
+\parbox{\textwidth}{The variance of a random variable $X$ is defined as:}\\
 
-$$Var(A) = E[A^2] - (E[A])^2$$
+$$Var(X) = E[X^2] - (E[X])^2$$
 
-\parbox{\textwidth}{From part (a), we know that $Cov(X,Y) = -\frac{2}{3}$ and $E[X] = E[Y] = 0$.}\\
+\parbox{\textwidth}{The variance of a random variable $Y$ is defined as:}\\
 
-\parbox{\textwidth}{Calculate the variance of $X$.}\\
+$$Var(Y) = E[Y^2] - (E[Y])^2$$
 
-\parbox{\textwidth}{First, calculate $E[X^2]$.}\\
+\begin{itemize}
+  \item \parbox{\textwidth}{From part (a), we know that $Cov(X,Y) = -\frac{2}{3}$ and $E[X] = E[Y] = 0$.}\\
+\end{itemize}
+
+\parbox{\textwidth}{Calculate $E[X^2]$}\\
 
 $E[X^2] = (-1)^2 \cdot P(X = -1) + (0)^2 \cdot P(X = 0) + (1)^2 \cdot P(X = 1)$\\
 
-$E[X^2] = (1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
+$E[X^2] = (-1)^2 \cdot \frac{1}{3} + (0)^2 \cdot \frac{1}{3} + (1)^2 \cdot \frac{1}{3}$\\
 
 $E[X^2] = \frac{1}{3} + 0 + \frac{1}{3}$\\
 
 $E[X^2] = \frac{2}{3}$\\
 
-\parbox{\textwidth}{Now, calculate $Var(X)$.}\\
+\parbox{\textwidth}{Calculate $E[Y^2]$}\\
 
-$Var(X) = E[X^2] - (E[X])^2 = \frac{2}{3} - (0)^2 = \frac{2}{3}$\\
+$E[Y^2] = (-1)^2 \cdot P(Y = -1) + (0)^2 \cdot P(Y= 0) + (1)^2 \cdot P(Y= 1)$\\
 
-\parbox{\textwidth}{Calculate the variance of $Y$.}\\
-
-\parbox{\textwidth}{First, calculate $E[Y^2]$.}\\
-
-$E[Y^2] = (-1)^2 \cdot P(Y = -1) + (0)^2 \cdot P(Y = 0) + (1)^2 \cdot P(Y = 1)$\\
-
-$E[Y^2] = (1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
+$E[Y^2] = (-1)^2 \cdot \frac{1}{3} + (0)^2 \cdot \frac{1}{3} + (1)^2 \cdot \frac{1}{3}$\\
 
 $E[Y^2] = \frac{1}{3} + 0 + \frac{1}{3}$\\
 
 $E[Y^2] = \frac{2}{3}$\\
 
-\parbox{\textwidth}{Now, calculate $Var(Y)$.}\\
+
+\parbox{\textwidth}{Calculate $Var(X)$.}\\
+
+$Var(X) = E[X^2] - (E[X])^2 = \frac{2}{3} - (0)^2 = \frac{2}{3}$\\
+
+\parbox{\textwidth}{Calculate $Var(Y)$.}\\
 
 $Var(Y) = E[Y^2] - (E[Y])^2 = \frac{2}{3} - (0)^2 = \frac{2}{3}$\\
 
-\parbox{\textwidth}{Calculate the correlation.}\\
+\parbox{\textwidth}{Calculate $Corr(X,Y)$}\\
 
 \parbox{\textwidth}{Substitute $Cov(X,Y)$, $Var(X)$, and $Var(Y)$ into the correlation equation.}\\
 
@@ -793,50 +807,28 @@ $(X\downarrow ,Y \rightarrow)$ & -1 & 0 & 1 \\ \hline
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{Two random variables $A$ and $B$ are independent if:}\\
+\parbox{\textwidth}{Two random variables $X$ and $Y$ are independent if:}\\
 
-$$P(A, B) = P(A) \cdot P(B)$$
+$$P(X, Y) = P(X) \cdot P(Y)$$
 
 
-\parbox{\textwidth}{Calculate probabilities $P(X = x)$ from \textit{Table 4}.}\\
+\parbox{\textwidth}{Calculate probabilities $P(X = -1)$, $P(X = 0)$, and $P(X = 1)$from \textit{Table 4}.}\\
 
-$P(X = -1) = P(X = -1, Y = -1) + P(X = -1, Y = 0) + P(X = -1, Y = 1)$\\
+$P(X = -1) = P(X = -1, Y = -1) + P(X = -1, Y = 0) + P(X = -1, Y = 1) = \frac{1}{6} + 0 + \frac{1}{6} = \frac{1}{3}$\\
 
-$P(X = -1) = \frac{1}{6} + 0 + \frac{1}{6}$ \\
+$P(X = 0) = P(X = 0, Y = -1) + P(X = 0, Y = 0) + P(X = 0, Y = 1) = 0 + \frac{1}{3} + 0 =\frac{1}{3}$\\
 
-$P(X = -1)= \frac{1}{3}$\\
+$P(X = 1) = P(X = 1, Y = -1) + P(X = 1, Y = 0) + P(X = 1, Y = 1) = \frac{1}{6} + 0 + \frac{1}{6} = \frac{1}{3}$\\
 
-$P(X = 0) = P(X = 0, Y = -1) + P(X = 0, Y = 0) + P(X = 0, Y = 1)$\\
 
-$P(X = 0) = 0 + \frac{1}{3} + 0 $\\
+\parbox{\textwidth}{Calculate probabilities $P(Y = -1)$, $P(Y = 0)$, and $P(Y = 1)$from \textit{Table 4}.}\\
 
-$P(X = 0)= \frac{1}{3}$\\
+$P(Y = -1) = P(X = -1, Y = -1) + P(X = 0, Y = -1) + P(X = 1, Y = -1) =  \frac{1}{6} + 0 + \frac{1}{6} = \frac{1}{3}$\\
 
-$P(X = 1) = P(X = 1, Y = -1) + P(X = 1, Y = 0) + P(X = 1, Y = 1)$\\
+$P(Y = 0) = P(X = -1, Y = 0) + P(X = 0, Y = 0) + P(X = 1, Y = 0)= 0 + \frac{1}{3} + 0 =\frac{1}{3}$\\
 
-$P(X = 1) = \frac{1}{6} + 0 + \frac{1}{6} $\\
+$P(Y = 1) = P(X = -1, Y = 1) + P(X = 0, Y = 1) + P(X = 1, Y = 1) = \frac{1}{6} + 0 + \frac{1}{6} = \frac{1}{3}$\\
 
-$P(X = 1)= \frac{1}{3}$\\
-
-\parbox{\textwidth}{Calculate probabilities $P(Y = y)$ from \textit{Table 4}.}\\
-
-$P(Y = -1) = P(X = -1, Y = -1) + P(X = 0, Y = -1) + P(X = 1, Y = -1)$\\
-
-$P(Y = -1) = \frac{1}{6} + 0 + \frac{1}{6} $\\
-
-$P(Y = -1) = \frac{1}{3}$\\
-
-$P(Y = 0) = P(X = -1, Y = 0) + P(X = 0, Y = 0) + P(X = 1, Y = 0)$\\
-
-$P(Y = 0) = 0 + \frac{1}{3} + 0 $\\
-
-$P(Y = 0) = \frac{1}{3}$\\
-
-$P(Y = 1) = P(X = -1, Y = 1) + P(X = 0, Y = 1) + P(X = 1, Y = 1)$\\
-
-$P(Y = 1) = \frac{1}{6} + 0 + \frac{1}{6} = \frac{1}{3}$\\
-
-$P(Y = 1) = \frac{1}{3}$\\
 
 \parbox{\textwidth}{Check if $P(X , Y) = P(X) \cdot P(Y)$ for all combinations:}\\
 
@@ -856,17 +848,19 @@ $$ \frac{1}{6} \neq \frac{1}{9} \rightarrow P(X = -1, Y = -1) \neq P(X = -1) \cd
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{Two random variables $A$ and $B$ are uncorrelated if and only if their covariance is zero:}\\
+\parbox{\textwidth}{Two random variables $X$ and $Y$ are uncorrelated if and only if their covariance is zero:}\\
 
-$$\text{Cov}(A, B) = 0$$
+\parbox{\textwidth}{The covariance between $X$ and $Y$ is defined as:}\\
 
-\parbox{\textwidth}{The covariance between $A$ and $B$ is defined as:}\\
+$$Cov(X,Y) = E[XY] - E[X]E[Y]$$
 
-$$\text{Cov}(A, B) = E[AB] - E[A]E[B]$$
+\parbox{\textwidth}{Since,$Cov(X,Y) = 0$ if two random variables are uncorrelated we can check the following expression:}\\
+
+$$E[XY] = E[X]E[Y]$$
 
 \parbox{\textwidth}{Calculate the expected value $E[X]$.}\\
 
-$E[X] = \sum_{x \in P(X)} x \cdot P(X = x)$\\
+$E[X] = \sum_{x} x \cdot P(X = x)$\\
 
 $E[X] = (-1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
 
@@ -876,7 +870,7 @@ $E[X] = 0$\\
 
 \parbox{\textwidth}{Calculate the expected value $E[Y]$.}\\
 
-$E[Y] = \sum_{y \in P(Y)} y \cdot P(Y = y)$\\
+$E[Y] = \sum_{y} y \cdot P(Y = y)$\\
 
 $E[Y] = (-1) \cdot \frac{1}{3} + (0) \cdot \frac{1}{3} + (1) \cdot \frac{1}{3}$\\
 
@@ -886,10 +880,10 @@ $E[Y] = 0$\\
 
 \parbox{\textwidth}{Calculate the expected value $E[XY]$.}\\
 
-$E[XY] = \sum_{x \in P(X)} \sum_{y \in P(Y)} xy \cdot P(X = x, Y = y)$\\
+$E[XY] = \sum_{x} \sum_{y} xy \cdot P(X = x, Y = y)$\\
 
-$E[XY] = (-1)(-1) \cdot \frac{1}{6} + (-1)(0) \cdot 0 + (-1)(1) \cdot \frac{1}{6}+ (0)(-1) \cdot 0 + (0)(0) \cdot \frac{1}{3} + $\\
-$(0)(1) \cdot 0+ (1)(-1) \cdot \frac{1}{6} + (1)(0) \cdot 0 + (1)(1) \cdot \frac{1}{6}$\\
+$$E[XY] = (-1)(-1) \cdot \frac{1}{6} + (-1)(0) \cdot 0 + (-1)(1) \cdot \frac{1}{6}+ (0)(-1) \cdot 0 + (0)(0) \cdot \frac{1}{3} + 
+(0)(1) \cdot 0+ (1)(-1) \cdot \frac{1}{6} + (1)(0) \cdot 0 + (1)(1) \cdot \frac{1}{6}$$\\
 
 $E[XY] = \frac{1}{6} + 0 + (-\frac{1}{6}) + 0 + 0 + 0 + (-\frac{1}{6}) + 0 + \frac{1}{6}$\\
 
@@ -897,11 +891,9 @@ $E[XY] = \frac{1}{6} - \frac{1}{6} - \frac{1}{6} + \frac{1}{6}$\\
 
 $E[XY] = 0$\\
 
-\parbox{\textwidth}{Calculate the covariance.}\\
+\parbox{\textwidth}{We have, $E[X]E[Y] = 0$ and $E[XY] = 0$ .}\\
 
-$\text{Cov}(X, Y) = E[XY] - E[X]E[Y] = 0 - (0)(0) = 0$\\
-
-\parbox{\textwidth}{Since $\text{Cov}(X, Y) = 0$, the variables $X$ and $Y$ are uncorrelated.}\\
+\parbox{\textwidth}{Thus, $E[X]E[Y] = E[XY]$.}\\
 
 \parbox{\textwidth}{$\therefore$ $X$ and $Y$ are uncorrelated.}\\
 
@@ -1087,7 +1079,7 @@ plot_confusion_matrix(error_rate_l1, cm_l1, error_rate_l2, cm_l2, data_labels)
     
 \end{center}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \includegraphics[width=1\textwidth]{q9.png} \\
 \caption{Confusion matrix for $\ell_1$ and $\ell_2$ nearest neighbor classifiers.}
 \label{fig:image_comparison}
