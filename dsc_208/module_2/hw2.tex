@@ -1,0 +1,136 @@
+\documentclass{article}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor} % For more color options
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\chead{DSC 208: Data Management for Analytics (Spring 2025)}
+\lhead{PA 1}
+\rhead{Randall Rogers}
+% Define a style for SQL code
+\definecolor{sqlkeywordcolor}{rgb}{0.0, 0.5, 0.0} % Green color for keywords
+\definecolor{sqllightgray}{gray}{0.95}       % Very light gray for background
+
+\lstdefinestyle{sqlstyle}{
+    language=SQL,
+    basicstyle=\ttfamily\footnotesize,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    captionpos=b,
+    breaklines=true,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    keywordstyle=\color{sqlkeywordcolor}\bfseries, % Bold green keywords
+    backgroundcolor=\color{sqllightgray},       % Light gray background
+    frame=single                                % Add a single frame around the code
+}
+\lstset{style=sqlstyle}
+
+% Redefine the listing name
+\renewcommand{\lstlistingname}{Code}
+
+\begin{document}
+
+\section*{Part 1: CHINOOK Dataset}
+
+\subsection*{hw2-1.1.sql}
+
+\subsubsection*{Question 1}
+
+\parbox{\textwidth}{Find all the tracks that have a length of 1,000,000 milliseconds or less.}
+
+\begin{itemize}
+    \item Return only the TrackId column.
+    \item Output 3288 rows
+\end{itemize}
+
+\subsubsection*{Logic for Question 1}
+\begin{enumerate}
+    \item \parbox{\textwidth}{Select only the TrackId column from the tracks table}
+    \item \parbox{\textwidth}{Filter the results to include only tracks where the Milliseconds value is less than or equal to 1,000,000}
+    \item \parbox{\textwidth}{This is a simple filter operation that doesn't require joins, grouping, or aggregation}
+\end{enumerate}
+
+
+\subsubsection*{SQL Code and Resulting Table}
+
+\begin{figure}[h!]
+\centering
+\begin{minipage}{0.48\textwidth}
+\begin{lstlisting}[caption=Code 1: SQL Code for Question 1, label=lst:sql_q1]
+    SELECT TrackId
+    FROM tracks
+    WHERE Milliseconds <= 1000000;
+\end{lstlisting}
+\end{minipage}%
+\hfill%
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{tabular}{c}
+    \toprule
+    TrackId \\
+    \midrule
+    1 \\
+    2 \\
+    $\vdots$ \\
+    3502 \\
+    3503 \\
+    \bottomrule
+\end{tabular}
+\captionof{table}{Resulting Table for Question 1}
+\label{tab:result_q1}
+\end{minipage}
+\end{figure}
+
+\section*{Question 2}
+
+\textbf{Question:} (Replace with the actual text of Question 2)
+
+\subsection*{Logic for Question 2}
+
+(Provide the logic for Question 2 here.)
+
+\subsection*{SQL Code and Resulting Table}
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \begin{lstlisting}[caption=SQL Code for Question 2, label=lst:sql_q2]
+            -- Replace with your SQL code for Question 2
+            SELECT another_column
+            FROM another_table
+            ORDER BY another_column DESC;
+        \end{lstlisting}
+    \end{minipage}%
+    \hfill%
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tabular}{l}
+            \toprule
+            another\_column \\
+            \midrule
+            Z             \\
+            Y             \\
+            X             \\
+            \bottomrule
+        \end{tabular}
+        \captionof{table}{Resulting Table for Question 2}
+        \label{tab:result_q2}
+    \end{minipage}
+\end{figure}
+
+% Add more questions as needed
+
+\end{document}
