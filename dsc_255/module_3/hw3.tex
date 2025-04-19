@@ -11,6 +11,7 @@
 \usepackage{enumitem}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{subcaption}
 
 % Set page geometry
 \geometry{a4paper, margin=1in}
@@ -839,4 +840,125 @@ In this problem, you will build a classifier for this data, by modeling each cla
         \item[(d)] Out of the misclassified test digits, pick five at random and display them.
     \end{enumerate}
 \end{itemize}
+
+\newpage
+
+\parbox{\textwidth}{\textbf{13 (a)}}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{Pseudocode for training procedure:}\\
+\begin{enumerate}
+\item Input
+\begin{itemize}
+    \item x: training data
+    \item y: training labels
+    \item c: smoothing constant for covariance matrices
+\end{itemize}
+\item Initialize
+\begin{itemize}
+    \item x\_train: 80\% of x
+    \item x\_val: 20\% of x
+    \item y\_train: 80\% of y
+    \item y\_val: 20\% of y
+    \item $\pi_k$: class $k$ frequencies
+    \item $\mu_k$: class $k$ mean vector
+    \item $\Sigma_k$: class $k$ covariance matrices
+    \item qda: Gaussian generative model
+\end{itemize}
+\item Iterate
+\begin{itemize}
+    \item For each class $k$ in {0, 1, ..., 9}:
+    \begin{itemize}
+        \item Compute $\pi_k$ as the fraction of training points in class $k$
+        \item Compute $\mu_k$ as the mean of training points in class $k$
+        \item Compute $\Sigma_k$ as the covariance of training points in class $k$
+        \item Smooth $\Sigma_k$ by adding $cI$ to it
+        \item Store each $\pi_k$, $\mu_k$, and $\Sigma_k$
+    \end{itemize}
+\end{itemize}
+\item Evaluate
+\begin{itemize}
+    \item For each point in the validation set(x\_val) and each c value tested:
+    \begin{itemize}
+        \item Compute average accuracy of the model over all classes
+        \item Store the accuracy for each c value
+        \item Choose the c value that gives the best accuracy
+        \item Store the best c value
+    \end{itemize}
+    \item Compute the final model using the best c value
+    \item Store each $\pi_k$, $\mu_k$, and $\Sigma_k$ for the final model
+\end{itemize}
+\end{enumerate}
+
+\newpage
+\parbox{\textwidth}{\textbf{13 (b)}}
+\noindent\rule{\textwidth}{0.4pt}\\
+\begin{itemize}
+    \item \parbox{\textwidth}{A single value of $c=0.95$ for all ten classes.}\\
+    \item \parbox{\textwidth}{The value of $c$ was chosen based on the validation set accuracy.}\\
+    \item \parbox{\textwidth}{The accuracy for $c=0.95$ was $0.8742$ or 87.42\%.}\\
+\end{itemize}
+
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{hw3_13b.png} 
+\caption{Results from c value testing}
+\end{figure}
+
+\newpage
+\parbox{\textwidth}{\textbf{13 (c)}}
+\noindent\rule{\textwidth}{0.4pt}\\
+\begin{itemize}
+    \item \parbox{\textwidth}{The model with $c=0.95$ predicted 1178 out of 10,000 incorrectly.}\\
+    \item \parbox{\textwidth}{Therefore, the error rate on the MNIST test set was 0.1178 or 11.78\%.}\\
+    \item \parbox{\textwidth}{Note: The accuracy of the model on the MNIST test set (88.22\%) was very close to accuracy on the training set(87.42)\%.}\\
+\end{itemize}
+
+\newpage
+\parbox{\textwidth}{\textbf{13 (d)}}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{digit1.png}
+        \caption{5 classified as 3}
+        \label{fig:digit1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{digit2.png}
+        \caption{3 classified as 2}
+        \label{fig:digit2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{digit3.png}
+        \caption{5 classified as 8}
+        \label{fig:digit3}
+    \end{subfigure}
+    
+    \vspace{1cm}
+    
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{digit4.png}
+        \caption{1 classified as 8}
+        \label{fig:digit4}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{digit5.png}
+        \caption{5 classified as 8}
+        \label{fig:digit5}
+    \end{subfigure}
+
+    \caption{Examples of misclassified digits from the test set}
+    \label{fig:misclassified}
+\end{figure}
+
 \end{document}
