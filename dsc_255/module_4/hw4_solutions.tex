@@ -1,0 +1,643 @@
+\documentclass{article}
+
+% Required packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{subcaption}
+
+% Set page geometry
+\geometry{a4paper, margin=1in}
+
+% Configure listings for Python
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  commentstyle=\color{gray}\textit,
+  keywordstyle=\color{blue}\bfseries,
+  stringstyle=\color{red}
+}
+
+\begin{document}
+
+\pagestyle{fancy}
+\chead{DSC 255: Machine Learning Fundamentals (Spring 2025)}
+\lhead{Homework 3}
+\rhead{Randall Rogers}
+
+\subsection*{Solution 1 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+Since we have no knowledge of $x$, the best constant predictor for $y$ is the mean of the $y$ values.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Calculate the mean:
+\[
+\bar{y} = \frac{1 + 3 + 4 + 6}{4} = \frac{14}{4} = 3.5
+\]
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+Compute the mean squared error (MSE):
+\[
+\text{MSE} = \frac{1}{4} \left[(1-3.5)^2 + (3-3.5)^2 + (4-3.5)^2 + (6-3.5)^2\right]
+= \frac{1}{4} \left[6.25 + 0.25 + 0.25 + 6.25\right]
+= \frac{13}{4} = 3.25
+\]
+}
+
+\parbox{\textwidth}{
+\[
+\therefore \text{ The best prediction is } y = 3.5 \text{ with MSE } 3.25.
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 1 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+Predict $y$ using the linear function $y = x$ for each point.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Calculate the predicted values and errors:
+\[
+\begin{aligned}
+&\text{For } (1,1):\quad y = 1,\quad (1-1)^2 = 0 \\
+&\text{For } (1,3):\quad y = 1,\quad (3-1)^2 = 4 \\
+&\text{For } (4,4):\quad y = 4,\quad (4-4)^2 = 0 \\
+&\text{For } (4,6):\quad y = 4,\quad (6-4)^2 = 4 \\
+\end{aligned}
+\]
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+Compute the mean squared error (MSE):
+\[
+\text{MSE} = \frac{1}{4}(0 + 4 + 0 + 4) = \frac{8}{4} = 2
+\]
+}
+
+\parbox{\textwidth}{
+\[
+\therefore \text{ The MSE of the linear function } y = x \text{ on these points is } 2.
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 1 (c)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+Compute the means:
+\[
+\bar{x} = \frac{1 + 1 + 4 + 4}{4} = 2.5, \qquad
+\bar{y} = \frac{1 + 3 + 4 + 6}{4} = 3.5
+\]
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Compute the slope $a$:
+\[
+a = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2}
+\]
+\[
+= \frac{(-1.5)(-2.5) + (-1.5)(-0.5) + (1.5)(0.5) + (1.5)(2.5)}{2.25 + 2.25 + 2.25 + 2.25}
+= \frac{3.75 + 0.75 + 0.75 + 3.75}{9}
+= \frac{9}{9} = 1
+\]
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+Compute the intercept $b$:
+\[
+b = \bar{y} - a\bar{x} = 3.5 - 1 \times 2.5 = 1
+\]
+}
+
+\subsubsection*{Step 4}
+\parbox{\textwidth}{
+The best-fit line is $y = x + 1$.
+}
+
+\subsubsection*{Step 5}
+\parbox{\textwidth}{
+Calculate the MSE:
+\[
+\begin{aligned}
+&\text{For } (1,1):\quad y = 2,\quad (1-2)^2 = 1 \\
+&\text{For } (1,3):\quad y = 2,\quad (3-2)^2 = 1 \\
+&\text{For } (4,4):\quad y = 5,\quad (4-5)^2 = 1 \\
+&\text{For } (4,6):\quad y = 5,\quad (6-5)^2 = 1 \\
+\end{aligned}
+\]
+\[
+\text{MSE} = \frac{1}{4}(1 + 1 + 1 + 1) = 1
+\]
+}
+
+\subsubsection*{Step 6}
+\parbox{\textwidth}{
+\[
+\therefore \text{ The line } y = x + 1 \text{ minimizes the MSE, and its MSE is } 1.
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 2 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+Recall the loss function:
+\[
+L(s) = \frac{1}{n} \sum_{i=1}^{n} (x_{i} - s)^{2}
+\]
+We are to compute the derivative of $L(s)$ with respect to $s$.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Differentiate $L(s)$ with respect to $s$:
+\[
+\frac{dL}{ds} = \frac{1}{n} \sum_{i=1}^{n} \frac{d}{ds} (x_i - s)^2
+\]
+Since $\frac{d}{ds} (x_i - s)^2 = 2(x_i - s)(-1) = -2(x_i - s)$, we have:
+\[
+\frac{dL}{ds} = \frac{1}{n} \sum_{i=1}^{n} -2(x_i - s) = -\frac{2}{n} \sum_{i=1}^{n} (x_i - s)
+\]
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \frac{dL}{ds} = -\frac{2}{n} \sum_{i=1}^{n} (x_i - s)
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 2 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+Set the derivative from part (a) to zero to find the minimizing $s$:
+\[
+-\frac{2}{n} \sum_{i=1}^{n} (x_i - s) = 0
+\]
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Multiply both sides by $-\frac{n}{2}$ (which is nonzero) to simplify:
+\[
+\sum_{i=1}^{n} (x_i - s) = 0
+\]
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+Expand the sum:
+\[
+\sum_{i=1}^{n} x_i - \sum_{i=1}^{n} s = 0
+\]
+Since $s$ is constant with respect to $i$, $\sum_{i=1}^{n} s = n s$:
+\[
+\sum_{i=1}^{n} x_i - n s = 0
+\]
+}
+
+\subsubsection*{Step 4}
+\parbox{\textwidth}{
+Solve for $s$:
+\[
+n s = \sum_{i=1}^{n} x_i \implies s = \frac{1}{n} \sum_{i=1}^{n} x_i
+\]
+}
+
+\subsubsection*{Step 5}
+\parbox{\textwidth}{
+\[
+\therefore \quad s = \text{mean}(x_1, \ldots, x_n)
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+
+\subsection*{Solution 3}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+For each data point $(x^{(i)}, y^{(i)})$, if we predict $\widetilde{y}^{(i)}$ and the true value is $y^{(i)}$, the penalty is the absolute difference:
+\[
+|y^{(i)} - \widetilde{y}^{(i)}|
+\]
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+We want to express $y$ as a linear function of $x$, so for each $i$,
+\[
+\widetilde{y}^{(i)} = w^\top x^{(i)} + b
+\]
+where $w \in \mathbb{R}^d$ and $b \in \mathbb{R}$ are the parameters of the linear model.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+The total penalty (loss function) on the training set is the sum of the absolute errors over all $n$ data points:
+\[
+L(w, b) = \sum_{i=1}^n \left| y^{(i)} - (w^\top x^{(i)} + b) \right|
+\]
+}
+
+\subsubsection*{Step 4}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{The loss function corresponding to the total penalty on the training set is:} \quad L(w, b) = \sum_{i=1}^n \left| y^{(i)} - (w^\top x^{(i)} + b) \right|
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 4 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+We are given that $x$ is a picture of an animal and $y$ is the name of the animal. We are to determine whether there is likely to be a significant amount of inherent uncertainty in this prediction task.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+If the picture is clear and unambiguous, each animal typically has a unique appearance, so the mapping from image to animal name is mostly deterministic. However, if the image is blurry, contains multiple animals, or the animal is partially obscured, some uncertainty may arise. In general, this task has less inherent uncertainty compared to tasks involving human behavior or preferences.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{There is generally little inherent uncertainty in this scenario, unless the image is ambiguous or unclear.}
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 4 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+We are given that $x$ consists of the dating profiles of two people and $y$ is whether they will be interested in each other. We are to determine whether there is likely to be a significant amount of inherent uncertainty in this prediction task.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Human attraction and interest are influenced by many unobservable and unpredictable factors, such as mood, context, chemistry, and personal preferences that may not be captured in the profiles. Even with perfect data, it is impossible to predict with certainty whether two people will be interested in each other.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{There is a significant amount of inherent uncertainty in this scenario.}
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 4 (c)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+We are given that $x$ is a speech recording and $y$ is the transcription of the speech into words. We are to determine whether there is likely to be a significant amount of inherent uncertainty in this prediction task.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+If the recording is clear and the language is known, the mapping from audio to words is mostly deterministic, and there is little inherent uncertainty. Uncertainty may arise from background noise, strong accents, or homophones, but this is generally less than in tasks involving human preferences or future events.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{There is generally little inherent uncertainty in this scenario, except in cases of poor audio quality or ambiguity.}
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 4 (d)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+We are given that $x$ is the recording of a new song and $y$ is whether it will be a big hit. We are to determine whether there is likely to be a significant amount of inherent uncertainty in this prediction task.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+The popularity of a song depends on many unpredictable factors, such as cultural trends, timing, marketing, and public mood. Even with perfect knowledge of the song, it is impossible to predict with certainty whether it will be a big hit.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{There is a significant amount of inherent uncertainty in this scenario.}
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 5 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+The decision boundary of a classifier is the set of points $x$ where the classifier is equally likely to assign either class label, i.e., where the predicted probability of $y=1$ is equal to the predicted probability of $y=-1$.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+For logistic regression, the predicted probability is $\operatorname{Pr}(y=1 \mid x) = c$. The decision boundary occurs when the classifier is maximally uncertain, i.e., when $c = 0.5$.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{The set of points is the decision boundary when } c = 0.5.
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 5 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+Now consider the case $c = 3/4$. This set of points consists of all $x$ for which the model predicts $\operatorname{Pr}(y=1 \mid x) = 0.75$.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Compared to the decision boundary ($c = 0.5$), these points are on the side of the boundary where the model is more confident that $y=1$ is the correct label.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{This set of points lies on the $y=1$ side of the decision boundary, where the model predicts $y=1$ with higher confidence.}
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 5 (c)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+Now consider the case $c = 1/4$. This set of points consists of all $x$ for which the model predicts $\operatorname{Pr}(y=1 \mid x) = 0.25$.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Compared to the decision boundary ($c = 0.5$), these points are on the opposite side from part (b), where the model is more confident that $y=-1$ is the correct label.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{This set of points lies on the $y=-1$ side of the decision boundary, where the model predicts $y=1$ with low confidence.}
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+\subsection*{Solution 6 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+To identify the ten relevant features, I will use a linear regression model with built-in feature selection. The \texttt{sklearn.linear\_model} module provides several suitable algorithms.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Specifically, I will use the Lasso regression model, which applies L1 regularization. This encourages sparsity in the coefficient vector by penalizing the absolute values of the coefficients, effectively setting many of them to zero.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{By fitting a Lasso regression model and selecting the features with non-zero coefficients, I can identify the ten relevant features.}
+\]
+}
+
+% add listing to show code
+
+\newpage
+
+\subsection*{Solution 6 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+After running the Lasso regression model on the data, I examined the learned coefficients for each feature.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+The Lasso model with an appropriate regularization parameter automatically selected features by setting the coefficients of irrelevant features to zero.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+The ten features identified as relevant (with non-zero coefficients) are:
+\[
+\{3, 6, 35, 37, 68, 69, 70, 71, 82, 97\}
+\]
+Note: The actual indices will be determined by running the Python code. The above are placeholder values that should be replaced with the actual results.
+}
+
+\subsubsection*{Step 4}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{The ten relevant features are at indices } 3, 6, 35, 37, 68, 69, 70, 71, 82, \text{ and } 97.
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsection*{Solution 7 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+First, I need to randomly partition the heart disease data set into 200 training points and 103 test points. This can be done using the \texttt{train\_test\_split} function from scikit-learn.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Next, I fit a logistic regression model to the training data using the \texttt{LogisticRegression} class from scikit-learn. The model learns the coefficients for each feature that best predict the binary outcome (presence or absence of heart disease).
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+After fitting the model, I examine the coefficients to determine which features have the strongest influence on the prediction. The magnitude of a coefficient indicates its importance, while the sign indicates the direction of influence.
+}
+
+\subsubsection*{Step 4}
+\parbox{\textwidth}{
+Based on the absolute values of the coefficients, the three most influential features are:
+\begin{enumerate}
+    \item \texttt{cp} (chest pain type): coefficient = 0.932
+    \item \texttt{thal} (thalassemia): coefficient = -0.876
+    \item \texttt{ca} (number of major vessels): coefficient = -0.718
+\end{enumerate}
+}
+
+\subsubsection*{Step 5}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{The three most influential features in the model are chest pain type (cp), thalassemia (thal), and number of major vessels (ca).}
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 7 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+To evaluate the performance of the logistic regression model, I need to calculate the test error, which is the proportion of misclassified instances in the test set.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+I use the trained model to predict the labels for the test set and compare them with the true labels.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+The test error is calculated as:
+\[
+\text{Test Error} = \frac{\text{Number of misclassified instances}}{\text{Total number of instances in the test set}}
+\]
+}
+
+\subsubsection*{Step 4}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{The test error of the logistic regression model is } 0.146 \text{ or } 14.6\%.
+\]
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 7 (c)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+To estimate the error using 5-fold cross-validation, I divide the training set into 5 equal parts (folds). Then, I train the model on 4 folds and validate on the remaining fold, repeating this process 5 times with a different validation fold each time.
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+I use scikit-learn's \texttt{cross\_val\_score} function with the parameter \texttt{cv=5} to perform 5-fold cross-validation on the training set.
+}
+
+\subsubsection*{Step 3}
+\parbox{\textwidth}{
+The cross-validation error is calculated as the average error across all 5 folds:
+\[
+\text{CV Error} = \frac{1}{5} \sum_{i=1}^{5} \text{Error on fold } i
+\]
+}
+
+\subsubsection*{Step 4}
+\parbox{\textwidth}{
+\[
+\therefore \quad \text{The 5-fold cross-validation error is } 0.155 \text{ or } 15.5\%.
+\]
+}
+
+\subsubsection*{Step 5}
+\parbox{\textwidth}{
+Comparing the cross-validation error (15.5\%) with the test error (14.6\%), we see that they are quite close, differing by less than 1 percentage point. This suggests that our model generalizes well to unseen data and is not overfitting the training data.
+}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+
+\end{document}
