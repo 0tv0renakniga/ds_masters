@@ -563,19 +563,23 @@ $$x_1^2 + x_2^2 + \ldots + x_d^2 = 25$$
 \parbox{\textwidth}{Consider the function $f(x) = 2x_1 -x_2+6x_3$ can be written as $w \cdot x$ for $x$ $\in$ $\mathbb{R}^3$. What is $w$}\\
 \parbox{\textwidth}{\textbf{Solution}}
 \noindent\rule{\textwidth}{0.4pt}\\
+
 \parbox{\textwidth}{The function $f(x) = 2x_1 - x_2 + 6x_3$ can be expressed in the form of a dot product:}\\
-$$f(x) = w \cdot x$$
+
+$$f(x) = w \cdot x$$\\
+
 \parbox{\textwidth}{Where $w$ is a vector in $\mathbb{R}^3$ and $x$ is a vector in $\mathbb{R}^3$.}\\
-\parbox{\textwidth}{To express $f(x)$ in this form, we can identify the components of the vector $w$ as follows:}\\
-$$w = \begin{bmatrix} 2 \\ -1 \\ 6 \end{bmatrix}$$
-\parbox{\textwidth}{And the vector $x$ can be expressed as:}\\
-$$x = \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix}$$
-\parbox{\textwidth}{Thus, we can write:}\\
-$$f(x) = w \cdot x = \begin{bmatrix} 2 \\ -1 \\ 6 \end{bmatrix} \cdot \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix}$$
-\parbox{\textwidth}{This gives us:}\\
-$$f(x) = 2x_1 - x_2 + 6x_3$$
+
+\parbox{\textwidth}{We can then express $f(x)$ as the dot product of two matrices:}\\
+
+$$f(x) = \begin{bmatrix} w_1 \\ w_2 \\ w_3 \end{bmatrix} \cdot \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = w_1\cdot x_1 +w_2\cdot x_2 +w_3\cdot x_3$$
+
+\parbox{\textwidth}{It follows that: $w_1 = 2 \hspace{0.2cm} w_2=-1 \hspace{0.2cm} w_3 = 6$}\\
+
 \parbox{\textwidth}{$\therefore$ the vector $w$ is:}\\
+
 $$w = \begin{bmatrix} 2 \\ -1 \\ 6 \end{bmatrix}$$
+
 \noindent\rule{\textwidth}{0.4pt}\\
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -585,9 +589,12 @@ $$w = \begin{bmatrix} 2 \\ -1 \\ 6 \end{bmatrix}$$
 
 \parbox{\textwidth}{\textbf{Solution}}
 \noindent\rule{\textwidth}{0.4pt}\\
+
 \parbox{\textwidth}{Let the dimensions of $A$ be $m \times n$ and the dimensions of $B$ be $n \times p$.}\\
+
 \parbox{\textwidth}{The product $AB$ will have dimensions $m \times p$.}\\
-\parbox{\textwidth}{Given that $AB$ has dimensions $10 \times 20$, we have:}\\
+
+\parbox{\textwidth}{Given that $AB$ has dimensions $10 \times 20$, and $A = m \times 30$:}\\
 $$m = 10 \quad \text{and} \quad p = 20$$
 \parbox{\textwidth}{Also, we know that $A$ has $30$ columns, which means:}\\
 $$n = 30$$
@@ -651,7 +658,7 @@ $$X \in \mathbb{R}^{n \times d}$$
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\parbox{\textwidth}{The $(i,j)$ entry of ${X}^TX$ is the dot product of the $i$-th row of $X$ and the $j$-th column of $X^T$.}\\
+\parbox{\textwidth}{The $(i,j)$ entry of ${X}^TX$ is the dot product of the $i$-th row of $X$ and the $j$-th column of $X^T$ }\\
 
 \parbox{\textwidth}{This is simply the sum of the products of the corresponding elements:}\\
 
@@ -659,7 +666,7 @@ $$(X^TX)_{ij} = \sum_{k=1}^{d} x^{(i)}_k x^{(j)}_k$$
 
 \parbox{\textwidth}{This is the inner product of the $i$-th and $j$-th data points.}\\
 
-\parbox{\textwidth}{$\therefore$ the $(i,j)$ entry of ${X}^TX$ is the inner product of the $i$-th and $j$-th data points.}\\
+\parbox{\textwidth}{$\therefore$ the $(i,j)$ entry of ${X}^TX$ is the inner product of the $i$-th and $j$-th data points or $(x^{(n)},x^{(n)})$.}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 \noindent\rule{\textwidth}{0.4pt}\\
@@ -773,6 +780,7 @@ $$A = \begin{bmatrix}
 \parbox{\textwidth}{\textbf{Solution (a)}}
 \noindent\rule{\textwidth}{0.4pt}\\
 \parbox{\textwidth}{The determinant of a diagonal matrix is the product of its diagonal elements:}\\
+
 $$|A| = 1 \cdot 2 \cdot 3 \cdot 4 \cdot 5 \cdot 6 \cdot 7 \cdot 8 = 8! = 40320$$
 
 \parbox{\textwidth}{$\therefore$ the determinant of $A= 40320$}\\
