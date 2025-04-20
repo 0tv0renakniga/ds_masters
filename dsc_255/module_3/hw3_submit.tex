@@ -36,6 +36,44 @@
   keywordstyle=\color{blue}\bfseries,
   stringstyle=\color{red}
 }
+% pseudocode style
+\lstdefinestyle{pseudocodestyle}{
+  language={}, % Use an empty language for pseudocode
+  basicstyle=\ttfamily\footnotesize,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  commentstyle=\color{gray}\textit,
+  keywordstyle=\color{olive}\bfseries,
+  stringstyle=\color{red},
+  morekeywords={FUNCTION, RETURN, FOR, IF, ELSE, END, SET, INITIALIZE, CALCULATE, Split, Normalize}
+}
+
+% python style
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  commentstyle=\color{gray}\textit,
+  keywordstyle=\color{blue}\bfseries,
+  stringstyle=\color{red}
+}
 
 \begin{document}
 
@@ -623,73 +661,172 @@ $$A^{-1} = \begin{bmatrix}
 \noindent\rule{\textwidth}{0.4pt}\\
 \newpage
 \subsection*{Solution 13 (a)}
-\noindent\rule{\textwidth}{0.4pt}\\
-\parbox{\textwidth}{Pseudocode for training procedure:}\\
-\begin{enumerate}
-\item Input
-\begin{itemize}
-    \item x: training data
-    \item y: training labels
-    \item c: smoothing constant for covariance matrices
-\end{itemize}
-\item Initialize
-\begin{itemize}
-    \item x\_train: 80\% of x
-    \item x\_val: 20\% of x
-    \item y\_train: 80\% of y
-    \item y\_val: 20\% of y
-    \item $\pi_k$: class $k$ frequencies
-    \item $\mu_k$: class $k$ mean vector
-    \item $\Sigma_k$: class $k$ covariance matrices
-    \item qda: Gaussian generative model
-\end{itemize}
-\item Iterate
-\begin{itemize}
-    \item For each class $k$ in {0, 1, ..., 9}:
-    \begin{itemize}
-        \item Compute $\pi_k$ as the fraction of training points in class $k$
-        \item Compute $\mu_k$ as the mean of training points in class $k$
-        \item Compute $\Sigma_k$ as the covariance of training points in class $k$
-        \item Smooth $\Sigma_k$ by adding $cI$ to it
-        \item Store each $\pi_k$, $\mu_k$, and $\Sigma_k$
-    \end{itemize}
-\end{itemize}
-\item Evaluate
-\begin{itemize}
-    \item For each point in the validation set(x\_val) and each c value tested:
-    \begin{itemize}
-        \item Compute average accuracy of the model over all classes
-        \item Store the accuracy for each c value
-        \item Choose the c value that gives the best accuracy
-        \item Store the best c value
-    \end{itemize}
-    \item Compute the final model using the best c value
-    \item Store each $\pi_k$, $\mu_k$, and $\Sigma_k$ for the final model
-\end{itemize}
-\end{enumerate}
 
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\parbox{\textwidth}{Pseudocode for training procedure:}\\
+
+\begin{lstlisting}[style=pseudocodestyle]
+FUNCTION fit_generative_model(x, y):
+    SET k = 10 (number of classes)
+    SET d = number of features in x
+    INITIALIZE mu AS kxd matrix of zeros
+    INITIALIZE sigma AS kxdxd matrix of zeros
+    INITIALIZE pi AS vector of k zeros
+
+    Normalize x to range [0,1]
+
+    Split data into training (80%) and validation (20%) sets
+
+    FUNCTION calc_priors_means_covariances(x, y, c):
+        FOR each class j from 0 to k-1:
+            Find all samples where y equals j
+            CALCULATE prior probability pi[j] AS fraction of samples in class j
+            CALCULATE mean vector mu[j] from samples in class j
+            IF c > 0:
+                CALCULATE covariance matrix sigma[j] with regularization c
+            ELSE:
+                CALCULATE covariance matrix sigma[j] without regularization
+        RETURN mu, sigma, pi
+
+    FUNCTION fit(x_train, y_train, x_val, y_val, c):
+        CALCULATE mu, sigma, pi using training data with regularization c
+        INITIALIZE score matrix for validation samples
+
+        FOR each class label from 0 to k-1:
+            Create multivariate normal distribution with mean mu[label] and covariance sigma[label]
+            CALCULATE log probability for all validation samples (vectorized)
+
+        Make predictions by finding class with highest score for each sample
+        Count number of errors (predictions != y_val)
+        RETURN number of errors
+
+    FUNCTION find_best_c():
+        INITIALIZE list of c values to test
+        INITIALIZE empty list for errors
+        INITIALIZE dictionary to store c values and errors
+
+        FOR each c value:
+            CALCULATE error using fit function
+            Store c and error in lists and dictionary
+
+        Find c with minimum error
+        RETURN best c, c_error_dictionary
+
+    CALCULATE best c using find_best_c function
+
+    CALCULATE final mu, sigma, pi using entire dataset with best c
+
+    RETURN mu, sigma, pi
+END FUNCTION
+\end{lstlisting}
+
+\parbox{\textwidth}{Python code for training procedure:}\\
+\begin{lstlisting}[style=pythonstyle]
+def fit_generative_model(x,y):
+    k = 10  # labels 0,1,...,k-1
+    d = (x.shape)[1]  # number of features
+    mu = np.zeros((k,d))
+    sigma = np.zeros((k,d,d))
+    pi = np.zeros(k)
+
+    ## normalize data [0,1]
+    x = x.astype(np.float32)/255.0
+
+    ## initialize training set and validation set to find best regularization parameter c
+    ## note: we will do a 80/20 split of x,y
+    x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.2, random_state=17)
+
+    def calc_priors_means_covariances(x,y,c):
+        ## calc priors, means, and covariances
+        if c > 0:
+            for j in range(k):
+                indices = (y==j).flatten()
+                x_j = x[indices]
+                pi[j] = x_j.shape[0]/x.shape[0]
+                mu[j] = np.mean(x_j, axis=0)
+                sigma[j] = np.cov(x_j.T) + c*np.eye(d)
+        else:
+            for j in range(k):
+                indices = (y==j).flatten()
+                x_j = x[indices]
+                pi[j] = x_j.shape[0]/x.shape[0]
+                mu[j] = np.mean(x_j, axis=0)
+                sigma[j] = np.cov(x_j.T) 
+        return mu, sigma, pi
+
+    ## evaluate c using multivariate normal distribution to the training set and validation set
+    def fit(x_train,y_train,x_val,y_val,c):
+        print(f'calculating mu, sigma, pi for c: {c}')
+        mu, sigma, pi = calc_priors_means_covariances(x_train,y_train,c)
+        score = np.zeros((len(x_val),k))
+        print(f'calc score for c: {c}')
+        for label in range(0,k):
+            rv = multivariate_normal(mean=mu[label], cov=sigma[label],allow_singular=True)
+            score[:,label] = np.log(pi[label]) + rv.logpdf(x_val[:,:])
+            #for i in range(0,len(x_val)):
+                #score[i,label] = np.log(pi[label]) + rv.logpdf(x_val[i,:])
+        predictions = np.argmax(score, axis=1)
+        errors = np.sum(predictions != y_val)
+        print(f'c: {c}, errors: {errors}')
+        return errors
+
+    ## find best c
+    def find_best_c():
+        ## initialize c values to test and an empty list to store errors
+        c_values = [0,0.0001,0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000]
+        errors = []
+        ## loop through c values and calculate error
+        for c in c_values:
+            print("Calculating error for c: ", c)
+            error = fit(x_train,y_train,x_val,y_val,c)
+            errors.append(error)
+            print("c: ", c, " error: ", error)
+            c_error_dict['c_value'].append(c)
+            c_error_dict['error'].append(error)
+        ## find best c where error is minimum
+        best_c = c_values[np.argmin(errors)]
+
+        return best_c
+
+    ## calculate best c
+    best_c, c_error_dict = find_best_c()
+    
+    ## calc mu, sigma, pi using best c
+    mu, sigma, pi = calc_priors_means_covariances(x,y,best_c)
+
+    # Halt and return parameters
+    return mu, sigma, pi
+    
+\end{lstlisting}
+\noindent\rule{\textwidth}{0.4pt}\\
 \newpage
-\parbox{\textwidth}{\textbf{Solution 13 (b)}}
+\subsection*{Solution 13 (b)}
 \noindent\rule{\textwidth}{0.4pt}\\
 \begin{itemize}
-    \item \parbox{\textwidth}{A single value of $c=0.95$ for all ten classes.}\\
-    \item \parbox{\textwidth}{The value of $c$ was chosen based on the validation set accuracy.}\\
-    \item \parbox{\textwidth}{The accuracy for $c=0.95$ was $0.8742$ or 87.42\%.}\\
+    \item \parbox{\textwidth}{A single value of $c=0.1$ for all ten classes.}\\
+    \item \parbox{\textwidth}{The value of $c$ was chosen based on the validation set error rate.}\\
+    \begin{itemize}
+        \item \parbox{\textwidth}{The model returned 608 errors for the 12000 validation labels from the training labels.}\\
+    \end{itemize}
 \end{itemize}
 
 \begin{figure}[H]
-\includegraphics[width=1\textwidth]{hw3_13b.png} 
+\includegraphics[width=1\textwidth]{hw3_13_b.png} 
 \caption{Results from c value testing}
 \end{figure}
+\noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
+
 \parbox{\textwidth}{\textbf{Solution 13 (c)}}
 \noindent\rule{\textwidth}{0.4pt}\\
 \begin{itemize}
-    \item \parbox{\textwidth}{The model with $c=0.95$ predicted 1178 out of 10,000 incorrectly.}\\
-    \item \parbox{\textwidth}{Therefore, the error rate on the MNIST test set was 0.1178 or 11.78\%.}\\
-    \item \parbox{\textwidth}{Note: The accuracy of the model on the MNIST test set (88.22\%) was very close to accuracy on the training set(87.42)\%.}\\
+    \item \parbox{\textwidth}{The accuracy for $c=0.1$ on the test data was $0.9423$ or $94.23\%$.}\\
+    \item \parbox{\textwidth}{The model with $c=0.1$ predicted 577 out of 10,000 incorrectly.}\\
 \end{itemize}
+\parbox{\textwidth}{$\therefore$ The error rate on the MNIST test set was $0.0577$ or $5.77\%$.}\\
+\noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
 \parbox{\textwidth}{\textbf{Solution 13 (d)}}
@@ -700,21 +837,21 @@ $$A^{-1} = \begin{bmatrix}
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{digit1.png}
-        \caption{5 classified as 3}
+        \caption{1 classified as 8}
         \label{fig:digit1}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{digit2.png}
-        \caption{3 classified as 2}
+        \caption{9 classified as 7}
         \label{fig:digit2}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{digit3.png}
-        \caption{5 classified as 8}
+        \caption{9 classified as 8}
         \label{fig:digit3}
     \end{subfigure}
     
@@ -723,18 +860,21 @@ $$A^{-1} = \begin{bmatrix}
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{digit4.png}
-        \caption{1 classified as 8}
+        \caption{9 classified as 8}
         \label{fig:digit4}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{digit5.png}
-        \caption{5 classified as 8}
+        \caption{2 classified as 7}
         \label{fig:digit5}
     \end{subfigure}
 
     \caption{Examples of misclassified digits from the test set}
     \label{fig:misclassified}
 \end{figure}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
 \end{document}
