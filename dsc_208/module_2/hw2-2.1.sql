@@ -1,7 +1,9 @@
 /*
+--------------------------------------------------------------------------------------------------
 Question 1: (10 points) Compute the total departure delay of each airline across all flights.
     a. Name the output columns name and delay, in that order.
     [Output relation cardinality: 22 rows]
+--------------------------------------------------------------------------------------------------
 */
 -- Query : Question 1
   SELECT c.name,

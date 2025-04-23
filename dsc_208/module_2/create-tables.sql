@@ -1,12 +1,15 @@
 /* 
- * Create tables for the airline database.
- * This script creates the CARRIERS, MONTHS, WEEKDAYS, and FLIGHTS tables.
- * It also sets up foreign key constraints to ensure data integrity.
- */
+--------------------------------------------------------------------------------------------------
+  Create tables for the airline database.
+  This script creates the CARRIERS, MONTHS, WEEKDAYS, and FLIGHTS tables.
+  It also sets up foreign key constraints to ensure data integrity.
+
 
 -- Run generate_hw2_db.sh to create the database
 -- and load the data into the tables.
 
+--------------------------------------------------------------------------------------------------
+ */
 
 -- Enable foreign key support
 PRAGMA foreign_keys=ON;

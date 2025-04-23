@@ -1,7 +1,9 @@
 /*
+--------------------------------------------------------------------------------------------------
 Question 7: Write a query that returns the artist name and total number of tracks of the
 Blues bands.
 [Output relation cardinality: 5 rows]
+--------------------------------------------------------------------------------------------------
 */
 -- Query : Question 7
   SELECT ar.Name,
