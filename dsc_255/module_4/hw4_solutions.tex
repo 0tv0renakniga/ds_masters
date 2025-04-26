@@ -257,178 +257,145 @@ Set the derivative from part (a) to zero to find the value of $s$:
 \subsection*{Solution 3}
 \noindent\rule{\textwidth}{0.4pt}\\
 
+\subsubsection*{Proof:}
 \parbox{\textwidth}{
-For each data point $(x^{(i)}, y^{(i)})$, where $x^{(i)}$ $\in$ $\mathbb{R}^d$ and $y^{(i)}$ $\in$ $\mathbb{R}$. If we predict $\hat{y}^{(i)}$ and the true value is $y^{(i)}$, the penalty is the absolute difference:
+We are given a dataset ($DS$) such that for all data points $(x^{(i)}, y^{(i)})$, where $x^{(i)}$ $\in$ $\mathbb{R}^d$ and $y^{(i)}$ $\in$ $\mathbb{R}$.}\\
+
+\parbox{\textwidth}{If we predict $\hat{y}^{(i)}$ and the true value is $y^{(i)}$, the penalty is the absolute difference:
 \[
 |y^{(i)} - \hat{y}^{(i)}|
 \]
 }
 
 \parbox{\textwidth}{
-Since we want to express $y$ as a linear function of $x$, so for each $i$, we can express y as:
+Let $x^{(i)}$ be the vector of all $x^{(i)} \in DS$ and $m$ be the vector of slope coefficients.
+}\\
+
+$$
+x^{(i)}=\begin{bmatrix}
+x^{(1)}\\x^{(2)}\\\vdots\\x^{(n)}
+\end{bmatrix}
+\hspace{1cm}
+m=\begin{bmatrix}
+  m^{(1)} \\m^{(2)} \\\vdots \\m^{(n)}
+  \end{bmatrix}
+$$
+
+\parbox{\textwidth}{
+Assume $y$ as a linear function of $x$, we can express $\hat{y}^{(i)}$ as:
 \[
-{y}^{(i)} = w^\top x^{(i)} + b
+\hat{y}^{(i)} = m^\top \cdot x^{(i)} + b
 \]
-where $w \in \mathbb{R}^d$ and $b \in \mathbb{R}$ are the parameters of the linear model.
+where $m \in \mathbb{R}^d$ and $b \in \mathbb{R}$ are the parameters of the linear model.
+}\\
+
+\parbox{\textwidth}{
+The total penalty on the training set with $n$ points is the sum of the absolute errors over all $n$ data points:
+}
+$$\sum_{i=1}^n \left| y^{(i)} - \hat{y}^{(i)} \right|$$
+
+\parbox{\textwidth}{
+Substituting $\hat{y}^{(i)}=m^\top \cdot x^{(i)} + b$ into the equation yields:
 }
 
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-The total penalty (loss function) on the training set is the sum of the absolute errors over all $n$ data points:
-\[
-L(w, b) = \sum_{i=1}^n \left| y^{(i)} - (w^\top x^{(i)} + b) \right|
-\]
-}
+$$  \sum_{i=1}^n \left| y^{(i)} - (m^\top \cdot x^{(i)} + b) \right|$$
 
-\subsubsection*{Step 4}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{The loss function corresponding to the total penalty on the training set is:} \quad L(w, b) = \sum_{i=1}^n \left| y^{(i)} - (w^\top x^{(i)} + b) \right|
-\]
-}
+
+\subsubsection*{\normalfont}{$\therefore$The loss function corresponding to the total penalty on the training set is:}
+$$L(m, b) = \sum_{i=1}^n \left| y^{(i)} - (m^\top \cdot x^{(i)} + b) \right|$$
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
 
 \subsection*{Solution 4 (a)}
-\noindent\rule{\textwidth}{0.4pt}\\
+\noindent\rule{\textwidth}{0.4pt}
 
-\subsubsection*{Step 1}
+\subsubsection*{}
 \parbox{\textwidth}{
-We are given that $x$ is a picture of an animal and $y$ is the name of the animal. We are to determine whether there is likely to be a significant amount of inherent uncertainty in this prediction task.
+Given that $x$ is a picture of an animal and $y$ is the name of the animal. Typically each animal has a unique appearance, then the mapping from $x$ to $y$ is deterministic. 
 }
 
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-If the picture is clear and unambiguous, each animal typically has a unique appearance, so the mapping from image to animal name is mostly deterministic. However, if the image is blurry, contains multiple animals, or the animal is partially obscured, some uncertainty may arise. In general, this task has less inherent uncertainty compared to tasks involving human behavior or preferences.
-}
+\subsubsection*{\normalfont}{$\therefore$ there is generally little inherent uncertainty in this scenario}
 
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{There is generally little inherent uncertainty in this scenario, unless the image is ambiguous or unclear.}
-\]
-}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
 
 \subsection*{Solution 4 (b)}
-\noindent\rule{\textwidth}{0.4pt}\\
+\noindent\rule{\textwidth}{0.4pt}
 
-\subsubsection*{Step 1}
+\subsubsection*{}
 \parbox{\textwidth}{
-We are given that $x$ consists of the dating profiles of two people and $y$ is whether they will be interested in each other. We are to determine whether there is likely to be a significant amount of inherent uncertainty in this prediction task.
+Given that $x$ consists of the dating profiles of two people and $y$ is whether they will be interested in each other. A person's interest in others depends on many observable and unobservable factors. 
 }
 
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-Human attraction and interest are influenced by many unobservable and unpredictable factors, such as mood, context, chemistry, and personal preferences that may not be captured in the profiles. Even with perfect data, it is impossible to predict with certainty whether two people will be interested in each other.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{There is a significant amount of inherent uncertainty in this scenario.}
-\]
-}
+\subsubsection*{\normalfont}{$\therefore$ there is a significant amount of inherent uncertainty in this scenario.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
 
 \subsection*{Solution 4 (c)}
-\noindent\rule{\textwidth}{0.4pt}\\
-
-\subsubsection*{Step 1}
+\noindent\rule{\textwidth}{0.4pt}
+\subsubsection*{}
 \parbox{\textwidth}{
-We are given that $x$ is a speech recording and $y$ is the transcription of the speech into words. We are to determine whether there is likely to be a significant amount of inherent uncertainty in this prediction task.
+Given that $x$ is a speech recording and $y$ is the transcription of the speech into words. Assuming the recording is high quality then the mapping from $x$ to $y$ is deterministic. 
 }
 
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-If the recording is clear and the language is known, the mapping from audio to words is mostly deterministic, and there is little inherent uncertainty. Uncertainty may arise from background noise, strong accents, or homophones, but this is generally less than in tasks involving human preferences or future events.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{There is generally little inherent uncertainty in this scenario, except in cases of poor audio quality or ambiguity.}
-\]
-}
+\subsubsection*{\normalfont}{$\therefore$ there is generally little inherent uncertainty in this scenario.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
 
 \subsection*{Solution 4 (d)}
-\noindent\rule{\textwidth}{0.4pt}\\
+\noindent\rule{\textwidth}{0.4pt}
 
-\subsubsection*{Step 1}
+\subsubsection*{}
 \parbox{\textwidth}{
-We are given that $x$ is the recording of a new song and $y$ is whether it will be a big hit. We are to determine whether there is likely to be a significant amount of inherent uncertainty in this prediction task.
+Given that $x$ is the recording of a new song and $y$ is whether it will be a big hit. Whether or not a sing is a hit depends on many factors.
 }
 
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-The popularity of a song depends on many unpredictable factors, such as cultural trends, timing, marketing, and public mood. Even with perfect knowledge of the song, it is impossible to predict with certainty whether it will be a big hit.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{There is a significant amount of inherent uncertainty in this scenario.}
-\]
-}
+\subsubsection*{\normalfont}{$\therefore$ there is a significant amount of inherent uncertainty in this scenario.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
 
 \subsection*{Solution 5 (a)}
-\noindent\rule{\textwidth}{0.4pt}\\
-
-\subsubsection*{Step 1}
+\noindent\rule{\textwidth}{0.4pt}
+\subsubsection*{}
 \parbox{\textwidth}{
-The decision boundary of a classifier is the set of points $x$ where the classifier is equally likely to assign either class label, i.e., where the predicted probability of $y=1$ is equal to the predicted probability of $y=-1$.
+Let, labels $y \in \{-1,1\}$.
+}
+\parbox{\textwidth}{
+The decision boundary is defined as:
+}
+$$\operatorname{Pr}(y=1 \mid x) = \operatorname{Pr}(y=-1 \mid x)$$
+
+\parbox{\textwidth}{
+We know that sum of the probabilities over all labels is equal to 1:
+}
+$$\operatorname{Pr}(y=1 \mid x) + \operatorname{Pr}(y=-1 \mid x) = 1$$
+
+\parbox{\textwidth}{
+From the above two equations, we can see that $\operatorname{Pr}(y=1 \mid x) = 0.5$ and $\operatorname{Pr}(y=-1 \mid x) = 0.5$.
 }
 
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-For logistic regression, the predicted probability is $\operatorname{Pr}(y=1 \mid x) = c$. The decision boundary occurs when the classifier is maximally uncertain, i.e., when $c = 0.5$.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{The set of points is the decision boundary when } c = 0.5.
-\]
-}
+\subsubsection*{\normalfont}{$\therefore$ $c =0.5$ is the decision boundary for this classifier.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
 
 \subsection*{Solution 5 (b)}
-\noindent\rule{\textwidth}{0.4pt}\\
+\noindent\rule{\textwidth}{0.4pt}
 
-\subsubsection*{Step 1}
+\subsubsection*{}
 \parbox{\textwidth}{
-Now consider the case $c = 3/4$. This set of points consists of all $x$ for which the model predicts $\operatorname{Pr}(y=1 \mid x) = 0.75$.
-}
-
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-Compared to the decision boundary ($c = 0.5$), these points are on the side of the boundary where the model is more confident that $y=1$ is the correct label.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{This set of points lies on the $y=1$ side of the decision boundary, where the model predicts $y=1$ with higher confidence.}
-\]
+The case $\operatorname{Pr}(y=1 \mid x) = \frac{3}{4}$ represents a region where the model predicts $y=1$ with higher confidence.
 }
 
 \noindent\rule{\textwidth}{0.4pt}\\
@@ -436,25 +403,13 @@ Compared to the decision boundary ($c = 0.5$), these points are on the side of t
 \newpage
 
 \subsection*{Solution 5 (c)}
-\noindent\rule{\textwidth}{0.4pt}\\
+\noindent\rule{\textwidth}{0.4pt}
 
-\subsubsection*{Step 1}
+\subsubsection*{}
+
 \parbox{\textwidth}{
-Now consider the case $c = 1/4$. This set of points consists of all $x$ for which the model predicts $\operatorname{Pr}(y=1 \mid x) = 0.25$.
+The case $\operatorname{Pr}(y=1 \mid x) = \frac{1}{4}$ represents a region where the model predicts $y=-1$ with higher confidence and is symmetrically opposite the decision boundary (a) compared to (b).
 }
-
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-Compared to the decision boundary ($c = 0.5$), these points are on the opposite side from part (b), where the model is more confident that $y=-1$ is the correct label.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{This set of points lies on the $y=-1$ side of the decision boundary, where the model predicts $y=1$ with low confidence.}
-\]
-}
-
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
