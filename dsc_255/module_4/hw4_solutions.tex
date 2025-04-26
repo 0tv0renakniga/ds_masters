@@ -48,33 +48,38 @@
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \subsubsection*{Step 1}
+
 \parbox{\textwidth}{
-Since we have no knowledge of $x$, the best constant predictor for $y$ is the mean of the $y$ values.
-}
+Given that we must predict $y$ and have no knowledge of $x$, the best predictor for $y$ is the mean of the $y$ values.
+}\\
+
+\parbox{\textwidth}{
+Let $y_1 = 1$ , $y_2 = 3$, $y_3 = 4$ , $y_4 = 6$, $n=4$.
+}\\
+
+\parbox{\textwidth}{
+Calculate mean of the $y$ values.
+}\\
+
+$$\bar{y} = \frac{1}{n} \sum_{i=1}^{n} y_i= \frac{y_1+y_2+y_3+y_4}{n}=\frac{1+3+4+6}{4}=3.5$$\\
+
+\parbox{\textwidth}{
+Hence, the best predictor for $y$ is $\bar{y} = 3.5$.
+}\\
 
 \subsubsection*{Step 2}
 \parbox{\textwidth}{
-Calculate the mean:
-\[
-\bar{y} = \frac{1 + 3 + 4 + 6}{4} = \frac{14}{4} = 3.5
-\]
-}
+Calculate the mean squared error (MSE).
+}\\
+$$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i-\bar{y})^2  = \frac{(y_1-\bar{y})^2+(y_2-\bar{y})^2+(y_3-\bar{y})^2+(y_4-\bar{y})^2}{n}$$\\
 
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-Compute the mean squared error (MSE):
-\[
-\text{MSE} = \frac{1}{4} \left[(1-3.5)^2 + (3-3.5)^2 + (4-3.5)^2 + (6-3.5)^2\right]
-= \frac{1}{4} \left[6.25 + 0.25 + 0.25 + 6.25\right]
-= \frac{13}{4} = 3.25
-\]
-}
+$$MSE =\frac{(1-3.5)^2 + (3-3.5)^2 + (4-3.5)^2 + (6-3.5)^2}{4}=3.25$$\\
 
 \parbox{\textwidth}{
-\[
-\therefore \text{ The best prediction is } y = 3.5 \text{ with MSE } 3.25.
-\]
-}
+Hence, the $MSE$ for the four points is $MSE = 3.25$.
+}\\
+
+\subsubsection*{\normalfont}{$\therefore$ the best predictor for y is $\bar{y} = 3.5$ with $MSE = 3.25$}.
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -85,35 +90,31 @@ Compute the mean squared error (MSE):
 
 \subsubsection*{Step 1}
 \parbox{\textwidth}{
-Predict $y$ using the linear function $y = x$ for each point.
-}
+Calculate $y_{prediction}$ using $y = x$ for the following points:
+}\\
+
+$$(1,1), (1,3), (4,4), (4,6)$$\\
+
+$y_{prediction}(1,1) = 1$\\
+
+$y_{prediction}(1,3) = 1$\\
+
+$y_{prediction}(4,4) = 4$\\
+
+$y_{prediction}(4,6) = 4$\\
 
 \subsubsection*{Step 2}
 \parbox{\textwidth}{
-Calculate the predicted values and errors:
-\[
-\begin{aligned}
-&\text{For } (1,1):\quad y = 1,\quad (1-1)^2 = 0 \\
-&\text{For } (1,3):\quad y = 1,\quad (3-1)^2 = 4 \\
-&\text{For } (4,4):\quad y = 4,\quad (4-4)^2 = 0 \\
-&\text{For } (4,6):\quad y = 4,\quad (6-4)^2 = 4 \\
-\end{aligned}
-\]
-}
+Calculate the mean squared error (MSE).
+}\\
 
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-Compute the mean squared error (MSE):
-\[
-\text{MSE} = \frac{1}{4}(0 + 4 + 0 + 4) = \frac{8}{4} = 2
-\]
-}
+$$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i-y_{predicted}(x_i,y_i))^2$$\\
 
-\parbox{\textwidth}{
-\[
-\therefore \text{ The MSE of the linear function } y = x \text{ on these points is } 2.
-\]
-}
+$$MSE = \frac{(y_1-y_{predicted}(1,1))^2+(y_2-y_{predicted}(1,3))^2+(y_3-y_{predicted}(4,4))^2+(y_4-y_{predicted}(1,1))^2}{n}$$\\
+
+$$MSE =\frac{(1-1)^2 + (3-1)^2 + (4-4)^2 + (6-4)^2}{4}=2$$\\
+
+\subsubsection*{\normalfont}{$\therefore$ the $MSE$ of the linear function $y = x$ on the points, $(1,1), (1,3), (4,4), (4,6)$,is $2$.} \\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -124,63 +125,82 @@ Compute the mean squared error (MSE):
 
 \subsubsection*{Step 1}
 \parbox{\textwidth}{
-Compute the means:
-\[
-\bar{x} = \frac{1 + 1 + 4 + 4}{4} = 2.5, \qquad
-\bar{y} = \frac{1 + 3 + 4 + 6}{4} = 3.5
-\]
-}
+The line that minimizes the MSE is the \textit{line of best fit} is:
+}\\
+
+$$MSE(a,b) = \frac{1}{n} \sum_{i=1}^{n} (y_i-(ax_i+b))^2$$
+
+$$\text{or}$$
+
+$$MSE(a,b) = \frac{(y_1-(ax_1+b))^2+(y_2-(ax_2+b))^2+\hdots+(y_n-(ax_n+b))^2}{n} $$\\
+
+\parbox{\textwidth}{
+Let $x_1 = 1$, $y_1 = 1$, $x_2 = 1$, $y_2 = 3$, $x_3 = 4$, $y_3 = 4$, $x_4 = 6$, $y_4 = 6$, $n=4$.
+}\\
+
+\parbox{\textwidth}{
+Subsitute the values into the loss function($MSE(a,b)$):
+}\\
+
+$$MSE(a,b) = \frac{(y_1-(ax_1+b))^2+(y_2-(ax_2+b))^2+(y_3-(ax_3+b))^2+(y_4-(ax_4+b))^2}{4} $$\\
+$$MSE(a,b) = \frac{(1-(a(1)+b))^2+(3-(a(1)+b))^2+(4-(a(4)+b))^2+(6-(a(4)+b))^2}{4} $$\\
+$$MSE(a,b) = \frac{(1-(a+b))^2+(3-(a+b))^2+(4-(4a+b))^2+(6-(4a+b))^2}{4} $$\\
 
 \subsubsection*{Step 2}
 \parbox{\textwidth}{
-Compute the slope $a$:
-\[
-a = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2}
-\]
-\[
-= \frac{(-1.5)(-2.5) + (-1.5)(-0.5) + (1.5)(0.5) + (1.5)(2.5)}{2.25 + 2.25 + 2.25 + 2.25}
-= \frac{3.75 + 0.75 + 0.75 + 3.75}{9}
-= \frac{9}{9} = 1
-\]
-}
+The line that minimizes the MSE is the \textit{line of best fit} can be obtained from the following two normal equations:
+}\\
 
+\[   \left\{
+\begin{array}{ll}
+      nb + a\sum_{i=1}^{n}x_i = \sum_{i=1}^{n}y_i\\
+      \vspace{0.2cm}\\
+      b\sum_{i=1}^{n}x_i + a\sum_{i=1}^{n}{x_i}^2 = \sum_{i=1}^{n}x_i y_i \\
+\end{array} 
+\right. \]
+
+\parbox{\textwidth}{
+From the above equations, we can compute the slope $a$ and intercept $b$ of the line of best fit using the following equations:
+}\\
+
+$$a = \frac{n\sum_{i=1}^{n}x_i y_i - (\sum_{i=1}^{n}x_i)(\sum_{i=1}^{n}y_i)}{n\sum_{i=1}^{n}{x_i}^2-(\sum_{i=1}^{n}{x_i})^2} \hspace{1cm} b =\bar{y}-a\bar{x}$$\\
+
+\parbox{\textwidth}{
+Where $\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i$ and $\bar{y} = \frac{1}{n}\sum_{i=1}^{n}y_i$ are the means of $x$ and $y$ respectively.
+}\\
+
+\parbox{\textwidth}{
+Substituting the values of $x$ and $y$ into the equations:
+}\\
+
+$$a = \frac{4(1*1+1*3+4*4+4*6) - (1+1+4+4)(1+3+4+6)}{4(1^2+1^2+4^2+4^2)-(1+1+4+4)^2}$$\\
+$$a = \frac{4(1+3+16+24) - (10)(14)}{4(1+1+16+16)-(10)^2}$$\\
+$$a = \frac{4(44) - 140}{4(34)-100}$$\\
+$$a = \frac{176 - 140}{136-100}$$\\
+$$a = \frac{36}{36} = 1$$\\
+
+\parbox{\textwidth}{
+Substituting the value of $a$ into the equation for $b$:
+}\\
+
+$$b = \bar{y}-a\bar{x} = 3.5 - 1(2.5) = 1$$\\
+\parbox{\textwidth}{
+The line of best fit is $y = x + 1$.
+}\\
 \subsubsection*{Step 3}
 \parbox{\textwidth}{
-Compute the intercept $b$:
-\[
-b = \bar{y} - a\bar{x} = 3.5 - 1 \times 2.5 = 1
-\]
-}
+Calculate MSE of the line of best fit using equation from \textbf{Step 1}:
+}\\
+$$MSE(a,b) = \frac{(1-(a+b))^2+(3-(a+b))^2+(4-(4a+b))^2+(6-(4a+b))^2}{4} $$\\
+$$MSE(a,b) = \frac{(1-(1(1)+1))^2+(3-(1(1)+1))^2+(4-(1(4)+1))^2+(6-(1(4)+1))^2}{4} $$\\
+$$MSE(a,b) = \frac{(1-(1+1))^2+(3-(1+1))^2+(4-(4+1))^2+(6-(4+1))^2}{4} $$\\
+$$MSE(a,b) = \frac{(1-2)^2+(3-2)^2+(4-5)^2+(6-5)^2}{4} $$\\
+$$MSE(a,b) = \frac{(1)^2+(1)^2+(1)^2+(1)^2}{4} $$\\
+$$MSE(a,b) = \frac{1+1+1+1}{4} = 1$$\\
 
-\subsubsection*{Step 4}
-\parbox{\textwidth}{
-The best-fit line is $y = x + 1$.
-}
-
-\subsubsection*{Step 5}
-\parbox{\textwidth}{
-Calculate the MSE:
-\[
-\begin{aligned}
-&\text{For } (1,1):\quad y = 2,\quad (1-2)^2 = 1 \\
-&\text{For } (1,3):\quad y = 2,\quad (3-2)^2 = 1 \\
-&\text{For } (4,4):\quad y = 5,\quad (4-5)^2 = 1 \\
-&\text{For } (4,6):\quad y = 5,\quad (6-5)^2 = 1 \\
-\end{aligned}
-\]
-\[
-\text{MSE} = \frac{1}{4}(1 + 1 + 1 + 1) = 1
-\]
-}
-
-\subsubsection*{Step 6}
-\parbox{\textwidth}{
-\[
-\therefore \text{ The line } y = x + 1 \text{ minimizes the MSE, and its MSE is } 1.
-\]
-}
-
+\subsubsection*{\normalfont}{$\therefore$ the line of best fit is $y = x + 1$ with $MSE = 1$.}\\
 \noindent\rule{\textwidth}{0.4pt}\\
+\newpage
 
 \newpage
 
@@ -189,31 +209,18 @@ Calculate the MSE:
 
 \subsubsection*{Step 1}
 \parbox{\textwidth}{
-Recall the loss function:
-\[
-L(s) = \frac{1}{n} \sum_{i=1}^{n} (x_{i} - s)^{2}
-\]
-We are to compute the derivative of $L(s)$ with respect to $s$.
+The loss function is defined as:
 }
-
-\subsubsection*{Step 2}
+$$L(s) = \frac{1}{n} \sum_{i=1}^{n} (x_{i} - s)^{2}$$
 \parbox{\textwidth}{
-Differentiate $L(s)$ with respect to $s$:
-\[
-\frac{dL}{ds} = \frac{1}{n} \sum_{i=1}^{n} \frac{d}{ds} (x_i - s)^2
-\]
-Since $\frac{d}{ds} (x_i - s)^2 = 2(x_i - s)(-1) = -2(x_i - s)$, we have:
-\[
-\frac{dL}{ds} = \frac{1}{n} \sum_{i=1}^{n} -2(x_i - s) = -\frac{2}{n} \sum_{i=1}^{n} (x_i - s)
-\]
-}
+  Compute the derivative of $L(s)$ with respect to $s$ ($\frac{dL}{ds}$).
+}\\
 
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \frac{dL}{ds} = -\frac{2}{n} \sum_{i=1}^{n} (x_i - s)
-\]
-}
+$$\frac{dL}{ds} = \frac{1}{n} \sum_{i=1}^{n} (x_{i} - s)^{2} \frac{d}{ds} = \frac{1}{n} \sum_{i=1}^{n} ({x_{i}}^2 -2x_is + s^2) \frac{d}{ds} = -\frac{2}{n} \sum_{i=1}^{n} (x_i - s)$$\\
+
+\subsubsection*{\normalfont}{$\therefore$ the derivative of $L(s)$ with respect to $s$ is:}
+
+$$\frac{dL}{ds} = -\frac{2}{n} \sum_{i=1}^{n} (x_i - s)$$\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -224,46 +231,23 @@ Since $\frac{d}{ds} (x_i - s)^2 = 2(x_i - s)(-1) = -2(x_i - s)$, we have:
 
 \subsubsection*{Step 1}
 \parbox{\textwidth}{
-Set the derivative from part (a) to zero to find the minimizing $s$:
-\[
--\frac{2}{n} \sum_{i=1}^{n} (x_i - s) = 0
-\]
-}
+Set the derivative from part (a) to zero to find the value of $s$:
+}\\
 
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-Multiply both sides by $-\frac{n}{2}$ (which is nonzero) to simplify:
-\[
-\sum_{i=1}^{n} (x_i - s) = 0
-\]
-}
 
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-Expand the sum:
-\[
-\sum_{i=1}^{n} x_i - \sum_{i=1}^{n} s = 0
-\]
-Since $s$ is constant with respect to $i$, $\sum_{i=1}^{n} s = n s$:
-\[
-\sum_{i=1}^{n} x_i - n s = 0
-\]
-}
+\begin{align}
+-\frac{2}{n} \sum_{i=1}^{n} (x_i - s) &= 0 \\
+-\frac{n}{2} \cdot -\frac{2}{n} \sum_{i=1}^{n} (x_i - s) &= 0 \cdot -\frac{n}{2} \\
+\sum_{i=1}^{n} x_i - \sum_{i=1}^{n} s &= 0 \\
+\sum_{i=1}^{n} x_i - ns &= 0 \\
+\sum_{i=1}^{n} x_i - ns + ns &= 0 + ns \\
+\sum_{i=1}^{n} x_i &= ns \\
+\frac {1}{n}\sum_{i=1}^{n} x_i &= s \\
+\bar{x} &= s
+\end{align} 
 
-\subsubsection*{Step 4}
-\parbox{\textwidth}{
-Solve for $s$:
-\[
-n s = \sum_{i=1}^{n} x_i \implies s = \frac{1}{n} \sum_{i=1}^{n} x_i
-\]
-}
 
-\subsubsection*{Step 5}
-\parbox{\textwidth}{
-\[
-\therefore \quad s = \text{mean}(x_1, \ldots, x_n)
-\]
-}
+\subsubsection*{\normalfont}{$\therefore$ the value of $s$ is $\bar{x}$.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -273,19 +257,17 @@ n s = \sum_{i=1}^{n} x_i \implies s = \frac{1}{n} \sum_{i=1}^{n} x_i
 \subsection*{Solution 3}
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\subsubsection*{Step 1}
 \parbox{\textwidth}{
-For each data point $(x^{(i)}, y^{(i)})$, if we predict $\widetilde{y}^{(i)}$ and the true value is $y^{(i)}$, the penalty is the absolute difference:
+For each data point $(x^{(i)}, y^{(i)})$, where $x^{(i)}$ $\in$ $\mathbb{R}^d$ and $y^{(i)}$ $\in$ $\mathbb{R}$. If we predict $\hat{y}^{(i)}$ and the true value is $y^{(i)}$, the penalty is the absolute difference:
 \[
-|y^{(i)} - \widetilde{y}^{(i)}|
+|y^{(i)} - \hat{y}^{(i)}|
 \]
 }
 
-\subsubsection*{Step 2}
 \parbox{\textwidth}{
-We want to express $y$ as a linear function of $x$, so for each $i$,
+Since we want to express $y$ as a linear function of $x$, so for each $i$, we can express y as:
 \[
-\widetilde{y}^{(i)} = w^\top x^{(i)} + b
+{y}^{(i)} = w^\top x^{(i)} + b
 \]
 where $w \in \mathbb{R}^d$ and $b \in \mathbb{R}$ are the parameters of the linear model.
 }
