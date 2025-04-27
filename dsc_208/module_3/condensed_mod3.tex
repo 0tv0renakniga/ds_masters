@@ -1,0 +1,725 @@
+
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{array}
+
+\begin{document}
+
+\section*{SQL Fundamentals}
+
+\subsection*{SQL Overview}
+\begin{itemize}
+    \item Data Definition Language (DDL)
+    \item Create/alter/delete tables and their attributes
+    \item Data Manipulation Language (DML)
+    \item Query one or more tables insert/delete/modify tuples in tables
+    \item Triggers and Advanced Constraints
+    \item Actions executed by DBMS on updates and specify complex integrity constraints
+\end{itemize}
+
+\subsection*{Basic Query Structure}
+\begin{verbatim}
+SELECT [DISTINCT] <column expression list>
+FROM <list of tables>
+WHERE <predicate>
+\end{verbatim}
+
+\begin{itemize}
+    \item Specifies columns to be retained in the results
+    \item Specifies cross-product of tables
+    \item Specifies selection conditions on the tables mentioned in the FROM clause
+    \item The DISTINCT keyword ensures the resulting table does not have duplicates (optional)
+\end{itemize}
+
+\subsection*{Projection and Selection}
+Projection selects specific columns, while selection filters rows based on conditions.
+
+\textbf{Example Tables:}
+
+Movie (name, year, genre)
+\begin{tabular}{lll}
+\hline
+Name & Year & Genre \\
+\hline
+Apocalypse Now & 1979 & War \\
+The God Father & 1972 & Crime \\
+Planet Earth II & 2016 & Nature Documentary \\
+\hline
+\end{tabular}
+
+ActedIN (actorname, moviename)
+\begin{tabular}{ll}
+\hline
+Actorname & Moviename \\
+\hline
+Marlon Brando & Apocalypse Now \\
+Al Pacino & The God Father \\
+Marlon Brando & The God Father \\
+\hline
+\end{tabular}
+
+\textbf{Projection Example:}
+\begin{verbatim}
+SELECT name, genre
+FROM Movies
+\end{verbatim}
+
+\textbf{Result:}
+\begin{tabular}{ll}
+\hline
+Name & Genre \\
+\hline
+Apocalypse Now & War \\
+The God Father & Crime \\
+Planet Earth II & Nature Documentary \\
+\hline
+\end{tabular}
+
+\textbf{Selection Example:}
+\begin{verbatim}
+SELECT *
+FROM Movies
+WHERE year > 2000
+\end{verbatim}
+
+\textbf{Result:}
+\begin{tabular}{lll}
+\hline
+Name & Year & Genre \\
+\hline
+Planet Earth II & 2016 & Nature Documentary \\
+\hline
+\end{tabular}
+
+\textbf{Combined Projection and Selection:}
+\begin{verbatim}
+SELECT name
+FROM Movies
+WHERE year > 2000
+\end{verbatim}
+
+\textbf{Result:}
+\begin{tabular}{l}
+\hline
+Name \\
+\hline
+Planet Earth II \\
+\hline
+\end{tabular}
+
+\section*{SQL Joins}
+
+\subsection*{Types of Joins}
+\begin{itemize}
+    \item Inner Join
+    \item Self Join
+    \item Outer Join (Left, Right, Full)
+\end{itemize}
+
+\subsection*{Inner Joins}
+Inner joins combine rows from two or more tables based on a related column.
+
+\textbf{Example:} Return all movie genres that Marlon Brando has acted in
+
+\begin{verbatim}
+SELECT DISTINCT genre
+FROM Movie, ActedIN
+WHERE Movie.name = ActedIN.moviename AND ActedIN.actorname = 'Marlon Brando'
+\end{verbatim}
+
+\textbf{Input Tables:}
+\begin{tabular}{lll}
+\hline
+Name & Year & Genre \\
+\hline
+Apocalypse Now & 1979 & War \\
+The God Father & 1972 & Crime \\
+Planet Earth II & 2016 & Nature Documentary \\
+\hline
+\end{tabular}
+
+\begin{tabular}{ll}
+\hline
+Actorname & Moviename \\
+\hline
+Marlon Brando & Apocalypse Now \\
+Al Pacino & The God Father \\
+Marlon Brando & The God Father \\
+\hline
+\end{tabular}
+
+\textbf{Join Result (intermediate):}
+\begin{tabular}{lllll}
+\hline
+Name & Year & Genre & Actorname & Moviename \\
+\hline
+Apocalypse Now & 1979 & War & Marlon Brando & Apocalypse Now \\
+The God Father & 1972 & Crime & Marlon Brando & The God Father \\
+\hline
+\end{tabular}
+
+\textbf{Final Result:}
+\begin{tabular}{l}
+\hline
+Genre \\
+\hline
+War \\
+Crime \\
+\hline
+\end{tabular}
+
+\subsection*{Self Joins}
+A self join is a regular join, but the table is joined with itself.
+
+\textbf{Example:} Find name of employees and the name of their managers
+
+\begin{verbatim}
+SELECT e.name, m.name
+FROM Employee e, Employee m
+WHERE e.managerid = m.eid
+\end{verbatim}
+
+\textbf{Input Table:}
+\begin{tabular}{llll}
+\hline
+eid & name & salary & managerid \\
+\hline
+101 & John & 50000 & 103 \\
+102 & Alice & 60000 & 104 \\
+103 & Mary & 80000 & NULL \\
+104 & Bob & 80000 & 103 \\
+\hline
+\end{tabular}
+
+\textbf{Result:}
+\begin{tabular}{ll}
+\hline
+e.name & m.name \\
+\hline
+John & Mary \\
+Alice & Bob \\
+Bob & Mary \\
+\hline
+\end{tabular}
+
+\subsection*{Outer Joins}
+Outer joins return all rows from one or both tables, including unmatched rows.
+
+\textbf{Left Outer Join:}
+\begin{verbatim}
+SELECT Movie.name, ActedIN.actorname
+FROM Movie LEFT OUTER JOIN ActedIN
+ON Movie.name = ActedIN.moviename
+\end{verbatim}
+
+\textbf{Result:}
+\begin{tabular}{ll}
+\hline
+Movie.name & ActedIN.actorname \\
+\hline
+Apocalypse Now & Marlon Brando \\
+The God Father & Al Pacino \\
+The God Father & Marlon Brando \\
+Planet Earth II & NULL \\
+\hline
+\end{tabular}
+
+\textbf{Right Outer Join:}
+\begin{verbatim}
+SELECT Movie.name, ActedIN.actorname
+FROM Movie RIGHT OUTER JOIN ActedIN
+ON Movie.name = ActedIN.moviename
+\end{verbatim}
+
+\textbf{Result:}
+\begin{tabular}{ll}
+\hline
+Movie.name & ActedIN.actorname \\
+\hline
+Apocalypse Now & Marlon Brando \\
+The God Father & Al Pacino \\
+The God Father & Marlon Brando \\
+NULL & Leonardo DiCaprio \\
+\hline
+\end{tabular}
+
+\textbf{Full Outer Join:}
+\begin{verbatim}
+SELECT Movie.name, ActedIN.actorname
+FROM Movie FULL OUTER JOIN ActedIN
+ON Movie.name = ActedIN.moviename
+\end{verbatim}
+
+\textbf{Result:}
+\begin{tabular}{ll}
+\hline
+Movie.name & ActedIN.actorname \\
+\hline
+Apocalypse Now & Marlon Brando \\
+The God Father & Al Pacino \\
+The God Father & Marlon Brando \\
+Planet Earth II & NULL \\
+NULL & Leonardo DiCaprio \\
+\hline
+\end{tabular}
+
+\section*{SQL Aggregation and Grouping}
+
+\subsection*{Aggregate Functions}
+Five basic aggregate operations in SQL:
+\begin{itemize}
+    \item COUNT: counts how many rows are in a particular column
+    \item SUM: adds together all the values in a particular column
+    \item MIN and MAX: return the lowest and highest values in a particular column, respectively
+    \item AVG: calculates the average of a group of selected values
+\end{itemize}
+
+Except COUNT, all aggregations apply to a single attribute.
+
+\textbf{Examples:}
+\begin{verbatim}
+SELECT count(*)
+FROM Movie
+
+SELECT count(DISTINCT genre)
+FROM Movie
+
+SELECT count(genre)
+FROM Movie
+\end{verbatim}
+
+\subsection*{NULL Handling in Aggregates}
+NULL is ignored in any aggregation (It does not contribute to any aggregate).
+
+\textbf{Example Table:}
+\begin{tabular}{llllll}
+\hline
+Name & Year & Genre & Budget & Revenue & Rate \\
+\hline
+Pirates of the Caribbean & 2007 & Action & \$300M & \$900M & 7.1 \\
+The Lion King & 2019 & Animation & \$260M & \$1.65B & 6.5 \\
+The Dark Knight & 2008 & Action & NULL & NULL & 9.5 \\
+Toy Story 3 & NULL & Animation & \$300M & \$1B & 8.3 \\
+American Sniper & 2013 & Action & \$59M & \$350M & 7.3 \\
+\hline
+\end{tabular}
+
+\textbf{Examples:}
+\begin{verbatim}
+SELECT count(*)
+FROM Movie
+-- Returns 5
+
+SELECT count(year)
+FROM Movie
+-- Returns 4 (ignores NULL)
+
+SELECT sum(revenue)
+FROM Movie
+-- Returns sum of non-NULL revenues
+\end{verbatim}
+
+\subsection*{GROUP BY Operations}
+GROUP BY groups rows that have the same values into summary rows.
+
+\textbf{Example:} Find the total revenue for all movies produced after 2008 by genre
+
+\begin{verbatim}
+SELECT genre, SUM(revenue) AS TotalRevenue
+FROM Movie
+WHERE year > 2008
+GROUP BY genre
+\end{verbatim}
+
+\textbf{Input Table:}
+\begin{tabular}{llll}
+\hline
+Name & Year & Genre & Revenue \\
+\hline
+The Lion King & 2019 & Animation & \$1.65B \\
+Toy Story 3 & 2010 & Animation & \$1B \\
+American Sniper & 2013 & Action & \$350M \\
+\hline
+\end{tabular}
+
+\textbf{Result:}
+\begin{tabular}{ll}
+\hline
+Genre & TotalRevenue \\
+\hline
+Animation & \$2.65B \\
+Action & \$350M \\
+\hline
+\end{tabular}
+
+\textbf{Multiple Grouping Attributes:}
+\begin{verbatim}
+SELECT genre, year, SUM(revenue - budget) AS TotalProfit
+FROM Movie
+GROUP BY genre, year
+\end{verbatim}
+
+\textbf{Important:} Everything in SELECT must be either a GROUP BY attribute or an aggregate.
+
+\section*{SQL Subqueries and Quantifiers}
+
+\subsection*{Subquery Overview}
+\begin{itemize}
+    \item Subquery: A query that is part of another
+    \item Nested Query: A query that has an embedded subquery
+    \item A subquery can be a nested query itself
+\end{itemize}
+
+A subquery may occur in:
+\begin{itemize}
+    \item A SELECT clause
+    \item A FROM clause
+    \item A WHERE clause
+\end{itemize}
+
+Rule of thumb: avoid nested queries when possible (but sometimes it's impossible).
+
+\subsection*{Subqueries in SELECT, FROM, and WHERE}
+
+\textbf{1. Subqueries in SELECT:}
+
+\begin{verbatim}
+SELECT a.actorname, (SELECT genre
+                     FROM Movie m
+                     WHERE m.name = a.moviename) as genre
+FROM ActedIn a
+\end{verbatim}
+
+This is a "correlated subquery" because the inner query references the outer query.
+
+\textbf{Equivalent unnested query:}
+\begin{verbatim}
+SELECT a.actorname, genre
+FROM ActedIn a, Movie m
+WHERE m.name = a.moviename
+\end{verbatim}
+
+\textbf{2. Subqueries in FROM:}
+
+\begin{verbatim}
+SELECT x.name, rating
+FROM (SELECT *
+      FROM Movie AS m
+      WHERE rating > 8) as x
+WHERE x.rating < 9
+\end{verbatim}
+
+\textbf{Alternative using WITH:}
+\begin{verbatim}
+WITH myTable AS (SELECT * FROM Movie AS m WHERE rating > 8)
+SELECT x.name, x.rating
+FROM myTable as x
+WHERE x.rating < 9
+\end{verbatim}
+
+\textbf{3. Subqueries in WHERE:}
+
+\textbf{Existential Quantifiers:}
+
+Find the name of actors who have acted in some Sci-Fi movie:
+\begin{verbatim}
+SELECT DISTINCT a.actorname
+FROM ActedIn a
+WHERE EXISTS (SELECT m.name
+              FROM Movie m
+              WHERE m.name = a.moviename AND
+                    m.genre = 'Sci-Fi')
+\end{verbatim}
+
+Using IN:
+\begin{verbatim}
+SELECT DISTINCT a.actorname
+FROM ActedIn a
+WHERE a.moviename IN (SELECT m.name
+                      FROM Movie m
+                      WHERE m.name = a.moviename AND
+                            m.genre = 'Sci-Fi')
+\end{verbatim}
+
+\textbf{Universal Quantifiers:}
+
+Retrieve all actor names that only acted on action movies:
+\begin{verbatim}
+SELECT DISTINCT a.actorname
+FROM ActedIn a
+WHERE a.actorname NOT IN (SELECT a.actorname
+                         FROM Movie m, ActedIn a
+                         WHERE m.name = a.moviename AND
+                               m.genre != 'Action')
+\end{verbatim}
+
+\textbf{Numeric Comparisons:}
+
+Retrieve all actor names that acted in at most two action movies:
+\begin{verbatim}
+SELECT DISTINCT a.actorname
+FROM ActedIn a
+WHERE 2 >= (SELECT count(*)
+            FROM Movie m
+            WHERE m.name = a.moviename AND
+                  m.genre = 'Action')
+\end{verbatim}
+
+\section*{Relational Data Model}
+
+\subsection*{Data Models Overview}
+A data model is an abstraction for describing and representing data. The description consists of three parts:
+\begin{itemize}
+    \item Structure
+    \item Constraints
+    \item Manipulation
+\end{itemize}
+
+\textbf{Important Data Models:}
+\begin{itemize}
+    \item Relational: Data represented as a collection of tables (Most Database Systems)
+    \item Semistructured: Data represented as a tree
+    \item Key-value pairs: Data represented as a dictionary or Hash table (NoSQL database systems)
+    \item Graph
+    \item Array/Matrix (Machine Learning)
+    \item Dataframes
+\end{itemize}
+
+\subsection*{Relational Structure}
+\begin{itemize}
+    \item Data is a collection of relations
+    \item A relation is a table that consists of a set of tuples or records
+    \item Attribute (Field, Column) is atomic typed data entry
+\end{itemize}
+
+\textbf{Example Relation:}
+\begin{tabular}{lllll}
+\hline
+SID & Name & Surname & Age & GPA \\
+\hline
+1 & Alicia & Shan & 20 & 3.5 \\
+2 & Andre & Lorde & 21 & 3 \\
+3 & Yan & Ke & 19 & 4 \\
+4 & Sudip & Roy & 22 & 4 \\
+\hline
+\end{tabular}
+
+\textbf{Relational Schema:}\\
+Describes the relation's name, attribute name, and their domain name (metadata)
+
+Student (sid: string, name: string, surname: string, age: integer, gpa: real)
+
+\textbf{Key Concepts:}
+\begin{itemize}
+    \item Tuple (Record, Row): a single entry in the table
+    \item Relational Instance: a set of tuples conforming to the same schema (data)
+    \item Cardinality: the number of tuples in a relation (4 in the example)
+    \item Arity: the number of attributes of a relation (5 in the example)
+\end{itemize}
+
+\subsection*{Integrity Constraints and Keys}
+Data is only as good as information stored in it. The relational data model allows us to impose various constraints on data.
+
+\textbf{Integrity Constraints (IC):} conditions specified on a database schema that restrict the data that can be stored.
+
+\textbf{Key Constraint:} a statement that a minimal subset of attributes uniquely identify a tuple.
+
+\textbf{Types of Keys:}
+\begin{itemize}
+    \item (Candidate) Key: a set of attributes that uniquely identify a tuple
+    \item Super Key: a set of attributes that contain a key
+    \item Primary Key: a database designer identifies one key and designates it as primary key
+    \item Composite Key: a key consisting of multiple attributes
+\end{itemize}
+
+\textbf{Foreign Key Constraint:}\\
+Sometimes data stored in a relation is linked to data stored in another relation. If one of the relations is modified, the other should be checked for consistency.
+
+\textbf{Example:}\\
+Student (sid, name, surname, age, gpa)\\
+Enrolled (cid, sid, grade)
+
+Here, sid in Enrolled is a foreign key referencing the primary key sid in Student.
+
+\subsection*{SQL for Data Definition and Manipulation}
+
+\textbf{Data Definition Language (DDL):}
+\begin{verbatim}
+CREATE TABLE Students(
+  sid CHAR(20),
+  name CHAR(30),
+  surname CHAR(20),
+  age INTEGER
+)
+
+ALTER TABLE Student
+ADD Email varchar(255)
+
+DROP TABLE Student
+\end{verbatim}
+
+\textbf{Data Manipulation Language (DML):}
+\begin{verbatim}
+INSERT INTO Students (sid, name, surname, age)
+VALUES ('1', 'Alicia', 'Shan', 20)
+
+UPDATE Students
+SET gpa = gpa + 0.5
+WHERE name = 'Alicia'
+
+DELETE FROM Students 
+WHERE name = 'Ziaho'
+\end{verbatim}
+
+\textbf{First Normal Form (1NF):}\\
+All relations must be flat: we say that the relation is in first normal form.
+
+\textbf{Example of 1NF:}\\
+Instead of storing courses as a nested structure:
+
+\begin{tabular}{lllll}
+\hline
+SID & Name & Surname & Age & GPA \\
+\hline
+1 & Alicia & Shan & 20 & 3.5 \\
+2 & Andre & Lorde & 21 & 3 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lll}
+\hline
+CID & SID & Grade \\
+\hline
+dsc100 & 1 & 97 \\
+dsc80 & 1 & 90 \\
+dsc100 & 2 & 91 \\
+\hline
+\end{tabular}
+
+\section*{DataFrame Data Model}
+
+\subsection*{Origins and Characteristics}
+\begin{itemize}
+    \item 1992: Emerged in S programming language at Bell Labs
+    \item 2000: Inherited by R programming language
+    \item 2009: Brought to Python by Pandas
+\end{itemize}
+
+DataFrames support relational operators (e.g., filter, join), linear algebra (e.g., transpose), and spreadsheet-like (e.g., pivot) operators.
+
+\textbf{Example DataFrame:}
+\begin{tabular}{lllll}
+\hline
+Name & FName & City & Age & Salary \\
+\hline
+Smith & John & 3 & 35 & \$280 \\
+Doe & Jane & 1 & 28 & \$325 \\
+Brown & Scott & 3 & 41 & \$265 \\
+Howard & Shemp & 4 & 48 & \$359 \\
+Taylor & Tom & 2 & 22 & \$250 \\
+\hline
+\end{tabular}
+
+\subsection*{Comparison with Relational Model}
+\textbf{In Comparison to Relational Tables:}
+\begin{itemize}
+    \item Lazily-induced schema
+    \item Rows are named and ordered
+    \item Heterogeneous data types
+\end{itemize}
+
+\textbf{In Comparison to Matrices:}
+\begin{itemize}
+    \item Rows and columns are labeled
+    \item Columns and rows equivalent
+\end{itemize}
+
+\section*{SQL Core Concepts}
+
+\subsection*{Summary}
+SQL (Structured Query Language) is the standard language for interacting with relational databases. It supports:
+\begin{itemize}
+    \item Data Definition Language (DDL): Creating, altering, and deleting tables and attributes
+    \item Data Manipulation Language (DML): Inserting, updating, deleting, and querying data
+    \item Querying: Using SELECT statements with projection, selection, joins, grouping, and aggregation
+    \item Constraints: Enforcing data integrity via keys and foreign keys
+\end{itemize}
+
+\subsection*{Core Concept Examples}
+
+\textbf{Basic Aggregation and GROUP BY:}
+\begin{verbatim}
+SELECT genre, SUM(revenue) AS TotalRevenue
+FROM Movie
+WHERE year > 2008
+GROUP BY genre
+\end{verbatim}
+
+\textbf{HAVING Clause (Derived Example):}
+\begin{verbatim}
+SELECT genre, COUNT(*) AS MovieCount
+FROM Movie
+GROUP BY genre
+HAVING COUNT(*) > 2
+\end{verbatim}
+This query returns genres with more than two movies.
+
+\textbf{Multiple Aggregates with HAVING (Derived Example):}
+\begin{verbatim}
+SELECT genre, AVG(rating) AS AvgRating, SUM(revenue) AS TotalRevenue
+FROM Movie
+GROUP BY genre
+HAVING AVG(rating) > 8.0
+\end{verbatim}
+Returns genres where the average rating is above 8.0.
+
+\subsection*{Key Points}
+\begin{itemize}
+    \item SQL queries can project, filter, join, group, and aggregate data
+    \item GROUP BY is used to aggregate data by one or more columns
+    \item HAVING filters groups after aggregation
+    \item Aggregates ignore NULL values
+    \item All columns in SELECT must be either grouped or aggregated
+\end{itemize}
+
+\section*{DataFrame Core Concepts}
+
+\subsection*{Summary}
+DataFrames are a tabular data structure supporting relational, linear algebra, and spreadsheet-like operations. They are widely used in data science and analytics, with origins in S, R, and Python's pandas library.
+
+\subsection*{Core Concept Examples}
+
+\textbf{Basic DataFrame Operations (Derived Example):}
+\begin{verbatim}
+# Filtering rows where Age > 30
+df_filtered = df[df['Age'] > 30]
+
+# Grouping and aggregating
+df_grouped = df.groupby('City')['Salary'].mean()
+\end{verbatim}
+
+\textbf{Advanced DataFrame Operations (Derived Example):}
+\begin{verbatim}
+# Pivot table: Average Salary by City and Age Group
+df['AgeGroup'] = pd.cut(df['Age'], bins=[20, 30, 40, 50], 
+                        labels=['20-30', '31-40', '41-50'])
+pivot = df.pivot_table(values='Salary', index='City', 
+                       columns='AgeGroup', aggfunc='mean')
+
+# Merging DataFrames (similar to SQL JOIN)
+merged = pd.merge(df1, df2, left_on='SID', right_on='SID', how='inner')
+\end{verbatim}
+
+\subsection*{Key Points}
+\begin{itemize}
+    \item DataFrames support relational (filter, join), linear algebra (transpose), and spreadsheet-like (pivot) operations
+    \item Schema is often inferred from data (lazily-induced)
+    \item Rows and columns are labeled and can be heterogeneous
+    \item Advanced operations include pivot tables, merges (joins), and groupby-aggregate patterns
+\end{itemize}
+
+\end{document}
+
