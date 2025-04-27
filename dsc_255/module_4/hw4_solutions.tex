@@ -416,22 +416,12 @@ The case $\operatorname{Pr}(y=1 \mid x) = \frac{1}{4}$ represents a region where
 \subsection*{Solution 6 (a)}
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\subsubsection*{Step 1}
+\subsubsection*{Strategy}
 \parbox{\textwidth}{
-To identify the ten relevant features, I will use a linear regression model with built-in feature selection. The \texttt{sklearn.linear\_model} module provides several suitable algorithms.
+The \textit{mystery.dat} has 101 features. However, there is only ten relevant features, and the remaining features are noise. 
 }
 
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-Specifically, I will use the Lasso regression model, which applies L1 regularization. This encourages sparsity in the coefficient vector by penalizing the absolute values of the coefficients, effectively setting many of them to zero.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{By fitting a Lasso regression model and selecting the features with non-zero coefficients, I can identify the ten relevant features.}
-\]
-}
+\subsubsection*{\normalfont}{$\therefore$ I will use Lasso Regression because it forces coefficients to 0 for irrelevant features.}
 
 % add listing to show code
 
@@ -440,70 +430,77 @@ Specifically, I will use the Lasso regression model, which applies L1 regulariza
 \subsection*{Solution 6 (b)}
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\subsubsection*{Step 1}
 \parbox{\textwidth}{
-After running the Lasso regression model on the data, I examined the learned coefficients for each feature.
-}
-
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-The Lasso model with an appropriate regularization parameter automatically selected features by setting the coefficients of irrelevant features to zero.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-The ten features identified as relevant (with non-zero coefficients) are:
+The ten features identified as relevant are:
 \[
-\{3, 6, 35, 37, 68, 69, 70, 71, 82, 97\}
-\]
-Note: The actual indices will be determined by running the Python code. The above are placeholder values that should be replaced with the actual results.
-}
-
-\subsubsection*{Step 4}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{The ten relevant features are at indices } 3, 6, 35, 37, 68, 69, 70, 71, 82, \text{ and } 97.
+[4, 6, 1, 22, 10, 26, 2, 12, 18, 16]
 \]
 }
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
+\newpage
+
+\subsection*{Solution 6 Code}
 \noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Python Code}
+
+%[style=pythonstyle]
+\begin{lstlisting}
+## import libraries
+import numpy as np
+from sklearn.linear_model import LassoCV, Lasso
+
+## read mystery.dat
+data = np.loadtxt('mystery.dat', delimiter=',')
+x = data[:, :-1]
+y = data[:, -1]
+
+## normalize x based on maximum value in all x data
+x_norm = x / np.max(np.max(X, axis=0), axis=0)
+
+## find best alpha using LassoCV
+## test 100 alphas ranging from 1e-4 to 1e4
+lasso_cv = LassoCV(alphas=np.logspace(-4, 4, 100), cv=5)
+lasso_cv.fit(x_norm, y)
+alpha_best = lasso_cv.alpha_
+print(f"best alpha: {alpha_best}")
+
+## fit Lasso model with best alpha
+lasso = Lasso(alpha=alpha_best)
+lasso.fit(x_norm, y)
+
+## get absolute value of lasso coefficients
+coefs = np.abs(lasso.coef_)
+
+## get indices of the 10 largest coefficients
+## note: that the coefficients are sorted in descending order
+indices = np.argsort(coefs)[::-1][:10]
+
+## print the indices (coordinate number) of the 10 largest coefficients
+print("indices of the 10 largest coefficients:")
+for i in indices:
+    print(f"coordinate number: {i}, coefficient: {coefs[i]}")
+
+\end{lstlisting}
+
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
 
 \subsection*{Solution 7 (a)}
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\subsubsection*{Step 1}
 \parbox{\textwidth}{
-First, I need to randomly partition the heart disease data set into 200 training points and 103 test points. This can be done using the \texttt{train\_test\_split} function from scikit-learn.
-}
+I would choose the 3 features that have the largest $|$coefficients$|$ for the logistic regression.
+}\\
 
-\subsubsection*{Step 2}
 \parbox{\textwidth}{
-Next, I fit a logistic regression model to the training data using the \texttt{LogisticRegression} class from scikit-learn. The model learns the coefficients for each feature that best predict the binary outcome (presence or absence of heart disease).
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-After fitting the model, I examine the coefficients to determine which features have the strongest influence on the prediction. The magnitude of a coefficient indicates its importance, while the sign indicates the direction of influence.
-}
-
-\subsubsection*{Step 4}
-\parbox{\textwidth}{
-Based on the absolute values of the coefficients, the three most influential features are:
-\begin{enumerate}
-    \item \texttt{cp} (chest pain type): coefficient = 0.932
-    \item \texttt{thal} (thalassemia): coefficient = -0.876
-    \item \texttt{ca} (number of major vessels): coefficient = -0.718
-\end{enumerate}
-}
-
-\subsubsection*{Step 5}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{The three most influential features in the model are chest pain type (cp), thalassemia (thal), and number of major vessels (ca).}
-\]
-}
+$\therefore$ I would select
+top 3 coefficients and the coresponding features: ca (coefficient $\approx$ 1.78), cp (coefficient $\approx$ 1.65) and thalach (coefficient $\approx$ 1.52)
+}\\
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
@@ -512,29 +509,8 @@ Based on the absolute values of the coefficients, the three most influential fea
 \subsection*{Solution 7 (b)}
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\subsubsection*{Step 1}
 \parbox{\textwidth}{
-To evaluate the performance of the logistic regression model, I need to calculate the test error, which is the proportion of misclassified instances in the test set.
-}
-
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-I use the trained model to predict the labels for the test set and compare them with the true labels.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-The test error is calculated as:
-\[
-\text{Test Error} = \frac{\text{Number of misclassified instances}}{\text{Total number of instances in the test set}}
-\]
-}
-
-\subsubsection*{Step 4}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{The test error of the logistic regression model is } 0.146 \text{ or } 14.6\%.
-\]
+$\therefore$ the test error for the logistic regression was $0.1845$ or $18.45\%$. 
 }
 
 \noindent\rule{\textwidth}{0.4pt}\\
@@ -544,37 +520,83 @@ The test error is calculated as:
 \subsection*{Solution 7 (c)}
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\subsubsection*{Step 1}
 \parbox{\textwidth}{
-To estimate the error using 5-fold cross-validation, I divide the training set into 5 equal parts (folds). Then, I train the model on 4 folds and validate on the remaining fold, repeating this process 5 times with a different validation fold each time.
+Comparing error using 5-fold cross-validation, to the models error on the test set was the following:
 }
-
-\subsubsection*{Step 2}
-\parbox{\textwidth}{
-I use scikit-learn's \texttt{cross\_val\_score} function with the parameter \texttt{cv=5} to perform 5-fold cross-validation on the training set.
-}
-
-\subsubsection*{Step 3}
-\parbox{\textwidth}{
-The cross-validation error is calculated as the average error across all 5 folds:
-\[
-\text{CV Error} = \frac{1}{5} \sum_{i=1}^{5} \text{Error on fold } i
-\]
-}
-
-\subsubsection*{Step 4}
-\parbox{\textwidth}{
-\[
-\therefore \quad \text{The 5-fold cross-validation error is } 0.155 \text{ or } 15.5\%.
-\]
-}
-
-\subsubsection*{Step 5}
-\parbox{\textwidth}{
-Comparing the cross-validation error (15.5\%) with the test error (14.6\%), we see that they are quite close, differing by less than 1 percentage point. This suggests that our model generalizes well to unseen data and is not overfitting the training data.
-}
+\begin{align*}
+  \text{log\_reg test error} &= 0.1845 \\
+  \text{mean 5-fold cross-validation error} &= 0.2000 \\
+  \text{Difference (log\_reg - cv)} &= 0.0155
+\end{align*}
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
+\newpage
+
+\subsection*{Solution 7 Code}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Python Code}
+
+%[style=pythonstyle]
+\begin{lstlisting}
+  ## import libraries
+  from sklearn.model_selection import train_test_split, cross_val_score
+  from sklearn.linear_model import LogisticRegression
+  from sklearn.metrics import accuracy_score
+  import numpy as np
+  import os
+  
+  ## read heart.csv
+  ## note: the first column is the index, so we skip it
+  ## col names are age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal,target
+  data = np.loadtxt('heart.csv', delimiter=',', dtype=None, skiprows=1)
+  column_names = os.popen('head -1 heart.csv').read().split(',')
+  x = data[:, :-1]
+  y = data[:, -1]
+  
+  ## normalize each x column based on maximum value in column
+  ## note: this will scale each feature [0,1]
+  x_norm = x / np.max(x, axis=0)
+  
+  ## split data into training and test sets
+  ## note: train_test_split shuffles the data before splitting
+  ## note: test points = 103 and train points = 200 for test_size=0.339
+  x_train, x_test, y_train, y_test = train_test_split(x_norm, y, test_size=0.339, random_state=33)
+  
+  ## fit logistic regression model
+  log_reg = LogisticRegression(max_iter=1000,solver='liblinear')
+  log_reg.fit(x_train, y_train)
+  
+  ## predict on test set and calculate accuracy
+  y_pred = log_reg.predict(x_test)
+  test_accuracy = accuracy_score(y_test, y_pred)
+  
+  ## get absolute value of logistic regression coefficients
+  coefs = np.abs(log_reg.coef_[0])
+  
+  ## get indices of the 3 largest coefficients
+  ## note: that the coefficients are sorted in descending order
+  indices = np.argsort(coefs)[::-1][:3]
+  
+  ## top 3 coefficients and features
+  print("top 3 coefficients and features:")
+  for i in indices:
+      print(f"index: {i} coefficient: {coefs[i]}, feature: {column_names[i]}")
+  
+  ## log_reg test error 
+  test_error = 1 - test_accuracy
+  print("log_reg test error:", test_error)
+  
+  ## 5-fold cross-validation error 
+  cv_scores = cross_val_score(log_reg, x_train, y_train, cv=5, scoring='accuracy')
+  cv_error = 1 - cv_scores.mean()
+  print("mean 5-fold cross-validation error:", cv_error)
+  
+  # compare log_reg test error and 5-fold cross-validation error 
+  print(f"Difference (log_reg - cv): {test_error - cv_error:.4f}")
+\end{lstlisting}
+
+\noindent\rule{\textwidth}{0.4pt}\\
 
 \end{document}
