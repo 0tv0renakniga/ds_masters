@@ -1,0 +1,768 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+% Required packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{subcaption}
+
+
+\begin{document}
+
+\section*{Usual setup in machine learning}
+Choose a model $( w )$ by minimizing a loss function $( L(w) )$ that depends on the data.
+
+\begin{itemize}
+    \item Linear regression:
+    \begin{equation}
+    L(w) = \sum_{i} \left(y^{(i)} - \left(w \cdot x^{(i)}\right)\right)^{2}
+    \end{equation}
+    \item Logistic regression:
+    \begin{equation}
+    L(w) = \sum_{i} \ln \left(1 + e^{-y^{(i)}\left(w \cdot x^{(i)}\right)}\right)
+    \end{equation}
+\end{itemize}
+
+\section*{Default way to solve this minimization}
+Local search.
+
+\begin{itemize}
+    \item Initialize $( w )$ arbitrarily
+    \item Repeat until $( w )$ converges:
+    \begin{itemize}
+        \item Find some $( w' )$ close to $( w )$ with $( L(w') < L(w) )$.
+        \item Move $( w )$ to $( w' )$.
+    \end{itemize}
+\end{itemize}
+
+\section*{A Good Situation for Local Search}
+When the loss function is convex.
+
+\section*{Idea}
+Pick search direction by looking at derivative of $( L(w) )$.
+
+\section*{Multivariate Differentiation: Example}
+\begin{equation}
+F\left(w_{1}, w_{2}, w_{3}\right) = 3 w_{1} w_{2} + w_{3}
+\end{equation}
+
+Suppose we are learning a model with $( k )$ parameters $( w = \left(w_{1}, \ldots, w_{k}\right) )$.
+
+\begin{itemize}
+    \item Define a loss function $( L(w) )$
+    \item Then $( L: \mathbb{R}^{k} \rightarrow \mathbb{R} )$
+\end{itemize}
+
+The derivative $( \nabla F(w) )$, at any $( w )$, is a vector in $( \mathbb{R}^{k} )$.
+
+\section*{Gradient Descent}
+For minimizing a function $( L(w) )$:
+
+\begin{itemize}
+    \item $( w_{0} = 0, t = 0 )$
+    \item while $( \nabla L(w_{t}) \approx 0 )$:
+    \begin{itemize}
+        \item $( w_{t+1} = w_{t} - \eta_{t} \nabla L(w_{t}) )$
+        \item $( t = t + 1 )$
+    \end{itemize}
+\end{itemize}
+
+Here $( \eta_{t} )$ is the step size at time $( t )$.
+
+\section*{Gradient Descent for Logistic Regression}
+For $( \left(x^{(1)}, y^{(1)}\right), \ldots, \left(x^{(n)}, y^{(n)}\right) \in \mathbb{R}^{d} \times \{-1,1\} )$, loss function:
+
+\begin{equation}
+L(w) = \sum_{i=1}^{n} \ln \left(1 + e^{-y^{(i)}\left(w \cdot x^{(i)}\right)}\right)
+\end{equation}
+
+Gradient descent procedure:
+
+\begin{itemize}
+    \item Set $( w_{0} = 0 )$
+    \item For $( t = 0, 1, 2, \ldots )$, until convergence:
+    \begin{equation}
+    w_{t+1} = w_{t} + \eta_{t} \sum_{i=1}^{n} y^{(i)} x^{(i)} \underbrace{p_{r_{w_{t}}}\left(-y^{(i)} \mid x^{(i)}\right)}_{\operatorname{doubt}_{t}\left(x^{(i)}, y^{(i)}\right)}
+    \end{equation}
+\end{itemize}
+
+\section*{How to set step size $( \eta_{t} )$?}
+
+\section*{A Variant of Gradient Descent}
+Gradient descent for logistic regression, given $( \left(x^{(1)}, y^{(1)}\right), \ldots, \left(x^{(n)}, y^{(n)}\right) )$:
+
+\begin{itemize}
+    \item Set $( w_{0} = 0 )$
+    \item For $( t = 0, 1, 2, \ldots )$, until convergence:
+    \begin{equation}
+    w_{t+1} = w_{t} + \eta_{t} \sum_{i=1}^{n} y^{(i)} x^{(i)} \operatorname{Pr}_{w_{t}}\left(-y^{(i)} \mid x^{(i)}\right)
+    \end{equation}
+\end{itemize}
+
+Each update involves the entire data set, which is inconvenient.
+
+Stochastic gradient descent: update based on just one point:
+
+\begin{itemize}
+    \item Get next data point $( x ; y )$ by cycling through data set
+    \item $( w_{t+1} = w_{t} + \eta_{t} y \times \operatorname{Pr}_{w_{t}}(-y \mid x) )$
+\end{itemize}
+
+\section*{Decomposable Loss Functions}
+Loss function for logistic regression:
+
+\begin{equation}
+L(w) = \sum_{i=1}^{n} \ln \left(1 + e^{-y^{(i)}\left(w \cdot x^{(i)}\right)}\right) = \sum_{i=1}^{n}\left(\text{loss of } w \text{ on }\left(x^{(i)}, y^{(i)}\right)\right)
+\end{equation}
+
+Most ML loss functions are like this: Given $( \left(x^{(1)}, y^{(1)}\right), \ldots, \left(x^{(n)}, y^{(n)}\right) )$,
+
+\begin{equation}
+L(w) = \sum_{i=1}^{n} \ell\left(w ; x^{(i)}, y^{(i)}\right)
+\end{equation}
+
+where $( \ell(w ; x, y) )$ captures the loss on a single point.
+
+\section*{Gradient Descent and Stochastic Gradient Descent}
+For minimizing
+
+\begin{equation}
+L(w) = \sum_{i=1}^{n} \ell\left(w ; x^{(i)}, y^{(i)}\right)
+\end{equation}
+
+\subsection*{Gradient descent:}
+\begin{itemize}
+    \item $( w_{0} = 0 )$
+    \item While not converged:
+    \begin{equation}
+    w_{t+1} = w_{t} - \eta_{t} \sum_{i=1}^{n} \nabla \ell\left(w_{t} ; x^{(i)}, y^{(i)}\right)
+    \end{equation}
+\end{itemize}
+
+\subsection*{Stochastic gradient descent:}
+\begin{itemize}
+    \item $( w_{0} = 0 )$
+    \item Keep cycling through data points $( x, y )$:
+    \begin{equation}
+    w_{t+1} = w_{t} - \eta_{t} \nabla \ell\left(w_{t} ; x, y\right)
+    \end{equation}
+\end{itemize}
+
+\subsection*{Mini-batch gradient descent:}
+\begin{itemize}
+    \item $( w_{0} = 0 )$
+    \item Repeat:
+    \begin{itemize}
+        \item Get the next batch of points $( B )$
+        \item $( w_{t+1} = w_{t} - \eta_{t} \sum_{(x, y) \in B} \nabla \ell\left(w_{t} ; x, y\right) )$
+    \end{itemize}
+\end{itemize}
+
+\section*{Is our Loss Function Convex?}
+
+\section*{Convexity}
+A function $( f: \mathbb{R}^{d} \rightarrow \mathbb{R} )$ is convex if for all $( a, b \in \mathbb{R}^{d} )$ and $( 0 < \theta < 1 )$,
+
+\begin{equation}
+f(\theta a + (1 - \theta) b) \leq \theta f(a) + (1 - \theta) f(b)
+\end{equation}
+
+It is strictly convex if strict inequality holds for all $( a \neq b )$.
+
+$( f )$ is concave $\Leftrightarrow -f$ is convex
+
+\section*{Checking Convexity for Functions of One Variable}
+A function $( f: \mathbb{R} \rightarrow \mathbb{R} )$ is convex if its second derivative is $(\geq 0)$ everywhere.
+
+Example: $( f(z) = z^{2} )$
+
+\subsection*{Function of one variable}
+\begin{equation}
+F: \mathbb{R} \rightarrow \mathbb{R}
+\end{equation}
+
+\begin{itemize}
+    \item Value: number
+    \item Derivative: number
+    \item Second derivative: number
+\end{itemize}
+
+Convex if second derivative is always $(\geq 0)$
+
+\subsection*{Function of $( d )$ variables}
+\begin{equation}
+F: \mathbb{R}^{d} \rightarrow \mathbb{R}
+\end{equation}
+
+\begin{itemize}
+    \item Value: number
+    \item Derivative: $( d )$-dimensional vector
+    \item Second derivative: $( d \times d )$ matrix
+\end{itemize}
+
+Convex if second derivative matrix is always positive semidefinite
+
+\section*{First \& Second Derivatives of Multivariate Functions}
+For a function $( f: \mathbb{R}^{d} \rightarrow \mathbb{R} )$,
+
+\begin{itemize}
+    \item the first derivative is a vector with $( d )$ entries:
+    \begin{equation}
+    \nabla f(z) = \left(\begin{array}{c}
+    \frac{\partial f}{\partial z_{1}} \\
+    \vdots \\
+    \frac{\partial f}{\partial z_{d}}
+    \end{array}\right)
+    \end{equation}
+
+    \item the second derivative is a $( d \times d )$ matrix, the Hessian $( H(z) )$:
+    \begin{equation}
+    H_{j k} = \frac{\partial^{2} f}{\partial z_{j} \partial z_{k}}
+    \end{equation}
+\end{itemize}
+
+\section*{Example}
+$( w \in \mathbb{R}^{d} )$ and $( F(w) = \|w\|^{2} )$. Find the derivative.
+
+\section*{Example}
+Find the second derivative matrix of $( F(w) = \|w\|^{2} )$.
+
+\section*{Gradient Descent}
+For minimizing a function $( L(w) )$:
+
+\begin{itemize}
+    \item $( w_{0} = 0, t = 0 )$
+    \item while $( \nabla L(w_{t}) \approx 0 )$:
+    \begin{itemize}
+        \item $( w_{t+1} = w_{t} - \eta_{t} \nabla L(w_{t}) )$
+        \item $( t = t + 1 )$
+    \end{itemize}
+\end{itemize}
+
+Here $( \eta_{t} )$ is the step size at time $( t )$.
+
+\section*{Gradient Descent: Rationale}
+"Differentiable" $\Rightarrow$ "locally linear".
+
+For small displacements $( u \in \mathbb{R}^{d} )$,
+
+\begin{equation}
+L(w + u) \approx L(w) + u \cdot \nabla L(w)
+\end{equation}
+
+Therefore, if $( u = -\eta \nabla L(w) )$ is small,
+
+\begin{equation}
+L(w + u) \approx L(w) - \eta \|\nabla L(w)\|^{2} < L(w)
+\end{equation}
+
+\section*{The Step Size Matters}
+Gradient Descent Update: $( w_{t+1} = w_{t} - \eta_{t} \nabla L(w_{t}) )$.
+
+\begin{itemize}
+    \item Step size $( \eta_{t} )$ too small: not much progress
+    \item Too large: overshoot the mark
+\end{itemize}
+
+One option: pick $( \eta_{t} )$ using a line search
+
+\begin{equation}
+\eta_{t} = \underset{\alpha > 0}{\arg \min } L\left(w_{t} - \alpha \nabla L(w_{t})\right)
+\end{equation}
+
+\section*{Example: Logistic Regression}
+For $( \left(x^{(1)}, y^{(1)}\right), \ldots, \left(x^{(n)}, y^{(n)}\right) \in \mathbb{R}^{d} \times \{-1,1\} )$, loss function:
+
+\begin{equation}
+L(w) = \sum_{i=1}^{n} \ln \left(1 + e^{-y^{(i)}\left(w \cdot x^{(i)}\right)}\right)
+\end{equation}
+
+What is the derivative?
+
+\begin{itemize}
+    \item Set $( w_{0} = 0 )$
+    \item For $( t = 0, 1, 2, \ldots )$, until convergence:
+    \begin{equation}
+    w_{t+1} = w_{t} + \eta_{t} \sum_{i=1}^{n} y^{(i)} x^{(i)} \underbrace{P r_{w_{t}}\left(-y^{(i)} \mid x^{(i)}\right)}_{\operatorname{doubt}_{t}\left(x^{(i)}, y^{(i)}\right)}
+    \end{equation}
+\end{itemize}
+
+\section*{Recall}
+Every square matrix $( M )$ encodes a quadratic function:
+
+\begin{equation}
+x \longmapsto x^{T} M x = \sum_{i=1}^{d} M_{i j} x_{i} x_{j}
+\end{equation}
+
+$( M )$ is a $( d \times d )$ matrix and $( x )$ is a vector in $( \mathbb{R}^{d} )$.
+
+\section*{Positive Semidefinite Matrices}
+A symmetric matrix $( M )$ is positive semidefinite (psd) if:
+
+\begin{equation}
+x^{T} M x \geq 0 \text{ for all vectors } x
+\end{equation}
+
+\subsection*{When is a diagonal matrix PSD?}
+
+\subsection*{If $( M )$ is PSD, must $( c M )$ be PSD for a constant $( c )$?}
+
+\subsection*{If $( M, N )$ are of the same size and PSD, must $( M + N )$ be PSD?}
+
+\section*{Checking if a Matrix is PSD}
+A matrix $( M )$ is PSD if and only if it can be written as $( M = U U^{T} )$ for some matrix $( U )$.
+
+Quick check: say $( U \in \mathbb{R}^{r \times d} )$ and $( M = U U^{T} )$.
+
+\begin{enumerate}
+    \item $( M )$ is square.
+    \item $( M )$ is symmetric.
+    \item Pick any $( x \in \mathbb{R}^{r} )$. Then
+    \begin{equation}
+    \begin{aligned}
+    x^{T} M x & = x^{T} U U^{T} x \\
+    & = \left(x^{T} U\right)\left(U^{T} x\right) \\
+    & = \left(U^{T} x\right)^{T}\left(U^{T} x\right) \\
+    & = \left\|U^{T} x\right\|^{2} \geq 0
+    \end{aligned}
+    \end{equation}
+\end{enumerate}
+
+\subsection*{Another useful fact}
+Any covariance matrix is PSD.
+
+\section*{A Hierarchy of Square Matrices}
+
+\subsection*{Square}
+\begin{equation}
+M \in \mathbb{R}^{d \times d}
+\end{equation}
+
+\subsection*{Positive Semidefinite}
+\begin{equation}
+x^{T} M x \geq 0 \text{ for all } x \in \mathbb{R}^{d}
+\end{equation}
+
+\section{Checking Convexity}
+
+\subsection{Function of one variable}
+
+$F:\mathbb{R}\longrightarrow\mathbb{R}$
+
+\begin{itemize}
+    \item Value: number
+    \item Derivative: number
+    \item Second derivative: number
+\end{itemize}
+
+Convex if second derivative is always $\ge0$
+
+\subsection{Function of d variables}
+
+$F:\mathbb{R}^{d}\longrightarrow\mathbb{R}$
+
+\begin{itemize}
+    \item Value: number
+    \item Derivative: d-dimensional vector
+    \item Second derivative: $d\times d$ matrix
+\end{itemize}
+
+Convex if second derivative matrix is always positive semidefinite
+
+\section{Second-Derivative Test for Convexity}
+
+A function of several variables, $F(z)$, is convex if its second-derivative matrix $H(z)$ is positive semidefinite for all z.
+
+\subsection{More formally:}
+
+Suppose that for $f:\mathbb{R}^{d}\rightarrow\mathbb{R}$ the second partial derivatives exist everywhere and are continuous functions of z.
+
+Then:
+
+\begin{enumerate}
+    \item $H(z)$ is a symmetric matrix
+    \item f is convex $\Leftrightarrow$ $H(z)$ is positive semidefinite for all $z\in\mathbb{R}^{d}$
+\end{enumerate}
+
+\section{Example}
+
+Is $f(x)=||x||^{2}$ convex?
+
+\section{Example}
+
+Fix any vector $u\in\mathbb{R}^{d}$ Is this function $f:\mathbb{R}^{d}\rightarrow\mathbb{R}$ convex?
+
+$f(z)=(u\cdot z)^{2}$
+
+\section{Least-Squares Regression}
+
+Recall loss function: for data points $(x^{(i)},y^{(i)})\in\mathbb{R}^{d}\times\mathbb{R}$.
+
+$L(w)=\sum_{i=1}^{n}(y^{(i)}-(w\cdot x^{(i)}))^{2}$
+
+\section{Minimizing a loss function}
+
+Usual setup in machine learning: choose a model w by minimizing a loss function $L(w)$ that depends on the data. [cite: 2, 3]
+
+\begin{itemize}
+    \item Linear regression: $L(w)=\sum_{i}(y^{(i)}-(w\cdot x^{(i)}))^{2}$  [cite: 3]
+    \item Logistic regression: $l(w)=\sum_{i}ln(1+e^{-y^{(i)}(w\cdot x^{(i)})})$ [cite: 3]
+\end{itemize}
+
+Default way to solve this minimization: local search. [cite: 3, 4]
+
+\section{Local search}
+
+\begin{itemize}
+    \item Initialize w arbitrarily
+    \item Repeat until w converges:
+    \begin{itemize}
+        \item Find some $w^{\prime}$ close to w with $L(w^{\prime})<L(w)$. [cite: 4, 5]
+        \item Move w to $w^{\prime}$. [cite: 5]
+    \end{itemize}
+\end{itemize}
+
+\section{A good situation for local search}
+
+When the loss function is convex:
+
+Idea for picking search direction: Look at the derivative of $L(w)$ at the current point w. [cite: 6]
+
+\section{Gradient descent}
+
+For minimizing a function $L(w)$:
+
+$w_{o}=0$ $t=0$
+
+\begin{itemize}
+    \item while $\nabla L(w_{t})\approx0:$
+    \begin{itemize}
+        \item $w_{t+1}=w_{t}-\eta_{t}\nabla L(w_{t})$  [cite: 7]
+        \item $t=t+1$
+    \end{itemize}
+\end{itemize}
+
+Here $\eta_{t}$ is the step size at time t. [cite: 7]
+
+\section{Multivariate differentiation}
+
+Example: $w\in\mathbb{R}^{3}$ and $F(w)=3w_{1}w_{2}+w_{3}.$  [cite: 8]
+
+Example: $w\in\mathbb{R}^{d}$ and $F(w)=w\cdot x.$ [cite: 8]
+
+\section{Gradient descent: rationale}
+
+"Differentiable" $\approx$ "locally linear". [cite: 9]
+
+For small displacements $u\in\mathbb{R}^{d}$
+
+$L(w+u)\approx L(w)+u\cdot\nabla L(w)$  [cite: 9]
+
+Therefore, if $u=-\eta\nabla L(w)$ is small,
+
+$L(w+u)\approx L(w)-\eta||\nabla L(w)||^{2}<L(w)$ [cite: 9]
+
+\section{The step size matters}
+
+Update rule: $w_{t+1}=w_{t}-\eta_{t}\nabla L(w_{t})$
+
+\begin{itemize}
+    \item Step size $\eta_{t}$ too small: not much progress
+    \item Too large: overshoot the mark
+\end{itemize}
+
+Some choices:
+
+\begin{itemize}
+    \item Set $\eta_{t}$ according to a fixed schedule, like $1/t$
+    \item Choose by line search to minimize $L(w_{t+1})$
+\end{itemize}
+
+\section{Example: logistic regression}
+
+For $(x^{(1)},y^{(1)}),...,(x^{(n)},y^{(n)})\in\mathbb{R}^{d}\times\{-1,+1\}$, loss function
+
+$L(w)=\sum_{i=1}^{n}ln(1+e^{-y^{(i)}(w\cdot x^{(i)})})$  [cite: 10]
+
+What is the derivative?
+
+\section{Gradient descent for logistic regression}
+
+\begin{itemize}
+    \item Set $w_{0}=0$
+    \item For $t=0,1,2,...,$ until convergence:
+
+    $w_{t+1}=w_{t}+\eta_{t}\sum_{i=1}^{n}y^{(i)}x^{(i)}Pr_{w_{t}}(-y^{(i)}|x^{(i)})$  [cite: 12]
+\end{itemize}
+
+\section{Gradient descent for large data sets?}
+
+\begin{itemize}
+    \item Set $w_{0}=0$
+    \item For $t=0,1,2,...,$ until convergence:
+
+    $w_{t+1}=w_{t}+\eta_{t}\sum_{i=1}^{n}y^{(i)}x^{(i)}Pr_{w_{t}}(-y^{(i)}|x^{(i)})$  [cite: 13]
+\end{itemize}
+
+Each update involves the entire data set, which is inconvenient. [cite: 13, 14]
+
+\section{Stochastic gradient descent: update based on just one point:}
+
+\begin{itemize}
+    \item Get next data point $(x,y)$ by cycling through data set
+    \item $w_{t+1}=w_{t}+\eta_{t}y~xPr_{w_{t}}(-y|x)$  [cite: 14]
+\end{itemize}
+
+\section{Decomposable loss functions}
+
+Loss function for logistic regression:
+
+$L(w)=\sum_{i=1}^{n}ln(1+e^{-y^{(i)}(w\cdot x^{(i)})})=\sum_{i=1}^{n}($ loss of won $(x^{(i)},y^{(i)}))$ [cite: 15]
+
+Most ML loss functions are like this: for data $(x^{(1)},y^{(1)}),...,(x^{(n)},y^{(n)})$,
+
+$l(w)=\sum_{i=1}^{n}l(w;x^{(i)},y^{(i)})$  [cite: 15]
+
+where $l(w;x,y)$ captures the loss on a single point. [cite: 15, 16]
+
+\section{Gradient descent and stochastic gradient descent}
+
+For minimizing
+
+$L(w)=\sum_{i=1}^{n}l(w;x^{(i)},y^{(i)})$
+
+Gradient descent:
+
+$w_{o}=0$
+
+\begin{itemize}
+    \item while not converged:
+
+     $w_{t+1}=w_{t}-\eta_{t}\sum_{i=1}^{n}\nabla l(w_{t};x^{(i)},y^{(i)})$ [cite: 16]
+\end{itemize}
+
+Stochastic gradient descent:
+$w_{o}=0$
+
+\begin{itemize}
+    \item Keep cycling through data points (x, y):
+
+    $w_{t+1}=w_{t}-\eta_{t}\nabla l(w_{t};x,y)$ [cite: 16]
+\end{itemize}
+
+\section{Variant: mini-batch stochastic gradient descent}
+
+Stochastic gradient descent:
+
+$w_{o}=0$
+
+\begin{itemize}
+    \item Keep cycling through data points $(x,y)$
+    $w_{t+1}=w_{t}-\eta_{t}\nabla l(w_{t};x,y)$  [cite: 17]
+\end{itemize}
+
+Mini-batch stochastic gradient descent:
+
+ $w_{o}=0$
+
+\begin{itemize}
+    \item Repeat:
+    \item Get the next batch of points B
+    \item $w_{t+1}=w_{t}-\eta_{t}\sum_{(x,y)\in B}\nabla l(w_{t};x,y)$  [cite: 17]
+\end{itemize}
+
+\section{Convexity}
+
+Is our loss function convex?
+
+\section{Convexity}
+
+A function $f:\mathbb{R}^{d}\rightarrow\mathbb{R}$ is convex if for all a, $b\in\mathbb{R}^{d}$ and $0<\theta<1$
+
+$f(\theta a+(1-\theta)b)\le\theta f(a)+(1-\theta)f(b)$. [cite: 47]
+
+It is strictly convex if strict inequality holds for all $a\ne b$. [cite: 48]
+
+f is concave $\Leftrightarrow-f$ is convex [cite: 49]
+
+\subsection{Checking convexity for functions of one variable}
+
+A function $f:\mathbb{R}\rightarrow\mathbb{R}$ is convex if its second derivative is $\ge0$ everywhere. [cite: 49]
+
+Example: $f(z)=z^{2}$ [cite: 50]
+
+\section{Checking convexity}
+
+\subsection{Function of one variable}
+
+$F:\mathbb{R}\rightarrow\mathbb{R}$
+
+\begin{itemize}
+    \item Value: number
+    \item Derivative: number
+    \item Second derivative: number
+\end{itemize}
+
+Convex if second derivative is always $\ge0$
+
+\subsection{Function of d variables}
+
+$F:\mathbb{R}^{d}\rightarrow\mathbb{R}$
+
+\begin{itemize}
+    \item Value: number
+    \item Derivative: d-dimensional vector
+    \item Second derivative: $d\times d$ matrix
+\end{itemize}
+
+Convex if second derivative matrix is always positive semidefinite
+
+\subsection{First and second derivatives of multivariate functions}
+
+For a function $f:\mathbb{R}^{d}\rightarrow\mathbb{R}$
+
+\begin{itemize}
+    \item the first derivative is a vector with d entries:
+
+    $\nabla f(z)=\begin{pmatrix}\frac{\partial f}{\partial z_{1}}\\ \vdots\\ \frac{\partial f}{\partial z_{d}}\end{pmatrix}$
+    \item the second derivative is a $d\times d$ matrix, the Hessian $H(z)$:
+
+    $H_{jk}=\frac{\partial^{2}f}{\partial z_{j}\partial z_{k}}$
+\end{itemize}
+
+\section{Example}
+
+Find the second derivative matrix of $f(z)=||z||^{2}$. [cite: 52]
+
+\subsection{When is a square matrix "positive"?}
+
+\begin{itemize}
+    \item A superficial notion: when all its entries are positive
+    \item A deeper notion: when the quadratic function defined by it is always positive
+\end{itemize}
+
+Example:
+
+$M=\begin{pmatrix}1&1\\ 1&1\end{pmatrix}$ [cite: 53]
+
+\section{Positive semidefinite matrices}
+
+Recall: every square matrix M encodes a quadratic function:
+
+$x\mapsto x^{T}Mx=\sum_{i,j=1}^{d}M_{ij}x_{i}x_{j}$
+
+(M is a $d\times d$ matrix and x is a vector in $\mathbb{R}^{d}$)
+
+A symmetric matrix M is positive semidefinite (psd) if:
+
+$x^{T}Mx\ge0$ for all vectors x
+
+A symmetric matrix M is positive semidefinite (psd) if:
+
+$x^{T}Mx\ge0$ for all vectors x
+
+We saw that $\begin{pmatrix}1&1\\ 1&1\end{pmatrix}$ is PSD. [cite: 54]
+
+What about $\begin{pmatrix}1&2\\ 2&1\end{pmatrix}$ ? [cite: 55]
+
+\section{}
+
+A symmetric matrix M is positive semidefinite (psd) if:
+
+$x^{T}Mx\ge0$ for all vectors z
+
+When is a diagonal matrix PSD? [cite: 56]
+
+A symmetric matrix M is positive semidefinite (psd) if:
+
+$x^{T}Mx\ge0$ for all vectors z
+
+If M is PSD, must cM be PSD for a constant c? [cite: 57]
+
+\section{}
+
+A symmetric matrix M is positive semidefinite (psd) if:
+
+$x^{T}Mx\ge0$ for all vectors z
+
+If M, N are of the same size and PSD, must $M+N$ be PSD? [cite: 58]
+
+\subsection{Checking if a matrix is PSD}
+
+A matrix M is PSD if and only if it can be written as $M=UU^{T}$ for some matrix U. [cite: 59]
+
+Quick check: say $U\in\mathbb{R}^{r\times d}$ and $M=UU^{T}$
+
+\begin{itemize}
+    \item  M is square. [cite: 59]
+    \item M is symmetric. [cite: 60]
+\end{itemize}
+
+Pick any $x\in\mathbb{R}^{r}$ Then
+
+$x^{T}Mx=x^{T}UU^{T}x=(x^{T}U)(U^{T}x)$
+
+$=(U^{T}x)^{T}(U^{T}x)$
+
+$=||U^{T}x||^{2}\ge0$. [cite: 60]
+
+Another useful fact: any covariance matrix is PSD. [cite: 60]
+
+\section{A hierarchy of square matrices}
+
+Square
+
+$M\in\mathbb{R}^{d\times d}$
+
+Symmetric
+
+$M=M^{T}$
+
+Positive semidefinite
+
+$x^{T}Mx\ge0$ for all $x\in\mathbb{R}^{d}$ [cite: 61]
+
+\subsection{Second-derivative test for convexity}
+
+A function of several variables, $F(z)$, is convex if its second-derivative matrix $H(z)$ is positive semidefinite for all z. [cite: 61]
+
+More formally:
+
+Suppose that for $f:\mathbb{R}^{d}\rightarrow\mathbb{R},$ the second partial derivatives exist everywhere and are continuous functions of z. [cite: 62, 63]
+Then:
+
+\begin{itemize}
+    \item $H(z)$ is a symmetric matrix
+    \item f is convex $\Leftrightarrow$ $H(z)$ is positive semidefinite for all $z\in\mathbb{R}^{d}$ [cite: 63]
+\end{itemize}
+
+\section{Example}
+
+Is $f(x)=||x||^{2}$ convex? [cite: 64]
+
+\section{Example}
+
+Fix any vector $u\in\mathbb{R}^{d}$ Is this function $f:\mathbb{R}^{d}\rightarrow\mathbb{R}$ convex?
+
+$f(z)=(u\cdot z)^{2}$ [cite: 64]
+
+\section{Least-squares regression}
+
+Recall loss function: for data points $(x^{(i)},y^{(i)})\in\mathbb{R}^{d}\times\mathbb{R},$
+
+$L(w)=\sum_{i=1}^{n}(y^{(i)}-(w\cdot x^{(i)}))^{2}$ [cite: 65]
+
+\newpage
+
+\end{document}
+
