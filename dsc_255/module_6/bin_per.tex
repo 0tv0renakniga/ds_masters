@@ -1,0 +1,318 @@
+
+\documentclass{article}
+
+% Required packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% Set page geometry
+\geometry{a4paper, margin=1in}
+
+% Configure listings for Python
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  commentstyle=\color{gray}\textit,
+  keywordstyle=\color{blue}\bfseries,
+  stringstyle=\color{red}
+}
+
+\title{The Binary Perceptron Algorithm: Mathematical Foundation and Implementation}
+\author{DSC 255: Machine Learning Fundamentals}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+The Perceptron algorithm, introduced by Frank Rosenblatt in 1957, is one of the earliest and most fundamental machine learning algorithms. It serves as the building block for more complex neural networks and provides valuable insights into the principles of linear classification. This document provides a comprehensive explanation of the binary Perceptron algorithm, covering its mathematical foundations, convergence properties, implementation details, and practical applications.
+
+\section{Mathematical Foundation}
+
+\subsection{Linear Classification}
+
+The binary Perceptron is designed to solve binary classification problems where the goal is to find a hyperplane that separates two classes of data points. In a $d$-dimensional feature space, this hyperplane is defined by:
+
+\begin{equation}
+w \cdot x + b = 0
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $w \in \mathbb{R}^d$ is the weight vector perpendicular to the hyperplane
+    \item $b \in \mathbb{R}$ is the bias term (or negative threshold)
+    \item $x \in \mathbb{R}^d$ is a data point in the feature space
+\end{itemize}
+
+The classification rule is given by:
+
+\begin{equation}
+f(x) = \text{sign}(w \cdot x + b) = 
+\begin{cases}
++1 & \text{if } w \cdot x + b \geq 0 \\
+-1 & \text{if } w \cdot x + b < 0
+\end{cases}
+\end{equation}
+
+This rule assigns a data point $x$ to the positive class if it lies on or above the hyperplane, and to the negative class if it lies below the hyperplane.
+
+\subsection{Linear Separability}
+
+A dataset is said to be linearly separable if there exists a hyperplane that perfectly separates the positive examples from the negative examples. Mathematically, a dataset $\{(x_1, y_1), (x_2, y_2), \ldots, (x_n, y_n)\}$ where $x_i \in \mathbb{R}^d$ and $y_i \in \{-1, +1\}$ is linearly separable if there exists a weight vector $w \in \mathbb{R}^d$ and a bias term $b \in \mathbb{R}$ such that:
+
+\begin{equation}
+y_i(w \cdot x_i + b) > 0 \quad \forall i \in \{1, 2, \ldots, n\}
+\end{equation}
+
+This condition ensures that all positive examples lie on one side of the hyperplane and all negative examples lie on the other side.
+
+\section{The Perceptron Algorithm}
+
+\subsection{Algorithm Description}
+
+The Perceptron algorithm is an iterative method that attempts to find a separating hyperplane for linearly separable data. It works by making incremental updates to the weight vector and bias term whenever it encounters a misclassified example.
+
+\begin{algorithm}
+\caption{Binary Perceptron Algorithm}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Training data $\{(x_1, y_1), (x_2, y_2), \ldots, (x_n, y_n)\}$ where $x_i \in \mathbb{R}^d$ and $y_i \in \{-1, +1\}$
+\State \textbf{Initialize:} $w \gets 0 \in \mathbb{R}^d$, $b \gets 0$
+\While{not converged}
+    \State Randomly permute the training data
+    \State made\_update $\gets$ False
+    \For{$i = 1$ to $n$}
+        \If{$y_i(w \cdot x_i + b) \leq 0$} \Comment{If point is misclassified}
+            \State $w \gets w + y_i x_i$ \Comment{Update weight vector}
+            \State $b \gets b + y_i$ \Comment{Update bias term}
+            \State made\_update $\gets$ True
+        \EndIf
+    \EndFor
+    \If{not made\_update} \Comment{If no updates were made in this iteration}
+        \State \textbf{break} \Comment{Algorithm has converged}
+    \EndIf
+\EndWhile
+\State \textbf{Return:} $w, b$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Update Rule}
+
+The core of the Perceptron algorithm is its update rule. When a point $(x_i, y_i)$ is misclassified, the algorithm updates the weight vector and bias term as follows:
+
+\begin{align}
+w &\gets w + y_i x_i \\
+b &\gets b + y_i
+\end{align}
+
+This update has an intuitive geometric interpretation:
+\begin{itemize}
+    \item If $y_i = +1$ (positive example misclassified as negative), we add $x_i$ to $w$, which moves the hyperplane toward the positive example.
+    \item If $y_i = -1$ (negative example misclassified as positive), we subtract $x_i$ from $w$, which moves the hyperplane away from the negative example.
+\end{itemize}
+
+\subsection{Convergence Theorem}
+
+One of the most important theoretical results about the Perceptron algorithm is the Perceptron Convergence Theorem, which states:
+
+\begin{itemize}
+    \item Perceptron Convergence Theorem: If the training data is linearly separable, then the Perceptron algorithm will converge in a finite number of updates.
+\end{itemize}
+
+More specifically, if there exists a unit vector $u$ and a margin $\gamma > 0$ such that $y_i(u \cdot x_i) \geq \gamma$ for all $i$, and if $\|x_i\| \leq R$ for all $i$, then the Perceptron algorithm will make at most $\left(\frac{R}{\gamma}\right)^2$ updates before converging.
+
+This theorem guarantees that if a separating hyperplane exists, the Perceptron will find it in a finite number of steps. However, if the data is not linearly separable, the algorithm may never converge.
+
+\section{Dual Form of the Perceptron}
+
+\subsection{Dual Representation}
+
+The Perceptron algorithm can also be formulated in its dual form, where the weight vector is represented as a linear combination of the training examples:
+
+\begin{equation}
+w = \sum_{i=1}^{n} \alpha_i y_i x_i
+\end{equation}
+
+where $\alpha_i$ counts how many times example $i$ has been misclassified during training.
+
+In this formulation, the classification rule becomes:
+
+\begin{equation}
+f(x) = \text{sign}\left(\sum_{i=1}^{n} \alpha_i y_i (x_i \cdot x) + b\right)
+\end{equation}
+
+\subsection{Properties of the Dual Form}
+
+The dual form has several interesting properties:
+\begin{itemize}
+    \item The sum of all $\alpha_i$ values equals the total number of updates made by the algorithm.
+    \item The number of nonzero $\alpha_i$ values is at most equal to the number of updates.
+    \item Examples with $\alpha_i > 0$ are those that were misclassified at least once during training.
+\end{itemize}
+
+\section{Implementation in Python}
+
+\subsection{Prediction Function}
+
+The prediction function implements the classification rule $f(x) = \text{sign}(w \cdot x + b)$:
+
+\begin{lstlisting}[caption=Prediction Function]
+def predict(w, b, x):
+    """
+    Predict the label for a data point using a linear classifier.
+    
+    Parameters:
+    w (numpy.ndarray): Weight vector
+    b (float): Bias term
+    x (numpy.ndarray): Data point
+    
+    Returns:
+    int: Predicted label (+1 or -1)
+    """
+    # calc dot product
+    activation = np.dot(w, x) + b
+    
+    # Return the sign of the activation
+    return 1 if activation >= 0 else -1
+\end{lstlisting}
+
+\subsection{Training Function}
+
+The training function implements the Perceptron algorithm:
+
+\begin{lstlisting}[caption=Perceptron Training Function]
+def perceptron_train(X, y, max_iterations=1000):
+    """
+    Train a binary Perceptron on the given data.
+    
+    Parameters:
+    X (numpy.ndarray): Array of data points (n_samples, n_features)
+    y (numpy.ndarray): Array of labels (+1 or -1)
+    max_iterations (int): Maximum number of iterations through the dataset
+    
+    Returns:
+    tuple: (w, b, updates) - weight vector, bias term, and number of updates made
+    """
+    # Get dimensions
+    n_samples, n_features = X.shape
+    
+    # Initialize weights and bias
+    w = np.zeros(n_features)
+    b = 0
+    
+    # Counter for updates
+    updates = 0
+    
+    # Training loop
+    for _ in range(max_iterations):
+        # Randomly permute the data
+        X_shuffled, y_shuffled = shuffle(X, y)
+        
+        # Flag to check if any updates were made in this iteration
+        made_update = False
+        
+        # Go through all data points
+        for i in range(n_samples):
+            # Get current point and label
+            x_i = X_shuffled[i]
+            y_i = y_shuffled[i]
+            
+            # Make prediction
+            y_pred = predict(w, b, x_i)
+            
+            # Update if misclassified
+            if y_pred != y_i:
+                w = w + y_i * x_i
+                b = b + y_i
+                updates += 1
+                made_update = True
+        
+        # If no updates were made in this iteration, we've converged
+        if not made_update:
+            break
+    
+    return w, b, updates
+\end{lstlisting}
+
+\section{Visualization and Analysis}
+
+\subsection{Decision Boundary Visualization}
+
+For two-dimensional data, we can visualize the decision boundary as a line. The equation of this line is derived from the hyperplane equation $w \cdot x + b = 0$:
+
+For $w = (w_1, w_2)$ and $x = (x_1, x_2)$, we have:
+\begin{align}
+w_1 x_1 + w_2 x_2 + b &= 0 \\
+\Rightarrow x_2 &= \frac{-w_1 x_1 - b}{w_2}
+\end{align}
+
+This gives us a line with slope $-\frac{w_1}{w_2}$ and y-intercept $-\frac{b}{w_2}$.
+
+\subsection{Convergence Analysis}
+
+The number of updates made by the Perceptron algorithm before convergence can vary depending on:
+\begin{itemize}
+    \item The initial random permutation of the data
+    \item The margin of separation between the classes
+    \item The scale of the feature values
+\end{itemize}
+
+By running the algorithm multiple times with different random permutations, we can analyze the distribution of the number of updates required for convergence. This provides insights into the difficulty of the classification problem and the stability of the algorithm.
+
+\section{Limitations and Extensions}
+
+\subsection{Limitations}
+
+The Perceptron algorithm has several limitations:
+\begin{itemize}
+    \item It only works for linearly separable data. If the data is not linearly separable, the algorithm will not converge.
+    \item It does not provide probability estimates for its predictions.
+    \item It is sensitive to the scale of the features and to outliers.
+    \item The solution found depends on the order in which the examples are presented.
+\end{itemize}
+
+\subsection{Extensions}
+
+Several extensions have been proposed to address these limitations:
+\begin{itemize}
+    \item The Pocket Algorithm: Keeps track of the best solution found so far, making it suitable for non-linearly separable data.
+    \item Voted Perceptron: Maintains a weighted vote of all weight vectors encountered during training.
+    \item Kernel Perceptron: Uses the kernel trick to handle non-linearly separable data.
+    \item Averaged Perceptron: Averages all weight vectors encountered during training to improve generalization.
+\end{itemize}
+
+\section{Conclusion}
+
+The binary Perceptron algorithm is a fundamental building block in machine learning. Despite its simplicity, it provides valuable insights into the principles of linear classification and serves as the foundation for more complex models. Understanding the Perceptron algorithm—its mathematical foundations, convergence properties, and limitations—is essential for any practitioner in the field of machine learning.
+
+\begin{thebibliography}{9}
+\bibitem{rosenblatt1958perceptron}
+Rosenblatt, F. (1958). The perceptron: a probabilistic model for information storage and organization in the brain. Psychological review, 65(6), 386.
+
+\bibitem{novikoff1962convergence}
+Novikoff, A. B. (1962). On convergence proofs for perceptrons. In Proceedings of the Symposium on the Mathematical Theory of Automata (Vol. 12, pp. 615-622).
+
+\bibitem{freund1999large}
+Freund, Y., \& Schapire, R. E. (1999). Large margin classification using the perceptron algorithm. Machine learning, 37(3), 277-296.
+\end{thebibliography}
+
+\end{document}
