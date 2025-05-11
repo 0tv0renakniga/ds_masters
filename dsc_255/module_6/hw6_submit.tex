@@ -735,6 +735,17 @@ Since we're told that the algorithm converges after $k$ updates, this implies th
 \noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
+\subsection*{Solution 5 (a)}
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+Support vectors($\alpha_i$)are the training points that lie exactly on the margin. However, we are told the decision boundary was obtained upon running \textit{soft-margin SVM}.
+The soft-margin support vectors include the following points:
+\begin{itemize}
+  \item points inside margin
+  \item points that are misclassified
+  \item points on the margin
+\end{itemize}
+}
 \begin{center}
   \begin{tikzpicture}
   % Solid decision boundary (approx. average of lines)
@@ -749,7 +760,82 @@ Since we're told that the algorithm converges after $k$ updates, this implies th
   % Red circles
   \foreach \x/\y in {1.6/1.6, 4.2/1.2, 2/4, 3/3,3/4,3/5,2.5/4.5, 4/3,4/2.5} {
     \fill[red] (\x,\y) circle (4pt);}
+
+  % Highlight support vectors and add slack variable values
+  % Support vectors on or near margin boundaries (ξ = 0)
+  
+  % Support vectors between margin and decision boundary (0 < ξ < 1)
+  \draw[black, very thick, circle] (2,2) circle (6pt) node[above] {$\alpha_5$};
+  \draw[black, very thick, circle] (3,3) circle (6pt) node[above right] {$\alpha_6$};
+  \draw[black, very thick, circle] (2,4) circle (6pt) node[below left] {$\alpha_7$};
+  
+  % Support vectors on wrong side of margin (ξ ≥ 1)
+  \draw[purple, very thick, circle] (1.6,1.6) circle (6pt) node[below right] {$\alpha_4$};
+  \draw[green, very thick, circle] (3.3,1.3) circle (6pt) node[below right] {$\alpha_1$};
+  \draw[green, very thick, circle] (4.2,1.2) circle (6pt) node[below right] {$\alpha_2$};
+  \draw[purple, very thick, circle] (0.5,5.1) circle (6pt) node[below right] {$\alpha_3$};
+  
   \end{tikzpicture}
 \end{center}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+The slack variables for the points circled are as follows:
+\begin{itemize}
+  \item points inside margin: $\alpha_1$ and $\alpha_2$ with slack variable values of approximately $0.5$
+  \item points that are misclassified: $\alpha_3$ and $\alpha_4$ with slack variable values of $\alpha_3 \approx 1.5$ and $\alpha_4 \approx 2.5$
+  \item points on the margin: $\alpha_5$, $\alpha_6$, and $\alpha_7$ with slack variable values of approximately $0$
+\end{itemize}
+}
+
+\subsubsection*{\normalfont}{$\therefore$ the support vectors have been marked in \textbf{Step 1} and corresponding slack variable values have been indicated in \textbf{Step 2}.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 5 (b)}
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+We know that increasing or decreasing the factor $C$ or penalty weight has the following effects:
+\begin{itemize}
+  \item decreasing $C$ the margin will grow in size and will allow for more misclassified points
+  \item increasing $C$ the margin will shrink in size and fewer mistakes will be allowed
+\end{itemize}
+}
+
+\subsubsection*{\normalfont}{$\therefore$ increasing the factor $C$ will shrink the margin and fewer mistakes will be allowed.
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 6 (a)}
+\noindent\rule{\textwidth}{0.4pt}
+
+\subsubsection*{\normalfont}{$\therefore$ The statement: \textit{Each $\alpha_{i}$ is either 0 or 1.} is \textbf{possibly false}. A training point may be misclassified more than once, in which case its corresponding $\alpha_i$ would be incremented multiple times and exceed 1.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsection*{Solution 6 (b)}
+\noindent\rule{\textwidth}{0.4pt}
+
+\subsubsection*{\normalfont}{$\therefore$ The statement: \textit{$\sum_{i} \alpha_{i} = k$} is \textbf{definitely true}. The algorithm performs $k$ total updates, and each update increases one of the $\alpha_i$ by exactly 1, so the sum of all $\alpha_i$ must equal $k$.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsection*{Solution 6 (c)}
+\noindent\rule{\textwidth}{0.4pt}
+
+\subsubsection*{\normalfont}{$\therefore$ The statement: \textit{$\alpha$ has at most $k$ nonzero coordinates.} is \textbf{definitely true}. Since only the points that were misclassified at least once are updated, and there are $k$ updates in total, at most $k$ different $\alpha_i$ can be nonzero.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsection*{Solution 6 (d)}
+\noindent\rule{\textwidth}{0.4pt}
+
+\subsubsection*{\normalfont}{$\therefore$ The statement: \textit{The training data must be linearly separable.} is \textbf{definitely true}. The Perceptron algorithm is guaranteed to converge only when the data is linearly separable. Since it converged in $k$ updates, the data must be separable.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
 
 \end{document}
