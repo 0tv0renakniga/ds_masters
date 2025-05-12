@@ -526,4 +526,127 @@ We know that increasing or decreasing the factor $C$ or penalty weight has the f
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
+\newpage
+
+\subsection*{Solution 7}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Python Code}
+
+\begin{lstlisting}
+## import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets
+from sklearn.utils import shuffle
+
+## import iris dataset
+iris = datasets.load_iris()
+x = iris.data
+y = iris.target
+
+## select data for q7
+x_q7 = x[:,[1,3]][np.where(y!=2)]
+y_q7 = y[np.where(y!=2)]
+
+## set 0 labels equal to -1
+y_q7[y_q7 == 0] = -1
+
+## create binary_perceptron function
+def binary_peceptron(w, b, x):
+    if np.dot(w, x) + b >= 0:
+        label = 1
+    else:
+        label = -1
+    return(label)
+    
+## create fit_binary_perceptron function
+def fit_binary_perceptron(x, y, track_updates, set_seed):
+    if set_seed:
+        x, y = shuffle(x, y,random_state=42)
+    else:
+        x, y = shuffle(x, y)
+    w = np.zeros(x.shape[1])
+    b = 0
+    updates = 0
+    max_updates = 1000
+
+    def make_prediction(w, b, x, y, updates):
+        error = False    
+        for xi, yi in zip(x, y):
+            if binary_perceptron(w, b, xi) != yi:
+                w += yi * xi
+                b += yi
+                updates += 1
+                error = True  
+        if updates <= max_updates:
+            if error:
+                return make_prediction(w, b, x, y, updates) 
+            else:
+                return (w, b, updates)
+        else:
+            print(f"Did not converge after {max_iterations} iterations")
+    if track_updates:
+        w, b, updates = make_prediction(w, b, x, y, updates)
+        return (w, b, updates)
+    else:
+        w, b, updates = make_prediction(w, b, x, y, updates)
+        return (w, b)
+
+\end{lstlisting}
+\subsubsection*{Plots}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{hw6_q7_c.png} 
+\caption{Perceptron Decision Boundary}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{hw6_q7_d.png} 
+\caption{Convergence Plot for 20 trials} 
+\end{figure}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 8}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Linear Separation}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{hw6_q8_a.png} 
+\caption{We can not draw a straight line to seperate the two classes, and therefore the data is not linearly separable.} 
+\end{figure}
+\subsubsection*{$C$ Value Training Error}
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc}
+\toprule
+C & Training Error & Number of Support Vectors \\
+\midrule
+0.001 & 0.1700 & 100 \\
+0.01 & 0.1600 & 92 \\
+0.1 & 0.0700 & 56 \\
+1 & 0.0700 & 31 \\
+10 & 0.0500 & 18 \\
+100 & 0.0500 & 14 \\
+1000 & 0.0500 & 14 \\
+10000 & 0.0500 & 14 \\
+100000 & 0.0600 & 14 \\
+1000000 & 0.0700 & 13 \\
+\bottomrule
+\end{tabular}
+\caption{SVM results for 10 different C values}
+\label{tab:svm_results}
+\end{table}
+
+\subsubsection*{Best $C$ Value}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{hw6_q8_a.png} 
+\caption{A C value of 10 was selected since it is the lowest C value with the lowest training error of \%{5.0}.}
+\end{figure}
+\noindent\rule{\textwidth}{0.4pt}\\
+
 \end{document}
