@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,geometry,enumitem}
+\geometry{margin=1in}
+
+\title{DSC 255: Machine Learning \\ Homework 7}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Mathematical and conceptual exercises}
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item A linear predictor is used to solve a classification problem with three classes.
+      The data are two–dimensional and the linear functions for each class are:
+      \begin{itemize}
+      \item Class 1: $w_{1} = (1,1),\; b_{1} = 0$
+      \item Class 2: $w_{2} = (1,0),\; b_{2} = 1$
+      \item Class 3: $w_{3} = (0,1),\; b_{3} = -1$
+      \end{itemize}
+      Draw the resulting decision boundary and clearly mark the region
+      corresponding to each class.
+
+\item \textbf{Plant recognizer.}
+      Suppose you are building a plant recognition system that takes as
+      input a photograph of a plant and outputs the name of that plant.
+      Your intention is that this will be used throughout California.
+      When picking a training set for this task, which of the following
+      options would best satisfy the statistical learning framework?
+      \begin{enumerate}[label=(\alph*)]
+      \item Do a web search on \texttt{American plants} and download a subset of the images you find.
+      \item Obtain a collection of photos from a region of the US whose flora is similar to that of California.
+      \item Go to your favorite Californian city and take photos of the plants you encounter.
+      \end{enumerate}
+      Give a brief explanation of your answer.
+
+\item \textbf{A shortage of data.}
+      We have a binary classification problem with very high-dimensional
+      data: there are a million features.  Unfortunately, we only have
+      1000 training points.  Nonetheless, we train a support vector
+      machine classifier and find that it works well in practice.
+      What is a possible explanation for why we are able to find a good
+      model despite the shortage of labeled data?
+
+\item \textbf{Distribution shift.}
+      Suppose we are building a document classification system that
+      categorizes news articles according to topic: sports, politics,
+      business, and so on.  To train this system, we use a corpus of
+      \emph{New York Times} articles from the past decade.  However, by
+      test time the distribution has changed somewhat.  Each of the
+      following scenarios is an example of either \emph{covariate shift}
+      or \emph{label shift}.  Say which is which, with a brief
+      explanation.
+      \begin{enumerate}[label=(\alph*)]
+      \item There are fewer articles on sports and more on politics.
+      \item The important public figures, and thus the proper nouns in the articles, have changed.
+      \end{enumerate}
+\end{enumerate}
+
+\section*{Programming exercises}
+
+For this week you will need the data file \texttt{data0.txt}, which you can
+download from the course web site.
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item \textbf{Multiclass Perceptron.}
+      Implement the multiclass Perceptron algorithm from class.
+      \begin{enumerate}[label=(\alph*)]
+      \item Load the data set \textit{data0.txt}.  This file contains
+            2-d data in four classes (coded as 0,1,2,3).  Each row
+            consists of the two coordinates of a point followed by its label.
+      \item Run the multiclass Perceptron algorithm to learn a classifier.
+            Create a plot that shows all data points (using different
+            colors and shapes for different labels) as well as the
+            decision regions.
+      \end{enumerate}
+
+\item \textbf{Multiclass SVM.}
+      In this problem we will use support vector machines on the same
+      data set, \texttt{data0.txt}.
+      \begin{itemize}
+      \item Learn a linear SVM classifier using \texttt{sklearn.svm.LinearSVC}.
+            Set \texttt{loss='hinge'} and
+            \texttt{multi\_class='crammer\_singer'}.  Try
+            $C \in \{0.01,\;0.1,\;1.0,\;10.0\}$.
+      \end{itemize}
+      \begin{enumerate}[label=(\alph*)]
+      \item For each value of $C$, plot the decision boundary (no need to
+            show the margins).
+      \item What do you notice as $C$ increases?  Briefly comment.
+      \end{enumerate}
+\end{enumerate}
+
+\end{document}
