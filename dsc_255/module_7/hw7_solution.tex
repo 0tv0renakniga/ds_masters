@@ -232,6 +232,96 @@ We will explore a few potential reasons why the SVM classifier performs well des
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
+\newpage
+
+\subsection*{Solution 5}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+
+\subsubsection*{Python Code}
+
+\begin{lstlisting}
+## import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.utils import shuffle
+
+## load data0.txt
+data = np.loadtxt('data0.txt', dtype=int)
+x = data[:, :2]
+y = data[:, 2]
+
+## get number of unique classes
+k = len(np.unique(y))
+
+## define multi_perceptron function
+def multi_perceptron(w, b, x):
+    predictions = np.dot(w, x) + b
+    best_prediction = predictions.argmax()
+    return(best_prediction)
+    
+## define fit_multi_perceptron function
+def fit_multi_perceptron(x, y, k,track_updates, set_seed):
+    if set_seed:
+        x, y = shuffle(x, y,random_state=42)
+    else:
+        x, y = shuffle(x, y)
+    w = np.zeros((k, x.shape[1]))
+    b = np.zeros(k)
+    updates = 0
+    max_updates = 1000
+
+    def make_prediction(w, b, x, y, updates):
+        error = False    
+        for xi, yi in zip(x, y):
+            predicted_y = multi_perceptron(w, b, xi) 
+            if predicted_y != yi:
+                w[yi] += xi
+                b[yi] += 1
+                w[predicted_y] -= xi
+                b[predicted_y] -= 1
+                updates += 1
+                error = True  
+        if updates <= max_updates:
+            if error:
+                return make_prediction(w, b, x, y, updates) 
+            else:
+                return (w, b, updates)
+        else:
+            print("Did not converge after {max_iterations} iterations")
+    if track_updates:
+        w, b, updates = make_prediction(w, b, x, y, updates)
+        return (w, b, updates)
+    else:
+        w, b, updates = make_prediction(w, b, x, y, updates)
+        return (w, b)
+\end{lstlisting}
+\subsubsection*{Plots}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{hw7_5_b.png} 
+\caption{Multiclass Perceptron decision boundaries.}
+\end{figure}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 6}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Plots}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{hw7_6_a.png} 
+\caption{SVM C value comparison.}
+\end{figure}
+\subsubsection*{C Value Comparison Comments}
+\parbox{\textwidth}{
+  Observations across C values:
+  \begin{itemize}
+    \item As C increases the model partitions the data more effectively
+    \item Since there are a limited amount of features in this dataset (\textit{data0.txt}), we don't have to worry about minimizing the margin, since the computational cost won't skyrocket with this dataset.
+  \end{itemize}
+}
+\noindent\rule{\textwidth}{0.4pt}\\
 
 
 \end{document}
