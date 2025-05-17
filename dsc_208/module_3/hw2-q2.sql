@@ -6,36 +6,35 @@ more. Name the output column city and sort them. List each city only once in
 the result.
 
 	- [Output relation cardinality: 109]
+
 ******************************************************************************/
 -- Query : question 2
 SELECT DISTINCT origin_city AS city
   FROM flights
 EXCEPT SELECT DISTINCT origin_city
   FROM flights
- WHERE actual_time >= 180;   
+ WHERE actual_time >= 180
+ ORDER BY city;  
 /****************************************************************************** 
 *                 city
 * -------------------------------------
-*  "Elko NV"
-*  "Helena MT"
-*  "Twin Falls ID"
-*  "Barrow AK"
-*  "Idaho Falls ID"
-*  "Aberdeen SD"
-*  "La Crosse WI"
-*  "Carlsbad CA"
-*  "Visalia CA"
-*
-*
-*
-*  "Texarkana AR"
-*  "Muskegon MI"
-*  "Mosinee WI"
-*  "Hays KS"
-*  "Petersburg AK"
-*  "Joplin MO"
-*  "Erie PA"
-*  "Kalamazoo MI"
-*  "Bethel AK"
-*  (109 rows)
+ Aberdeen SD
+ Abilene TX
+ Alpena MI
+ Ashland WV
+ Augusta GA
+ Barrow AK
+ Beaumont/Port Arthur TX
+ Bemidji MN
+ ...
+ Visalia CA
+ Waco TX
+ Waterloo IA
+ West Yellowstone MT
+ Wichita Falls TX
+ Wrangell AK
+ Yakutat AK
+ Yuma AZ
+(109 rows)
+
 ******************************************************************************/
