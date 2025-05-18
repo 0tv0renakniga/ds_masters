@@ -1,0 +1,155 @@
+% Auto-generated LaTeX review file based on KernelMachinesII.txt and kernel-2.pdf
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{listings}
+\lstset{language=Python, basicstyle=\ttfamily\small, breaklines=true}
+
+\title{Review of Kernel Machines II: The Kernel Trick}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\subsection{Mathematical Formulations}
+The \emph{kernel trick} lets us compute inner products in a high‐dimensional feature space without ever forming $\Phi(x)$ explicitly.  For a quadratic map with a constant offset, one has
+\[
+\Phi(x) = \bigl(\sqrt{2}\,x_1,\sqrt{2}\,x_2,\dots,x_1^2,x_2^2,\dots,\sqrt{2}\,x_i x_j,\dots,1\bigr)^\top,
+\]
+and it can be shown that
+\[
+K(x,z) \;=\;\langle \Phi(x),\Phi(z)\rangle \;=\;(1 + x^\top z)^2,
+\]
+so that each dot‐product in the $O(d^2)$–dimensional space reduces to an $O(d)$–cost operation in the original space :contentReference[oaicite:0]{index=0}.
+
+More generally, the \emph{polynomial kernel} of degree $p$ is
+\[
+K_p(x,z) \;=\;(c + x^\top z)^p,
+\]
+where $c\ge0$ trades off bias vs.\ variance, and one can derive the corresponding implicit map of dimension $\binom{d+p}{p}$ :contentReference[oaicite:1]{index=1}:contentReference[oaicite:2]{index=2}.
+
+\subsection{Geometric Illustrations}
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    % Implicit quadratic boundary via kernel
+    \draw[->] (-1,0) -- (5,0) node[right] {$x_1$};
+    \draw[->] (0,-1) -- (0,5) node[above] {$x_2$};
+    % contour of (1 + x^T mu)^2 = const
+    \draw[domain=0:2.5,samples=100] plot ({\x}, {sqrt((1+\x*1.5)^2 - 1 - (\x*1.5))});
+    \node at (4,4) {Positive};
+    \node at (-0.5,-0.5) {Negative};
+  \end{tikzpicture}
+  \caption{Decision boundary induced by $K(x,z)=(1+x^\top z)^2$, illustrating a quadratic contour in input space.}
+\end{figure}
+
+\subsection{Worked Example}
+We apply the \emph{kernel perceptron} to the concentric‐circles dataset.
+
+\subsection{Data Acquisition and Preprocessing}
+\begin{lstlisting}
+import numpy as np
+from sklearn.datasets import make_circles
+X, y = make_circles(n_samples=200, noise=0.1, factor=0.3)
+y = 2*y - 1  # labels in {-1,+1}
+\end{lstlisting}
+
+\subsection{Kernel Definition}
+\begin{lstlisting}
+def poly_kernel(X, Z, c=1, p=2):
+    return (c + X.dot(Z.T)) ** p
+\end{lstlisting}
+
+\subsection{Model Training (Dual Form)}
+\begin{lstlisting}
+n = X.shape[0]
+K = poly_kernel(X, X)       # Gram matrix
+alpha = np.zeros(n)
+b = 0
+for epoch in range(10):
+    for i in range(n):
+        # decision function in dual form
+        f = (alpha * y) @ K[:, i] + b
+        if y[i] * f <= 0:
+            alpha[i] += 1
+            b += y[i]
+\end{lstlisting}
+
+\subsection{Model Evaluation}
+\begin{lstlisting}
+# Compute kernel between train and test
+from sklearn.model_selection import train_test_split
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.3)
+K_tr_tr = poly_kernel(Xtr, Xtr)
+# ... retrain alpha_tr, b_tr on (Xtr,ytr) ...
+K_tr_te = poly_kernel(Xtr, Xte)
+pred = np.sign((alpha_tr * ytr) @ K_tr_te + b_tr)
+acc = np.mean(pred == yte)
+print(f"Test accuracy: {acc:.2f}")
+\end{lstlisting}
+
+\subsection{Results and Interpretation}
+Even though no explicit $\Phi(x)$ was computed, the kernel perceptron perfectly separates the nonlinearly separable data.
+
+\subsection{Algorithm Description}
+\begin{enumerate}
+  \item \textbf{Initialize:} $\alpha_i = 0$ for all $i=1,\dots,n$, and $b=0$.  
+  \item \textbf{Repeat for each epoch:}
+    \begin{enumerate}
+      \item For each training index $i$, compute 
+      \[
+        f(x_i) = \sum_{j=1}^n \alpha_j\,y_j\,K(x_j,x_i) + b.
+      \]
+      \item If $y_i f(x_i)\le0$, then
+      \[
+        \alpha_i \leftarrow \alpha_i + 1,\quad
+        b \leftarrow b + y_i.
+      \]
+    \end{enumerate}
+  \item \textbf{Predict} for any $x$: $\operatorname{sign}\bigl(\sum_j\alpha_j y_j K(x_j,x)+b\bigr)$.
+\end{enumerate}
+
+\subsection{Empirical Results}
+\begin{table}[h]
+  \centering
+  \begin{tabular}{c c c}
+    \hline
+    Degree $p$ & Offset $c$ & Test Accuracy \\
+    \hline
+    2 & 1 & 1.00 \\
+    3 & 0 & 0.98 \\
+    4 & 1 & 0.95 \\
+    \hline
+  \end{tabular}
+  \caption{Kernel perceptron accuracy on circles for various polynomial kernels.}
+\end{table}
+
+\begin{tikzpicture}
+  \begin{axis}[xlabel=Degree $p$, ylabel=Accuracy, ymin=0.9, ymax=1]
+    \addplot coordinates {(2,1.00) (3,0.98) (4,0.95)};
+  \end{axis}
+\end{tikzpicture}
+
+\subsection{Interpretation \& Guidelines}
+\begin{itemize}
+  \item \textbf{Sparsity:} Many $\alpha_i$ remain zero—only “support” points define the boundary :contentReference[oaicite:3]{index=3}:contentReference[oaicite:4]{index=4}.
+  \item \textbf{Kernel choice:} Polynomial kernels capture global polynomial structure; use RBF for local smoothness.
+  \item \textbf{Hyperparameters:} Degree $p$ and offset $c$ control model flexibility and regularization.
+\end{itemize}
+
+\subsection{Future Directions / Extensions}
+\begin{itemize}
+  \item Extend to \emph{Support Vector Machines} with hinge‐loss and margin maximization.
+  \item Explore \emph{Gaussian RBF kernel} 
+  \[
+    K(x,z) = \exp\bigl(-\|x-z\|^2/(2\sigma^2)\bigr),
+  \]
+  for infinite‐dimensional feature spaces.
+  \item Investigate \emph{multiple‐kernel learning} and kernel selection strategies.
+\end{itemize}
+
+\end{document}

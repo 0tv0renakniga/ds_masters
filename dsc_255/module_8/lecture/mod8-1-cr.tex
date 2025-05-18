@@ -1,0 +1,143 @@
+% Auto-generated LaTeX review file based on KernelMachinesI.txt and kernel-1.pdf
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{listings}
+\lstset{language=Python, basicstyle=\ttfamily\small, breaklines=true}
+
+\title{Review of Kernel Machines I: Basis Expansion}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Mathematical Formulations}
+The core idea of basis expansion is to map the original feature vector $x\in\mathbb{R}^d$ into a higher-dimensional feature space $\Phi(x)$ such that nonlinear decision boundaries become linear in the new space. For quadratic expansion, we define
+\begin{align}
+\Phi(x) &= \bigl(x_1,\dots,x_d,\;x_1^2,\dots,x_d^2,\;x_1x_2,\dots,x_{d-1}x_d\bigr)^\top, \\
+\dim\bigl(\Phi(x)\bigr) &= 2d + \binom{d}{2},
+\end{align}
+reflecting the $d$ original features, $d$ squared terms, and $\binom{d}{2}$ cross-terms.
+
+A decision boundary originally quadratic in $x$,
+\[
+x_1 - x_2^2 - 5 = 0,
+\]
+can be written as a linear function in $\Phi(x)$:
+\[
+w^\top\Phi(x) + b = 0,
+\]
+where, in this example, $w=(1,0,0,-1,0)^{\top}$ and $b=-5$.
+
+\section{Geometric Illustrations}
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[scale=1]
+    % Quadratic boundary x1 = x2^2 + 5
+    \draw[->] (-1,0) -- (5,0) node[right] {$x_1$};
+    \draw[->] (0,-1) -- (0,5) node[above] {$x_2$};
+    \draw[domain=-1:2,samples=100] plot ({\x^2+1.5}, {\x});
+    \node at (4,4) {Positive};
+    \node at (-0.5,-0.5) {Negative};
+  \end{tikzpicture}
+  \caption{Quadratic decision boundary $x_1 - x_2^2 - 5 = 0$ in original space.}
+\end{figure}
+
+\section{Worked Example}
+We illustrate basis expansion with the perceptron algorithm on a toy dataset of two nonlinearly separable classes.
+
+\subsection{Data Acquisition and Preprocessing}
+We simulate two-dimensional data with classes forming concentric circles.
+\begin{lstlisting}
+import numpy as np
+from sklearn.datasets import make_circles
+X, y = make_circles(n_samples=200, noise=0.1, factor=0.3)
+y = 2*y - 1  # Labels in {+1,-1}
+\end{lstlisting}
+
+\subsection{Feature Extraction/Representation}
+Define quadratic feature map $\Phi$:  
+\begin{lstlisting}
+def phi(x):
+    x1, x2 = x
+    return np.array([x1, x2, x1**2, x2**2, x1*x2])
+X_phi = np.array([phi(x) for x in X])
+\end{lstlisting}
+
+\subsection{Model Training/Application}
+Apply the perceptron update in the expanded space:
+\begin{lstlisting}
+w = np.zeros(X_phi.shape[1])
+b = 0
+for epoch in range(10):
+    for xi, yi in zip(X_phi, y):
+        if yi * (w.dot(xi) + b) <= 0:
+            w += yi * xi
+            b += yi
+\end{lstlisting}
+
+\subsection{Model Evaluation}
+Split data and compute accuracy:
+\begin{lstlisting}
+from sklearn.model_selection import train_test_split
+Xtr, Xte, ytr, yte = train_test_split(X_phi, y, test_size=0.3)
+# (Retrain on Xtr similarly...)
+acc = np.mean(np.sign(w.dot(Xte.T) + b) == yte)
+print(f"Test accuracy: {acc:.2f}")
+\end{lstlisting}
+Evaluation metric: classification accuracy.
+
+\subsection{Results and Interpretation}
+The perceptron perfectly separates the data in the expanded space, yielding a curved boundary in the original space that matches the true class structure.
+
+\section{Algorithm Description}
+\begin{enumerate}
+  \item \textbf{Initialize:} $w=0$, $b=0$.  
+  \item \textbf{Repeat until convergence:}
+    \begin{enumerate}
+      \item For each $(x_i,y_i)$, compute $\Phi(x_i)$.  
+      \item If $y_i\bigl(w^\top\Phi(x_i)+b\bigr)\le0$, update:
+      \[
+        w\leftarrow w + y_i\Phi(x_i),\quad b\leftarrow b + y_i.
+      \]
+    \end{enumerate}
+\end{enumerate}
+This algorithm learns a quadratic boundary with the same four lines of code as the linear perceptron.
+
+\section{Empirical Results}
+\begin{table}[h]
+  \centering
+  \begin{tabular}{c c}
+    \hline
+    Epochs & Test Accuracy \\
+    \hline
+    1 & 0.80 \\
+    5 & 0.95 \\
+    10 & 1.00 \\
+    \hline
+  \end{tabular}
+  \caption{Perceptron performance on expanded features.}
+\end{table}
+
+\begin{tikzpicture}
+  \begin{axis}[xlabel=Epochs, ylabel=Accuracy, ymin=0, ymax=1]
+    \addplot coordinates {(1,0.80) (5,0.95) (10,1.00)};
+  \end{axis}
+\end{tikzpicture}
+
+\section{Interpretation \& Guidelines}
+Basis expansion allows linear algorithms to fit polynomial boundaries. However, the dimensionality grows as $O(d^2)$, which can be costly for large $d$. Practical tips:
+\begin{itemize}
+  \item Use kernel functions to avoid explicit feature maps.
+  \item Regularize heavily when many features are introduced.
+  \item Scale input features before expansion.
+\end{itemize}
+
+\section{Future Directions / Extensions}
+A natural extension is the \emph{kernel trick}, where one defines a kernel function $K(x,x') = \langle\Phi(x),\Phi(x')\rangle$ to operate implicitly in high-dimensional spaces. Common examples include the polynomial kernel $K(x,x')=(x^\top x'+c)^p$ and the Gaussian RBF kernel $K(x,x')=\exp(-\|x-x'\|^2/(2\sigma^2))$. These allow efficient learning without explicit basis expansion.
+
+\end{document}

@@ -1,0 +1,86 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{Homework 8}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Mathematical and conceptual exercises}
+
+\begin{enumerate}
+    \item A decision boundary in $\mathbb{R}^{2}$ is given by the equation
+    \[
+    x_{1} + 3 x_{1} x_{2} = 6 x_{2}^{2} + 8
+    \]
+    This can be written in form $w \cdot \Phi(x) + b = 0$, where $x = \left(x_{1}, x_{2}\right)$, the basis expansion $\Phi(x) = \left(x_{1}, x_{2}, x_{1}^{2}, x_{2}^{2}, x_{1} x_{2}\right)$, and $b = -8$. What is $w$?
+
+    \item Data vectors $x = \left(x_{1}, \ldots, x_{4}\right)$ are augmented to give expanded features
+    \[
+    \Phi(x) = \left(x_{1}, \ldots, x_{4}, x_{1}^{2}, \ldots, x_{4}^{2}, x_{1} x_{2}, \ldots, x_{3} x_{4}\right)
+    \]
+    \begin{enumerate}
+        \item What is the dimension of $\Phi(x)$?
+        \item The Perceptron algorithm is run using the basis expansion $\Phi(x)$ and returns $w, b$. What is the dimension of $w$?
+    \end{enumerate}
+
+    \item We have a data set, of $d$-dimensional points and their labels, that is linearly separable. However, we use a basis expansion
+    \[
+    \Phi(x) = \left(x_{1}, \ldots, x_{d}, x_{1}^{2}, \ldots, x_{d}^{2}, x_{1} x_{2}, \ldots, x_{d-1} x_{d}\right)
+    \]
+    and run the Perceptron algorithm with these expanded features.
+    \begin{enumerate}
+        \item Will the Perceptron algorithm necessarily converge?
+        \item Will the algorithm necessarily return a vector $w$ in which the entries corresponding to quadratic terms in $\Phi(x)$ (such as $x_{1}^{2}$) are zero?
+    \end{enumerate}
+
+    \item A data set consists of just four points in $\mathbb{R}^{2}$:
+    \begin{itemize}
+        \item Label 1: points $x^{(1)} = (2, 3)$ and $x^{(2)} = (3, 6)$
+        \item Label -1: points $x^{(3)} = (1, 2)$ and $x^{(4)} = (0, 7)$
+    \end{itemize}
+    The kernel Perceptron algorithm (in dual form) is run on this data set, with a basis expansion $\Phi(\cdot)$ that produces a quadratic boundary. The algorithm converges after just five update steps: two updates on point $x^{(2)}$, two updates on point $x^{(3)}$ and one update on point $x^{(4)}$.
+    \begin{enumerate}
+        \item What vector $\alpha$ is returned?
+        \item What value of $b$ is returned?
+    \end{enumerate}
+
+    \item Consider the following example from lecture, which shows the decision boundary resulting from applying kernel SVM (with quadratic kernel) to a small two-dimensional data set.
+
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{decision_boundary.png}
+    \end{center}
+
+    \begin{enumerate}
+        \item What is the dimension of $\alpha$ in this case?
+        \item How many entries in $\alpha$ are $>0$?
+        \item How many entries in $\alpha$ are $<0$?
+        \item For you to think about: why does the margin on the green side appear to be larger than the margin on the purple side?
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Programming exercises}
+
+The data files for this week's lab are contained in \texttt{week8.zip}, which you can download from the course website.
+
+\begin{enumerate}
+    \item Kernel Perceptron. Implement the kernel Perceptron algorithm, with the quadratic and RBF kernels. The data sets \texttt{data1.txt} and \texttt{data2.txt} contain 2-d data with two classes (coded as -1 and 1). Each row has three numbers: the two coordinates of the data points and the label.
+    \begin{enumerate}
+        \item Run the kernel Perceptron with quadratic kernel on these two data sets. In each case, show a plot that contains all the data points (with different colors and shapes for different labels) as well as the decision region.
+        \item Repeat for the RBF kernel. Show the results for two different settings of the scale parameter $\sigma$.
+    \end{enumerate}
+
+    \item Multiclass kernel SVM. In this problem, we'll use support vector machines to classify the MNIST data set of handwritten digits.
+    \begin{enumerate}
+        \item Load in the MNIST data: a training set of 60,000 points and a separate test set of 10,000 points.
+        \item Learn a linear SVM classifier using \texttt{sklearn.svm.LinearSVC}. You will need to set \texttt{loss='hinge'}. Try different values of the tradeoff parameter: $C = 0.01, 0.1, 1.0, 10.0, 100.0$. In each case, report the training error and test error. Do you think this data is linearly separable?
+        \item Now try kernel SVM with a quadratic kernel. You can do this with \texttt{sklearn.svm.SVC}, setting \texttt{kernel='poly'} and \texttt{degree=2}. Just try the single setting $C = 1.0$. Report the training error, the test error, and the number of support vectors.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
+
