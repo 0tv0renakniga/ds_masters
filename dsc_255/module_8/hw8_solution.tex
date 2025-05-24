@@ -164,7 +164,7 @@ We are given:
 }
 \subsubsection*{Step 2}
 \parbox{\textwidth}{
-\textit{Note: The Perceptron algorithm does not optimize for having zero weights in particular dimensions—it simply tries to find any separating hyperplane.}\\
+\textit{Note: The Perceptron algorithm does not optimize for having zero weights in particular dimensions, it simply tries to find any separating hyperplane.}\\
 
 The final weight vector depends on:
 \begin{itemize}
@@ -180,6 +180,130 @@ Hence, the Perceptron has no inherent bias toward solutions with zero weights fo
 \subsubsection*{\normalfont}{$\therefore$ The Perceptron algorithm will not necessarily return a weight vector $w$ in which the entries corresponding to quadratic terms in $\Phi(x)$ are zero.}
 
 \noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+
+\subsection*{Solution 4 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+  There are five updates in the following order:
+  \begin{itemize}
+      \item Zero updates on point $x^{(1)}$ (label +1)
+      \item Two updates on point $x^{(2)}$ (label +1)
+      \item Two updates on point $x^{(3)}$ (label -1)
+      \item One update on point $x^{(4)}$ (label -1)
+  \end{itemize}
+\textit{Note: $\alpha = (\alpha^{(1)},\alpha^{(2)},\alpha^{(3)}\alpha^{(4)})$, where $\alpha^{(i)} = \alpha^{(i)} + 1$ when the point is misclassified.}
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Calculate $\alpha^{(i)}$ for each point.
+}
+
+$$\alpha^{(1)} = \alpha^{(1)} + 1 = \text{updates}_1 = 0 $$
+$$\alpha^{(2)} = \alpha^{(2)} + 1 = \text{updates}_2 = 2$$
+$$\alpha^{(3)} = \alpha^{(3)} + 1 = \text{updates}_3 = 2$$
+$$\alpha^{(4)} = \alpha^{(4)} + 1 = \text{updates}_4 = 1$$
+
+\subsubsection*{\normalfont}{$\therefore$ The final value of $\alpha$ is $(0, 2, 2, 1)$.}
+
+\newpage
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsection*{Solution 4 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+  There are five updates in the following order:
+  \begin{itemize}
+      \item Zero updates on point $x^{(1)}$ (label +1)
+      \item Two updates on point $x^{(2)}$ (label +1)
+      \item Two updates on point $x^{(3)}$ (label -1)
+      \item One update on point $x^{(4)}$ (label -1)
+  \end{itemize}
+\textit{Note: $b= b^{(1)}+b^{(2)}+b^{(3)}+b^{(4)}$, where $b^{(i)} = b^{(i)} + y^{(i)}$ when the point is misclassified.}
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+Calculate $b^{(i)}$ for each point and find sum.
+}
+
+$$b^{(1)} = b^{(1)} + y^{(1)} = \text{updates}_n \cdot \text{label} = 0 \cdot 1 = 0$$
+$$b^{(2)} = b^{(2)} + y^{(2)} = \text{updates}_n \cdot \text{label} = 2 \cdot 1 = 2$$
+$$b^{(3)} = b^{(3)} + y^{(3)} = \text{updates}_n \cdot \text{label} = 2 \cdot -1 = -2$$
+$$b^{(4)} = b^{(4)} + y^{(4)} = \text{updates}_n \cdot \text{label} = 1 \cdot -1 = -1$$
+$$b = b^{(1)} + b^{(2)} + b^{(3)} + b^{(4)} = 0 + 2 + (-2) + (-1) = -1$$
+
+\subsubsection*{\normalfont}{$\therefore$ The final value of $b$ is $-1$.}
+
+\newpage
+
+\subsection*{Solution 5 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+The vector $\alpha$ corresponds to the number of training points. 
+In the example from class we have 18 red circles and 18 black triangles, for a total of 36 training points.
+}
+
+\subsubsection*{\normalfont}{$\therefore$ The dimension of $\alpha$ is 36.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+
+
+\subsection*{Solution 5 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+The condition $\alpha_i > 0$ is simply the count of support vectors for the SVM and we have 6 support vectors in the example from class.
+}
+\subsubsection*{\normalfont}{$\therefore$ There are 6 entries in $\alpha$ that are $> 0$.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 5 (c)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+For a kernel SVM, $\alpha_i$ is subject to the following constraint:
+
+$$0 \leq \alpha_i \leq C \quad \forall i$$
+}
+
+\subsubsection*{\normalfont}{$\therefore$ There are 0 entries in $\alpha$ that are $< 0$.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 5 (d)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+We have 2 support vectors for the black triangle class and 4 support vectors for the red circle class.
+The resulting SVM has to optimize the margin more for the red circles and leads to a larger green margin.
+}
+
+\subsubsection*{\normalfont}{$\therefore$ The imbalance of support vectors between the classes leads to a larger green margin.}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
 
 \end{document}
 
