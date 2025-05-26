@@ -1,0 +1,90 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+
+\title{DSC 255: Machine Learning\\Homework 9}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Mathematical and Conceptual Exercises}
+
+\begin{enumerate}
+  \item \textbf{Expressive Power of Methods.} Decision trees have great expressive power: they can represent any decision boundary by carving up the space to a fine enough granularity. Which of the other methods we’ve studied are similarly expressive? For each, give a brief explanation.
+    \begin{enumerate}
+      \item Linear classifiers.
+      \item Support vector machines with a quadratic kernel.
+      \item Nearest neighbor classifiers.
+      \item Classifiers based on Gaussian generative models.
+    \end{enumerate}
+
+  \item \textbf{Split Complexity.} Let’s say our training set consists of $n$ data points in $d$-dimensional space. At the top node of the tree, we have to pick a split, which involves choosing (i) a feature and (ii) a split value along that feature. How many possibilities do we need to try out, roughly? Hint: How many ways to choose a feature? And once we have a feature, what is the effective number of splits?
+
+  \item \textbf{Gini Impurity.} In order to grow a decision tree, we need a measure of how pure or impure (in terms of labels) a node is. A popular measure of this is the Gini impurity index. If there are two labels, and a node has $p$ fraction of one label and $1-p$ fraction of the other, the Gini impurity index is
+  \[
+    2\,p\,(1-p).
+  \]
+  Notice that this is maximized when $p = \tfrac12$.
+
+  What is the Gini impurity index for a node in which 20\% of the points have one label while 80\% have the other label?
+
+  \item \textbf{Working with Weighted Data.} Boosting requires the weak learning algorithm to work with training data in which each point $(x^{(i)},y^{(i)})$ has a positive weight $\lambda_i>0$. Intuitively, a weight of two would be equivalent to having two copies of that data point.
+
+  How would you incorporate weights into the following learning algorithms without explicitly making copies of data points?
+    \begin{enumerate}
+      \item \emph{Decision trees.}\\
+      Hint: Previously, we measured the uncertainty at any node by looking at the fraction of points with each label (call these $p_1,\dots,p_k$ if there are $k$ labels). Now we need to compute these fractions differently, taking weights $\lambda_i$ into account.
+
+      \item \emph{Gaussian generative models.}\\
+      Hint: For each class $j$, we need the weight of that class $\pi_j$, the mean $\mu_j$, and the covariance matrix $\Sigma_j$. Now we need to compute them differently, taking weights $\lambda_i$ into account.
+
+      \item \emph{Support vector machines.}\\
+      Hint: Can you incorporate the weights $\lambda_i$ into the objective function for soft-margin SVM?
+    \end{enumerate}
+
+  \item \textbf{Convergence Behavior of Boosting.} Suppose we run boosting using weak classifiers from some class $\mathcal H$ (such as decision stumps), and suppose that on each round, the weak learner always returns a weak classifier whose error rate on the weighted data (for that round) is at most $\tfrac12 - \epsilon$, for some $\epsilon>0$. Which of the following is true? Give a brief explanation in each case.
+    \begin{enumerate}
+      \item Boosting converges to a final classifier with zero test error.
+      \item Boosting converges to a final classifier with zero training error.
+      \item Boosting’s final classifier belongs to class $\mathcal H$.
+    \end{enumerate}
+
+  \item \textbf{Random Forests vs.\ Boosted Trees.} Which of the following is a benefit of random forests over boosted decision trees? Explain briefly in each case.
+    \begin{enumerate}
+      \item The trees can be trained in parallel.
+      \item Each individual tree is more highly optimized.
+      \item Each individual tree has better accuracy.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Programming Exercises}
+
+\begin{enumerate}
+  \setcounter{enumi}{6}
+  \item \textbf{A Toy 2-D Data Set for Decision Trees and Boosting.} Obtain the data set \texttt{mini-data.txt} from the course webpage. Each line has a two-dimensional data point followed by a label (0 or 1).
+    \begin{enumerate}
+      \item Plot this data to see what it looks like. Show this plot in your writeup.
+      \item Use \texttt{sklearn.tree.DecisionTreeClassifier} to fit a decision tree to the data. What stopping criterion did you use?
+      \item Display the tree using \texttt{sklearn.tree.plot\_tree}.
+      \item Fit boosted decision stumps to this data using \texttt{sklearn.ensemble.AdaBoostClassifier}. Use a relatively small number of stumps, and display each of them.
+      \item Give a table showing how accuracy on the training data improves as each successive stump is added.
+    \end{enumerate}
+
+  \item \textbf{Credit Card Fraud Data.} Download the data set at \url{https://www.kaggle.com/mlg-ulb/creditcardfraud}. This data set has details of 284,807 credit card transactions, some of which are fraudulent. Each transaction is represented by 28 features (scrambled using PCA) and has a corresponding label (1 is fraudulent and 0 is legitimate).
+    \begin{enumerate}
+      \item How many of the transactions are fraudulent? Why might this be problematic when learning a classifier?
+      \item Downsample the legitimate transactions to make the data set more balanced. For instance, you might try to make sure that each class (legitimate or fraudulent) makes up at least 25\% of the data set.
+      \item Fit three kinds of classifier to the data:
+        \begin{itemize}
+          \item Decision tree
+          \item Boosted decision stumps
+          \item Random forest
+        \end{itemize}
+      In each case, use cross-validation to estimate the confusion matrix. For cross-validation, you might find \texttt{sklearn.model\_selection.cross\_val\_predict} helpful; for the confusion matrix, use \texttt{sklearn.metrics.confusion\_matrix} or \texttt{sklearn.metrics.ConfusionMatrixDisplay}.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

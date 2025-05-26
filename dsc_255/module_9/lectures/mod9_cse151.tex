@@ -1,0 +1,120 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true
+}
+
+\title{Comprehensive Review: Decision Trees, Boosting, and Random Forests}
+\author{Master’s Level Data Science}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\bigskip
+
+\section{Decision Trees}
+Decision trees partition the feature space via axis‐aligned splits to classify data.  Starting from the root node containing all samples, the greedy algorithm selects at each leaf the split that maximally reduces an uncertainty measure.
+
+\subsection{Uncertainty Measures}
+For a node with class probabilities $p_1,\dots,p_K$:
+\[
+  \text{Misclassification rate: }
+  u_{\mathrm{mis}} = 1 - \max_i p_i,
+\]
+\[
+  \text{Gini index: }
+  u_{\mathrm{gini}} = 1 - \sum_{i=1}^K p_i^2,
+\]
+\[
+  \text{Entropy: }
+  u_{\mathrm{ent}} = -\sum_{i=1}^K p_i\ln p_i.
+\]
+The benefit of a split of $S$ into $S_L,S_R$ with fractions $p_L,p_R$ is
+\[
+  \Delta u = u(S) - \bigl(p_L\,u(S_L) + p_R\,u(S_R)\bigr).
+\]
+% Sources: :contentReference[oaicite:0]{index=0}
+
+\subsection{Building and Pruning}
+\begin{enumerate}
+  \item \textbf{Grow full tree:} split until leaves are pure or meet stopping criteria.
+  \item \textbf{Prune:} collapse branches using validation error (cost‐complexity pruning).
+\end{enumerate}
+
+\section{Boosting Weak Learners}
+Boosting combines weak learners into a strong classifier by reweighting examples.  AdaBoost is the canonical algorithm.
+
+\subsection{AdaBoost Blueprint}
+Given $(x_i,y_i)$, $y_i\in\{-1,+1\}$, initialize $D_1(i)=1/n$.  For $t=1,\dots,T$:
+\begin{enumerate}
+  \item Train weak learner $h_t$ on distribution $D_t$.
+  \item Compute error $\varepsilon_t = \sum_i D_t(i)\,1[h_t(x_i)\neq y_i]$.
+  \item Set weight $\alpha_t = \tfrac12\ln\bigl((1-\varepsilon_t)/\varepsilon_t\bigr)$.
+  \item Update and normalize:
+  \[
+    D_{t+1}(i) \propto D_t(i)\,\exp\bigl(-\alpha_t\,y_i\,h_t(x_i)\bigr).
+  \]
+\end{enumerate}
+Final classifier:
+\[
+  H(x) = \mathrm{sign}\Bigl(\sum_{t=1}^T \alpha_t\,h_t(x)\Bigr).
+\]
+% Sources: :contentReference[oaicite:1]{index=1}
+
+\subsection{Freund--Schapire Example}
+\begin{center}
+\begin{tabular}{c|ccc}
+\hline
+Round $t$ & $r_t$ & $\alpha_t$ & Comment \\
+\hline
+1 & 0.40 & 0.42 & weak stump \\
+2 & 0.58 & 0.65 & refocus on errors \\
+3 & 0.72 & 0.92 & strong stump \\
+\hline
+\end{tabular}
+\end{center}
+Combined classifier:
+\[
+  H(x) = \mathrm{sign}(0.42\,h_1 + 0.65\,h_2 + 0.92\,h_3).
+\]
+
+\section{Random Forests}
+Random forests build $T$ trees in parallel on bootstrap samples and random feature subsets, then aggregate by majority vote.
+
+\subsection{Algorithm}
+Given data $S$ of size $n$ and feature dimension $d$:
+\begin{enumerate}
+  \item For $t=1,\dots,T$ in parallel:
+    \begin{enumerate}
+      \item Sample $n'$ points with replacement from $S$.
+      \item Grow tree $h_t$: at each node, consider a random subset of $k$ features (e.g.\ $k=\lfloor\sqrt d\rfloor$) for the best split.
+    \end{enumerate}
+  \item Predict $H(x) = \mathrm{majority\_vote}\{h_t(x)\}$.
+\end{enumerate}
+% Sources: :contentReference[oaicite:2]{index=2}
+
+\subsection{Covertype Dataset Results}
+\begin{itemize}
+  \item Single tree (depth 20): train error 1\%, test error 12.6\%.
+  \item Boosted trees (10 trees, depth 20): test error 8.7\%.
+  \item Random forest (10 trees, 50\% features, depth 40): test error 8.8\%.
+\end{itemize}
+
+\section{Interpretation and Guidelines}
+\begin{itemize}
+  \item Decision trees are high‐variance; pruning or ensembling mitigates overfitting.
+  \item Boosting reduces bias and variance via sequential reweighting.
+  \item Random forests reduce variance by aggregating diverse trees.
+  \item Hyperparameters (tree depth, $T$, $k$, sample size) should be tuned via cross‐validation.
+\end{itemize}
+
+\end{document}
