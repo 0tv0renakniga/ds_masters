@@ -304,6 +304,101 @@ The resulting SVM has to optimize the margin more for the red circles and leads 
 
 \noindent\rule{\textwidth}{0.4pt}\\
 
+\newpage
+
+\subsection*{Solution 6}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Python Code}
+\begin{lstlisting}
+def quadratic_kernel(x, z, c):
+    return (np.dot(x, z) + c)**2
+
+def rbf_kernel(x, z, c):
+    return np.exp(-np.linalg.norm(x-z)**2/(2*c**2))
+
+def train(x, y, kernel_function, c=1.0, max_iter=1000):
+    n_samples = len(x)
+    alpha = np.zeros(n_samples)
+    b = 0
+    
+    ## calculate kernel matrix before looping through dataset
+    K = np.zeros((n_samples, n_samples))
+    for i in range(n_samples):
+        for j in range(n_samples):
+            K[i, j] = kernel_function(x[i], x[j], c)
+    
+    ## training loop for max iterations
+    for _ in range(max_iter):
+        mistakes = False    
+        for i in range(n_samples):
+            ## calculate predicted label
+            f_xi = 0
+            for j in range(n_samples):
+                f_xi += alpha[j] * y[j] * K[i, j]
+            f_xi += b           
+            ## update b and alpha if prediction is wrong
+            if y[i] * f_xi <= 0:
+                alpha[i] += 1
+                b += y[i]
+                mistakes = True        
+        ## stop training loop if all predictions are correct
+        if not mistakes:
+            print("converged!")
+            break
+    return alpha, b
+
+def classify(x, y, alpha, b, xi, kernel_function, c=1.0):
+    f_xi = 0
+    for i in range(len(x)):
+        f_xi += alpha[i] * y[i] * kernel_function(x[i], xi, c)
+    f_xi += b
+    return 1 if f_xi >= 0 else -1
+
+\end{lstlisting}
+\newpage
+
+\subsubsection*{Plots}
+\begin{figure}
+  \includegraphics{part_a_quadratic_kernel.png}
+  \caption{Decision boundary for quadratic kernel}
+\end{figure}
+
+\begin{figure}
+  \includegraphics{part_b_rbf_kernel.png}
+  \caption{Decision boundary for rbf kernel}
+\end{figure}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\newpage
+
+\subsection*{Solution 7}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Linear SVM}
+
+\begin{center} 
+  \begin{tabular}{|c|c|c|} 
+    \hline C Value & Training Error (\%) & Test Error (\%) \\ 
+    \hline 
+    0.01 & 16.32 & 15.48\\ 
+    0.1 & 15.91 & 16.36 \\
+    1.0 & 14.25 & 14.04 \\
+    10.0 & 13.56 & 13.16 \\ 
+    100.0 & 14.05 & 14.78 \\ 
+    \hline
+  \end{tabular}
+\end{center}
+\parbox{\textwidth}{Based on the results above it seems that the data is linearly separable.}
+\subsubsection*{Quadardic SVM}
+\begin{center} 
+  \begin{tabular}{|c|c|c|} 
+    \hline Training Error (\%) & Test Error (\%)  & Support Vectors\\ 
+    \hline 
+    0.17 & 2.13 & 17906\\ 
+    \hline
+  \end{tabular}
+\end{center}
 
 \end{document}
 
