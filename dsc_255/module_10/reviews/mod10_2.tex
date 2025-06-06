@@ -1,0 +1,120 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{margin=1in}
+
+\title{Comprehensive Review: Backpropagation in Neural Networks}
+\author{DSC 255 - Machine Learning Fundamentals}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Overview}
+
+Backpropagation is the key algorithm used for training feedforward neural networks. It computes the gradients of a loss function with respect to each parameter in the network via the chain rule of calculus.
+
+\section{Learning as Optimization}
+
+Let $W$ denote the set of all weights and biases in a neural net. Training is posed as minimizing a loss function $L(W)$ based on a labeled dataset $\{(x^{(1)}, y^{(1)}), \ldots, (x^{(n)}, y^{(n)})\}$.
+
+\subsection*{Loss Function for Classification}
+
+Assuming $k$ possible class labels:
+\[
+L(W) = -\sum_{i=1}^{n} \log \text{Pr}_W(y^{(i)} \mid x^{(i)})
+\]
+This is known as the \textbf{cross-entropy loss}. The network outputs a probability distribution over labels for each input.
+
+\section{Gradient-Based Optimization Methods}
+
+\subsection*{Gradient Descent Variants}
+\begin{itemize}
+    \item \textbf{Batch Gradient Descent}: Uses the full dataset for each update.
+    \item \textbf{Stochastic Gradient Descent (SGD)}: Updates using one data point at a time.
+    \item \textbf{Mini-batch SGD}: Updates using a small batch of points. Commonly used in practice.
+\end{itemize}
+
+\section{Gradient Computation with Backpropagation}
+
+We want the derivative of the loss $L$ with respect to every parameter in the network. The method proceeds in two passes:
+
+\begin{enumerate}
+    \item \textbf{Forward Pass}: Compute outputs of all nodes layer by layer.
+    \item \textbf{Backward Pass}: Apply the chain rule recursively to compute gradients.
+\end{enumerate}
+
+\section{Chain Rule of Calculus}
+
+\subsection*{Single Variable Case}
+If $h(x) = g(f(x))$, then:
+\[
+h'(x) = g'(f(x)) \cdot f'(x)
+\]
+
+\subsection*{General Form}
+If $z = g(y)$ and $y = f(x)$, then:
+\[
+\frac{dz}{dx} = \frac{dz}{dy} \cdot \frac{dy}{dx}
+\]
+
+\section{Example: Single Chain Neural Net}
+
+Assume a deep net where each hidden layer has only one node:
+\[
+x = h_0, \quad h_1 = \sigma(w_1 h_0 + b_1), \quad h_2 = \sigma(w_2 h_1 + b_2), \quad \ldots, \quad h_{\ell}
+\]
+
+\subsection*{Gradient with Respect to Weights}
+
+Using the chain rule:
+\[
+\frac{dL}{dw_i} = \frac{dL}{dh_i} \cdot \sigma'(w_i h_{i-1} + b_i) \cdot h_{i-1}
+\]
+
+\subsection*{Recursive Gradient Propagation}
+\[
+\frac{dL}{dh_i} = \frac{dL}{dh_{i+1}} \cdot \sigma'(w_{i+1} h_i + b_{i+1}) \cdot w_{i+1}
+\]
+
+\section{The Backpropagation Algorithm}
+
+\begin{itemize}
+    \item Perform a forward pass to compute all intermediate $h_i$ and final output.
+    \item Use the chain rule in a backward pass to compute all derivatives $\frac{dL}{dw_i}$.
+    \item Update each parameter $w_i$ using gradient descent.
+\end{itemize}
+
+\section{Remarks on Non-Convexity}
+
+The loss surface of a neural net is highly non-convex:
+\begin{itemize}
+    \item Contains many local optima.
+    \item Final result depends heavily on initialization and randomization.
+\end{itemize}
+
+Despite non-convexity, neural nets often perform well due to overparameterization and high model flexibility.
+
+\section{Practical Implementation: Automatic Differentiation}
+
+Modern frameworks like PyTorch and TensorFlow handle backpropagation automatically. The user specifies:
+\begin{itemize}
+    \item The architecture of the network
+    \item The loss function
+\end{itemize}
+The framework computes gradients and applies updates internally.
+
+\section{Summary}
+
+\begin{itemize}
+    \item Neural network training minimizes a loss via gradient descent.
+    \item Gradients are computed efficiently via backpropagation using the chain rule.
+    \item Variants of SGD are widely used due to large dataset sizes.
+    \item Despite non-convexity, training often converges to useful solutions.
+\end{itemize}
+
+\end{document}

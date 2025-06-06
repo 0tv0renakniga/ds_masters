@@ -1,0 +1,114 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{margin=1in}
+
+\title{Comprehensive Review: Issues in Training Neural Networks}
+\author{DSC 255 - Machine Learning Fundamentals}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Overview}
+
+Neural network training involves minimizing a highly non-convex loss function over potentially millions of parameters. This introduces several challenges in both generalization and optimization. This review outlines common techniques developed to address these issues.
+
+\section{Improving Generalization}
+
+\subsection*{Motivation}
+
+Neural networks have vast representational capacity. Without proper techniques, they risk overfitting the training data and failing to generalize to unseen examples.
+
+\subsection{Early Stopping}
+
+\begin{itemize}
+    \item Maintain a validation set separate from the training set.
+    \item Track validation error periodically during training (e.g., every 100 steps).
+    \item If validation error increases, revert to the best earlier model checkpoint.
+    \item Intuition: Stop training before overfitting begins.
+\end{itemize}
+
+\subsection{Dropout}
+
+\begin{itemize}
+    \item During training, randomly deactivate (drop out) each hidden unit with probability 0.5.
+    \item This forces the network to develop redundant representations and prevents over-reliance on specific nodes.
+    \item At test time, use the full network without dropout.
+    \item Analogy: Similar in spirit to random forests and ensemble averaging.
+\end{itemize}
+
+\section{Facilitating Optimization}
+
+\subsection{Batch Normalization}
+
+\begin{itemize}
+    \item During training, the distribution of inputs to a hidden layer can shift (internal covariate shift).
+    \item For each mini-batch and each feature $x_i$ in a layer:
+    \begin{itemize}
+        \item Compute batch mean $\mu_i$ and variance $v_i$
+        \item Normalize:
+        \[
+        x_i' = \frac{x_i - \mu_i}{\sqrt{v_i + \epsilon}}
+        \]
+    \end{itemize}
+    \item Effect: stabilizes and accelerates learning by reducing internal distribution shifts.
+\end{itemize}
+
+\section{Variants of Gradient Descent}
+
+\subsection{Standard SGD Update}
+
+\[
+\theta_{t+1} = \theta_t - \eta_t \cdot g_t
+\]
+where $g_t = \nabla_\theta \ell(x_t, y_t; \theta_t)$ is the gradient of the loss at time $t$.
+
+\subsection{Momentum}
+
+\begin{align*}
+v_t &= \mu v_{t-1} + \eta_t g_t \\
+\theta_{t+1} &= \theta_t - v_t
+\end{align*}
+
+\begin{itemize}
+    \item Accumulates gradients over time to smooth updates.
+    \item Helps escape shallow local minima or ravines.
+\end{itemize}
+
+\subsection{AdaGrad}
+
+\[
+\theta_j^{(t+1)} = \theta_j^{(t)} - \frac{\eta}{\sqrt{\sum_{s=1}^t (g_j^{(s)})^2 + \epsilon}} \cdot g_j^{(t)}
+\]
+
+\begin{itemize}
+    \item Maintains per-parameter learning rates.
+    \item Parameters with large historical gradients get smaller step sizes.
+    \item Encourages learning-rate adaptation across sparse vs. dense features.
+\end{itemize}
+
+\subsection{Other Methods}
+
+Popular alternatives:
+\begin{itemize}
+    \item RMSProp
+    \item Adam (Adaptive Moment Estimation)
+\end{itemize}
+
+These methods combine elements of momentum and per-parameter scaling.
+
+\section{Summary}
+
+\begin{itemize}
+    \item Training deep networks is difficult due to non-convexity and high variance.
+    \item Techniques like early stopping and dropout improve generalization.
+    \item Batch normalization and adaptive gradient methods facilitate efficient optimization.
+    \item Neural net performance depends not only on architecture but also on regularization and optimizer choice.
+\end{itemize}
+
+\end{document}

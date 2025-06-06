@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{margin=1in}
+
+\title{Comprehensive Review: Neural Network Examples and Training Insights}
+\author{DSC 255 - Machine Learning Fundamentals}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Overview}
+
+This review illustrates how neural networks can be used in practice through concrete examples. The examples focus on classification tasks using 2D datasets and showcase how architectural choices (like the number of hidden units) affect the learned decision boundaries.
+
+\section{General Network Architecture for 2D Classification}
+
+\begin{itemize}
+    \item \textbf{Input Layer}: 2 nodes, one per feature ($x_1, x_2$)
+    \item \textbf{Hidden Layer}: $H$ nodes, where $H$ is varied across experiments
+    \item \textbf{Output Layer}: 1 node with sigmoid activation for binary classification
+    \item \textbf{Activation Functions}:
+    \begin{itemize}
+        \item Input to hidden: Linear function + ReLU
+        \item Hidden to output: Linear function + Sigmoid
+    \end{itemize}
+\end{itemize}
+
+\section{Example 1: Simple Nonlinear Boundary}
+
+\begin{itemize}
+    \item Goal: Separate two distinct clusters using a nonlinear boundary
+    \item Initial trial with $H = 2$ hidden nodes succeeded
+    \item Random initialization and order of training examples can lead to different outcomes even with the same architecture
+    \item Due to non-convexity, optimization may land in poor local minima
+\end{itemize}
+
+\section{Example 2: Need for Redundancy}
+
+\begin{itemize}
+    \item Another 2D dataset with complex class structure
+    \item Trials with $H = 4$ often underperformed: the network used only 2 out of the 4 hidden units effectively
+    \item Performance improved significantly when $H = 8$ (overparameterized setting)
+    \item Takeaway: Redundancy in hidden nodes often aids optimization
+\end{itemize}
+
+\section{Example 3: Complex Nonlinear Boundary}
+
+\begin{itemize}
+    \item Highly intricate class boundaries required significantly more capacity
+    \item Trials:
+    \begin{itemize}
+        \item $H = 4$: Only a linear boundary was learned
+        \item $H = 8$: Slight improvement, but still linear-like
+        \item $H = 16$: Mixed results, moderate success
+        \item $H = 32$: Better nonlinearity and classification accuracy
+        \item $H = 64$: Final trial achieved zero classification error on training set
+    \end{itemize}
+    \item Key insight: For complex boundaries, increase $H$ until expressive capacity is sufficient
+\end{itemize}
+
+\section{Randomness in Training}
+
+\begin{itemize}
+    \item Neural net training is highly stochastic:
+    \begin{itemize}
+        \item Random initialization of weights
+        \item Random shuffling of training data
+    \end{itemize}
+    \item These factors affect convergence and can yield drastically different models from the same architecture
+\end{itemize}
+
+\section{Overparameterization Can Help}
+
+\begin{itemize}
+    \item Using more hidden units than necessary increases redundancy
+    \item This often helps gradient descent avoid poor local optima
+    \item Overparameterized nets generalize well in practice with regularization
+\end{itemize}
+
+\section{PyTorch Implementation Snippets}
+
+\subsection*{Network Declaration}
+\begin{verbatim}
+d, H = 2, 8
+model = torch.nn.Sequential(
+    torch.nn.Linear(d, H),
+    torch.nn.ReLU(),
+    torch.nn.Linear(H, 1),
+    torch.nn.Sigmoid()
+)
+lossfn = torch.nn.BCELoss()
+\end{verbatim}
+
+\subsection*{Training Step}
+\begin{verbatim}
+ypred = model(x)
+loss = lossfn(ypred, y)
+model.zero_grad()
+loss.backward()
+with torch.no_grad():
+    for param in model.parameters():
+        param -= eta * param.grad
+\end{verbatim}
+
+\section{Conclusion}
+
+These examples illustrate:
+\begin{itemize}
+    \item How architectural choices affect neural net behavior
+    \item The benefits of overparameterization
+    \item The impact of randomness on convergence
+    \item The practicality of using PyTorch to experiment with model design and training
+\end{itemize}
+
+Neural nets are flexible but sensitive to training configuration. Trial-and-error experimentation is often essential to success.
+
+\end{document}

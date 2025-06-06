@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb} 
+
+\title{DSC 255: Machine Learning - Homework 10}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Mathematical and conceptual exercises}
+
+\begin{enumerate}
+    \item \textbf{Neural net parametrization.} A feedforward neural net has an input layer with 10 nodes, followed by four hidden layers with 1000 nodes each, and an output layer with one node. Each layer is fully connected to the previous layer. What is the total number of parameters, approximately? You may disregard the offset term at each node (the "b" in the linear function) if you like.
+
+    \item \textbf{Softmax probabilities.} The output layer of a particular neural net has four nodes $y_{1}, y_{2}, y_{3}, y_{4}$, representing four labels in a classification problem. For some input $x$, these nodes end up with the values
+    \[
+    y_{1}=1.0, \quad y_{2}=0.0, \quad y_{3}=-1.0, \quad y_{4}=0.0
+    \]
+    and these are converted into probabilities using a softmax. What is the most likely label, and what probability is assigned to it?
+
+    \item \textbf{Exclusive-OR.} The XOR Boolean function, $\{0,1\}^{2} \rightarrow \{0,1\}$, has the following behavior:
+
+    \begin{tabular}{|c|c|c|}
+    \hline
+    $x_{1}$ & $x_{2}$ & $\text{XOR}(x_{1}, x_{2})$ \\
+    \hline
+    0 & 0 & 0 \\
+    0 & 1 & 1 \\
+    1 & 0 & 1 \\
+    1 & 1 & 0 \\
+    \hline
+    \end{tabular}
+
+    Show how to implement this function using a neural net with two input units $(x_{1}, x_{2})$, an output unit, and two hidden units with ReLU activation.
+
+    \item \textbf{Decipher the net.}
+    \begin{enumerate}
+        \item Which function $\{0,1\}^{2} \rightarrow \{0,1\}$ is realized by the following neural net with two input units $x_{1}, x_{2}$, two hidden units $h_{1}, h_{2}$, and one output unit $y$?
+
+        \begin{itemize}
+            \item $h_{1}=\text{ReLU}(x_{1}+x_{2})$
+            \item $h_{2}=\text{ReLU}(x_{1}+x_{2}-1)$
+            \item $y=h_{1}-h_{2}$
+        \end{itemize}
+
+        \item Which function $\mathbb{R} \rightarrow \mathbb{R}$ is realized by the following neural net with one input unit $x$, two hidden units $h_{1}$, $h_{2}$, and one output unit $y$?
+
+        \begin{itemize}
+            \item $h_{1}=\text{ReLU}(x)$
+            \item $h_{2}=\text{ReLU}(-x)$
+            \item $y=h_{1}+h_{2}$
+        \end{itemize}
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Programming exercises}
+
+Before undertaking these problems, install PyTorch on your computer and download the archive files \texttt{simple-nn.zip} and \texttt{hymenoptera.zip} from the course website.
+
+\begin{enumerate}
+    \item \textbf{Neural net experiments.}
+
+    When you unzip \texttt{simple-nn.zip}, you will see a Jupyter notebook called \texttt{simple-nn.ipynb}. Look through it and run the cells in Sections 1 and 2. These load in a data set called \texttt{data1.txt}, train a neural net on it, and print the decision boundary.
+
+    \begin{enumerate}
+        \item Look at the training code. You will see that the neural net has one hidden layer with $H$ nodes. Train the net on the five data sets \texttt{data1.txt} through \texttt{data5.txt}. For each, try two values of $H$, and train multiple times (at least five), picking the lowest-error solution. For each of the data sets, plot the best model you found, state what value of $H$ produced it, and state the number of iterations till convergence.
+
+        \item Now move to Section 3 of the notebook. This generates a new data set that is highly noisy. To deal with it, copy over the neural net code from above and modify it to train a net with two hidden layers, each with $H$ nodes. Train the net a bunch of times and print the best boundary you find. You should aim for $<100$ errors on the training set (this should be possible even with $H=4$).
+    \end{enumerate}
+
+    \item \textbf{A computer vision classification task.} In this problem, we'll train a classifier that takes as input an image of an ant or a bee, and determines which it is.
+
+    When you unzip \texttt{hymenoptera.zip}, you will see a Jupyter notebook, called \texttt{ants-bees.ipynb} and a directory called \texttt{hymenoptera\_data}.
+
+    \begin{enumerate}
+        \item The \texttt{hymenoptera\_data} directory has a subdirectory with the training set (\texttt{train}) and another with the test set (\texttt{val}). Take a look at some of the images. They are of varying sizes, with diverse backgrounds. And there are only 244 training images: not an easy learning problem!
+
+        Run the first few cells of the notebook to see how the images are normalized in size. Pick an image from the directory and show both the original version and the normalized version.
+
+        \item Run the remaining cells of the notebook to see how the ResNet50 network is used to produce a 2048-dimensional representation for each image, and how a logistic regression classifier is constructed on top of this. Report the test accuracy of the logistic regression classifier.
+
+        \item Now, use this same 2048-d representation to construct a $k$-nearest neighbor classifier. Give the test accuracies obtained for $k=1, 3, 5$. Note: If you use \texttt{sklearn.neighbors.KNeighborsClassifier}, you might want to set \texttt{algorithm='kd\_tree'}.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
+

@@ -1,0 +1,121 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\geometry{margin=1in}
+
+\title{Comprehensive Review: Feedforward Neural Networks}
+\author{DSC 255 - Machine Learning Fundamentals}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction to Feedforward Neural Networks}
+
+Feedforward neural networks (FNNs) are prediction models inspired loosely by biological neural systems. They process data in a single forward pass from input to output.
+
+\begin{itemize}
+    \item Inputs are fed at the bottom layer.
+    \item Computations propagate layer-by-layer to the output.
+    \item Each internal node computes a function based on its inputs (parents).
+\end{itemize}
+
+\section{Neural Network Architecture}
+
+\subsection*{Layer Structure}
+\begin{itemize}
+    \item Input layer: $d$ nodes representing input features $x_1, \ldots, x_d$
+    \item Hidden layers: intermediate computation nodes
+    \item Output layer: nodes producing the final prediction
+\end{itemize}
+
+\subsection*{Computation at a Hidden Node}
+Let $z_1, \ldots, z_m$ be the parent values to a hidden node $h$. The value of $h$ is computed as:
+
+\[
+h = \sigma(w_1 z_1 + w_2 z_2 + \cdots + w_m z_m + b)
+\]
+
+where:
+\begin{itemize}
+    \item $w_1, \ldots, w_m$ are weights
+    \item $b$ is a bias term
+    \item $\sigma(\cdot)$ is a non-linear activation function
+\end{itemize}
+
+\section{Common Activation Functions}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Threshold (Heaviside) Function}:
+    \[
+    \sigma(z) = 
+    \begin{cases}
+    1 & \text{if } z \geq 0 \\
+    0 & \text{otherwise}
+    \end{cases}
+    \]
+
+    \item \textbf{Sigmoid Function}:
+    \[
+    \sigma(z) = \frac{1}{1 + e^{-z}}
+    \]
+
+    \item \textbf{Hyperbolic Tangent}:
+    \[
+    \sigma(z) = \tanh(z)
+    \]
+
+    \item \textbf{ReLU (Rectified Linear Unit)}:
+    \[
+    \sigma(z) = \max(0, z)
+    \]
+\end{enumerate}
+
+\section{Why Nonlinearities Matter}
+
+If all activations are linear, the entire network collapses to a single linear transformation:
+\[
+h_2 = W_2 W_1 x
+\]
+This results in a network that has no greater expressive power than a single linear model. Non-linear activations enable the network to represent more complex functions.
+
+\section{Output Layer and Softmax}
+
+For classification with $k$ labels:
+\begin{itemize}
+    \item Output layer has $k$ nodes computing $y_1, \ldots, y_k$
+    \item Probabilities are computed using the softmax function:
+    \[
+    \text{Pr(label = j)} = \frac{e^{y_j}}{\sum_{i=1}^k e^{y_i}}
+    \]
+\end{itemize}
+
+\section{Model Complexity and Parameters}
+
+\begin{itemize}
+    \item Each edge in the network corresponds to a parameter (weight).
+    \item Total parameters can grow rapidly as layers and nodes increase.
+    \item Fully connected layers with $1000$ nodes each result in $10^6$ weights.
+\end{itemize}
+
+\section{Universal Approximation Theorem}
+
+Let $f: \mathbb{R}^d \rightarrow \mathbb{R}$ be a continuous function. Then, for any $\epsilon > 0$, there exists a feedforward neural net with a single hidden layer that approximates $f$ to within $\epsilon$.
+
+\begin{itemize}
+    \item One hidden layer suffices in theory.
+    \item However, it may require a very large number of nodes.
+    \item Deeper networks can use fewer nodes per layer for the same expressiveness.
+\end{itemize}
+
+\section{Conclusion}
+
+Feedforward neural networks are powerful function approximators that can model highly complex relationships through layered non-linear computations. Their effectiveness depends on appropriate architecture design, non-linear activations, and sufficient data for training.
+
+\end{document}
