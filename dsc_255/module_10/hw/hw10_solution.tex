@@ -415,25 +415,93 @@ x & \text{if } x \geq 0 \\
 
 \subsubsection*{Results Table}
 \parbox{\textwidth}{
-Below is a summary of the best models found for each dataset, including the value of $H$ (number of hidden units per layer), the number of iterations to convergence, and the final training error rate. For the noisy dataset, two hidden layers were used.
+Below is a summary of the best models found for each dataset.
+}
 
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
 \textbf{data} & \textbf{H value} & \textbf{iterations} & \textbf{error rate} \\
 \hline
-data1.txt & [fill] & [fill] & [fill] \\
-data2.txt & [fill] & [fill] & [fill] \\
-data3.txt & [fill] & [fill] & [fill] \\
-data4.txt & [fill] & [fill] & [fill] \\
-data5.txt & [fill] & [fill] & [fill] \\
-noisy     & [fill] & [fill] & [fill] \\
+data1.txt & 4 & 15955 & 0 \\
+data2.txt & 2 & 386 & 0 \\
+data3.txt & 2 & 15257 & 5 \\
+data4.txt & 4 & 46 & 0 \\
+data5.txt & 2 & 2044 & 0 \\
+noisy     & 4 & 1533 & 125 \\
 \hline
 \end{tabular}
 \end{center}
 
-Replace \texttt{[fill]} with the results from your Python runs.
-}
+\textit{Note: The noisy dataset was run with two hidden layers.}\\
+
+\newpage
+% --- Added \clearpage to force pending floats out before this large figure block ---
+\subsubsection*{Plots}
+
+\begin{figure}[H] % Use htbp for the overall figure environment
+  \centering
+
+  % Row 1 of figures
+  \begin{subfigure}[b]{0.48\textwidth} % Adjust width as needed
+    \centering
+    % --- Slightly reduced height for better vertical packing ---
+    \includegraphics[width=\textwidth, height=0.35\textheight, keepaspectratio]{./plots/data1_H4.png} 
+    \caption{Plot for data1.txt}
+    \label{fig:d1}
+  \end{subfigure}
+  \hfill % Adds horizontal space
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    % --- Slightly reduced height for better vertical packing ---
+    \includegraphics[width=\textwidth, height=0.35\textheight, keepaspectratio]{./plots/data2_H2.png}
+    \caption{Plot for data2.txt}
+    \label{fig:d2}
+  \end{subfigure}
+
+  \vspace{1em} % Adds vertical space between rows
+
+  % Row 2 of figures
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    % --- Slightly reduced height for better vertical packing ---
+    \includegraphics[width=\textwidth, height=0.35\textheight, keepaspectratio]{./plots/data3_H2.png}
+    \caption{Plot for data3.txt}
+    \label{fig:d3}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    % --- Slightly reduced height for better vertical packing ---
+    \includegraphics[width=\textwidth, height=0.35\textheight, keepaspectratio]{./plots/data4_H4.png}
+    \caption{Plot for data4.txt}
+    \label{fig:d4}
+  \end{subfigure}
+
+  \vspace{1em}
+
+  % Row 3 of figures
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    % --- Slightly reduced height for better vertical packing ---
+    \includegraphics[width=\textwidth, height=0.35\textheight, keepaspectratio]{./plots/data5_H2.png}
+    \caption{Plot for data5.txt}
+    \label{fig:d5}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    % --- Slightly reduced height for better vertical packing ---
+    \includegraphics[width=\textwidth, height=0.35\textheight, keepaspectratio]{./plots/noisy_H4.png}
+    \caption{Plot for noisy data and fit with two hidden layers}
+    \label{fig:n1}
+  \end{subfigure}
+
+  \caption{Summary of model plots for different datasets.} % Overall caption for the group
+  \label{fig:all_data_plots}
+\end{figure}
+
+\noindent\rule{\textwidth}{0.4pt}\\
 
 \newpage
 
@@ -444,13 +512,16 @@ Replace \texttt{[fill]} with the results from your Python runs.
 \parbox{\textwidth}{
   
 Below is the image comparision.
-\begin{figure}[H]
+}
+% --- Added \clearpage to force previous floats out before this figure ---
+
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{q6_image_comparison.png}
     \caption{Left: Original image. Right: Normalized image that was resized and normalized for ResNet50 input.}
 \end{figure}
 
-}
+
 
 \subsubsection*{Model Test Accuracies}
 \parbox{\textwidth}{
@@ -474,74 +545,23 @@ k-NN ($k=5$) & 0.9608 \\
 \subsection*{Bonus: Evaluation}
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\begin{figure}[h!] % [h!] tries to place the figure "here"
-  \centering % Centers the image horizontally
-  \includegraphics[width=0.8\textwidth, height=0.45\textheight, keepaspectratio]{te_1.png}
+% --- Added \clearpage to force previous floats out before these figures ---
+\begin{figure}[htbp] % Changed from [h!]
+  \centering
+  % --- Slightly reduced height for better vertical packing ---
+  \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{te_1.png}
   \caption{Hansin Evaluation}
   \label{fig:te1}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[htbp] % Changed from [h!]
   \centering
-  \includegraphics[width=0.8\textwidth, height=0.45\textheight, keepaspectratio]{te_2.png}
+  % --- Slightly reduced height for better vertical packing ---
+  \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{te_2.png}
   \caption{Neo Evaluation}
   \label{fig:te2}
 \end{figure}
 
-
-\begin{comment}
-  \begin{center} 
-  \begin{tabular}{|c|c|c|} 
-    \hline Stump Number (\%) & Training Accuracy (\%) \\ 
-    \hline 
-    1 & 16.32\\ 
-    2 & 15.91 \\
-    3 & 14.25 \\
-    4 & 13.56 \\ 
-    5 & 14.05  \\ 
-    \hline
-  \end{tabular}
-\end{center}
-\end{comment}
-
-\begin{comment}
-\subsection*{Solution 7}
 \noindent\rule{\textwidth}{0.4pt}\\
 
-\begin{figure}
-  \includegraphics{part_b_rbf_kernel.png}
-  \caption{Decision boundary for rbf kernel}
-\end{figure}
-\noindent\rule{\textwidth}{0.4pt}\\
-
-\subsubsection*{Linear SVM}
-
-\begin{center} 
-  \begin{tabular}{|c|c|c|} 
-    \hline C Value & Training Error (\%) & Test Error (\%) \\ 
-    \hline 
-    0.01 & 16.32 & 15.48\\ 
-    0.1 & 15.91 & 16.36 \\
-    1.0 & 14.25 & 14.04 \\
-    10.0 & 13.56 & 13.16 \\ 
-    100.0 & 14.05 & 14.78 \\ 
-    \hline
-  \end{tabular}
-\end{center}
-\parbox{\textwidth}{Based on the results above it seems that the data is linearly separable.}
-\subsubsection*{Quadardic SVM}
-\begin{center} 
-  \begin{tabular}{|c|c|c|} 
-    \hline Training Error (\%) & Test Error (\%)  & Support Vectors\\ 
-    \hline 
-    0.17 & 2.13 & 17906\\ 
-    \hline
-  \end{tabular}
-\end{center}
-
-\begin{lstlisting}
-PYTHON CODE HERE
-\end{lstlisting}
-\end{comment}
 \end{document}
-
