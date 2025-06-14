@@ -1,0 +1,156 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Relational Algebra symbols (adjust as needed if not using a specific package)
+\newcommand{\sel}{\sigma} % Selection
+\newcommand{\proj}{\pi} % Projection
+\newcommand{\ren}{\rho} % Rename
+\newcommand{\join}{\bowtie} % Natural Join
+\newcommand{\cross}{\times} % Cartesian Product
+\newcommand{\union}{\cup} % Union
+\newcommand{\intersect}{\cap} % Intersection
+\newcommand{\diff}{\setminus} % Set Difference (Minus)
+
+\title{Formal Query Languages: Relational Algebra Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction to Formal Query Languages}
+Formal query languages provide a theoretical foundation for database query processing. They are precisely defined, making it possible to analyze their expressive power and properties. Relational Algebra is a procedural query language, meaning it specifies *how* to obtain the result.
+
+\section*{Relational Algebra}
+Relational Algebra is a collection of operators that take one or two relations (tables) as input and produce a new relation as output. All operators are "closed" which means their input and output are always relations.
+
+\subsection*{Schemas Used in Examples}
+\begin{itemize}
+    \item \textbf{Movie} (\underline{name}, year, genre) 
+    \item \textbf{ActedIN} (\underline{actorname}, \underline{moviename}) 
+    \item \textbf{Actor} (\underline{name}, age) 
+\end{itemize}
+
+\subsection*{Core Relational Algebra Operations}
+
+\subsubsection*{1. Selection ($\sel$)}
+The selection operation filters rows (tuples) from a relation that satisfy a given predicate (condition).
+\begin{itemize}
+    \item \textbf{Notation}: $\sel_P(R)$ 
+    \item \textbf{P}: A predicate (condition) involving attributes of R.
+    \item \textbf{R}: The input relation.
+    \item \textbf{Result}: A relation containing only the tuples from R for which P is true.
+\end{itemize}
+
+\textbf{Example:} Select movies produced after 2000.
+\begin{align*}
+    \sel_{\text{year} > 2000}(\text{Movie}) \tag{1} \label{eq:sel_movie_year} \text{}
+\end{align*}
+This expression returns a relation with all columns of `Movie`, but only for rows where `year` is greater than 2000.
+
+\subsubsection*{2. Projection ($\proj$)}
+The projection operation selects specific columns (attributes) from a relation and removes duplicate rows from the result.
+\begin{itemize}
+    \item \textbf{Notation}: $\proj_{A_1, A_2, ..., A_n}(R)$ 
+    \item \textbf{$A_1, A_2, ..., A_n$}: A list of attributes to be retained.
+    \item \textbf{R}: The input relation.
+    \item \textbf{Result}: A relation containing only the specified attributes. Duplicates are eliminated.
+\end{itemize}
+
+\textbf{Example:} Return movie names and their genres.
+\begin{align*}
+    \proj_{\text{name, genre}}(\text{Movie}) \tag{2} \label{eq:proj_movie_name_genre} \text{}
+\end{align*}
+
+\subsubsection*{3. Cartesian Product ($\times$)}
+The Cartesian product combines every tuple from one relation with every tuple from another relation.
+\begin{itemize}
+    \item \textbf{Notation}: $R \times S$ 
+    \item \textbf{R, S}: Input relations.
+    \item \textbf{Result}: A new relation with all possible combinations of tuples from R and S. The schema of the result is a concatenation of the schemas of R and S.
+\end{itemize}
+
+\textbf{Example:} Combine Movie and ActedIN relations.
+\begin{align*}
+    \text{Movie} \times \text{ActedIN} \tag{3} \label{eq:cartesian_product} \text{}
+\end{align*}
+This operation by itself is rarely useful in practice because it generates many meaningless combinations. It is typically followed by a selection operation to form a join.
+
+\subsubsection*{4. Set Operations}
+Relational algebra includes standard set operations: Union ($\union$), Intersection ($\intersect$), and Set Difference ($\setminus$). For these operations to be valid, the relations must be \textbf{union-compatible}, meaning they have the same number of attributes and corresponding attributes have the same data types.
+
+\paragraph{Union ($\union$)}
+Returns all tuples that are in R, or in S, or in both. Duplicates are eliminated.
+\begin{itemize}
+    \item \textbf{Notation}: $R \union S$ 
+\end{itemize}
+\textbf{Example:} Return all names from `Actor` and `Movie`.
+\begin{align*}
+    \proj_{\text{name}}(\text{Actor}) \union \proj_{\text{name}}(\text{Movie}) \tag{4} \label{eq:union} \text{}
+\end{align*}
+
+\paragraph{Intersection ($\intersect$)}
+Returns all tuples that are common to both R and S.
+\begin{itemize}
+    \item \textbf{Notation}: $R \intersect S$ 
+\end{itemize}
+
+\paragraph{Set Difference ($\setminus$)}
+Returns all tuples that are in R but not in S.
+\begin{itemize}
+    \item \textbf{Notation}: $R \setminus S$ 
+\end{itemize}
+
+\subsubsection*{5. Rename ($\ren$)}
+The rename operation changes the name of a relation or its attributes.
+\begin{itemize}
+    \item \textbf{Notation}: $\ren_{B_1, ..., B_n(R)}(R')$  or $\ren_{S}(R)$ 
+    \item \textbf{$R'$}: New name for the relation.
+    \item \textbf{$B_1, ..., B_n$}: New names for the attributes of R.
+    \item \textbf{R}: The input relation.
+\end{itemize}
+This operation is useful for ensuring unique attribute names in complex expressions, especially after a Cartesian product, and for making results more readable.
+
+\textbf{Example:} Rename `Movie` to `Film`.
+\begin{align*}
+    \ren_{\text{Film}}(\text{Movie}) \tag{5} \label{eq:rename_relation} \text{}
+\end{align*}
+
+\section*{Derived Relational Algebra Operations (Joins)}
+Joins are combinations of Cartesian product and selection, offering a more convenient way to combine relations.
+
+\subsection*{Theta Join ($\join_\theta$)}
+A theta join combines the Cartesian product with a selection condition ($\theta$).
+\begin{itemize}
+    \item \textbf{Notation}: $R \join_\theta S \equiv \sel_\theta(R \times S)$ 
+    \item \textbf{$\theta$}: Any valid comparison predicate.
+\end{itemize}
+
+\textbf{Example:} Find movie names and actor names where movie name in `Movie` equals movie name in `ActedIN`.
+\begin{align*}
+    \text{Movie} \join_{\text{Movie.name} = \text{ActedIN.moviename}} \text{ActedIN} \tag{6} \label{eq:theta_join} \text{}
+\end{align*}
+
+\subsection*{Equi-join}
+An equi-join is a special case of theta join where the predicate $\theta$ consists only of equality comparisons.
+
+\subsection*{Natural Join ($\join$)}
+The natural join combines relations based on common attributes, performing an equi-join on all identically named attributes and then projecting out duplicate common attributes.
+\begin{itemize}
+    \item \textbf{Notation}: $R \join S$ 
+    \item It automatically identifies common columns and joins on them.
+\end{itemize}
+
+\textbf{Example:} Join `Movie` and `ActedIN` naturally.
+\begin{align*}
+    \text{Movie} \join \text{ActedIN} \tag{7} \label{eq:natural_join} \text{}
+\end{align*}
+This specific example might not work as intended with the given schemas because `Movie` has `name` and `ActedIN` has `moviename`, which are conceptually the same but have different names. To perform a natural join on these, one of the attributes would need to be renamed first.
+
+\end{document}

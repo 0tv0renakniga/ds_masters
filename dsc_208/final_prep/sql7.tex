@@ -1,0 +1,295 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Relational Algebra symbols
+\newcommand{\sel}{\sigma} % Selection
+\newcommand{\proj}{\pi} % Projection
+\newcommand{\ren}{\rho} % Rename
+\newcommand{\join}{\bowtie} % Natural Join
+\newcommand{\ljoin}{\Join} % Left Outer Join (custom)
+\newcommand{\rjoin}{\rightouterjoin} % Right Outer Join (custom)
+\newcommand{\fjoin}{\fullouterjoin} % Full Outer Join (custom)
+\newcommand{\cross}{\times} % Cartesian Product
+\newcommand{\union}{\cup} % Union
+\newcommand{\intersect}{\cap} % Intersection
+\newcommand{\diff}{\setminus} % Set Difference (Minus)
+\newcommand{\dupelim}{\delta} % Duplicate Elimination
+\newcommand{\group}{\gamma} % Grouping
+\newcommand{\sort}{\tau} % Sorting
+
+% Package for code listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configure SQL listing style
+\lstdefinelanguage{SQL}{
+  keywords={SELECT, FROM, WHERE, JOIN, ON, INNER, LEFT, RIGHT, FULL, OUTER, AS, DISTINCT, AND, NOT, EXISTS, EXCEPT, UNION},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black}\itshape,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  columns=fullflexible,
+  upquote=true,
+  basicstyle=\ttfamily\small
+}
+\lstset{language=SQL}
+
+\title{Formal Query Languages Part 2: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Combining Relational Algebra Operators}
+Relational algebra operators can be combined to form complex queries, similar to how expressions are built in programming languages. Precedence rules dictate the order of evaluation. 
+
+\subsection*{Operator Precedence (Highest to Lowest)} 
+\begin{enumerate}
+    \item Unary operators: $\ren$, $\proj$, $\sel$ 
+    \item Cartesian product and Joins: $\times$, $\join$ 
+    \item Intersection: $\intersect$ 
+    \item Union and Set Difference: $\union$, $\setminus$ 
+\end{enumerate}
+
+\subsection*{Combining Operators Example}
+
+Consider the Movie table: \\
+
+\begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} & \textbf{Budget} & \textbf{Revenue} \\
+    \hline
+    Pirates of the Caribbean & 2007 & Action & \$300 m & \$900 m \\
+    The Lion King & 2019 & Animation & \$260 m & \$1.65 b \\
+    The Dark Knight & 2008 & Action & \$185 m & \$1 b \\
+    \hline
+\end{tabular}\\
+
+\textbf{Projection example:} $\proj_{\text{name,rate}}(\text{Movie})$ \\
+
+This projects the `name` and `rate` columns. \\
+
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Rate} \\
+    \hline
+    Pirates of the Caribbean & 7.1 \\
+    The Lion King & 6.5 \\
+    The Dark Knight & 9.5 \\
+    \hline
+\end{tabular}\\
+
+
+\textbf{Selection example:} $\sel_{\text{budget}>\$200m}(\text{Movie})$ \\
+
+This selects movies with a budget greater than \$200 million.\\
+
+\begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} & \textbf{Budget} & \textbf{Revenue} \\
+    \hline
+    Pirates of the Caribbean & 2007 & Action & \$300 m & \$900 m \\
+    The Lion King & 2019 & Animation & \$260 m & \$1.65 b \\
+    \hline
+\end{tabular}\\
+
+
+\textbf{Combined example:} $\proj_{\text{name,rate}}(\sel_{\text{budget}>\$200m}(\text{Movie}))$ \\
+
+This first selects movies by budget, then projects name and rate.\\
+
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Rate} \\
+    \hline
+    Pirates of the Caribbean & 7.1 \\
+    The Lion King & 6.5 \\
+    \hline
+\end{tabular}\\
+
+
+\section*{Outer Joins} 
+Outer joins keep all information from both operands, padding with `NULL` values for tuples that have no counterpart in the other relation. 
+
+\subsection*{Three Variants of Outer Join} 
+\begin{itemize}
+    \item \textbf{Left Outer Join}: Keeps all rows from the left table. 
+    \item \textbf{Right Outer Join}: Keeps all rows from the right table. 
+    \item \textbf{Full Outer Join}: Keeps all rows from both tables. 
+\end{itemize}
+
+\textbf{Notation for Outer Joins:} 
+Relational Algebra: $R1 \ljoin_{R1.A1=R2.A2} R2$ (Left Join)
+SQL: `SELECT * FROM R1 LEFT JOIN R2 ON R1.A1 = R2.A2`
+Pandas: $df1.merge(df2, left_on='A1', right_on='A2', how='left')$
+
+\textbf{Outer Join Example:} 
+
+\textbf{Movie Table (M):} \\
+
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} \\
+    \hline
+    Apocalypse Now & 1979 & War \\
+    The God Father & 1972 & Crime \\
+    Planet Earth II & 2016 & Nature Documentary \\
+    \hline
+\end{tabular}\\
+
+\textbf{ActedIN Table (A):} \\
+
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Actorname} & \textbf{Moviename} \\
+    \hline
+    Marlon Brando & Apocalypse now \\
+    Al Pacino & The God Father \\
+    Marlon Brando & The God Father \\
+    \hline
+\end{tabular}\\
+
+
+\textbf{Result of `Movie` Left Outer Join `ActedIN` on `Movie.name = ActedIN.moviename`:} \\
+
+\begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} & \textbf{Actorname} & \textbf{Moviename} \\
+    \hline
+    Apocalypse now & 1979 & War & Marlon Brando & Apocalypse Now \\
+    The God Father & 1972 & Crime & Al Pacino & The God Father \\
+    Planet Earth II & 2016 & Nature Documentary & NULL & NULL \\
+    \hline
+\end{tabular}\\
+
+
+\section*{Relational Algebra for Bags} 
+SQL uses bag semantics, meaning duplicate tuples are preserved. Relational engines often work on bags for efficiency. \\
+
+
+\subsection*{Extended Relational Algebra Operators on Bags} 
+\begin{itemize}
+    \item \textbf{Selection ($\sel_\theta(R)$)}: Preserves the number of occurrences of tuples. 
+    \item \textbf{Projection ($\proj_A(R)$)}: No duplicate elimination (unlike set-based projection). 
+    \item \textbf{Cartesian product, Join}: No duplicate elimination. 
+    \item \textbf{Duplicate elimination ($\dupelim(R)$)}: `R1 := $\dupelim(R2)$` - R1 consists of one copy of each tuple that appears in R2 one or more times. 
+    \item \textbf{Grouping ($\group$)}: A list of elements that are either individual (grouping) attributes or `AGG(A)` (aggregation operator on attribute A). 
+    \item \textbf{Sorting ($\sort$)}: `R1 := $\sort_L(R2)$` - R1 consists of tuples of R2 sorted on the attributes in list L. 
+\end{itemize}
+
+\subsection*{Grouping / Aggregation Example} 
+
+Input `Movie` table (with `Revenue`):\\
+
+\begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} & \textbf{Revenue} \\
+    \hline
+    Pirates of the Caribbean & 2007 & Action & \$900 m \\
+    The Lion King & 2019 & Animation & \$1.65 b \\
+    The Dark Knight & 2008 & Action & \$1 b \\
+    Toy Story 3 & 2010 & Animation & \$1 b \\
+    American Sniper & 2013 & Action & \$350 m \\
+    \hline
+\end{tabular}\\
+
+
+Grouping by `Genre` and calculating `SUM(Revenue)` as `TotalRevenue`, and `COUNT(*)` as `MovieNum`:\\
+
+$\group_{\text{genre, SUM(Revenue) \(\rightarrow\) TotalRevenue, COUNT(*) \(\rightarrow\) MovieNum}}(\text{Movie})$ \\
+
+Result:\\
+
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Genre} & \textbf{TotalRevenue} & \textbf{MovieNum} \\
+    \hline
+    Animation & \$2.65 b & 2 \\
+    Action & \$2.25 b & 3 \\
+    \hline
+\end{tabular}\\
+
+\section*{Representing Relational Algebra Queries as Trees} 
+
+Complex RA queries can be represented as expression trees, which are useful for query optimization.\\
+
+\subsection*{Example 1: Select-Project-Join Query} 
+
+SQL Query: \\
+
+\begin{lstlisting}[language=SQL]
+SELECT genre
+FROM Movie, ActedIN
+WHERE Movie.name = ActedIN.moviename AND
+      ActedIN.actorname = 'Marlon Brando';
+\end{lstlisting}
+Relational Algebra Equivalent:
+$\proj_{\text{genre}}(\text{Movie} \join (\sel_{\text{actorname='Marlon Brando'}}(\text{ActedIN})))$ 
+
+\subsection*{Example 2: Grouping and Aggregation Query} 
+
+SQL Query: \\
+
+\begin{lstlisting}[language=SQL]
+SELECT genre, SUM(revenue) AS TR, COUNT(*) AS C
+FROM Movie
+WHERE year > 2008
+GROUP BY genre
+HAVING SUM(revenue) > $1B;
+\end{lstlisting}
+
+Relational Algebra Representation (simplified tree notation): \\
+
+The query involves selection, grouping with aggregation, and then a filtering (having) operation on the grouped results, followed by projection. \\
+
+\section*{Typical Query Plan} 
+\begin{itemize}
+    \item For `SELECT-PROJECT-JOIN` queries, the plan generally involves selections, joins, and then projection. 
+    \item For queries with `GROUP BY` and `HAVING`, the order is typically: `FROM` (identifying tables), `WHERE` (filtering rows), `GROUP BY` (grouping), `HAVING` (filtering groups), and finally `SELECT` (projecting fields and aggregates). 
+\end{itemize}
+
+\section*{Subqueries and Relational Algebra} 
+SQL subqueries can often be de-correlated and expressed using relational algebra set operations.
+
+\subsection*{Example: `EXISTS` and `NOT EXISTS`} 
+SQL Query: Find actors who acted in an 'Action' movie but NOT a 'Drama' movie.
+\begin{lstlisting}[language=SQL]
+SELECT a.actorname
+FROM ActedIn a
+WHERE EXISTS (SELECT a.actorname FROM Movie m WHERE a.moviename = m.name AND m.genre = 'Action')
+  AND NOT EXISTS (SELECT a.actorname FROM Movie m WHERE a.moviename = m.name AND m.genre = 'Drama');
+\end{lstlisting}
+This query uses correlated subqueries. 
+
+\subsection*{Example: `EXCEPT` (Set Difference)} 
+The previous query can be rewritten using `EXCEPT` (set difference): 
+\begin{lstlisting}[language=SQL]
+SELECT a1.actorname
+FROM Movie m1, ActedIN a1
+WHERE m1.name = a1.moviename AND m1.genre = 'Action'
+EXCEPT
+SELECT a2.actorname
+FROM Movie m2, ActedIN a2
+WHERE m2.name = a2.moviename AND m2.genre = 'Drama';
+\end{lstlisting}
+Relational Algebra Equivalent: 
+$\proj_{\text{actorname}}(\text{Movie} \join \sel_{\text{genre='Action'}}(\text{ActedIN})) \setminus \proj_{\text{actorname}}(\text{Movie} \join \sel_{\text{genre='Drama'}}(\text{ActedIN}))$
+
+\section*{Summary} 
+\begin{itemize}
+    \item SQL is a declarative language (describes *what* to get). 
+    \item Relational Algebra (RA) is a procedural language (describes *how* to get it). 
+    \item SQL and Relational Algebra express the same class of queries (they are equivalent in expressive power for core operations). 
+\end{itemize}
+
+\end{document}

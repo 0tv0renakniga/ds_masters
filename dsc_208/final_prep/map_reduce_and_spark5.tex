@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{listings}
+\usepackage{xcolor} % Required for \color in listings
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  showstringspaces=false,
+  commentstyle=\color{gray},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny,
+  frame=single,
+  framesep=5pt,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  breakatwhitespace=false,
+  tabsize=2,
+}
+
+\title{Feature Engineering Part 2: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Dimensionality Reduction}
+Dimensionality reduction techniques are often used on relational/structured/tabular data to transform features into a different, typically lower-dimensional, latent space.
+
+\subsection*{Key Concepts}
+\begin{itemize}
+    \item \textbf{Basic Idea}: Transforms features into a new set of features, often linear combinations of the originals, to reduce the number of features while retaining important information.
+    \item \textbf{Examples}: Principal Component Analysis (PCA), Singular Value Decomposition (SVD), Latent Dirichlet Allocation (LDA), Matrix factorization.
+    \item \textbf{Distinction from Feature Selection}:
+    \begin{itemize}
+        \item \textit{Feature Selection}: Preserves the original semantics of each feature, simply selecting a subset of existing features.
+        \item \textit{Dimensionality Reduction}: Typically does *not* preserve the semantics of individual features, as new features are combinations of old ones in "nonsensical" (but mathematically meaningful) ways.
+    \end{itemize}
+    \item \textbf{Scalability}: Scaling dimensionality reduction techniques can be non-trivial, similar to scaling individual machine learning training algorithms.
+\end{itemize}
+
+\section*{Time-Based Features}
+Many relational or tabular datasets include time/date attributes which can be rich sources of features.
+
+\begin{itemize}
+    \item \textbf{Extraction from Datetime Columns}: Per-example reconversion to extract numerical (e.g., year, month, day of week, hour) or categorical features (e.g., season, holiday).
+    \item \textbf{Global Statistics for Calibration}: Sometimes, global statistics are needed to calibrate time-based features (e.g., normalizing by the maximum value of a time series).
+    \item \textbf{Complex Temporal Features}: More complex temporal features are studied extensively in time series mining, such as lags, moving averages, or trends.
+\end{itemize}
+
+\section*{Text-Based Features (Review)}
+Text data requires specific feature engineering techniques to convert unstructured text into a numerical format suitable for ML models.
+
+\begin{itemize}
+    \item \textbf{Bag of Words (BoW)}: Represents text as an unordered collection of word counts. Simple but loses word order and context.
+    \item \textbf{TF-IDF (Term Frequency-Inverse Document Frequency)}: Weights words based on their frequency in a document and their rarity across the corpus, providing a more informative representation than raw counts.
+    \item \textbf{Word Embeddings (e.g., Word2Vec, GloVe)}: Dense vector representations that capture semantic relationships between words based on their co-occurrence patterns in large text corpora.
+    \item \textbf{N-grams}: Sequences of N words (or characters) used to capture some local word order and context.
+\item \textbf{Implementation in MapReduce/Spark}:
+    \begin{itemize}
+        \item \textit{Bag of Words/N-grams}: Can be implemented as a Map-only function, where each document is mapped to its term/n-gram counts.
+        \item \textit{TF-IDF}: Requires both Map and Reduce stages. Map calculates term frequency per document. Reduce (or a second MapReduce pass) calculates inverse document frequency using global document counts.
+    \end{itemize}
+\end{itemize}
+
+\section*{Learned Feature Extraction in Deep Learning}
+Deep Learning (DL) models offer a significant advantage by automating the feature engineering process, especially for unstructured data.
+
+\begin{itemize}
+    \item \textbf{No Manual Feature Engineering}: A major benefit of DL is that it largely eliminates the need for manual feature engineering on unstructured data (e.g., images, text, audio).
+    \item \textbf{Not Common on Tabular Data}: DL is generally not common or highly effective for structured/tabular/relational data compared to traditional ML models, where manual feature engineering remains crucial.
+    \item \textbf{Versatile Data Types}: DL is very versatile, handling almost any data type as input and/or output:
+    \begin{itemize}
+        \item \textit{Convolutional Neural Networks (CNNs)}: Used over image tensors.
+        \item \textit{Transformers and Recurrent Neural Networks (RNNs)}: Used over text.
+        \item \textit{Graph Neural Networks (GNNs)}: Used over graph-structured data.
+    \end{itemize}
+    \item \textbf{Internal Feature Transformation}: The neural network architecture itself specifies how to extract and transform features internally through layers, with weights that are learned during the training process.
+    \item \textbf{Software 2.0}: This concept refers to programs where features and logic are "learned" directly from data (like in DL) rather than being hand-crafted by human programmers.
+\end{itemize}
+
+\section*{Hyper-Parameter Tuning (HT)}
+Hyper-parameter tuning is an essential "outer loop" around the machine learning model training and inference process.
+
+\subsection*{Definition and Examples}
+\begin{itemize}
+    \item \textbf{Definition}: Hyper-parameters are "knobs" for an ML model or its training algorithm that control the bias-variance tradeoff in a dataset-specific manner to make learning effective.
+    \item \textbf{Examples}:
+    \begin{itemize}
+        \item \textit{Generalized Linear Models (GLMs)}: L1 or L2 regularization strength.
+        \item \textit{All Gradient Methods}: Learning rate.
+        \item \textit{Mini-batch Stochastic Gradient Descent (SGD)}: Batch size.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Common Approaches}
+\begin{itemize}
+    \item \textbf{Grid Search}: The most common approach, where a set of discrete values is chosen for each hyper-parameter, and the model is trained and evaluated on all possible combinations (Cartesian product).
+    \item \textbf{Random Search}: Another common approach where values for hyper-parameters are sampled randomly from defined distributions or ranges. Often more efficient than grid search in high-dimensional hyper-parameter spaces.
+    \item \textbf{Automated ML (AutoML)}: Complex heuristics and algorithms exist for automated hyper-parameter tuning and even neural architecture search, reducing manual effort but often computationally intensive.
+\end{itemize}
+HT involves training and testing multiple model configurations and consuming the results to find the optimal set of hyper-parameters.
+
+\end{document}

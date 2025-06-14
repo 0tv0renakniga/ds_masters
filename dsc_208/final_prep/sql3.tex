@@ -1,0 +1,214 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Package for code listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configure SQL listing style
+\lstdefinelanguage{SQL}{
+  keywords={SELECT, FROM, WHERE, GROUP BY, HAVING, COUNT, SUM, AVG, MIN, MAX, DISTINCT, AS, AND, OR, NOT},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black}\itshape,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  columns=fullflexible,
+  upquote=true,
+  basicstyle=\ttfamily\small
+}
+\lstset{language=SQL}
+
+\title{SQL Aggregation and Grouping: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction to SQL Aggregation}
+Aggregation functions perform a calculation on a set of rows and return a single summary value.
+
+\subsection*{Schemas Used in Examples}
+\begin{itemize}
+    \item \textbf{Movie} (\underline{name}, year, genre) 
+    \item \textbf{ActedIN} (\underline{actorname}, \underline{moviename}) 
+    \item \textbf{Actor} (\underline{name}, age) 
+\end{itemize}
+
+\subsection*{Data for Examples}
+\textbf{Movie Table:} 
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} \\
+    \hline
+    Apocalypse Now & 1979 & War \\
+    The God Father & 1972 & Crime \\
+    Planet Earth II & 2016 & Nature Documentary \\
+    \hline
+\end{tabular}
+
+\textbf{ActedIN Table:} 
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Actorname} & \textbf{Moviename} \\
+    \hline
+    Marlon Brando & Apocalypse Now \\
+    Al Pacino & The God Father \\
+    Marlon Brando & The God Father \\
+    \hline
+\end{tabular}
+
+\textbf{Actor Table:} 
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Age} \\
+    \hline
+    Marlon Brando & 80 \\
+    Al Pacino & 82 \\
+    De Niro & 79 \\
+    \hline
+\end{tabular}
+
+\section*{SQL Aggregation Functions}
+Common aggregation functions include: 
+\begin{itemize}
+    \item \textbf{\texttt{COUNT(X)}}: Counts the number of non-NULL values in column X. 
+    \item \textbf{\texttt{SUM(X)}}: Computes the sum of values in column X. 
+    \item \textbf{\texttt{AVG(X)}}: Computes the average of values in column X. 
+    \item \textbf{\texttt{MIN(X)}}: Finds the minimum value in column X. 
+    \item \textbf{\texttt{MAX(X)}}: Finds the maximum value in column X. 
+\end{itemize}
+All these functions ignore NULL values. 
+
+\subsection*{`COUNT`}
+\textbf{Query:} How many movies are there in the table? 
+\begin{lstlisting}
+SELECT COUNT(*) FROM Movie;
+\end{lstlisting}
+\textbf{Result:} 
+\begin{tabular}{|c|}
+    \hline
+    \textbf{COUNT(*)} \\
+    \hline
+    3 \\
+    \hline
+\end{tabular}
+
+\subsection*{`COUNT(DISTINCT X)`}
+\textbf{Query:} Count how many distinct genres are there. 
+\begin{lstlisting}
+SELECT COUNT(DISTINCT genre) FROM Movie;
+\end{lstlisting}
+\textbf{Result:} 
+\begin{tabular}{|c|}
+    \hline
+    \textbf{COUNT(DISTINCT genre)} \\
+    \hline
+    3 \\
+    \hline
+\end{tabular}
+
+\subsection*{`SUM`}
+\textbf{Query:} What is the total length of all movies? (Assuming a `length` column exists) 
+\begin{lstlisting}
+SELECT SUM(length) FROM Movie;
+\end{lstlisting}
+\textbf{Explanation:} This query calculates the sum of all values in the `length` column of the `Movie` table.
+
+\subsection*{`AVG`}
+\textbf{Query:} What is the average length of all movies? 
+\begin{lstlisting}
+SELECT AVG(length) FROM Movie;
+\end{lstlisting}
+\textbf{Explanation:} This query calculates the average of all values in the `length` column of the `Movie` table.
+
+\subsection*{`MIN` and `MAX`}
+\textbf{Query:} What are the minimum and maximum lengths of all movies? 
+\begin{lstlisting}
+SELECT MIN(length), MAX(length) FROM Movie;
+\end{lstlisting}
+\textbf{Explanation:} This query retrieves the smallest value using `MIN()` and the largest value using `MAX()` from the `length` column of the `Movie` table.
+
+\section*{Grouping in SQL: `GROUP BY` Clause}
+The `GROUP BY` clause groups rows that have the same values in specified columns into summary rows, like "count the number of customers in each country".  It is used with aggregation functions to perform calculations on each group. 
+
+\textbf{Execution Order:} 
+\begin{enumerate}
+    \item \texttt{FROM} clause: Identifies the tables involved.
+    \item \texttt{WHERE} clause: Filters rows based on specified conditions.
+    \item \texttt{GROUP BY} clause: Groups the filtered rows into sets based on common values in the specified column(s).
+    \item Aggregates: Computes aggregate functions (e.g., `COUNT`, `SUM`) for each group.
+    \item \texttt{SELECT} clause: Selects the columns and aggregate results to display.
+\end{enumerate}
+
+\subsection*{`GROUP BY` Example 1}
+\textbf{Query:} How many movies in each genre? 
+\begin{lstlisting}
+SELECT genre, COUNT(*)
+FROM Movie
+GROUP BY genre;
+\end{lstlisting}
+\textbf{Result:} 
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{genre} & \textbf{COUNT(*)} \\
+    \hline
+    War & 1 \\
+    Crime & 1 \\
+    Nature Documentary & 1 \\
+    \hline
+\end{tabular}
+\textbf{Explanation:} This query groups the `Movie` table by `genre` and then counts the number of movies within each unique genre.
+
+\subsection*{`GROUP BY` Example 2}
+\textbf{Query:} How many movies produced in each year? 
+\begin{lstlisting}
+SELECT year, COUNT(name)
+FROM Movie
+GROUP BY year;
+\end{lstlisting}
+\textbf{Result:} 
+\begin{tabular}{|c|c|}
+    \hline
+    \textbf{year} & \textbf{COUNT(name)} \\
+    \hline
+    1979 & 1 \\
+    1972 & 1 \\
+    2016 & 1 \\
+    \hline
+\end{tabular}
+\textbf{Explanation:} This query groups the `Movie` table by `year` and then counts the number of movie names within each production year.
+
+\section*{Filtering Groups: `HAVING` Clause}
+The `HAVING` clause is used to filter groups based on conditions applied to aggregate values.  It operates on the results of the `GROUP BY` clause. 
+
+\textbf{Execution Order with `HAVING`:} 
+\begin{enumerate}
+    \item \texttt{FROM}
+    \item \texttt{WHERE}
+    \item \texttt{GROUP BY}
+    \item \texttt{HAVING} (filters groups)
+    \item Aggregates (re-computes if needed for \texttt{SELECT})
+    \item \texttt{SELECT}
+\end{enumerate}
+
+\subsection*{`HAVING` Example}
+\textbf{Query:} Find genres with more than 10 movies. 
+\begin{lstlisting}
+SELECT genre, COUNT(*)
+FROM Movie
+GROUP BY genre
+HAVING COUNT(*) > 10;
+\end{lstlisting}
+\textbf{Explanation:} This query first groups movies by `genre` and counts them. Then, the `HAVING` clause filters these groups, keeping only those genres where the count of movies is greater than 10.
+
+\end{document}

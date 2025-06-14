@@ -1,0 +1,98 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  showstringspaces=false,
+  commentstyle=\color{gray},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny,
+  frame=single,
+  framesep=5pt,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  breakatwhitespace=false,
+  tabsize=2,
+}
+
+\title{MapReduce Part 1: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction to Dataflow Systems}
+Dataflow systems, such as MapReduce and Spark, emerged to address limitations of traditional parallel Relational Database Management Systems (RDBMSs) in handling the scale and demands of web giants.
+
+\subsection*{Parallel RDBMSs}
+Parallel RDBMSs are widely successful, typically employing shared-nothing data parallelism. They offer:
+\begin{itemize}
+    \item Optimized runtime performance.
+    \item Enterprise-grade features including ANSI SQL support, Business Intelligence (BI) dashboards/APIs, transaction management, crash recovery, and automated tuning with indexes.
+\end{itemize}
+Despite their strengths, new challenges from the web/internet giants necessitated moving beyond traditional RDBMSs.
+
+\subsection*{Beyond RDBMSs: A Brief History and New Concerns}
+The rise of web giants like Google and Amazon introduced four new concerns that RDBMSs were not originally built to handle efficiently:
+\begin{enumerate}
+    \item \textbf{Developability}: Custom data models and complex computations were hard to program using standard SQL/RDBMS APIs, leading to a demand for simpler programming interfaces.
+    \item \textbf{Fault Tolerance}: As systems scaled to thousands of machines, graceful handling of individual worker failures became critical.
+    \item \textbf{Elasticity}: The need to easily scale cluster size up or down based on fluctuating workload demands became essential.
+    \item \textbf{Cost}: Commercial RDBMS licenses were too expensive for the massive scale required, prompting companies to build their own custom, cost-effective systems.
+\end{enumerate}
+This led to a new breed of parallel data systems, known as Dataflow Systems, which transformed the landscape of data processing.
+
+\section*{What is MapReduce?}
+MapReduce is a seminal dataflow system (and programming model) developed by Google to process vast amounts of data in a fault-tolerant and highly scalable manner. It simplifies distributed programming by abstracting away many complexities.
+
+\subsection*{Standard Example: Word Count}
+A classic example for illustrating MapReduce is counting word occurrences in a document corpus.
+\begin{itemize}
+    \item \textbf{Input}: A set of text documents (e.g., webpages).
+    \item \textbf{Output}: A dictionary of unique words and their corresponding counts.
+\end{itemize}
+
+\subsection*{MapReduce API (Simplified)}
+The MapReduce programming model exposes two primary functions for users to implement:
+\begin{lstlisting}[language=C]
+function map (String docname, String doctext) :
+    for each word w in doctext:
+        emit (w, 1)
+
+function reduce (String word, Iterator partialCounts):
+    sum = 0
+    for each pc in partialCounts :
+        sum += pc
+    emit (word, sum)
+\end{lstlisting}
+\begin{itemize}
+    \item The `map` function processes an input Key-Value pair (here, `docname` and `doctext`) and emits intermediate Key-Value pairs (here, `(word, 1)` for each word found).
+    \item The `reduce` function processes a key and an iterator over all values associated with that key (here, `word` and `partialCounts`), aggregates them, and emits the final output Key-Value pairs (here, `(word, sum)`).
+\end{itemize}
+
+\section*{How MapReduce Works: Parallel Flow of Control and Data}
+The execution of a MapReduce job involves several stages managed by the framework:
+
+\begin{enumerate}
+    \item \textbf{Input}: The raw data (e.g., a large text file or collection of files).
+    \item \textbf{Splitting}: The input data is logically split into smaller chunks (e.g., typically 128MB blocks in HDFS) by the MapReduce framework. Each split is then processed by a `Map` task.
+    \item \textbf{Mapping}: Multiple `Map` tasks run in parallel across the cluster. Each `Map` task applies the user-defined `map` function to its assigned input split, generating intermediate Key-Value pairs.
+    \item \textbf{Shuffling (Shuffle and Sort)}: The intermediate Key-Value pairs emitted by all `Map` tasks are grouped by key. All values for a given key are sent to a single `Reduce` task. This phase typically involves sorting the intermediate keys.
+    \item \textbf{Reducing}: Multiple `Reduce` tasks run in parallel. Each `Reduce` task receives all intermediate values for a subset of keys, applies the user-defined `reduce` function, and produces the final output.
+    \item \textbf{Final Result}: The outputs from all `Reduce` tasks are collected and stored, typically back into a distributed file system like HDFS.
+\end{enumerate}
+This entire process is designed to handle fault tolerance and scalability automatically, abstracting these complexities from the programmer.
+
+\end{document}

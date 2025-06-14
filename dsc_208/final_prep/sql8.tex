@@ -1,0 +1,179 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Package for code listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configure SQL listing style
+\lstdefinelanguage{SQL}{
+  keywords={SELECT, FROM, WHERE, COUNT, AS, GROUP BY, ORDER BY, DESC, EXPLAIN, ANALYZE, SUM},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black}\itshape,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  columns=fullflexible,
+  upquote=true,
+  basicstyle=\ttfamily\small
+}
+\lstset{language=SQL}
+
+\title{RDBMS, Query Plans and Evaluation: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{June 2025}
+
+\begin{document}
+
+\maketitle
+
+\section*{Overview of RDBMS}
+A Relational Database Management System (RDBMS) is a software system that implements the relational model, enabling users to store and process relational databases. RDBMS software is a significant industry, with many popular open-source options also available. Examples of RDBMS include ORACLE, Microsoft SQL Server, Amazon Redshift, Google Big Query, SAP, Snowflake, Pivotal, HP, PostgreSQL, MySQL, SQLite, and DuckDB.
+
+\subsection*{Life of an SQL Query}
+The process of an SQL query within an RDBMS involves several stages:
+\begin{enumerate}
+    \item A user submits an SQL Query (e.g., via Web Forms, Application Front Ends, or SQL Interface).
+    \item The query is sent to the Database Server.
+    \item \textbf{Parser}: Parses the SQL query to check for syntax correctness and converts it into an internal representation, often a syntax tree or Logical Query Plan (LQP).
+    \item \textbf{Optimizer}: Takes the LQP and generates an optimized Physical Query Plan (PQP). It considers various execution strategies to find the most efficient one.
+    \item \textbf{Query Scheduler}: Manages the execution of the PQP, potentially breaking it into segments for parallel or distributed execution.
+    \item \textbf{Execute Operators (Plan Executor / Operator Evaluator)}: Executes the physical operations defined in the PQP. This interacts with various DBMS components like Files and Access Methods, Buffer Manager, and Disk Space Manager.
+    \item \textbf{Result}: The query result is returned to the user.
+\end{enumerate}
+
+Other core components of an RDBMS include:
+\begin{itemize}
+    \item \textbf{Transaction Manager}: Manages transactions, ensuring atomicity, consistency, isolation, and durability (ACID properties).
+    \item \textbf{Recovery Manager}: Handles system failures and ensures the database can be restored to a consistent state.
+    \item \textbf{Lock Manager / Concurrency Control}: Manages concurrent access to data to prevent conflicts.
+    \item \textbf{System Catalog}: Stores metadata about the database schema (tables, columns, indexes, etc.).
+    \item \textbf{Index Files and Data Files}: Where the actual data and indexes are stored on disk.
+\end{itemize}
+
+\section*{Query Plans and Evaluation}
+Query plans are structured representations of how an RDBMS will execute an SQL query.
+
+\subsection*{Logical Query Plan (LQP)}
+\begin{itemize}
+    \item A Directed Acyclic Graph (DAG) with vertices representing "Logical Operators" from Extended Relational Algebra.
+    \item It tells *what* is computed.
+    \item Each logical operator can have alternate "physical" implementations.
+\end{itemize}
+
+\subsection*{Physical Query Plan (PQP)}
+\begin{itemize}
+    \item A DAG with vertices called "Physical Operators".
+    \item It specifies the exact algorithm/code to run for each logical operation, including all parameters.
+    \item It tells *how* the query is computed.
+    \item A single logical query can have many possible physical plans.
+\end{itemize}
+
+\textbf{Example SQL Query (Netflix Schema):} 
+\begin{lstlisting}[language=SQL]
+SELECT M.Year, COUNT(*) AS NumBest
+FROM Ratings R, Movies M
+WHERE R.MID = M.MID
+AND R.Stars = 5
+GROUP BY M.Year
+ORDER BY NumBest DESC;
+\end{lstlisting}
+\textbf{Netflix Schema:}
+\begin{itemize}
+    \item \textbf{Ratings} (RatingID, Stars, RateDate, UID, MID) 
+    \item \textbf{Users} (UID, Name, Age, Join Date) 
+    \item \textbf{Movies} (MID, Name, Year, Director) 
+\end{itemize}
+
+\textbf{Logical Query Plan for the example query:} 
+\begin{verbatim}
+Result Table
+   ^
+   |
+  SORT (On NumBest)
+   ^
+   |
+  GROUP BY AGGREGATE (M.Year, COUNT(*))
+   ^
+   |
+  JOIN (R.MID=M.MID)
+  /    \
+ SELECT  SELECT
+ R.stars=5 No predicate
+  /        \
+Ratings Table  Movies Table
+\end{verbatim}
+
+\textbf{Physical Query Plan for the example query (assuming B+ Tree Index on Ratings.Stars):} 
+\begin{verbatim}
+Result Table
+   ^
+   |
+  External Merge-Sort (In-mem quicksort; B=50)
+   ^
+   |
+  Hash-based Aggregate
+   ^
+   |
+  Index-Nested Loop Join
+  /                  \
+ Indexed Access     File Scan
+ Use Index on Stars  Read heapfile
+  /                  \
+Ratings Table       Movies Table
+\end{verbatim}
+
+\section*{RDBMS Logical-Physical Separation}
+The concept of Logical-Physical Separation (or data independence) is a hallmark of RDBMSs.
+\begin{itemize}
+    \item \textbf{Benefits}:
+        \begin{itemize}
+            \item Increased user productivity.
+            \item Automated optimization leads to faster and more scalable code.
+            \item Application portability, as internal system changes do not affect the application.
+        \end{itemize}
+    \item This declarativity has influenced other systems like Hadoop/MapReduce, data visualization, graph processing systems, and scalable ML systems.
+\end{itemize}
+
+\section*{Indexes and Their Usage}
+Indexes are data structures that improve the speed of data retrieval operations on a database table. They are crucial for efficient physical query plans.
+\begin{itemize}
+    \item Physical operators are chosen based on data and system parameters, as their runtimes can vary significantly.
+    \item Common physical operators for major extended Relational Algebra (RA) logical operators include:
+        \begin{itemize}
+            \item \textbf{Selection}: Filescan, Index-based.
+            \item \textbf{Join}: Nested loop, Hash join, Sort-merge join.
+            \item \textbf{Aggregation}: Hash-based, Sort-based, Index-based.
+        \end{itemize}
+\end{itemize}
+
+\section*{Glimpse of Query Optimization}
+Query optimization is the process of choosing the most efficient execution plan for an SQL query.
+
+\subsection*{`EXPLAIN [ANALYZE]` in SQL}
+Most RDBMSs allow users to see the logical and physical plans generated for a query using the `EXPLAIN` command, sometimes with runtimes attached (with `ANALYZE`).
+\begin{itemize}
+    \item This command can offer insights when a query runs too slowly.
+\end{itemize}
+
+\textbf{Example `EXPLAIN` Output:} 
+\begin{lstlisting}
+EXPLAIN SELECT sum(i) FROM foo WHERE i < 10;
+
+                        QUERY PLAN
+------------------------------------------------------
+ Aggregate (cost=23.93..23.93 rows=1 width=4)
+   -> Index Scan using fi on foo (cost=0.00..23.92 rows=6 width=4)
+        Index Cond: (i < 10)
+(3 rows)
+\end{lstlisting}
+This output shows that the query will perform an `Index Scan` on `foo` using index `fi` with the condition `i < 10`, and then an `Aggregate` operation. 
+
+\end{document}

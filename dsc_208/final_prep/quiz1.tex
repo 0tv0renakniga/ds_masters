@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+
+\title{Quiz 1: DSC 208 Data Management for Analytics}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Questions and Explanations}
+
+\begin{enumerate}[label=\textbf{Question \arabic*.}]
+
+\item Which of these structured data models has native support for mixed types in columns?
+    \begin{enumerate}[label=\alph*)]
+        \item Matrix
+        \item Relation
+        \item All of the three
+        \item DataFrame
+    \end{enumerate}
+    \textbf{Answer: d) DataFrame}
+    \begin{itemize}
+        \item \textit{Explanation:} DataFrames, commonly found in libraries like Pandas or Spark, are designed to handle heterogeneous data types within different columns, similar to a spreadsheet or a table in a relational database. Matrices typically require all elements to be of the same numeric type. Relations (in the context of relational databases) enforce strict data types for each column, though they can vary *between* columns.
+    \end{itemize}
+
+\item In what way is data access control often a challenge in the data sourcing stage?
+    \begin{enumerate}[label=\alph*)]
+        \item Limits access to some ML software
+        \item Prevents use of some data
+        \item Raises computational resource costs
+        \item Requires downsampling of data
+    \end{enumerate}
+    \textbf{Answer: b) Prevents use of some data}
+    \begin{itemize}
+        \item \textit{Explanation:} Data access control mechanisms, while crucial for security and privacy, can often restrict data scientists from accessing necessary datasets due to permissions, compliance regulations, or internal policies. This directly impacts the ability to source and utilize all potentially relevant data for an ML project.
+    \end{itemize}
+
+\item Which type of integrity constraint ensures that a value in one table must match a value in another table?
+    \begin{enumerate}[label=\alph*)]
+        \item Functional dependency
+        \item Domain integrity
+        \item Referential integrity
+        \item Entity integrity
+    \end{enumerate}
+    \textbf{Answer: c) Referential integrity}
+    \begin{itemize}
+        \item \textit{Explanation:} Referential integrity is enforced using foreign keys, which establish a link between data in two tables. It ensures that a foreign key value in the referencing table corresponds to an existing primary key value in the referenced table, preventing orphaned records and maintaining consistency across related data.
+    \end{itemize}
+
+\item What is the purpose of a primary key in a relational database table?
+    \begin{enumerate}[label=\alph*)]
+        \item To improve performance
+        \item To ensure data is ordered
+        \item To ensure data is unique
+        \item To enforce referential integrity
+    \end{enumerate}
+    \textbf{Answer: c) To ensure data is unique}
+    \begin{itemize}
+        \item \textit{Explanation:} The fundamental purpose of a primary key is to uniquely identify each record (row) in a table. While it can be used to improve performance (often by indexing) and is essential for referential integrity, its core role is to guarantee uniqueness.
+    \end{itemize}
+
+\item What is the purpose of a foreign key in a relational database table?
+    \begin{enumerate}[label=\alph*)]
+        \item To improve performance
+        \item To ensure data is ordered
+        \item To enforce referential integrity
+        \item To ensure data is unique
+    \end{enumerate}
+    \textbf{Answer: c) To enforce referential integrity}
+    \begin{itemize}
+        \item \textit{Explanation:} As discussed in Question 3's explanation, a foreign key's primary role is to enforce referential integrity. It creates a link between two tables, ensuring that relationships between data are valid and consistent.
+    \end{itemize}
+
+\end{enumerate}
+
+\end{document}

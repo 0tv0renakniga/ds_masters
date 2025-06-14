@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{listings}
+\usepackage{xcolor} % Required for \color in listings
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  showstringspaces=false,
+  commentstyle=\color{gray},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny,
+  frame=single,
+  framesep=5pt,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  breakatwhitespace=false,
+  tabsize=2,
+}
+
+\title{Feature Engineering Part 3: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Algorithm Selection / Architecture Selection}
+
+\subsection*{Algorithm Selection in Classical ML}
+\begin{itemize}
+    \item In traditional (non-Deep Learning) Machine Learning, the user typically selects models/algorithms *ab initio* (from the beginning).
+    \item \textbf{Best Practice}: Start by training simple models (e.g., Logistic Regression) as baselines. Then, gradually try more complex models (e.g., XGBoost) if needed.
+    \item \textbf{Ensembles}: A common technique is to build diverse models and aggregate their predictions to improve overall performance and robustness.
+\end{itemize}
+
+\subsection*{Architecture Selection in Deep Learning}
+\begin{itemize}
+    \item This is more critical in Deep Learning compared to classical ML.
+    \item The neural network architecture serves as the "inductive bias" (in classical ML terms) and directly controls both feature learning and the bias-variance trade-off.
+    \item \textbf{Transfer Learning}: For some applications, off-the-shelf pre-trained Deep Learning models (e.g., from HuggingFace Models) can be used, with fine-tuning for specific tasks. This is known as transfer learning.
+    \item For other applications, the effort saved in hand-crafted feature engineering is replaced by the complexity of neural architecture engineering.
+\end{itemize}
+
+\section*{Automated Model Selection / AutoML}
+Automated Machine Learning (AutoML) aims to automate parts of the ML pipeline.
+
+\begin{itemize}
+    \item \textbf{Scope}: Hyper-parameter tuning and most of feature engineering are largely automated in practice today. Neural architecture search is also a growing area of AutoML.
+    \item \textbf{Components}: AutoML platforms typically offer capabilities for automatic algorithm selection, feature engineering, and hyper-parameter tuning.
+    \item \textbf{Scalability}: These platforms are designed for scalable model building.
+    \item \textbf{Examples of AutoML Platforms}: H2O, Azure Machine Learning, Amazon SageMaker, DataRobot.
+    \item \textbf{Specialized Tools}:
+    \begin{itemize}
+        \item \textit{Decision Tree-oriented}: XGBoost, LightGBM (dmlc, Microsoft).
+        \item \textit{Deep Learning-oriented}: TensorFlow, PyTorch.
+        \item \textit{General ML (in-memory)}: scikit-learn, R.
+        \item \textit{Disk-based/Distributed}: MADlib (on RDBMS), Spark MLlib, Dask.
+    \end{itemize}
+\end{itemize}
+
+\section*{Scalable ML Inference}
+Once an ML model is trained, it needs to make predictions on new, often large, datasets.
+
+\subsection*{The Prediction Function}
+A trained ML model is essentially a prediction function: $f: \mathcal{D}_X \rightarrow \mathcal{D}_Y$, mapping input data ($X$) to output predictions ($Y$).
+
+\subsection*{Scaling Inference}
+\begin{itemize}
+    \item \textbf{Assumption 1}: An individual input example fits entirely in DRAM (main memory).
+    \item \textbf{Assumption 2}: The prediction function $f$ (i.e., the model parameters) fits entirely in DRAM.
+    \item \textbf{Trivial Access Pattern (if both assumptions hold)}: If both assumptions are true, scaling inference is relatively simple: perform a single file scan of the data, apply the per-tuple function $f$, and write the output. This can be easily parallelized, for example, using a Map-only function in a MapReduce-like framework.
+    \item \textbf{Complex Access Pattern (if assumptions fail)}: If either assumption fails (e.g., very large examples or very large models), the access pattern becomes more complex. This typically involves breaking down the function $f$ into smaller internal computations and staging data access for partial results.
+\end{itemize}
+
+\section*{The Lifecycle of ML-based Analytics}
+ML-based analytics is an iterative process, involving several key stages.
+
+\begin{enumerate}
+    \item \textbf{Data Acquisition}: Collecting raw data from various sources.
+    \item \textbf{Data Preparation}: Cleaning, transforming, and pre-processing the data to make it suitable for analysis. This includes data integration, missing value imputation, and feature engineering.
+    \item \textbf{Model Training and Evaluation}: Building and training ML models, and rigorously evaluating their performance using appropriate metrics. This stage often involves iterations of algorithm selection, architecture selection (for DL), and hyper-parameter tuning.
+    \item \textbf{Serving (Deployment)}: Deploying the trained model into a production environment so it can make real-time or batch predictions.
+    \item \textbf{Monitoring}: Continuously monitoring the deployed model's performance, data drift, and concept drift to ensure it remains effective over time. This may trigger retraining or model updates.
+\end{enumerate}
+This lifecycle emphasizes that ML is not a one-shot process but a continuous cycle of data handling, model building, deployment, and maintenance.
+
+\end{document}

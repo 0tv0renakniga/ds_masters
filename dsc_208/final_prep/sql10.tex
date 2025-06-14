@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Relational Algebra symbols
+\newcommand{\sel}{\sigma} % Selection
+\newcommand{\proj}{\pi} % Projection
+\newcommand{\join}{\bowtie} % Join (general)
+
+\title{Query Optimization: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction to Query Optimization}
+Query optimization is a fundamental aspect of Relational Database Management Systems (RDBMS).
+
+\subsection*{Goal of Query Optimization}
+\begin{itemize}
+    \item \textbf{Observation}: A given Logical Query Plan (LQP) can have several possible Physical Query Plans (PQPs) with vastly different runtime performances.
+    \item \textbf{Ideal Goal}: To automatically find the optimal (fastest) PQP for a given LQP, without user involvement.
+    \item \textbf{Realistic Goal}: It is often infeasible to guarantee the absolute optimal plan, but it is feasible to avoid many of the obviously bad plans.
+    \item Optimized queries can run hundreds of thousands of times faster.
+\end{itemize}
+
+\section*{Typical Query Optimizer Architecture}
+A typical query optimizer is composed of several key components:
+\begin{itemize}
+    \item \textbf{Parser}: Takes the SQL Query as input and produces a Logical Query Plan (LQP).
+    \item \textbf{Plan Enumerator}: This component explores alternative PQPs given an LQP. It finds alternate plans through:
+        \begin{itemize}
+            \item Algebraic rewrite rules to modify one LQP into another logically equivalent LQP.
+            \item Physical operator selection choices for a fixed LQP.
+        \end{itemize}
+    \item \textbf{Plan Cost Estimator}: Calculates an analytically determined runtime cost for a given PQP.
+        \begin{itemize}
+            \item Physical operator selection and plan costing depend on hardware and require calibration runs when setting up the RDBMS.
+        \end{itemize}
+    \item \textbf{Catalog}: Provides metadata (statistics, schema information) to the optimizer for cost estimation and plan generation.
+    \item The Optimizer then passes the (optimized) Physical Query Plan to the Scheduler/Executor.
+\end{itemize}
+
+\section*{Algebraic Rewrites}
+Modern RDBMSs implement numerous algebraic rewrites, which are sophisticated optimizations that RDBMS users are often unaware of. These rules transform one relational algebra expression into an equivalent, but potentially more efficient, one.
+
+\subsection*{Examples of Algebraic Rewrites}
+
+\subsubsection*{1. Selection Pushdown Through Join}
+This rule states that a selection operation that applies only to attributes of one relation in a join can be performed *before* the join. This reduces the size of the relation involved in the join, potentially speeding up the join operation.
+\begin{itemize}
+    \item \textbf{Rule}: $\sel_{p(A)}(R \join S) = \sel_{p(A)}(R) \join S$ 
+    \item \textbf{Condition}: $A \subseteq R.\ast$ (meaning attribute $A$ must be part of relation $R$).
+\end{itemize}
+
+\subsubsection*{2. Commuting of Select and Project}
+This rule allows the reordering of selection and projection operations. If a selection predicate only depends on attributes that are retained by a projection, the selection can be moved before the projection.
+\begin{itemize}
+    \item \textbf{Rule}: $\sel_{p(A)}(\proj_{B}(R)) = \proj_{B}(\sel_{p(A)}(R))$ 
+    \item \textbf{Condition}: $A \subseteq B$ (meaning attributes in predicate $A$ must be a subset of projected attributes $B$).
+\end{itemize}
+
+\subsubsection*{3. Algebraic Properties of the Join Operator}
+\begin{itemize}
+    \item \textbf{Commutativity}: The order of relations in a join does not affect the result.
+        \begin{itemize}
+            \item \textbf{Rule}: $R \join S = S \join R$.
+        \end{itemize}
+    \item \textbf{Associativity}: The grouping of relations in multiple joins does not affect the final result.
+        \begin{itemize}
+            \item \textbf{Rule}: $(R \join S) \join T = R \join (S \join T)$.
+        \end{itemize}
+\end{itemize}
+
+\subsection*{Join Order Optimization}
+\begin{itemize}
+    \item The ordering of joins in a query can dramatically alter the sizes of intermediate results and overall query runtimes.
+    \item Join order optimization is a significant part of RDBMS query optimizers.
+    \item The number of possible join orderings is exponential in the number of joins, making it nearly impossible for RDBMS users to hand-optimize.
+\end{itemize}
+
+\end{document}

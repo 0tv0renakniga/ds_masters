@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{listings}
+\usepackage{xcolor} % Required for \color in listings
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  showstringspaces=false,
+  commentstyle=\color{gray},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny,
+  frame=single,
+  framesep=5pt,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  breakatwhitespace=false,
+  tabsize=2,
+}
+
+\title{Spark and Dataflow Programming: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{June 2025}
+
+\begin{document}
+
+\maketitle
+
+\section*{Apache Spark}
+Apache Spark is a widely adopted dataflow programming model that subsumes most of relational algebra and MapReduce functionalities. It was inspired by the Python Pandas style of chaining functions and aims to provide a unified platform for various data processing tasks.
+
+\subsection*{Key Innovations and Features}
+\begin{itemize}
+    \item \textbf{Unified Storage}: Handles relations, text, and other data types uniformly, allowing for custom programs.
+    \item \textbf{In-Memory Computing}: A key idea differentiating Spark from Hadoop's MapReduce is its ability to exploit distributed memory to cache data, significantly speeding up iterative algorithms and interactive queries.
+    \item \textbf{Lineage-Based Fault Tolerance}: A novel approach to fault tolerance. Instead of replicating data extensively (like HDFS) or recomputing the entire job on failure, Spark keeps a "lineage" graph of transformations applied to data. If a partition of an RDD (Resilient Distributed Dataset) is lost, it can be recomputed from its parent RDDs.
+    \item \textbf{Open-Source and Commercialization}: Open-sourced to Apache and later commercialized by Databricks.
+\end{itemize}
+
+\subsection*{Distributed Architecture of Spark}
+Spark operates with a manager-worker architecture.
+\begin{itemize}
+    \item \textbf{Driver Program}: The main program that runs on a single node and creates the `SparkContext`. It defines the transformations and actions, coordinates tasks, and distributes them to workers.
+    \item \textbf{Cluster Manager}: External service (e.g., YARN, Mesos, Kubernetes, or Spark's own standalone manager) that acquires resources on worker nodes.
+    \item \textbf{Worker Node}: A node in the cluster where computations are performed.
+    \item \textbf{Executor}: A process running on a worker node that performs tasks and stores cached data. Each worker node can run multiple executors.
+    \item \textbf{Cache}: Executors can cache RDD partitions in memory for faster reuse.
+    \item \textbf{Task}: The smallest unit of work sent to an executor.
+\end{itemize}
+
+\section*{Spark's Dataflow Programming Model}
+Spark processes data through a series of transformations and actions on Resilient Distributed Datasets (RDDs), DataFrames, or Datasets. This model supports lazy evaluation.
+
+\subsection*{Transformations vs. Actions}
+\begin{itemize}
+    \item \textbf{Transformations}: Operations that create a new RDD from an existing one. They are *lazy*, meaning they don't execute immediately but instead build a logical plan (lineage graph). Examples include `map()`, `filter()`, `flatMap()`, `union()`, `join()`, `groupByKey()`, `reduceByKey()`, `sortByKey()`.
+    \item \textbf{Actions}: Operations that trigger the execution of the transformations (the lineage graph) and return a result to the driver program or write data to an external storage system. Examples include `collect()`, `count()`, `reduce()`, `saveAsTextFile()`.
+\end{itemize}
+
+\subsection*{Types of RDD Operations (Narrow vs. Wide)}
+\begin{itemize}
+    \item \textbf{Narrow Transformations}: Each partition of the parent RDD contributes to at most one partition of the new RDD. This means no data shuffle across the network is required. Examples: `map()`, `filter()`. This is highly efficient.
+    \item \textbf{Wide Transformations}: Each partition of the parent RDD may contribute to multiple partitions of the new RDD. This requires a shuffle of data across the network (e.g., a "shuffle-and-sort" operation in MapReduce context). Examples: `groupByKey()`, `reduceByKey()`, `sortByKey()`, `join()`. These are generally more expensive due to network I/O.
+\end{itemize}
+The DAGScheduler in Spark optimizes the execution by combining narrow transformations into stages, reducing shuffles.
+
+\section*{Dataflow Systems vs. Task-Parallel Systems}
+\begin{itemize}
+    \item \textbf{Dataflow Systems (e.g., MapReduce, Spark)}: Primarily designed for batch processing of large datasets. They excel at operations that can be parallelized by partitioning data and applying the same operation to each partition. The focus is on data movement and transformations on that data.
+    \item \textbf{Task-Parallel Systems (e.g., Dask, Ray)}: More general-purpose, designed for arbitrary computations that can be broken down into independent tasks, which may or may not operate on large datasets. They excel at orchestrating complex workflows with dependencies between tasks, where data movement might not be the primary concern.
+\end{itemize}
+Dataflow systems often rely on a manager-worker architecture for coordination.
+
+\section*{New Paradigm of Data "Lakehouse"}
+\begin{itemize}
+    \item \textbf{Data Lake}: A concept of loosely coupled data file formats and data/query processing stacks, in contrast to the tight coupling in RDBMSs. It allows for various frontends (tools/engines) to interact with diverse data formats stored in a centralized repository (often a distributed file system like HDFS or cloud object storage).
+    \item \textbf{Data Lakehouse}: An evolution of the data lake, aiming to combine the flexibility and scalability of data lakes with the data management features (e.g., transactions, schema enforcement, data quality) traditionally found in data warehouses. It tries to offer the best of both worlds, enabling both analytics and machine learning workloads on the same data.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+
+\title{Quiz 5: DSC 208 Data Management for Analytics}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Questions and Explanations}
+
+\begin{enumerate}[label=\textbf{Question \arabic*.}]
+
+\item Which of the following systems capabilities is a key differentiator of data “lakehouses” as against data warehouses?
+    \begin{enumerate}[label=\alph*)]
+        \item Integration with business intelligence tools
+        \item SQL as a user-facing language
+        \item Loose coupling of file format with query stack
+        \item Automated query optimization
+    \end{enumerate}
+    \textbf{Answer: c) Loose coupling of file format with query stack}
+    \begin{itemize}
+        \item \textit{Explanation:}
+        \begin{itemize}
+            \item `Data warehouses` traditionally tightly couple their storage format (often proprietary or highly optimized for their specific query engine) with the query engine itself.
+            \item `Lakehouses`, however, combine the flexibility of data lakes (which store data in open formats like Parquet, ORC in object storage) with the analytical capabilities of data warehouses. This means they offer a `loose coupling of the file format with the query stack`. You can use various query engines (Spark SQL, Presto, Hive, etc.) on the same underlying data files in the data lake, without being locked into a single vendor or format.
+            \item Options a), b), and d) are common features of both modern data warehouses and lakehouses, so they are not key differentiators *between* them.
+        \end{itemize}
+    \end{itemize}
+
+\item What was the main novel technical capability of Spark relative to parallel RDBMSs when it was introduced?
+    \begin{enumerate}[label=\alph*)]
+        \item Optimized query execution
+        \item Scales to multi-node clusters
+        \item High-level querying/API
+        \item Lineage-based fault tolerance
+    \end{enumerate}
+    \textbf{Answer: d) Lineage-based fault tolerance}
+    \begin{itemize}
+        \item \textit{Explanation:} When Spark was introduced, while it offered capabilities like optimized query execution and high-level APIs similar to what parallel RDBMSs aimed for, and scalability to multi-node clusters (which MapReduce also did), its truly novel technical capability was `lineage-based fault tolerance` through Resilient Distributed Datasets (RDDs). Spark could reconstruct lost partitions of data by replaying the transformations (the "lineage") that produced them, rather than relying on full data replication or checkpoints, leading to significant performance gains, especially for iterative algorithms and interactive queries, compared to the disk-heavy MapReduce.
+    \end{itemize}
+
+\item Which of the following feature engineering steps requires only a Map-only job to fully scale using MapReduce?
+    \begin{enumerate}[label=\alph*)]
+        \item Whitening
+        \item Pairwise feature interactions
+        \item One-hot encoding
+        \item All of the three
+    \end{enumerate}
+    \textbf{Answer: b) Pairwise feature interactions}
+    \begin{itemize}
+        \item \textit{Explanation:}
+        \begin{itemize}
+            \item A `Map-only job` in MapReduce means that each input record can be transformed independently without needing to aggregate or combine information from other records.
+            \item `Pairwise feature interactions` (e.g., creating a new feature by multiplying two existing features $F1 \times F2$) can be done entirely within the Map phase. For each input record, you simply access the values of $F1$ and $F2$ for that record and compute the new feature. This is a local transformation per record.
+            \item `One-hot encoding` often requires knowing the *global* vocabulary or distinct values for a categorical feature to create the appropriate number of binary columns. While mapping can start, a Reduce step (or a global pass beforehand) is typically needed to collect all unique categories.
+            \item `Whitening` (or Z-score normalization) requires computing global statistics like the mean and standard deviation of a feature across the *entire dataset*. This necessitates a Reduce step to aggregate these statistics before the actual transformation can occur.
+        \end{itemize}
+        Therefore, only `pairwise feature interactions` can be fully scaled using only a Map-only job.
+    \end{itemize}
+
+\item Which of the following is not a major type of data cleaning tasks?
+    \begin{enumerate}[label=\alph*)]
+        \item Local edits to cell values
+        \item Reconciling across tuples
+        \item Synthesizing table values
+        \item Reconciling values in a column
+    \end{enumerate}
+    \textbf{Answer: c) Synthesizing table values}
+    \begin{itemize}
+        \item \textit{Explanation:}
+        \begin{itemize}
+            \item `Data cleaning` primarily involves identifying and correcting errors, inconsistencies, and inaccuracies in data.
+            \item `Local edits to cell values` (e.g., correcting typos, standardizing formats within a single cell) are core cleaning tasks.
+            \item `Reconciling across tuples` (e.g., entity resolution, deduplication where information from multiple records is combined or corrected) is a major cleaning task.
+            \item `Reconciling values in a column` (e.g., ensuring consistency of units, handling missing values in a column) is also a key cleaning activity.
+            \item `Synthesizing table values` refers to generating new data or inferring values that were not originally present, often for purposes like data augmentation or imputation, but it's not typically classified as a "cleaning" task, which focuses on rectifying *existing* erroneous data.
+        \end{itemize}
+    \end{itemize}
+
+\item What is an outlier?
+    \begin{enumerate}[label=\alph*)]
+        \item A data point that is duplicated in the dataset
+        \item A data point that is missing from the dataset
+        \item A data point that deviates from the norm
+        \item A data point that has a value of zero
+    \end{enumerate}
+    \textbf{Answer: c) A data point that deviates from the norm}
+    \begin{itemize}
+        \item \textit{Explanation:} An `outlier` is a data point that significantly differs from other observations. It's an observation that lies an abnormal distance from other values in a random sample from a population. Outliers can indicate variability in a measurement, experimental errors, or a novelty. They are distinct from duplicates (repeated entries), missing values (absent data), or zero values (which can be normal).
+    \end{itemize}
+
+\end{enumerate}
+
+\end{document}

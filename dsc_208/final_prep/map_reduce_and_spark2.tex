@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{listings}
+\usepackage{xcolor} % Required for \color in listings
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  showstringspaces=false,
+  commentstyle=\color{gray},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny,
+  frame=single,
+  framesep=5pt,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  breakatwhitespace=false,
+  tabsize=2,
+}
+
+\title{MapReduce Part 2: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Benefits and Catch of MapReduce}
+MapReduce aims to provide high-level functional operations to simplify data-intensive programs.
+
+\subsection*{Key Benefits}
+\begin{itemize}
+    \item \textbf{Generality}: The $Map()$ and $Reduce()$ functions are highly general, capable of handling any data types and structures. This makes MapReduce great for various tasks like ETL (Extract, Transform, Load), and processing text or multimedia data.
+    \item \textbf{Native Scalability and Parallelism}: The framework inherently handles large-cluster parallelism and scalability, distributing data and computations across many nodes.
+    \item \textbf{Automatic Fault Tolerance}: The system automatically manages worker failures, ensuring job completion even if individual nodes go down.
+    \item \textbf{Open-Source Stacks}: Availability of robust open-source implementations like Hadoop (and later Spark) made distributed computing accessible.
+\end{itemize}
+
+\subsection*{The "Catch"}
+\begin{itemize}
+    \item \textbf{Programming Paradigm Shift}: Users must learn the "art" of casting their programs into the MapReduce paradigm. This means rethinking problems in terms of independent record-wise mapping and global key-based aggregation.
+    \item \textbf{API Details}:
+    \begin{itemize}
+        \item $Map()$: Processes one "record" at a time independently. A "record" can physically batch multiple data examples or tuples. Dependencies across mappers are generally not allowed. It emits one or more key-value pairs as output. Input and output data types can differ.
+        \item $Reduce()$: Gathers all intermediate $Map$ outputs (for a given key) from across workers into an Iterator (list). It applies an aggregation function on this Iterator to get the final output.
+        \item $Input Split$: A physical-level shard designed to batch many records into one file "block" (e.g., HDFS default is 128MB). Users or applications can create custom input splits.
+    \end{itemize}
+\end{itemize}
+
+\section*{Emulating MapReduce in SQL}
+While MapReduce is a distinct programming model, some SQL operations can be conceptualized within the MapReduce framework.
+
+\subsection*{Example: Simple SQL Aggregates (COUNT)}
+Consider $SELECT COUNT(*) FROM R$.
+\begin{itemize}
+    \item \textbf{Input Split}: Each split contains a shard of table $R$.
+    \item \textbf{Map()}: Each Map task on a split emits a key-value pair $(dummy_key, 1)$ for each tuple (or a partial count for a batch of tuples). The $dummy_key$ ensures all partial counts go to a single reducer.
+    \item \textbf{Reduce()}: The single Reduce task receives all $(dummy_key, 1)$ pairs (or partial counts) and sums them up to get the total count.
+\end{itemize}
+
+\subsection*{Example: GROUP BY Aggregation}
+Consider $SELECT G, SUM(A) FROM R GROUP BY G$ (assuming $SUM$ is an algebraic aggregate).
+\begin{itemize}
+    \item \textbf{Input Split}: Each split contains a shard of table $R$ (tuple-wise).
+    \item \textbf{Map()}: For each tuple, the Map task computes incremental statistics on the aggregation attribute ($A$) and emits a pair with the grouping attribute ($G$) as the key and the incremental statistics as the value.
+    \item \textbf{Reduce()}: Each Reduce task receives an iterator of all incremental statistics for a single group (identified by $G$). It unifies these to get the final result for that specific group. Different reducers will output results for different groups.
+\end{itemize}
+
+\subsection*{Example: Matrix Norm}
+Computing a matrix norm (e.g., $L_{p,q}$ norm) can be similar to simple SQL aggregates if the norm can be computed algebraically.
+\begin{itemize}
+    \item \textbf{Input Split}: Matrix elements are sharded (tuple-wise, row-wise, or block-wise).
+    \item \textbf{Map()}: Each Map task computes incremental statistics (e.g., sum of powers of elements) on its assigned portion of the matrix and emits a pair with a single global dummy key and the incremental statistics as the value.
+    \item \textbf{Reduce()}: The single Reduce task receives all incremental statistics via the iterator, unifies them into a global aggregate, and then computes the final norm value.
+\end{itemize}
+
+\section*{What is Hadoop?}
+Hadoop is a foundational open-source software (FOSS) system that implements the MapReduce programming model, coupled with its own distributed file system, HDFS (Hadoop Distributed File System).
+
+\begin{itemize}
+    \item \textbf{Components}: Hadoop provides the user API for MapReduce, and internally handles input splits, data distribution, shuffling, and fault tolerance.
+    \item \textbf{Historical Impact}: Hadoop gained immense popularity in the 2010s, becoming a "revolution" in scalable and parallel data processing, significantly impacting the database world.
+    \item \textbf{Current Status}: While historically significant, Hadoop's MapReduce component has largely been supplanted by more advanced systems like Apache Spark due to Spark's in-memory processing capabilities and broader set of APIs.
+    \item \textbf{Misconception}: It's important to note that "Hadoop" is often loosely used to refer to the entire ecosystem of big data tools (e.g., HDFS, YARN, Hive, Pig), not just the MapReduce engine itself.
+\end{itemize}
+
+\end{document}

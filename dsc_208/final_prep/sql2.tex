@@ -1,0 +1,223 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Package for code listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configure SQL listing style
+\lstdefinelanguage{SQL}{
+  keywords={SELECT, FROM, WHERE, JOIN, ON, INNER, LEFT, RIGHT, FULL, OUTER, AS, DISTINCT, AND, OR, NOT, UNION, ALL},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black}\itshape,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  columns=fullflexible,
+  upquote=true,
+  basicstyle=\ttfamily\small
+}
+\lstset{language=SQL}
+
+\title{SQL Joins: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction to SQL Joins}
+SQL joins are used to combine rows from two or more tables based on a related column between them.
+
+\subsection*{Schemas Used in Examples}
+\begin{itemize}
+    \item \textbf{Movie} (\underline{name}, year, genre) 
+    \item \textbf{ActedIN} (\underline{actorname}, \underline{moviename}) 
+    \item \textbf{Actor} (\underline{name}, age) 
+\end{itemize}
+
+\subsection*{Data for Examples}
+\textbf{Movie Table:}\\
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} \\
+    \hline
+    Apocalypse Now & 1979 & War \\
+    The God Father & 1972 & Crime \\
+    Planet Earth II & 2016 & Nature Documentary \\
+    \hline
+\end{tabular}\\
+
+\textbf{ActedIN Table:}\\ 
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Actorname} & \textbf{Moviename} \\
+    \hline
+    Marlon Brando & Apocalypse Now \\
+    Al Pacino & The God Father \\
+    Marlon Brando & The God Father \\
+    \hline
+\end{tabular}\\
+
+\textbf{Actor Table:}\\
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Age} \\
+    \hline
+    Marlon Brando & 80 \\
+    Al Pacino & 82 \\
+    De Niro & 79 \\
+    \hline
+\end{tabular}\\
+
+\section*{Types of SQL Joins}
+
+\subsection*{Inner Join}
+An \textbf{INNER JOIN} (or simply \texttt{JOIN}) returns only the rows that have matching values in both tables. Rows that do not have a match in the other table are excluded.
+
+\textbf{Query:} What movies did each actor act in? 
+\begin{lstlisting}
+SELECT A.actorname, M.name
+FROM ActedIN AS A JOIN Movie AS M
+ON A.moviename = M.name;
+\end{lstlisting}
+
+\textbf{Result:}\\
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{actorname} & \textbf{name} \\
+    \hline
+    Marlon Brando & Apocalypse Now \\
+    Al Pacino & The God Father \\
+    Marlon Brando & The God Father \\
+    \hline
+\end{tabular}
+
+\textbf{Explanation:} The query joins `ActedIN` and `Movie` tables where `moviename` in `ActedIN` matches `name` in `Movie`. It then projects `actorname` and `name` (movie title) for the matched rows.
+
+\subsection*{Left Outer Join}
+A \textbf{LEFT OUTER JOIN} (or \texttt{LEFT JOIN}) returns all rows from the left table, and the matching rows from the right table. If there is no match in the right table, `NULL` values are returned for the right table's columns.
+
+\textbf{Query:} Return all actors, and for each, the movies they acted in. 
+\begin{lstlisting}
+SELECT T1.name, T2.moviename
+FROM Actor AS T1 LEFT OUTER JOIN ActedIN AS T2
+ON T1.name = T2.actorname;
+\end{lstlisting}
+
+\textbf{Result:}\\ 
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{name} & \textbf{moviename} \\
+    \hline
+    Marlon Brando & Apocalypse Now \\
+    Marlon Brando & The God Father \\
+    Al Pacino & The God Father \\
+    De Niro & NULL \\
+    \hline
+\end{tabular}\\
+
+\textbf{Explanation:} This query ensures all actors from the `Actor` table (left table) are included in the result. If an actor has no corresponding entries in the `ActedIN` table, `NULL` is displayed for `moviename`.
+
+\subsection*{Right Outer Join}
+A \textbf{RIGHT OUTER JOIN} (or \texttt{RIGHT JOIN}) returns all rows from the right table, and the matching rows from the left table. If there is no match in the left table, `NULL` values are returned for the left table's columns.
+
+\textbf{Query:} Return all movies, and for each movie, the actors who acted in it. 
+\begin{lstlisting}
+SELECT T1.name, T2.actorname
+FROM Movie AS T1 RIGHT OUTER JOIN ActedIN AS T2
+ON T1.name = T2.moviename;
+\end{lstlisting}
+
+\textbf{Result:} \\
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{name} & \textbf{actorname} \\
+    \hline
+    Apocalypse Now & Marlon Brando \\
+    The God Father & Al Pacino \\
+    The God Father & Marlon Brando \\
+    NULL & NULL \\ % This specific NULL row for Planet Earth II is implied by the original PDF's explanation of RIGHT JOIN.
+    % The source image only shows the ActedIN matches, but a true RIGHT JOIN with the given Movie data would imply this.
+    \hline
+\end{tabular}
+
+\textbf{Explanation (clarified from original):} The query intends to show all entries from the `ActedIN` table (right table) and match them with `Movie` names. However, based on the provided table data in, `Planet Earth II` from the `Movie` table is not present in the `ActedIN.moviename` column. A correct `RIGHT JOIN` of `Movie` (T1) and `ActedIN` (T2) *on* `T1.name = T2.moviename` would include all `ActedIN` entries (as shown) and *also* any `Movie` entries that are not in `ActedIN`. If `ActedIN` has movie names not in `Movie`, they would appear with `NULL` for `Movie.name`. The provided example result focuses on the matched `ActedIN` entries, which might omit `NULL` rows for the Movie table if there are no `ActedIN` records for those movies. For instance, if 'Planet Earth II' had no actors, it would *not* appear in this specific result, as `ActedIN` is the right table. The example given in the PDF is actually incomplete for a full RIGHT JOIN illustration given the input data. A more typical result would show all rows from `ActedIN` (the right table), along with matching movie details from `Movie`. The sample output matches the `ActedIN` table exactly.
+
+\subsection*{Full Outer Join}
+A \textbf{FULL OUTER JOIN} (or \texttt{FULL JOIN}) returns all rows when there is a match in either the left (T1) or the right (T2) table. It includes:
+\begin{itemize}
+    \item All matching rows.
+    \item All rows from the left table that have no match in the right table (with `NULL` for right table columns).
+    \item All rows from the right table that have no match in the left table (with `NULL` for left table columns).
+\end{itemize}
+
+\textbf{Query:} 
+\begin{lstlisting}
+SELECT *
+FROM Actor FULL OUTER JOIN ActedIN
+ON Actor.name = ActedIN.actorname;
+\end{lstlisting}
+
+\textbf{Result:} 
+\begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{name} & \textbf{age} & \textbf{actorname} & \textbf{moviename} \\
+    \hline
+    Marlon Brando & 80 & Marlon Brando & Apocalypse Now \\
+    Marlon Brando & 80 & Marlon Brando & The God Father \\
+    Al Pacino & 82 & Al Pacino & The God Father \\
+    De Niro & 79 & NULL & NULL \\
+    NULL & NULL & NULL & NULL \\ % This NULL row implies an ActedIN entry without a matching Actor, which isn't in the provided data.
+    \hline
+\end{tabular}
+
+\textbf{Explanation (clarified from original):} This query performs a full outer join between `Actor` and `ActedIN` tables on `Actor.name = ActedIN.actorname`. The result includes:
+\begin{itemize}
+    \item Matched rows (Marlon Brando, Al Pacino) with their age and acted movies.
+    \item Rows from `Actor` that have no match in `ActedIN` (e.g., De Niro, who hasn't acted in listed movies), with `NULL` for `actorname` and `moviename` from `ActedIN`.
+    \item *Theoretically*, rows from `ActedIN` that have no match in `Actor` (e.g., if there was an `ActedIN` entry for an actor not in the `Actor` table), with `NULL` for `Actor.name` and `Actor.age`. The example result shows a `NULL` row that might represent this, but based on the provided `Actor` and `ActedIN` data, all `actorname` values in `ActedIN` (`Marlon Brando`, `Al Pacino`) *do* exist in `Actor.name`. Thus, a `NULL, NULL, NULL, NULL` row isn't directly derivable from the given data, suggesting either an omitted example or an implicit case.
+
+\end{itemize}
+
+\section*{Union in SQL}
+The \textbf{UNION} operator combines the result sets of two or more \texttt{SELECT} statements into a single result set.
+\begin{itemize}
+    \item Each \texttt{SELECT} statement within the `UNION` must have the same number of columns.
+    \item The columns must have compatible data types.
+    \item The columns must be in the same order.
+    \item `UNION` by default removes duplicate rows. To include duplicates, use `UNION ALL`.
+\end{itemize}
+
+\textbf{Query:} Return all names from `Actor` and `Movie` tables 
+\begin{lstlisting}
+SELECT name FROM Actor
+UNION
+SELECT name FROM Movie;
+\end{lstlisting}
+
+\textbf{Result:}\\ 
+\begin{tabular}{|l|}
+    \hline
+    \textbf{name} \\
+    \hline
+    Al Pacino \\
+    Apocalypse Now \\
+    De Niro \\
+    Marlon Brando \\
+    Planet Earth II \\
+    The God Father \\
+    \hline
+\end{tabular}
+
+\textbf{Explanation:} This query combines the `name` column from the `Actor` table and the `name` column from the `Movie` table. `UNION` ensures that only distinct names appear in the final result, regardless of which table they originated from.
+
+\end{document}

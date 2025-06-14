@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Package for code listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configure SQL listing style
+\lstdefinelanguage{SQL}{
+  keywords={SELECT, FROM, WHERE, CREATE, INDEX, ON, USING, btree, hash, INSERT, UPDATE, DELETE, LIKE},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black}\itshape,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  columns=fullflexible,
+  upquote=true,
+  basicstyle=\ttfamily\small
+}
+\lstset{language=SQL}
+
+\title{Database Indexes: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Motivation for Indexing}
+Consider typical SQL queries that retrieve records based on specific conditions, such as `SELECT * FROM Movies WHERE Year=2017` or `SELECT * FROM Movies WHERE Year>=2000 AND Year<2010`.
+\begin{itemize}
+    \item The naive option to obtain matching records is a full filescan of the table, applying the predicate to each tuple.
+    \item This approach has an $O(N)$ cost for both I/O (input/output) and CPU, where $N$ is the number of tuples in the table.
+\end{itemize}
+
+\section*{Overview of Indexes}
+An index is an auxiliary data structure in a database that helps locate and retrieve records much faster than an $O(N)$ filescan.
+\begin{itemize}
+    \item \textbf{IndexKey (SearchKey)}: Refers to the attribute(s) on which a file is indexed. It can be any permutation of any subset of a relation's attributes and does not necessarily have to be a primary or candidate key.
+    \item RDBMSs support indexes designed and optimized for search, insert, and delete operations in SQL.
+    \item In practice, queries can become millions of times faster when suitable indexes are available on a table.
+\end{itemize}
+
+\subsection*{Comparison: Indexed Access vs. Filescan}
+\begin{itemize}
+    \item **Filescan**: Reads every page of the table. This is necessary for queries like `SELECT COUNT(*) FROM Movies` or `SELECT * FROM Movies WHERE Name LIKE '%Lion%'`. It is suitable for analytical queries that process large portions of data.
+    \item **Indexed Access**: Reads only the relevant pages of the table via the index. This is beneficial for queries that involve `WHERE` conditions on the indexed attribute(s).
+\end{itemize}
+
+\subsection*{Types of Indexes}
+\subsubsection*{1. B+Tree Indexes}
+\begin{itemize}
+    \item B+Trees are multi-level indexes, forming a balanced tree structure.
+    \item They are the most common type of index in RDBMSs due to their efficiency in handling range queries.
+    \item Each node in a B+Tree is typically a disk block.
+    \item All data records are stored at the leaf level, which are linked lists.
+    \item B+Trees support efficient retrieval for equality searches, range searches, and ordered retrieval.
+\end{itemize}
+
+\textbf{Example SQL for B+Tree Index Creation:}
+\begin{lstlisting}[language=SQL]
+CREATE INDEX MIn1 ON Movies USING btree (Year);
+\end{lstlisting}
+This index is useful for `WHERE year = 2017` and `WHERE year >= 2000 AND year < 2010`.
+
+\textbf{Composite B+Tree Indexes:}
+If a B+Tree index has a composite `IndexKey` (multiple attributes), the order of attributes matters; it is a sequence.
+\begin{lstlisting}[language=SQL]
+CREATE INDEX MIn1 ON Movies USING btree (Name, Year);
+CREATE INDEX MIn2 ON Movies USING btree (Year, Name);
+\end{lstlisting}
+\begin{itemize}
+    \item An index on `(Year, Name)` (`MIn2`) is useful for queries like `SELECT * FROM Movies WHERE Year >= 2015` because of the prefix match on `Year`.
+    \item An index on `(Name, Year)` (`MIn1`) is generally useless for a query like `SELECT * FROM Movies WHERE Year >= 2015` because the `Year` attribute is not a prefix of the `IndexKey`.
+\end{itemize}
+
+\subsubsection*{2. Hash Indexes}
+\begin{itemize}
+    \item Hash indexes are single-level indexes that use a hash function to map `IndexKey` values to data record locations.
+    \item They are generally efficient for equality searches (`=`).
+    \item They are NOT efficient for range queries (`>`, `<`, `BETWEEN`) or `LIKE` pattern matching with wildcards at the beginning.
+\end{itemize}
+
+\textbf{Example SQL for Hash Index Creation:}
+\begin{lstlisting}[language=SQL]
+CREATE INDEX MIn2 ON Movies USING hash (Name);
+\end{lstlisting}
+This index is useful for `WHERE name = 'The Lion King'` but not `WHERE name LIKE '%Lion%'`.
+
+\textbf{Composite Hash Indexes:}
+If a hash index has a composite `IndexKey`, the order among attributes does not matter; it is a set.
+
+\section*{When to Use Indexes}
+Indexes are beneficial for:
+\begin{itemize}
+    \item Attributes frequently used in `WHERE` clause predicates.
+    \item Attributes involved in join conditions.
+    \item Attributes used for `GROUP BY` or `ORDER BY` clauses.
+    \item Foreign key columns, as they are often used in join conditions.
+    \item When the table is large and the queries retrieve a small percentage of its records.
+\end{itemize}
+
+\subsection*{Indexing for DML Operations}
+While indexes speed up reads, they slow down writes (INSERT, UPDATE, DELETE).
+\begin{itemize}
+    \item Each DML operation on a table also requires corresponding updates to its indexes.
+    \item Therefore, `CREATE INDEX` statements are usually used only when the expected performance gain for reads outweighs the performance loss for writes.
+\end{itemize}
+
+\section*{Index Selection}
+Deciding what indexes to build on a given database is a crucial task, often part of a Database Administrator's (DBA) job.
+\begin{itemize}
+    \item This is a formalized problem called "index selection," with extensive research and semi-automated tuning products.
+    \item Index selection is typically decided based on query workload patterns.
+\end{itemize}
+
+\end{document}

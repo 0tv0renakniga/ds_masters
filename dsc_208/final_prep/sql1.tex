@@ -1,0 +1,220 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Package for code listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configure SQL listing style
+\lstdefinelanguage{SQL}{
+  keywords={SELECT, FROM, WHERE, INSERT, DELETE, UPDATE, CREATE, ALTER, DROP, TABLE, DISTINCT, AND, OR, NOT, JOIN, ON},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black}\itshape,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  columns=fullflexible,
+  upquote=true,
+  basicstyle=\ttfamily\small
+}
+\lstset{language=SQL}
+
+\title{SQL Basics: Comprehensive Review}
+\author{DSC 208R: Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction to SQL}
+SQL (Structured Query Language) is a powerful language used for managing and manipulating relational databases.
+
+\subsection*{Components of SQL}
+SQL is broadly categorized into:
+\begin{itemize}
+    \item \textbf{Data Definition Language (DDL)}: Used to create, alter, and delete tables and their attributes.
+    \item \textbf{Data Manipulation Language (DML)}: Used to query one or more tables, and to insert, delete, or modify tuples (rows) in tables.
+    \item \textbf{Triggers and Advanced Constraints}: Actions executed by the DBMS on updates, and used to specify complex integrity constraints.
+\end{itemize}
+
+\section*{Basic SQL Query Structure}
+A basic SQL query follows this structure:
+\begin{lstlisting}
+SELECT [DISTINCT] <column expression list>
+FROM <list of tables>
+WHERE <predicate>
+\end{lstlisting}
+\begin{itemize}
+    \item \texttt{SELECT}: Specifies columns to be retained in the results. The \texttt{DISTINCT} keyword (optional) ensures the resulting table does not have duplicate rows.
+    \item \texttt{FROM}: Specifies the cross-product of tables from which data is retrieved.
+    \item \texttt{WHERE}: Specifies selection conditions applied to the tables mentioned in the \texttt{FROM} clause.
+\end{itemize}
+
+\section*{SQL Operations Examples}
+
+\subsection*{Schema Used in Examples}
+\begin{itemize}
+    \item \texttt{Movie} (\underline{name}, year, genre) 
+    \item \texttt{ActedIN} (\underline{actorname}, \underline{moviename}) 
+\end{itemize}
+
+\subsection*{Projection in SQL}
+\textbf{Query:}
+\begin{lstlisting}
+SELECT name, genre
+FROM Movies
+\end{lstlisting}
+\textbf{Description:} Return movies names and their genres.
+
+\textbf{Input Table (\texttt{Movies}):}
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} \\
+    \hline
+    Apocalypse Now & 1989 & War \\
+    The God Father & 1972 & Crime \\
+    Planet Earth II & 2016 & Nature, Documentary \\
+    \hline
+\end{tabular}
+\textbf{Resulting Table:}
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Genre} \\
+    \hline
+    Apocalypse Now & War \\
+    The God Father & Crime \\
+    Planet Earth II & Nature, Documentary \\
+    \hline
+\end{tabular}
+
+
+\subsection*{Selection in SQL}
+\textbf{Query:}
+\begin{lstlisting}
+SELECT *
+FROM Movies
+WHERE year > 2000
+\end{lstlisting}
+\textbf{Description:} Return movies produced after 2000.
+
+\textbf{Input Table (\texttt{Movies}):}
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} \\
+    \hline
+    Apocalypse Now & 1989 & War \\
+    The God Father & 1972 & Crime \\
+    Planet Earth II & 2016 & Nature, Documentary \\
+    \hline
+\end{tabular}
+
+
+\textbf{Resulting Table:}
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} \\
+    \hline
+    Planet Earth II & 2016 & Nature, Documentary \\
+    \hline
+\end{tabular}
+
+
+\subsection*{Selection and Projection in SQL}
+\textbf{Query:}
+\begin{lstlisting}
+SELECT name
+FROM Movies
+WHERE year > 2000
+\end{lstlisting}
+\textbf{Description:} Return movie names produced after 2000.
+
+\textbf{Input Table (\texttt{Movies}):}
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} \\
+    \hline
+    Apocalypse Now & 1989 & War \\
+    The God Father & 1972 & Crime \\
+    Planet Earth II & 2016 & Nature, Documentary \\
+    \hline
+\end{tabular}
+
+
+\textbf{Resulting Table:}
+\begin{tabular}{|l|}
+    \hline
+    \textbf{Name} \\
+    \hline
+    Planet Earth II \\
+    \hline
+\end{tabular}
+
+
+\subsection*{Joins in SQL}
+\textbf{Query:}
+\begin{lstlisting}
+SELECT DISTINCT genre
+FROM Movie, ActedIN
+WHERE Movie.name = ActedIN.moviename
+\end{lstlisting}
+
+\textbf{Input Tables:}
+\textbf{Movie Table:}
+\begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Year} & \textbf{Genre} \\
+    \hline
+    Apocalypse Now & 1979 & War \\
+    The God Father & 1972 & Crime \\
+    Planet Earth II & 2016 & Nature Documentary \\
+    \hline
+\end{tabular}
+
+
+\textbf{ActedIN Table:}
+\begin{tabular}{|l|l|}
+    \hline
+    \textbf{Actorname} & \textbf{Moviename} \\
+    \hline
+    Marlon Brando & Apocalypse Now \\
+    Al Pacino & The God Father \\
+    Marlon Brando & The God Father \\
+    \hline
+\end{tabular}
+
+
+\textbf{What does this query return?} 
+
+This query performs a join operation between the `Movie` and `ActedIN` tables based on the condition that `Movie.name` matches `ActedIN.moviename`. It then selects the distinct genres from the resulting joined table.
+
+\textbf{Step-by-step breakdown:}
+\begin{enumerate}
+    \item \textbf{Cross-product (FROM Movie, ActedIN):} All combinations of rows from `Movie` and `ActedIN` tables are generated.
+    \item \textbf{Selection (WHERE Movie.name = ActedIN.moviename):} Rows from the cross-product are filtered where the `name` from the `Movie` table matches the `moviename` from the `ActedIN` table.
+        \begin{itemize}
+            \item (Apocalypse Now, 1979, War) JOIN (Marlon Brando, Apocalypse Now)
+            \item (The God Father, 1972, Crime) JOIN (Al Pacino, The God Father)
+            \item (The God Father, 1972, Crime) JOIN (Marlon Brando, The God Father)
+        \end{itemize}
+    \item \textbf{Projection (SELECT DISTINCT genre):} From the filtered rows, only the `genre` column is selected, and duplicate genre values are removed.
+\end{enumerate}
+
+\textbf{Resulting Table (genres of movies that have actors listed in ActedIN):}
+\begin{tabular}{|l|}
+    \hline
+    \textbf{Genre} \\
+    \hline
+    War \\
+    Crime \\
+    \hline
+\end{tabular}
+
+\end{document}

@@ -1,0 +1,223 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Package for code listings
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configure SQL listing style
+\lstdefinelanguage{SQL}{
+  keywords={CREATE, TABLE, INSERT, INTO, VALUES, ALTER, ADD, DROP, COLUMN, CONSTRAINT, PRIMARY KEY, FOREIGN KEY, REFERENCES, NOT NULL, UNIQUE, CHECK, DEFAULT, CASCADE, RESTRICT, SET NULL, SET DEFAULT, ON DELETE, ON UPDATE},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black}\itshape,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  columns=fullflexible,
+  upquote=true,
+  basicstyle=\ttfamily\small
+}
+\lstset{language=SQL}
+
+\title{SQL Constraints: Comprehensive Review}
+\author{DSC 208R - Data Management for Analytics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction to SQL Constraints}
+Constraints are rules enforced on data columns in a table. They are used to limit the type of data that can go into a table, ensuring the accuracy and reliability of the data. Constraints can be column level or table level.
+
+\subsection*{Types of Constraints}
+\begin{itemize}
+    \item \textbf{Key Constraints}:
+        \begin{itemize}
+            \item `PRIMARY KEY` 
+            \item `FOREIGN KEY` 
+        \end{itemize}
+    \item \textbf{Value Constraints}:
+        \begin{itemize}
+            \item `NOT NULL` 
+            \item `UNIQUE` 
+            \item `CHECK` 
+            \item `DEFAULT` 
+        \end{itemize}
+\end{itemize}
+
+\section*{Key Constraints}
+
+\subsection*{`PRIMARY KEY`}
+A `PRIMARY KEY` uniquely identifies each record in a table.
+\begin{itemize}
+    \item It must contain unique values.
+    \item It cannot contain `NULL` values.
+    \item A table can have only one primary key.
+    \item It can consist of single or multiple columns.
+\end{itemize}
+
+\textbf{Example (Single Column Primary Key):} 
+\begin{lstlisting}
+CREATE TABLE Movie (
+    name VARCHAR(50) PRIMARY KEY,
+    year INT,
+    genre VARCHAR(50)
+);
+\end{lstlisting}
+
+\textbf{Example (Multi-column Primary Key):} 
+\begin{lstlisting}
+CREATE TABLE ActedIn (
+    actorname VARCHAR(50),
+    moviename VARCHAR(50),
+    PRIMARY KEY (actorname, moviename)
+);
+\end{lstlisting}
+
+\subsection*{`FOREIGN KEY`}
+A `FOREIGN KEY` is a field (or collection of fields) in one table that refers to the `PRIMARY KEY` in another table.
+\begin{itemize}
+    \item It establishes a link between two tables.
+    \item It ensures referential integrity, meaning that relationships between tables are consistent.
+\end{itemize}
+
+\textbf{Example:} 
+\begin{lstlisting}
+CREATE TABLE ActedIn (
+    actorname VARCHAR(50),
+    moviename VARCHAR(50),
+    PRIMARY KEY (actorname, moviename),
+    FOREIGN KEY (moviename) REFERENCES Movie(name)
+);
+\end{lstlisting}
+\textbf{Explanation:} This constraint ensures that any `moviename` inserted into `ActedIn` must already exist as a `name` in the `Movie` table.
+
+\subsubsection*{Referential Integrity Options for `FOREIGN KEY`} 
+These options define what happens to foreign key rows when the referenced primary key row is deleted or updated.
+\begin{itemize}
+    \item \textbf{`ON DELETE` / `ON UPDATE`}: Specifies actions for delete or update operations on the referenced primary key.
+        \begin{itemize}
+            \item \textbf{`CASCADE`}: If a row in the parent table (with the primary key) is deleted or updated, the corresponding rows in the child table (with the foreign key) are also deleted or updated. 
+            \item \textbf{`RESTRICT`}: Prevents the deletion or update of a parent row if there are dependent rows in the child table. This is often the default behavior. 
+            \item \textbf{`SET NULL`}: Sets the foreign key column(s) in the child table to `NULL` when the parent row is deleted or updated. Requires the foreign key column to be nullable. 
+            \item \textbf{`SET DEFAULT`}: Sets the foreign key column(s) in the child table to their default value when the parent row is deleted or updated. 
+        \end{itemize}
+\end{itemize}
+
+\textbf{Example with `ON DELETE CASCADE`:} 
+\begin{lstlisting}
+CREATE TABLE ActedIn (
+    actorname VARCHAR(50),
+    moviename VARCHAR(50),
+    PRIMARY KEY (actorname, moviename),
+    FOREIGN KEY (moviename) REFERENCES Movie(name) ON DELETE CASCADE
+);
+\end{lstlisting}
+\textbf{Explanation:} If a movie is deleted from the `Movie` table, all `ActedIn` records referencing that movie will automatically be deleted.
+
+\section*{Value Constraints}
+
+\subsection*{`NOT NULL`}
+The `NOT NULL` constraint ensures that a column cannot have a `NULL` value.
+
+\textbf{Example:} 
+\begin{lstlisting}
+CREATE TABLE Movie (
+    name VARCHAR(50) PRIMARY KEY,
+    year INT NOT NULL,
+    genre VARCHAR(50)
+);
+\end{lstlisting}
+\textbf{Explanation:} This ensures that every movie record must have a `year` value.
+
+\subsection*{`UNIQUE`}
+The `UNIQUE` constraint ensures that all values in a column (or a set of columns) are different.
+\begin{itemize}
+    \item It allows `NULL` values, but only once (behavior can vary slightly by DBMS). 
+    \item A table can have multiple `UNIQUE` constraints. 
+\end{itemize}
+
+\textbf{Example:} 
+\begin{lstlisting}
+CREATE TABLE Person (
+    id INT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE,
+    name VARCHAR(50)
+);
+\end{lstlisting}
+\textbf{Explanation:} This ensures that no two persons can have the same `email`.
+
+\subsection*{`CHECK`}
+The `CHECK` constraint is used to limit the value range that can be placed in a column.
+
+\textbf{Example:} 
+\begin{lstlisting}
+CREATE TABLE Actor (
+    name VARCHAR(50) PRIMARY KEY,
+    age INT CHECK (age > 0 AND age < 120)
+);
+\end{lstlisting}
+\textbf{Explanation:} This ensures that the `age` of an actor must be between 1 and 119, inclusive.
+
+\subsection*{`DEFAULT`}
+The `DEFAULT` constraint is used to set a default value for a column when no value is specified during an `INSERT` operation.
+
+\textbf{Example:} 
+\begin{lstlisting}
+CREATE TABLE Movie (
+    name VARCHAR(50) PRIMARY KEY,
+    year INT NOT NULL,
+    genre VARCHAR(50) DEFAULT 'Unspecified'
+);
+\end{lstlisting}
+\textbf{Explanation:} If a `genre` is not provided when inserting a new movie, it will automatically be set to 'Unspecified'.
+
+\section*{Adding and Dropping Constraints with `ALTER TABLE`}
+
+\subsection*{Adding a `PRIMARY KEY`} 
+\begin{lstlisting}
+ALTER TABLE Movie
+ADD PRIMARY KEY (name);
+\end{lstlisting}
+
+\subsection*{Adding a `FOREIGN KEY`}
+\begin{lstlisting}
+ALTER TABLE ActedIn
+ADD FOREIGN KEY (moviename) REFERENCES Movie(name);
+\end{lstlisting}
+
+\subsection*{Adding a `CHECK` Constraint}
+\begin{lstlisting}
+ALTER TABLE Actor
+ADD CHECK (age > 0 AND age < 120);
+\end{lstlisting}
+
+\subsection*{Dropping a `PRIMARY KEY`}
+\begin{lstlisting}
+ALTER TABLE Movie
+DROP PRIMARY KEY;
+\end{lstlisting}
+
+\subsection*{Dropping a `FOREIGN KEY`}
+\begin{lstlisting}
+ALTER TABLE ActedIn
+DROP FOREIGN KEY moviename; -- Actual constraint name might be needed for some DBMS
+\end{lstlisting}
+\textbf{Note:} For some DBMS, you might need to specify the system-generated or user-defined name of the foreign key constraint instead of the column name.
+
+\subsection*{Dropping a `CHECK` Constraint}
+\begin{lstlisting}
+ALTER TABLE Actor
+DROP CHECK age_check; -- Assuming 'age_check' is the constraint name
+\end{lstlisting}
+\textbf{Note:} You typically need the specific name of the `CHECK` constraint to drop it.
+
+\end{document}

@@ -1,0 +1,110 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+
+\title{Quiz 4: DSC 208 Data Management for Analytics}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Questions and Explanations}
+
+\begin{enumerate}[label=\textbf{Question \arabic*.}]
+
+\item Which of the following is not a syntactic feature of XML documents?
+    \begin{enumerate}[label=\alph*)]
+        \item Middle tag
+        \item None of the three
+        \item Start tag
+        \item End Tag
+    \end{enumerate}
+    \textbf{Answer: a) Middle tag}
+    \begin{itemize}
+        \item \textit{Explanation:} XML documents are structured using a hierarchy of elements, defined by `start tags` (e.g., `<element>`) and `end tags` (e.g., `</element>`). There is no concept of a "middle tag" in XML syntax. Well-formed XML requires every start tag to have a matching end tag (or be an empty-element tag, e.g., `<element/>`).
+    \end{itemize}
+
+\item Which capability of semi-structured data models enables storing arbitrary non-normalized data unlike the relational data model?
+    \begin{enumerate}[label=\alph*)]
+        \item Schema-later approach
+        \item None of the three
+        \item Different attributes across records
+        \item Nesting of records
+    \end{enumerate}
+    \textbf{Answer: d) Nesting of records}
+    \begin{itemize}
+        \item \textit{Explanation:} Semi-structured data models (like JSON or XML) allow for hierarchical or `nested` structures within a single record. This means that a single field can contain an entire sub-document or array of values, enabling the representation of complex, non-normalized data without requiring the flattening of structures into multiple tables, which is characteristic of the relational model. While "different attributes across records" is also a feature of semi-structured data flexibility, `nesting of records` is the primary mechanism that directly allows for the arbitrary non-normalized, hierarchical data storage that contrasts sharply with the flat, normalized tables of relational databases.
+    \end{itemize}
+
+\item Which of these paradigms of parallelism is most common in data systems?
+    \begin{enumerate}[label=\alph*)]
+        \item Shared disk
+        \item Shared CPU
+        \item Shared nothing
+        \item Shared memory
+    \end{enumerate}
+    \textbf{Answer: c) Shared nothing}
+    \begin{itemize}
+        \item \textit{Explanation:} The `shared nothing` architecture is the most prevalent paradigm for scalable, distributed data systems (like Hadoop, Spark, NoSQL databases). In this architecture, each node in the cluster has its own dedicated CPU, memory, and storage, and they communicate only by passing messages over a network. This design minimizes contention, provides high fault tolerance, and allows for near-linear scalability, as adding more nodes directly increases total resources.
+    \end{itemize}
+
+\item Which component of Dask divides up the work to different nodes?
+    \begin{enumerate}[label=\alph*)]
+        \item Worker
+        \item Client
+        \item Scheduler
+        \item Dispatcher
+    \end{enumerate}
+    \textbf{Answer: c) Scheduler}
+    \begin{itemize}
+        \item \textit{Explanation:} In Dask's distributed architecture, the `Scheduler` is the central component responsible for coordinating computation. It receives tasks from the `Client`, builds the task graph, optimizes it, and then dispatches these tasks to the `Workers` for execution. It also monitors the workers and manages data transfer between them.
+    \end{itemize}
+
+\item Which data partitioning strategy enables full scalability along both the number of rows and number of columns of a matrix?
+    \begin{enumerate}[label=\alph*)]
+        \item Row-oriented
+        \item Tile-oriented
+        \item Column-oriented
+        \item All of the three
+    \end{enumerate}
+    \textbf{Answer: b) Tile-oriented}
+    \begin{itemize}
+        \item \textit{Explanation:}
+        \begin{itemize}
+            \item `Row-oriented` partitioning divides a matrix by rows, allowing scalability along the number of rows but not inherently along columns.
+            \item `Column-oriented` partitioning divides a matrix by columns, allowing scalability along the number of columns but not inherently along rows.
+            \item `Tile-oriented` partitioning (also known as block partitioning) divides the matrix into smaller, rectangular blocks or "tiles." This strategy allows for independent processing of these blocks and enables scalability in both row and column dimensions, as new rows or columns can be added, and the matrix can continue to be processed in these smaller, manageable tiles across a distributed system.
+        \end{itemize}
+    \end{itemize}
+
+\item Which capability of semi-structured data models enables storing arbitrary non-normalied data unlike the relational data model?
+    \begin{enumerate}[label=\alph*)]
+        \item scheme-later approach
+        \item none of these
+        \item different attributes across records
+        \item nesting of records
+    \end{enumerate}
+    \textbf{Answer: d) nesting of records}
+    \begin{itemize}
+        \item \textit{Explanation:} This is a repeat of Question 2. As explained, the ability to embed complex structures within a single field (like lists within a field or sub-documents) directly allows for non-normalized, hierarchical data storage, which is a key distinction from relational models.
+    \end{itemize}
+
+\item Which data partitioning strategy enables full scalability along both the number of rows and number of columns of a matrix?
+    \begin{enumerate}[label=\alph*)]
+        \item row-oriented
+        \item tile-oriented
+        \item column-oriented
+        \item all three
+    \end{enumerate}
+    \textbf{Answer: b) tile-oriented}
+    \begin{itemize}
+        \item \textit{Explanation:} This is a repeat of Question 5. As explained, `tile-oriented` partitioning divides a matrix into rectangular blocks, offering scalability in both row and column dimensions for distributed processing.
+    \end{itemize}
+
+\end{enumerate}
+
+\end{document}

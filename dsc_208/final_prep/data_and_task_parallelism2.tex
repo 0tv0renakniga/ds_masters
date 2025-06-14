@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{Basics of Parallelism: Comprehensive Review}
+\author{Based on DSC 208R – Data Management for Analytics by Arun Kumar, UC San Diego}
+\date{June 2025}
+
+\begin{document}
+
+\maketitle
+
+\section*{Parallel Data Processing: Basic Idea}
+The fundamental concept behind parallel data processing is to split up a large workload across multiple processors, and often across multiple machines or workers. This is essentially a "Divide and Conquer" strategy. The central issue addressed by parallelism is that a given workload takes too long for a single processor to complete efficiently.
+
+\subsection*{Threads}
+In parallel data processing, "threads" are a common concept, generalizing the process abstraction of an operating system (OS).
+\begin{itemize}
+    \item A program or process can spawn many threads.
+    \item Each thread runs its part of the program's computations simultaneously.
+    \item All threads within a process share the same address space (and thus, the same data).
+    \item In multi-core CPUs, typically one thread uses one core. "Hyper-threading" can virtualize a core to run two threads simultaneously.
+\end{itemize}
+
+\section*{Parallelism Paradigms}
+Several paradigms describe how parallel computations are structured.
+
+\subsection*{1. SIMD (Single Instruction, Multiple Data)}
+\begin{itemize}
+    \item A single instruction operates on multiple data items concurrently.
+    \item Examples include vector processing units in CPUs (e.g., Intel AVX), GPUs, and TPUs.
+    \item Common in modern CPUs and specialized accelerators for tasks like matrix multiplication and image processing.
+\end{itemize}
+
+\subsection*{2. MIMD (Multiple Instruction, Multiple Data)}
+\begin{itemize}
+    \item Multiple processors execute different instructions on different data streams simultaneously.
+    \item Most modern multi-core CPUs and distributed clusters fall under this paradigm.
+    \item Sub-types include Shared-Memory MIMD and Distributed-Memory MIMD.
+\end{itemize}
+
+\subsection*{3. SPMD (Single Program, Multiple Data)}
+\begin{itemize}
+    \item A single program is executed by multiple processors, each operating on a different portion of the data.
+    \item Each processor executes the same program, but can follow different control paths based on its local data.
+    \item This is very common in distributed data systems like Hadoop MapReduce and Apache Spark.
+\end{itemize}
+
+\subsection*{4. MPP (Massively Parallel Processing)}
+\begin{itemize}
+    \item A system with many independent processors, each with its own memory and operating system, working on a single application.
+    \item Often associated with shared-nothing architectures in databases (e.g., Teradata, Greenplum, CitusDB).
+    \item The terms "MPP" and "Shared-Nothing Parallelism" are often used interchangeably.
+\end{itemize}
+
+\section*{Amdahl's Law}
+Amdahl's Law is a formula that gives the theoretical maximum speedup for latency of execution of a fixed workload as parallel resources are added. It highlights the diminishing returns of parallelism.
+
+\begin{itemize}
+    \item Let $S$ be the fraction of the program that is inherently sequential (cannot be parallelized).
+    \item Then $(1-S)$ is the fraction that can be parallelized.
+    \item The maximum speedup ($P$) achievable with $N$ processors is given by:
+    \[
+    P = \frac{1}{S + \frac{1-S}{N}}
+    \]
+    \item As $N \to \infty$, the maximum speedup approaches $\frac{1}{S}$.
+\end{itemize}
+\textbf{Implication:} Even a small sequential portion significantly limits the overall speedup, making it crucial to minimize sequential parts for highly parallel systems.
+
+\section*{Dataflow Graph / Task Graph}
+Parallel computations are often represented as Directed Acyclic Graphs (DAGs).
+
+\subsection*{Dataflow Graph (aka Logical Query Plan / Neural Computational Graph)}
+\begin{itemize}
+    \item A DAG where vertices represent operators (e.g., from extended relational algebra or linear algebra/deep learning tool's tensor algebra).
+    \item Edges represent the flow of data between these operators.
+    \item In database systems, it's known as a Logical Query Plan.
+    \item In machine learning systems, it's known as a Neural Computational Graph (e.g., for $ReLU(WX+b)$).
+\end{itemize}
+
+\subsection*{Task Graph}
+\begin{itemize}
+    \item A DAG where vertices represent full tasks or processes (more coarse-grained than operator-level dataflows).
+    \item Edges represent dependencies between tasks.
+    \item Dask, for example, conflates the concepts of Dataflow and Task graphs, where an operation on a Dask DataFrame becomes its own separate process/program.
+    \item Cycles in task graphs are possible for iterative computations, making them "cyclic graphs" or "recurrent graphs."
+\end{itemize}
+
+\end{document}
