@@ -26,8 +26,8 @@
 }
 
 \title{Data Engineering for Machine Learning: Comprehensive Review Questions and Answers}
-\author{Based on DSC 208R – Data Management for Analytics by Arun Kumar, UC San Diego}
-\date{June 2025}
+\author{DSC 208R Data Management for Analytics}
+\date{}
 
 \begin{document}
 
@@ -182,7 +182,6 @@
     \begin{enumerate}[label=\alph*)]
         \item \textbf{SparkSQL:} A Spark module for working with structured data. It provides a programming interface for Spark that allows users to query data using SQL or a DataFrame/Dataset API.
         \item \textbf{Relationship to RDD API:} SparkSQL is built on top of the RDD API. DataFrames and Datasets in SparkSQL are essentially distributed collections of rows with a schema, which are implemented as RDDs internally. SparkSQL leverages Spark's Catalyst Optimizer to optimize queries, often compiling them down to efficient RDD operations.
-
     \end{enumerate}
 
     \item \textbf{Why does Databricks recommend using SparkSQL/DataFrame API instead of RDD API nowadays?}

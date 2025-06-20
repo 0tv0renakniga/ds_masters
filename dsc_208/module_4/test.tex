@@ -1,0 +1,729 @@
+Quiz 1
+  Question 1
+  Which of these structured data models has native support for mixed types in columns?
+  a) Matrix
+  b) Relation
+  c) All of the three
+  d) DataFrame
+  Answer: d) DataFrame
+
+  Question 2
+  In what way is data access control often a challenge in the data sourcing stage?
+  a) Limits access to some ML software
+  b) Prevents use of some data
+  c) Raises computational resource costs
+  d) Requires downsampling of data
+  Answer: b) Prevents use of some data
+  
+  Question 3
+  Which type of integrity constraint ensures that a value in one table must match a value in another table?
+  a) Functional dependency
+  b) Domain integrity
+  c) Referential integrity
+  d) Entity integrity
+  Answer: c) Referential integrity
+  
+  Question 4
+  What is the purpose of a primary key in a relational database table?
+  a) To improve performance
+  b) To ensure data is ordered
+  c) To ensure data is unique
+  d) To enforce referential integrity
+  Answer: c) To ensure data is unique
+  
+  Question 5
+  What is the purpose of a foreign key in a relational database table?
+  a) To improve performance
+  b) To ensure data is ordered
+  c) To enforce referential integrity
+  d) To ensure data is unique
+  Answer: c) To enforce referential integrity
+
+Quiz 2
+  Question 1
+  If the primary key of a relation consists of the attributes A;B, then no record can have A = B.
+  a) True
+  b) False
+  Answer: b) False
+
+  Question 2
+  The table Arc(x,y) currently has the following tuples (note there are duplicates): (1,2), (1,2), (2,3), (3,4), (3,4), (4,1), (4,1), (4,1), (4,2). Compute the result of the query: Which of the following tuples is in the result?
+    SQL query:
+    SELECT a1.x, a2.y, COUNT(*)
+    FROM Arc a1, Arc a2
+    WHERE a1.y = a2.x
+    GROUP BY a1.x, a2.y;
+  a) (1,2,4)
+  b) (3,3,1)
+  c) (2,4,6)
+  d) (4,3,1)
+  Answer: d) (4,3,1)
+
+  Question 3
+  For any set of attributes X, the set X+ is a superkey.
+  a) True
+  b) False
+  Answer: b) False
+
+  Question 4
+  Suppose relation R(A,B,C) has the tuples:
+    Table:
+    A | B | C
+    --|---|--
+    0 | 1 | 2
+    0 | 1 | 3
+    4 | 5 | 6
+    4 | 6 | 3
+  Compute the bag union of the following three expressions, each of which is the bag projection of a grouping ($\gamma$) operation:
+
+  1. $\pi$X($\gamma$A,B,MAX(C)$\rightarrow$X(R))
+  2. $\pi$X($\gamma$B,SUM(C)$\rightarrow$X(R))
+  3. $\pi$X($\gamma$A,MIN(B)$\rightarrow$X(R))
+
+  Demonstrate that you have computed this bag correctly by identifying, from the list below, the correct count of occurrences for one of the elements.
+  a) 3 appears exactly three times
+  b) 6 appears exactly once
+  c) 1 appears exactly twice
+  d) 3 appears exactly twice
+  Answer: a) 3 appears exactly three times
+
+  Question 5
+  If the attribute K of a relation is a key, then no two tuples in the relation can have the same value of K.
+  a) True
+  b) False
+  Answer: a) True
+
+Quiz 3
+  Question 1
+  Which of the following kinds of predicates in a selection query is amenable to being sped up using both a hash index and B+ tree index?
+  a) Equal to
+  b) Less than
+  c) Not equal to
+  d) Greater than or equal to
+  Answer: a) Equal to
+
+  Question 2 
+  What is the selectivity of the following query when applied to the following instance of the Ratings relation?
+  SQL query:
+  SELECT * FROM Ratings WHERE NOT (Stars > 3.0);
+
+  Table:
+  | RatingID | Stars | UserID | MovieID |
+  |----------|-------|--------|---------|
+  | 1        | 4.0   | 794    | 223     |
+  | 2        | 3.0   | 802    | 034     |
+  | 3        | 4.0   | 795    | 342     |
+  | 4        | 2.0   | 123    | 425     |
+  | 5        | 5.0   | 322    | 0       |
+
+  a) 60%
+  b) 20%
+  c) 80%
+  d) 40%
+  Answer: d) 40%
+
+  Question 3
+  Given a relation with 4 attributes, how many different hash indexes can be built on this relation?
+  a) 14
+  b) 20
+  c) 12
+  d) 18
+  Answer: d) 18
+
+  Question 4
+  Compute the intersection of the relations R(A,B,C) and S(A,B,C):
+  Table R:
+    | a | b | c |
+    |---|---|---|
+    | 1 | 2 | 3 |
+    | 4 | 2 | 3 |
+    | 4 | 5 | 6 |
+    | 2 | 5 | 3 |
+    | 1 | 2 | 6 |
+
+  Table S:
+    | a | b | c |
+    |---|---|---|
+    | 2 | 5 | 3 |
+    | 2 | 5 | 4 |
+    | 4 | 5 | 6 |
+    | 1 | 2 | 3 |
+    
+  Which of the following tuples appears in R ∩ S?
+  a) (1,2,3)
+  b) (2,5,4)
+  c) (2,4,3)
+  d) (1,2,6)
+  Answer: a) (1,2,3)
+
+  Question 5
+  Suppose relation R(A,B) has the tuples:
+  relation R(A,B):
+    | A | B |
+    |---|---|
+    | 1 | 2 |
+    | 3 | 4 |
+    | 5 | 6 |
+  and the relation S(B,C,D) has tuples:
+    | a | b | c |
+    |---|---|---|
+    | 2 | 4 | 6 |
+    | 4 | 6 | 8 |
+    | 4 | 7 | 9 |
+  
+  Compute the theta-join of R and S with the condition R.A < S.C AND R.B < S.D. Then, identify from the list below one of the tuples in R ⋈R.A<S.C AND R.B<S.D S. You may assume the schema of the result is (A, R.B, S.B, C, D).
+  a) (5,6,2,4,6)
+  b) (3,4,5,7,9)
+  c) (1,2,2,6,8)
+  d) (1,2,2,4,6)
+  Answer: d) (1,2,2,4,6)
+
+Quiz 4
+  Question 1
+  Which of the following is not a syntactic feature of XML documents?
+  a) Middle tag
+  b) None of the three
+  c) Start tag
+  d) End Tag
+  Answer: a) Middle tag
+
+  Question 2
+  Which capability of semi-structured data models enables storing arbitrary non-normalized data unlike the relational data model?
+  a) Schema-later approach
+  b) None of the three
+  c) Different attributes across records
+  d) Nesting of records
+  Answer: d) Nesting of records
+
+  Question 3
+  Which of these paradigms of parallelism is most common in data systems?
+  a) Shared disk
+  b) Shared CPU
+  c) Shared nothing
+  d) Shared memory
+  Answer: c) Shared nothing
+
+  Question 4
+  Which component of Dask divides up the work to different nodes?
+  a) Worker
+  b) Client
+  c) Scheduler
+  d) Dispatcher
+  Answer: c) Scheduler
+
+  Question 5
+  Which data partitioning strategy enables full scalability along both the number of rows and number of columns of a matrix?
+  a) Row-oriented
+  b) Tile-oriented
+  c) Column-oriented
+  d) All of the three
+  Answer: b) Tile-oriented
+
+  Question 6
+  which capability of semi-structured data models enables storing arbitrary non-normalied data unlike the relational data model?
+  a) scheme-later approach
+  b) none of these
+  c) different attributes across records
+  d) nesting of records
+  Answer: d) nesting of records
+
+  Question 7
+  which data partitioning strategy enables full scalability along both the number of rows and number of coloumns of a matrix?
+  a) row-oriented
+  b) tile-oriented
+  c) column-oriented
+  d) all three
+  Answer: b) tile-oriented
+  
+Quiz 5
+
+  Question 1
+  Which of the following systems capabilities is a key differentiator of data “lakehouses” as against data warehouses?
+  a) Integration with business intelligence tools
+  b) SQL as a user-facing language
+  c) Loose coupling of file format with query stack
+  d) Automated query optimization
+  Answer: c) Loose coupling of file format with query stack
+
+  Question 2
+  What was the main novel technical capability of Spark relative to parallel RDBMSs when it was introduced?
+  a) Optimized query execution
+  b) Scales to multi-node clusters
+  c) High-level querying/API
+  d) Lineage-based fault tolerance
+  Answer: d) Lineage-based fault tolerance
+
+  Question 3
+  Which of the following feature engineering steps requires only a Map-only job to fully scale using MapReduce?
+  a) Whitening
+  b) Pairwise feature interactions
+  c) One-hot encoding
+  d) All of the three
+  Answer: b) Pairwise feature interactions
+
+  Question 4
+  Which of the following is not a major type of data cleaning tasks?
+  a) Local edits to cell values
+  b) Reconciling across tuples
+  c) Synthesizing table values
+  d) Reconciling values in a column
+  Answer: c) Synthesizing table values
+
+  Question 5
+  What is an outlier?
+  a) A data point that is duplicated in the dataset
+  b) A data point that is missing from the dataset
+  c) A data point that deviates from the norm
+  d) A data point that has a value of zero
+  Answer: c) A data point that deviates from the norm
+
+
+Midterm 
+
+  Question 1
+  Consider the following chart showing Pareto tradeoffs of 4 different ML models on two metrics of interest. Suppose you are told that model D is Pareto-optimal. For which of the following metrics on the X axis will that make sense?
+  Chart description: 
+    Axes: y-axis Prediction accuracy, x-axis Metric TBD
+    Points: A(1,2), B(1,1), C(2,1), D(2,2)
+  a) Training throughput (examples per second)
+  b) Training cost (dollars)
+  c) Space footprint (bytes)
+  d) Inference latency (seconds)
+  Answer: a) Training throughput (examples per second)
+
+  Question 2
+  Which structured data model(s) support(s) in-place edits to the data?
+  a) Relation
+  b) DataFrame
+  c) Matrix
+  d) All of the three
+  Answer: d) All of these
+
+  Question 3
+  Which of the following best describes the relational data model?
+  a) A data model that organizes data into a hierarchy of entities and relationships
+  b) A data model that organizes data into a tree structure
+  c) A data model that organizes data into a set of tables with columns and rows
+  d) A data model that organizes data into a graph structure
+  Answer: c) A data model that organizes data into a set of tables with columns and rows
+
+  Question 4
+  Here is a table representing a relation S
+  Table:
+  | StudentID |     Name     | Age | Gender |
+  |-----------|--------------|---- |--------|
+  | 1         | John Smith   | 22  | Male   |
+  | 2         | Jane Smith   | 20  | Female |
+  | 3         | Zhang San    | 21  | Male   |
+  
+  Identify:
+    1. The attributes of S.
+    2. The schema of S.
+    3. The tuples of S.
+    4. The components of the tuples for each attribute of S.
+  Which of the following is NOT a true statement about relation S?
+  a) Age is an attribute of S
+  b) S has four attributes
+  c) (3, Zhang San, 21, Male) is a tuple of R
+  d) S has four tuples
+  Answer: d) S has four tuples
+
+  Question 5
+  Suppose relations R(A,B) and S(B,C,D) have the tuples shown below:
+  Tables:
+  relation R(A,B):
+    | A | B |
+    |---|---|
+    | 1 | 2 |
+    | 3 | 4 |
+    | 5 | 6 |
+  relation S(B,C,D):
+    | a | b | c |
+    |---|---|---|
+    | 2 | 4 | 6 |
+    | 4 | 6 | 8 |
+    | 4 | 7 | 9 |
+
+  SQL query:
+    SELECT A, R.B, S.B, C, D
+    FROM R, S
+    WHERE R.A < S.C AND R.B < S.D
+
+  Then, identify one of the tuples in the result from the list below.
+  a) (5,6,2,4,6)
+  b) (3,4,5,7,9)
+  c) (3,4,4,7,8)
+  d) (1,2,2,4,6)
+  Answer: d) (1,2,2,4,6)
+
+  Question 6
+  Suppose R(A, B) has a tuple t: (A = 2, B = NULL).
+  The following query outputs t.
+  SQL query:
+    SELECT *
+    FROM R
+    WHERE (((A IS NULL) OR (B = 2)) AND (B IS NULL))
+
+  a) True
+  b) False
+  Answer: b) False
+
+  Question 7
+  Suppose the relation R(a,b,c) has the tuples:
+  Table:
+  Table R:
+  | a | b | c |
+  |---|---|---|
+  | 0 | 1 | 2 |
+  | 0 | 1 | 3 |
+  | 4 | 5 | 6 |
+  | 4 | 6 | 3 |
+
+  Compute the generalized projection $\pi_{B,A+C,B}(R)$, and then identify from the list below one of the tuples in this projection.
+  a) (10,5,10)
+  b) (1,1,3)
+  c) (1,3,0)
+  d) (6,7,6)
+  Answer: d) (6,7,6)
+
+  Question 8
+  TRUE/FALSE: A left outer join can always be written using a right outer join
+
+  a) False
+  b) True
+  Answer: b) True
+
+  Question 9 
+  Consider the following query on the Netflix database schema discussed in the lectures with Ratings relation alias R and Movies relation alias M. Which of the queries listed afterward is logically equivalent to this query?
+  $\sigma\text{Year} = 2021 \wedge \text{Stars} = 5.0(R \bowtie M)$
+
+  a) $\sigma\text{Year} = 2021(R) \bowtie \sigma\text{Stars} = 5.0(M)$
+  b) $\sigma\text{Year} = 2021 \wedge \text{Stars} = 5.0(R) \bowtie M$
+  c) $\sigma\text{Year} = 2021 \wedge \text{Stars} = 5.0(M) \bowtie R$
+  d) $\sigma\text{Year} = 2021(M) \bowtie \sigma\text{Stars} = 5.0(R)$
+  Answer: d) $\sigma\text{Year} = 2021(M) \bowtie \sigma\text{Stars} = 5.0(R)$
+
+  Question 10
+  A primary index is necessarily also the following type of index?
+  a) None of the three
+  b) Composite
+  c) Unique
+  d) Secondary
+  Answer: c) Unique
+
+  Question 11
+  Consider the following schema: 
+    Student (snum: integer, sname: string, major: string, level: string, age: integer)
+    Class (cname: string, meets_at: time, room: string,  fid: integer)
+    Faculty (fid: integer,  fname: string, depid: integer)
+    Enrolled (snum: integer, cname: string)
+
+  a) Write the SQL statements required to create all of the above relations, including all primary and foreign keys
+    Answer:
+    CREATE TABLE Student (
+    snum INT AS PRIMARY KEY,
+    sname VARCHAR(50),
+    major VARCHAR(50),
+    level VARCHAR(50),
+    age INTEGER)
+
+    CREATE TABLE Class (
+    fid INTEGER AS PRIMARY KEY
+    cname VARCHAR(50),
+    meets_at TIME,
+    room VARCHAR(50))
+
+    Create Table Faculty (
+    fid INT AS PRIMARY KEY, 
+    fname VARCHAR(50),
+    depid INT)
+
+    CREATE TABLE Enrolled (
+    snum INT AS PRIMARY KEY,
+    cname VARCHAR(50))
+
+  b) Write the SQL statements that finds the names of all senior students (Student.level = “Junior”) who have less than 25 years old (Student.age<25) and enrolled in a class taught by Prof. Gupta (Faculty.fname= “Gupta”).
+    Answer:
+    SELECT DISTINCT s.name, s.level, s.age
+    FROM Student AS s, Faculty as f
+    WHERE s.level='Junior' AND s.age > 25 AND f.name ='Gupta'
+
+  c) Write the SQL statements that finds the names of faculty members for whom the combined enrollment of the courses that they teach is less than three.
+    Answer:
+    SELECT DISTINCT f.name
+    FROM Faculty as f, Enrolled as e
+    WHERE SUM(e.snum) < 3
+
+  d) For each level, print the level and the average age of students for that level.
+    Answer:
+    SELECT AVERAGE(s.age) as avg_age, s.level
+    FROM STUDENTS as s
+    GROUP BY s.level
+
+  e) Write the SQL statements that, for each faculty member that has taught classes only in room 'R2010', prints the faculty member’s name and the total number of classes she or he has taught.
+    Answer:
+    SELECT DISTINCT f.name, COUNT(c.name)
+    FROM Faculty AS f, Classes AS c
+    JOIN f.fid on c.fid
+    WHERE c.name='R2010'
+
+  f) Write the SQL statements that computes the average age of all students who are majoring in “Data Science” and enrolled in “DSC 80” and  “DSC 100”
+    Answer:
+    SELECT s.major
+    FROM Students AS s, Classes AS c
+    WHERE c.name ='DSC80' AND c.name='DSC100' AND s.major='Data Science'
+
+  g) Write the SQL statements that find the names of students not enrolled in any class.
+    Answer:
+    SELECT s.name
+    FROM Students as s, Enrolled as e
+    JOIN s.snum ON e.snum
+    WHERE e.snum =0
+
+  h) Find the names of students that are either junior (Student.level = “Junior”) or enrolled in at most 2 courses. 
+    Answer:
+    SELECT s.level
+    FROM Students AS s, Enrolled as e
+    JOIN s.snum ON e.sum
+    WHERE s.level='Junior' AND e.snum<=2
+
+  Question 12
+  Consider the following schema:
+    Supplier ($\underline{sid: integer}$, sname: string, city: string ,  state: string)
+    Part     ($\underline{pid: integer}$, pname: string, size: string, color: string )
+    Supply   ($\underline{sid: integer}$,  $\underline{pid: integer}$, cost: real)
+
+  The keys are underlined, and the domain of each attribute is listed after the attribute name. The “Supply” relation consists of the prices for parts supplied by the Suppliers. ($\rohR(E)$ renames the result of expression E as R)
+  Write the SQL queries corresponding to the following RA expressions: 
+
+  a) $$\pi \text{sid}(\pi \text{pid}(\sigma \text{city='La Jolla'} \wedge \text{state='CA' Supplier})) \bowtie \sigma \text{cost} > 100 \text{Supply}$$
+    Answer:
+    SELECT DISTINCT Supply.sid
+    FROM Supply, Supplier
+    WHERE Supplier.sdi =Supply.sdi
+    AND Supplier.city ='La Jolla'
+    AND Supplier.state ='CA'
+    AND Supply.cost >100
+
+  b) $$\pi \text{city}(\sigma \text{c} >1000(\text{city, count(*) c} (\text{Part} \bowtie (\sigma \text{cost}<100 \text{Supply}) \bowtie (\sigma \text{state='CA' Supplier})))$$
+    Answer:
+    SELECT Supplier.city
+    FROM Part as p
+    JOIN Supply ON p.pid = Supply.pid
+    JOIN Supplier ON supply.sid =Supplier.sid
+    WHERE Supply.cost < 100
+    AND Supplier.state= 'CA'
+    AND COUNT(Supplier.city)> 1000
+
+  c) $$\roh R1(\roh \text{sid}(( \pi \text{pid size}>200 \text{Part}) \bowtie \text{Supply}))$$
+     $$\roh R2(\pi \text{sidstate='WA'} \vee \text{state='CA' Supplier})$$
+     $$R1 \cup R2$$
+    Answer:
+    SELECT DISTINCT Supply.sdi
+    FROM Part AS p
+    JOIN Supply ON p.pid=Supply.pid
+    WHERE p.size > 100
+    UNION
+    SELECT sid
+    FROM Supplier AS s
+    WHERE s.state= 'WA' OR s.state= 'CA'
+
+  Question 13
+
+  Consider the Netflix database schema discussed in the lectures:
+  Schema:
+    R (RatingID, Stars, RateDate, UID, MID)
+    U (UID, Name, Age, JoinDate)
+    M (MID, Name, Year, Director)
+
+  For each query given below, write a CREATE INDEX statement that can help speed up that query. Make sure to clearly mention the index type and SearchKey.
+
+  a) SELECT Director FROM M WHERE Year >= 2022;
+    Answer:
+    CREATE INDEX index_movie_year ON M USING BTREE (Year)
+  b) SELECT Name FROM U WHERE Age = 18;
+    Answer:
+    CREATE INDEX index_user_age_hash ON U USING HASH (Age)
+  c) SELECT * FROM R, U WHERE R.UID = U.UID;
+    Answer:
+    CREATE INDEX index_rating_uid_hash ON R USING HASH (UID);
+  d) SELECT * FROM R WHERE RateDate >= 01/01/2021;
+    Answer:
+    CREATE INDEX index_rating_date ON R USING BTREE (RateDate)
+
+  Question 14
+  Given the following schema:
+    schema:
+    Product($\underline{ProductID}$, Brand, Type, Price)
+    Orders($\underline{OrderID}$, ProductID, OrderDate, Amount)
+
+  The primary key columns are underlined, and the foreign key ProductID in the Product table references the ProductID column in the Product table.
+  Write a SQL query that calculates the total sales for each brand and type including brands and  types that have no sales, and orders for which the product information is missing, i.e., their product ID is NULL. The query must be executable on SQLite, which means you can only use SQL constructs that are supported by SQLite
+  Answer:
+    SELECT outer_q.Brand, outer_q.Type, SUM(outer_q.sales) AS total_sales
+    FROM (
+    /* 1. Products (LEFT JOIN) → keeps rows with zero sales  */
+        SELECT p.Brand AS Brand,
+               p.Type AS Type,
+               COALESCE(p.Price * o.Amount, 0) AS sales
+          FROM   Product AS p
+          LEFT JOIN Orders  AS o
+               ON  o.ProductID = p.ProductID
+
+         UNION ALL
+    /* 2. Orders whose ProductID IS NULL $\rightarrow$ treat as “unknown” */
+        SELECT '(unknown)' AS Brand, -- label of your choice
+               '(unknown)' AS Type,
+                SUM(o2.Amount) AS sales -- no price info
+          FROM  Orders AS o2
+         WHERE  o2.ProductID IS NULL
+         GROUP  BY Brand, Type -- collapses to one row
+         ) AS outer_q
+    GROUP BY outer_q.Brand, outer_q.Type
+    ORDER BY outer_q.Brand, outer_q.Type;
+
+MapReduce Practice Problems
+  Approach to casting a data analytics computation onto the MapReduce API
+    Step 1: Identify the exact data access pattern of the computation over the dataset. Draw it out to see it visually if you like.  
+    Step 2: Identify how to decompose the bulk of the whole computation into a bunch of independent chunk computations on sub-elements (rows/columns/tiles). Typically, scalability along rows is the most preferable because most modern large-scale datasets have large numbers of rows.
+    Step 3: Identify how to aggregate those decomposed parts to get the final result as if it was computed in a single-threaded in-RAM manner. This aggregation step may not always be needed though.
+    Step 4: Align the sharding with Step 2. Put the independent chunk computations in the Mapper. Identify what the Mapper's intermediate output (emit) data structure should be. Put the aggregation in Step 3 and any post processing in the Reducer.
+
+  Question 1
+  Write pseudocode for (or just describe precisely in prose) a MapReduce job to compute the Frobenius norm (aka L2 norm) of a given large matrix. It should be scalable along the number of rows. Make sure to explain your assumption on how the dataset is stored/sharded to begin with.
+  Answer:
+  Input Split: Shard row-wise so that it is scalable along number of rows.
+
+  Need full MR job due to global aggregation for norm, as per 4 steps: 
+    1. Plain total sum of all cells $x^2$; addition order does not matter. 
+    2. Can chunk whole computation into independent ones over rows/shards. 
+    3. Just add up results of independently computed partial sum.
+    4.MapReduce
+      (a) Map(): Given the shard with multiple rows, compute $x^2$ of each cell and add them up into partial sum; emit it with single global dummy key 
+      (b) Reduce(): Iterator with all partial sums; add them all up, take square root of global sum, emit that as final result: L2 norm.
+
+  Question 2
+  Suppose you are given a large dataset with 50 numeric and 9 categorical features (domain size of 50 each). The HDFS file size is 3 TB.
+
+  a) Write pseudocode for (or just describe precisely in prose) MapReduce job(s) to compute this dataset's correlation matrix. Hint: It is OK to do it as 2 separate MapReduce jobs, although 1 suffices.
+    Answer:
+    Suppose we one-hot encode all categorical features into 50-dimensional 0-1 vectors. Then total number of numerics is 50 + 9 x 50 = 500. So, correlation matrix is of size 500 x 500, which is 250,000 cells. Even with float64, it is only 2MB. So, we will use this as our aggregation state for Mappers to send to Reducer.
+    Input Split: Shard row-wise as usual. One approach to compute correlation matrix uses 2 MR jobs: the first to compute the per-feature means and stdevs; and the second to use those to finish the correlation computations. 
+    First Map() reads tuple, converts each categorical feature to its respective one-hot encoded vector to stitch together full 500-dimensional numeric vector, and computes the “sufficient statistics” needed for means and stdevs, viz., running example count and running $(x, x^2)$ for each feature; emit all those suff. stats as one long vector as value with a single global dummy key. 
+    First Reduce() aggregates all suff. stats vectors to emit total example count and 2 vectors: means of all features, stdevs of all features.
+    Second Map() reads tuple, gets the 500-dimensional numeric vector again as before and then emits as suff. stats a 500x500 matrix representing pairwise products for the aggregation needed for the numerator of the Corr matrix formula: 
+    $$Corr(A,B) = \frac{E[(A-\mu_A)(B-\mu_B)]}{\sigma_A \sigma_B}$$
+    Second Reduce() just adds up these individual matrices and divides all cells by total example count and the respective pairs of stdevs obtained from the first MR job.
+
+    Alternative approach:
+    A more advanced approach is to get all the suff. stats, as well as the partial matrices with the pairwise products of columns in one go! Input is still sharded row-wise as before. 
+    Map() converts each categorial feature to one-hot encoding, computes running example count, running sum of $(x, x^2)$ per feature, and running partial matrix of pairwise products of feature values 
+    Reduce() adds up the partial counts, partial matrices, and partial $(x, x^2)$ vectors, respectively, to get all needed global aggregates: count, all means, all stdevs; use formula below to calculate final Corr matrix.
+  
+  b) Briefly explain how you would scale this computation on an on-premise cluster.
+    Answer:
+    Install a Spark cluster; load and shard data as a Spark DataFrame; write Spark-MR job. Note that Dask it NOT a good fit, since 3 TB file may not fit even on single-node disk. 
+
+  c) Briefly explain how you would scale this computation on AWS.
+    Answer:
+    Option 1: Multi-node EC2+EBS cluster with Q2.C's approach. 
+    Option 2: Q2.C's approach, except with EMR. 
+    Option 3: Single-node EC2 running regular Python and remote reads from S3; this will be very slow due to low parallelism.
+
+  Question 3
+  Write pseudocode (or just describe precisely) using MapReduce/Spark operations to perform the following data science operations at scale:
+
+  a) Quadratic (order 2) feature interactions 
+    Answer:
+    For Input Split, assume data is sharded row-wise, as is common.
+    Map-only job suffices. Map() takes feature vector from tuple, performs feature interactions and emits the interacted vector with the same tuple ID.
+
+  b) Binning a numeric feature with given bins 
+    Answer:
+    For Input Split, assume data is sharded row-wise, as is common.
+    Also a Map-only job. Map() takes feature value from tuple, performs binning based on given bins and emits the same tuple with same tuple ID, except this feature value is now different
+
+  c) One-hot encoding of a categorical feature (assume feature's domain has only 5000 unique values and is given) 
+    Answer:
+    For Input Split, assume data is sharded row-wise, as is common.
+    Also a Map-only job. Map() takes feature value from tuple; performs one-hot encoding based on dictionary to map category value to new feature index; obtains the 0-1 representation for that feature (potentially sparse vector); emits same tuple with same tuple ID, except this feature value is now replaced with the 0-1 vector
+
+  d) Whitening a numeric feature 
+    Answer:
+    For Input Split, assume data is sharded row-wise, as is common. 
+    1 MR job + 1 Map-only job: 
+    First Map() takes feature values from tuple; computes suff. stats for mean and stdev as 3-tuple $(1, x, x^2)$; emits this 3-tuple as value with a single global dummy key. 
+    Reduce() iterates over all suff. stats 3-tuples to compute global mean and stdev of this feature; emits that 2-tuple as output. 
+    Second Map() job takes feature value from tuple; whitens its based on (mean, stdev) 2-tuple from prior job; emits same tuple with same tuple ID, except this feature value is now different
+
+  Question 4
+  Suppose you are performing model selection for a RandomForest model. For hyper-parameter tuning, you do grid search with 3 values of number of trees and 4 values of maximum tree height. To aid your interpretability, you also explore 5 different manually created subsets of features apart from the full feature set. What is the total number of models built in this model selection workload? 
+  Answer:
+  Let Total number of modeks built $\equiv TNMB$
+  $$TNMB = (\text{number of trees}) \times (\text{max height values}) \times (\text{number of feature sets}+1)$$
+  $$TNMB = (3) \times (4) \times (5+1)$$
+  $$TNMB = 72 $$
+  
+  Question 5
+  You are given a large training dataset of $(Y,X1,X2)$ examples on HDFS for binary classification (i.e., $Y = 0$ or $1$) with two categorical features $X1$ and $X2$. The domains of the features are known beforehand as $DX1$ and $DX2$ and have only tens of unique values. 
+  Write pseudocode for a single MapReduce job to train a Naive Bayes model. It should be scalable along the number of rows.
+  Make sure to explain your assumption on how the dataset is stored/sharded to begin with. 
+  Hint: Naive Bayes training only needs to estimate the distribution $P(Y)$ and all class-conditional probability distributions $P(Xi|Y)$ using frequency counts.
+  Answer:
+  Using the 4-step method, identify the access pattern over D:  
+  Step 1: Computing frequency counts for a probability distribution is akin to a SQL COUNT. So, that just requires a sequential scan over the dataset. Since DX1 and DX2 are small and Y is binary, the prob. distr. stats are small and can all be batched onto one pass over the dataset. 
+    Table:
+    | D | Y | X1 | X2 |
+    |---|---|----|----|
+    |   |___|____|____|
+    |   |___|____|____|
+    |   |___|____|____|
+    |   |___|____|____|
+  Step 2: All of these are just counts of tuples with predicates applied on the record/tuple's data. So, they are easily decomposed over the n tuples of D. 
+  Step 3: The aggregation for each count is just one big sum over the records/tuples of D. All counts can be calculated collectively in one pass.
+    The counts we need:
+    # tuples
+    # tuples with Y = 0
+    # tuples with Y = 1 For each x1 in Dx1:
+        # tuples with (Y = 0 & X1 = x1) 
+        # tuples with (Y = 1 & X1 = x1)
+    Likewise for X2 as with X1.
+  Step 4: The counts we need:
+    Input Split: Shard table row-wise. 
+    Map(): Calculates all counts per shard by iterating over the records in it; emit a value (no/dummy key) a vector of partial counts of length $1+2+2\cdot|DX1|+2\cdot|DX2|$
+    Reduce(): Get Iterator of all partial counts from Mappers; add them to get global counts; divide respective counts to get resp. prob. distr. entries, e.g., $P[Y=1] = \frac{(\text{number of tuples with} Y=1)}{\text{number of tuples}}$, etc.
+    # tuples
+    # tuples with Y = 0
+    # tuples with Y = 1
+    For each x1 in Dx1:
+        # tuples with (Y = 0 & X1 = x1)
+        # tuples with (Y = 1 & X1 = x1)
+    Likewise for X2 as with X1. 
+
+important concepts for exam
+  1. SQL. We will describe a few tasks and ask you to write SQL queries. (We have multiple questions on this topic.)
+  2. Understand Task parallelism/flow diagram/BSP.
+  3. Given a task, describe the MapReduce functions in pseudocode or plain english
+  4. Apply major RDBMS features to speed up queries.
+  5. Explain the basics of semi-structured, key-value, and graph-structured DBMSs and querying.
+  6. Explain the basics of cluster and cloud computing and principles of parallel and scalable data processing.
+  7. Apply SQL and MapReduce/Spark to perform data transformations, feature engineering, and ML model building for large-scale analytics.
+  8. Evaluate tradeoffs in data science pipelines in terms of scalability, efficiency, and accuracy.
+  9. Explain major data quality issues in data science pipelines and how to handle them.
+  10. Evaluate tradeoffs in data science pipelines in terms of accuracy, automation, and fairness.
+  11.  The final exam is cumulative but proportionally more weightage is given to the post-midterm content. 
+  some important concepts I hope you review before the exam.
+  12. Understand how MapReduce impacts time complexity and know how to calculate time complexity
+  
+exam details
+  1. It is worth 150 points 
+  2. (+ 10 points extra credit) 
+  3. 30\% of your final grade. 
+  4. The exam includes 30 multiple choice and T/F questions similar to the quizzes you have taken so far. 
+  5. 4 multi-part questions, including short answers and calculations (15pts, 15pts, 20pts, and 40pts). 
+    a) You can earn partial credit for your answers on the long-form questions. 
+    b) one multi-part question is write sql queries 
+    c) one multi-part question is on task parallelism
+    d) one multi-part question is on data parallelism
+    e) one multi-part question is on writing pseudocode/plain english for MapReduce and calculate how using MapReduce impacts time complexity
+  6. You will also be able to answer 1 multi-part question for extra credit (10pts) in the end.

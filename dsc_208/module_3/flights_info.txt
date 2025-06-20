@@ -1,0 +1,70 @@
+         List of relations
+ Schema |   Name   | Type  | Owner  
+--------+----------+-------+--------
+ public | carriers | table | scotty
+ public | flights  | table | scotty
+ public | months   | table | scotty
+ public | weekdays | table | scotty
+(4 rows)
+
+                     Table "public.carriers"
+ Column |         Type          | Collation | Nullable | Default 
+--------+-----------------------+-----------+----------+---------
+ cid    | character varying(7)  |           | not null | 
+ name   | character varying(83) |           |          | 
+Indexes:
+    "carriers_pkey" PRIMARY KEY, btree (cid)
+Referenced by:
+    TABLE "flights" CONSTRAINT "flights_carrier_id_fkey" FOREIGN KEY (carrier_id) REFERENCES carriers(cid)
+
+                          Table "public.flights"
+     Column      |         Type          | Collation | Nullable | Default 
+-----------------+-----------------------+-----------+----------+---------
+ fid             | integer               |           | not null | 
+ month_id        | integer               |           |          | 
+ day_of_month    | integer               |           |          | 
+ day_of_week_id  | integer               |           |          | 
+ carrier_id      | character varying(7)  |           |          | 
+ flight_num      | integer               |           |          | 
+ origin_city     | character varying(34) |           |          | 
+ origin_state    | character varying(47) |           |          | 
+ dest_city       | character varying(34) |           |          | 
+ dest_state      | character varying(46) |           |          | 
+ departure_delay | integer               |           |          | 
+ taxi_out        | integer               |           |          | 
+ arrival_delay   | integer               |           |          | 
+ canceled        | integer               |           |          | 
+ actual_time     | integer               |           |          | 
+ distance        | integer               |           |          | 
+ capacity        | integer               |           |          | 
+ price           | integer               |           |          | 
+Indexes:
+    "flights_pkey" PRIMARY KEY, btree (fid)
+    "flights_idx1" btree (origin_city, dest_city, actual_time)
+    "flights_idx2" btree (actual_time)
+    "flights_idx3" btree (dest_city, origin_city, actual_time)
+Foreign-key constraints:
+    "flights_carrier_id_fkey" FOREIGN KEY (carrier_id) REFERENCES carriers(cid)
+    "flights_day_of_week_id_fkey" FOREIGN KEY (day_of_week_id) REFERENCES weekdays(did)
+    "flights_month_id_fkey" FOREIGN KEY (month_id) REFERENCES months(mid)
+
+                     Table "public.months"
+ Column |         Type         | Collation | Nullable | Default 
+--------+----------------------+-----------+----------+---------
+ mid    | integer              |           | not null | 
+ month  | character varying(9) |           |          | 
+Indexes:
+    "months_pkey" PRIMARY KEY, btree (mid)
+Referenced by:
+    TABLE "flights" CONSTRAINT "flights_month_id_fkey" FOREIGN KEY (month_id) REFERENCES months(mid)
+
+                       Table "public.weekdays"
+   Column    |         Type         | Collation | Nullable | Default 
+-------------+----------------------+-----------+----------+---------
+ did         | integer              |           | not null | 
+ day_of_week | character varying(9) |           |          | 
+Indexes:
+    "weekdays_pkey" PRIMARY KEY, btree (did)
+Referenced by:
+    TABLE "flights" CONSTRAINT "flights_day_of_week_id_fkey" FOREIGN KEY (day_of_week_id) REFERENCES weekdays(did)
+

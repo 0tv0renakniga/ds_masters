@@ -1,0 +1,371 @@
+Question 1
+which of these structured data models has no logical ordering among data entries
+-a) relation
+b) Dataframe
+c) None of these
+d) Matrix
+Answer: a) relation
+
+Question 2
+Which file format is fast gaining popularity for storing structured data?
+a) Spark
+b) Ajax
+c) Parquet
+d) Arrow
+Answer: c)Parquet
+
+Question 3
+Which of the following is NOT a key reason why the data sourceing stage of the ML lifecycle is often so challenging
+a) Datasets can be messy and error-ridden
+b) Many differnt data file formats and modalities
+c) ML models oftern have many hyper-parameters
+d) Scale of data makes it harder to move around
+Answer: c) ML models oftern have many hyper-parameters
+
+Question 4
+Select result on this query
+SELECT Score1, Score2
+FROM Scores
+Scores table
+Score1,Score2
+5,3
+2,6
+7,1
+8,0
+6,2
+4,5
+a) 4|5
+b) 12|8
+c) 8|2
+d) 7|3
+Answer: a) 4|5
+
+Question 5
+Physical data independence means that the relations in databases should be physically independent of each other
+a) True
+b) False
+Answer: False
+
+
+Question 6
+Relation R(A,B)
+    | A | B |
+    |---|---|
+    | 1 | 2 |
+    | 3 | 4 |
+    | 5 | 6 |
+
+ relation S(B,C,D):
+
+    | B | C | D |
+    |---|---|---|
+    | 2 | 4 | 6 |
+    | 4 | 6 | 8 |
+    | 4 | 7 | 9 |
+What is the result of the following query?
+SELECT A, R.B,C,D
+FROM R,s
+WHERE R.B=S.B
+a) (3,4,6,8)
+b) (5,6,7,8)
+c) (3,4,2,6)
+d) (5,6,4,6)
+Answer: a) (3,4,6,8)
+
+Question 7
+We have a relation R(A,B,C,D)
+and a query:
+SELECT ...
+FROM R 
+WHERE ...
+GROUP BY B,E
+HAVING ???
+What term can appear in the having condition represented by ??? in the above query? Identify in the list below the term that CAN NOT appear
+a) B
+b) E
+c) MAX(C)
+d) D
+Answer: D
+
+Question 8
+If the attribute K of a relation is a foreign key, then no two tuples in the relation can have the same value of K
+a) True
+b) False
+Answer: b) False
+
+
+Question 9
+if X \cup Y is a super key then X is also a superkey
+a) True
+b) False
+Answer: b) False
+
+Question 10
+Given the relation R(A,B,C)
+relation  R(A,B,C):
+| A | B | C |
+|---|---|---|
+| 1 | 2 | 3 |
+| 1 | 2 | 3 |
+| 2 | 3 | 1 |
+| 3 | 1 | 2 |
+| 2 | 2 | 3 |
+| 2 | 3 | 3 |
+
+Using a bag projection and intersection Compute: $\pi A,B(R) \wedge \roh S(A,B)(\piB,C(R))$
+Note the renaming is only to give the two projects the same schema
+Which is true about the tuples that appear in the result?
+a) (2,3) appears once in the result
+b) (3,1) appears twice in the result
+c) (3,1) appears once in the result
+d) (3,3) appears once in the result
+Answer: c) (3,1) appears once in the result
+
+Question 11
+Consider relations R(A,B) and S(B,C). The number of tuples in $\piB,C(R\bowtie S)$ can be more than the number of tuples in S
+a) False
+b) True
+Answer: b) True
+
+
+Question 12
+Given the relation R(A,B,C)
+relation  R(A,B,C):
+| A | B | C |
+|---|---|---|
+| 0 | 1 | 2 |
+| 0 | 1 | 3 |
+| 4 | 5 | 6 |
+| 4 | 6 | 3 |
+Compute the bag union of the following three expansions, each of which is the bag projection of a grouping ($\gamma$) operation
+$\pi_{X}(Y_{A,B, MAX(C)\to X}(R))$
+$\pi_{X}(Y_{B, SUM(C)\to X}(R))$
+$\pi_{X}(Y_{A,MIN(C)\to X}(R))$
+Demonstrate that you have computed this bag correctly by identifying from the list below, the correct count of occurances for one of the elements
+a) 3 appears exactly twice
+b) 3 appears exactly three times
+c) 1 appears exactly twice
+d) 6 appears exactly once
+Answer: a) 3 appears exactly twice
+
+**Question 4 from Quiz 3
+idk why i got it wrong?? ti was b) on the quiz??
+
+Question 13
+| RatingID | Stars | UserID | MovieID |
+|----------|-------|--------|---------|
+| 1        | 4.0   | 79     | 42      |
+| 2        | 3.0   | 80     | 20      |
+| 3        | 4.0   | 79     | 53      |
+| 4        | 2.0   | 123    | 42      |
+| 5        | 5.0   | 32     | 20      |
+What is selectivity of the following query when applied to the Ratings table above?
+SELECT UserID,COUNT(*)
+FROM Ratings
+GROUP BY USERID
+a) None of the rest
+b) 4
+c) 3
+d) 5
+Answer: b) 4
+
+Question 14
+Consider the following query on the ratings relation in the netflix database discussed in clss which of the indexes listed afterward is likey to help speed up this query?
+SELECT AVG(Stars)
+FROM Ratings 
+WHERE MovieID = 20
+a) Hash index on (Stars, MovieID)
+b) B+ tree index on (Stars)
+c) Hash index on (MovieID)
+d) B+ tree index on (Stars, MovieID)
+Answer: c) Hash index on (MovieID)
+
+Question 15
+Consider the relation schema Customers(\underline{CustomerID}, Name, Age, Zipcode,SSN). with the primarry key CustomerID and alternative key SSN. Which of the following indexes is NOT a unique index?
+a) B+ tree index on (SSN, Name)
+b) B+ tree index on (Age, CustomerID)
+c) Hash index on (CustomerID)
+d) B+ tree index on (Name, Age)
+Answer: a) B+ tree index on (Name,Age)
+
+Question 16
+What is the name for the basic form of an XQuery expression
+a) FWLR
+b) LWFR
+c) WFLR
+d) FLWR
+Answer: d) FLWR
+
+Question 17
+Whick key capability of key-value stores sets them apart from parallel RDBMSs
+a) higher availability
+b) all three
+c) higher scalability
+d) eventual consistency
+Answer: b) all three
+
+Question 18
+Which of programming lanuage was JSON first associated with
+a) SQL
+b) JAVA
+c) Python
+d) JavaScript
+Answer: d) JavaScript
+
+Question 19
+which of the following is typically considered SaaS in could jargon
+a) EBS
+b) EC2
+c) SageMaker
+d) S3
+Answer: c) SageMaker
+
+Question 20
+Which of the following is NOT a major con of using NFS(vs. HDFS)
+a) more difficult to set up and use
+b) higher concentration for concurrent read
+c) not as scaleable to very large files
+d) none of these three
+Answer: a) more difficult to set up and use
+
+Question 21
+which of the following is considered FaaS
+a) Lambda
+b) Theta
+c) Omega
+d) Kappa
+Answer: a) Lambda
+
+Question 22
+which of the following systems capabilities was not a primary differentiating motivation for MapReduce/Hadoop (vs parallel RDBMSs)
+a) Developability
+b) Fault Tolerance
+c) Query Optimization
+d) elasticity
+Answer: Query Optimization
+
+Question 23
+what was the major motivating workload that led to the development of MapReduce?
+a) SQL analytics for bussiness intelligence
+b) Matrix arithmetic for machine learning
+c) video stream for surveillance
+d) inverted indexing for web search
+Answer: d) Inverted indexing for web search
+
+Question 24
+which relational operator's implementation in parallel RDBMS is most similar to the implementation of MapReduce
+a) Group By
+b) Intersection
+c) Set Difference
+d) Cross product
+Answer: a) Group By
+
+Question 25
+Which of the following is a self-supervised feature engineering method that converts a text string column to a numeric feature
+a) embedding
+b) none of these
+c) one-hot encoding
+d) bag of words
+Answer: a) embedding
+
+Question 26
+what type of ML model is the ML system XGBoost specifically designed for
+a) deep learning with boosting
+b) boosted bayesian networks
+c) gradient boosted decision trees
+d) none of these
+Answer: c) gradient boosted decision trees
+
+Question 27
+which of the following is a common reason why the model building stage of th eML lifecylce become challenging in practice
+a) large scale of training sets
+b) all three
+c) long training run times
+d) hetrogeneity of data sources and formats
+Answer: b) all three
+
+Question 28
+what is main goal of outlier detection
+a) to id data points that have missing values
+b) to id data points that are considerably different than rest of data
+c) to id points that are duplicated
+d) to id points that are not consistent with the rest of the data
+Answer: b) to id data points that are considerably different than rest of data
+
+Question 29
+which of the following is not a major stage of the data cleaning stage
+a) error detection
+b) none of these
+c) noise cancelation
+d) data repair
+Answer: c) noise cancelation
+
+Question 30
+which method of handeling missing data can introduce bias into the analysis
+a) using machine learning algorithms for imputation
+b) dropping the tuples with missing values
+c) imputing the mean or median
+d) creating missingness indicator variable
+Answer: b) dropping the tuples with missing values
+
+Short Answer Question 1
+underlined is the key of the releation in the schema below:
+Student (\underline{sid}, name, zip)
+Takes (sid,cid,year)
+Course(\underline{cid}, title dept)
+Intern (sid,companyName)
+Takes.sid and Intern.sid are foreign keys to Student while Takes.cid is a foregin key to Course
+
+a) if two student took the same course in the same year then  we call them \textit{pals}.Write a SQL query that computed, for each student, the number of his/hers \textit{pals} your query should return indicating thier StudentID(sid) and name, and the number of thier pals, ordered lexicorgraphically by thier names.(hint those students who never took any course have zero \textit{pals}; you need to return these too.Students who took at least one course have at least one pal; you should not exclude himself/herself when you count the number of \textit{pals})
+b) write a query to find the names of all students who have taken a course in the 'Math' department
+c) write a query to find the names of all students who have taken courses in the 'CSE' and 'Data Science' department
+
+Short Answer Question 2
+write the equlivant SQL query to the following relational algebra query
+Step1: $\gamma_{p1,MAX(y)}\rightarrow z$ goes to $\pi_{p1,y}$ 
+Step2: $\pi_{p1,y}$ goes to $\gamma_{p1,p3,count(*)\rightarrow y}$
+Step3: $\gamma_{p1,p3,count(*)\rightarrow y}$ goes to $\bowtie_{p2=p3}$
+Step4(a): $\bowtie_{p2=p3}$ goes to $\bowtie_{x=p1}$
+Step5(a): $\bowtie_{x=p1}$ goes to $person\_living(x)$
+Step5(b): $\bowtie_{x=p1}$ goes to $parent\_child(p1,p2)$
+Step4(b): $\bowtie_{p2=p3}$ goes to $\roh_{p3,p4}$
+Step5(c): $\roh_{p3,p4}$ goes to $parent\_child(p1,p2)$
+
+
+Short Answer Question 3
+suppose you need to run the following ML classification workflow; try two alternative feature engineering approaches; on each feature set try both a Naive Bayes Model and a random forest model. For the random forest try two different hyper parameter combinationsa each.
+
+the task runtimes are known: 20 and 40 units for the feature engineering approaches; 12 units each to build every Naibve Bayes model and 80 units each to buid every random forest model, reguardless of the feature set or hyperparameter combination
+
+a) draw the task graph for this whole workflow. make sure to identify/label every task clearly
+b) what is the lowest possible completion time for this workload with fully task-parallel execution? how many worker machine are necessary to hit that runtime
+c) suppose you run each task with BSP parallelism instead, one after the another, on a cluster with 4 workers and 1 maneger machine.BSP gives linear speed up on this cluster for every task but adds 4 units of maneger overhead per task. What is total runtime now?
+d) suppose BSP keeps giving linear speedup on n workers what is the lowest value of n which BSP becomes faster than fully task-parallel execution of the above workload?
+
+
+Short Answer Question 4
+You are given a large training dataset with schema $D(Y,X_1,X_2,...,X_d)$
+The target Y and each feature are given as boolean, each represented as 0 or 1 with a 1-byte short integer data type
+The number of examples is $n$. The number of features is $d$ and is only in the few hundreds
+
+There is no missing data. The dataset is stored in row major format and is uniformly sharded row-wise(no compression) on
+a HDFS cluster with k worker machines and does not use any replication.
+
+Devise a single MapReduce job to rnak all features based on thier conditional entropy with the target. 
+It must be scalable along the number of examples. 
+
+Given feature $X$ and and target $Y$, thier conditional entropy, denoted $H(X|Y)$ is defined as:
+$$H(Y|X) = sum_{x\in \{0,1\}} sum_{y\in \{0,1\}}p(x|Y) log_2 (\frac{p(x|Y)}{y_i|X_i})$$
+
+a) write donw the map function of the single MapReduce job. 
+b) write down the reduce function of the single MapReduce job.
+c) What is the most accurate time complexity of the Map stage on a whole shared in terms of $n$, $d$, and $k$
+d) what is the expression for the minmum number of sufficent statistics emitted by each Map process in terms of $n$, $d$, and $k$
+    Hint: note that the count-of-false of a boolean variable can be obtained by deducting the cound of true from the total record.
+e) what is the most accurate time complexity of the REduce stage in terms of $n$, $d$, and $k$
+f) what is the most accurate space complexity of the state of information emmitted by the Reduce process in terms of $n$, $d$, and $k$
+
+
+Short Answer Question 5
+you are given a matrix $A$ represented as a relation with one tuple per cell in the following schema:
+$A(row, col, value)$. Write a SQL query (SELECT...) to compute the matrix outer product $AAT$. write each clause in a new line

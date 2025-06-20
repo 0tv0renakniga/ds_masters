@@ -1,0 +1,3477 @@
+            List of relations
+ Schema |      Name      | Type  | Owner  
+--------+----------------+-------+--------
+ public | actor          | table | scotty
+ public | album          | table | scotty
+ public | artist         | table | scotty
+ public | category       | table | scotty
+ public | customer       | table | scotty
+ public | employee       | table | scotty
+ public | film           | table | scotty
+ public | film_actor     | table | scotty
+ public | film_category  | table | scotty
+ public | genre          | table | scotty
+ public | invoice        | table | scotty
+ public | invoice_line   | table | scotty
+ public | media_type     | table | scotty
+ public | playlist       | table | scotty
+ public | playlist_track | table | scotty
+ public | track          | table | scotty
+(16 rows)
+
+               Table "pg_catalog.pg_aggregate"
+      Column      |   Type   | Collation | Nullable | Default 
+------------------+----------+-----------+----------+---------
+ aggfnoid         | regproc  |           | not null | 
+ aggkind          | "char"   |           | not null | 
+ aggnumdirectargs | smallint |           | not null | 
+ aggtransfn       | regproc  |           | not null | 
+ aggfinalfn       | regproc  |           | not null | 
+ aggcombinefn     | regproc  |           | not null | 
+ aggserialfn      | regproc  |           | not null | 
+ aggdeserialfn    | regproc  |           | not null | 
+ aggmtransfn      | regproc  |           | not null | 
+ aggminvtransfn   | regproc  |           | not null | 
+ aggmfinalfn      | regproc  |           | not null | 
+ aggfinalextra    | boolean  |           | not null | 
+ aggmfinalextra   | boolean  |           | not null | 
+ aggfinalmodify   | "char"   |           | not null | 
+ aggmfinalmodify  | "char"   |           | not null | 
+ aggsortop        | oid      |           | not null | 
+ aggtranstype     | oid      |           | not null | 
+ aggtransspace    | integer  |           | not null | 
+ aggmtranstype    | oid      |           | not null | 
+ aggmtransspace   | integer  |           | not null | 
+ agginitval       | text     | C         |          | 
+ aggminitval      | text     | C         |          | 
+Indexes:
+    "pg_aggregate_fnoid_index" PRIMARY KEY, btree (aggfnoid)
+
+Index "pg_catalog.pg_aggregate_fnoid_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ aggfnoid | regproc | yes  | aggfnoid
+primary key, btree, for table "pg_catalog.pg_aggregate"
+
+               Table "pg_catalog.pg_am"
+  Column   |  Type   | Collation | Nullable | Default 
+-----------+---------+-----------+----------+---------
+ oid       | oid     |           | not null | 
+ amname    | name    |           | not null | 
+ amhandler | regproc |           | not null | 
+ amtype    | "char"  |           | not null | 
+Indexes:
+    "pg_am_oid_index" PRIMARY KEY, btree (oid)
+    "pg_am_name_index" UNIQUE CONSTRAINT, btree (amname)
+
+ Index "pg_catalog.pg_am_name_index"
+ Column |  Type   | Key? | Definition 
+--------+---------+------+------------
+ amname | cstring | yes  | amname
+unique, btree, for table "pg_catalog.pg_am"
+
+Index "pg_catalog.pg_am_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_am"
+
+                 Table "pg_catalog.pg_amop"
+     Column     |   Type   | Collation | Nullable | Default 
+----------------+----------+-----------+----------+---------
+ oid            | oid      |           | not null | 
+ amopfamily     | oid      |           | not null | 
+ amoplefttype   | oid      |           | not null | 
+ amoprighttype  | oid      |           | not null | 
+ amopstrategy   | smallint |           | not null | 
+ amoppurpose    | "char"   |           | not null | 
+ amopopr        | oid      |           | not null | 
+ amopmethod     | oid      |           | not null | 
+ amopsortfamily | oid      |           | not null | 
+Indexes:
+    "pg_amop_oid_index" PRIMARY KEY, btree (oid)
+    "pg_amop_fam_strat_index" UNIQUE CONSTRAINT, btree (amopfamily, amoplefttype, amoprighttype, amopstrategy)
+    "pg_amop_opr_fam_index" UNIQUE CONSTRAINT, btree (amopopr, amoppurpose, amopfamily)
+
+   Index "pg_catalog.pg_amop_fam_strat_index"
+    Column     |   Type   | Key? |  Definition   
+---------------+----------+------+---------------
+ amopfamily    | oid      | yes  | amopfamily
+ amoplefttype  | oid      | yes  | amoplefttype
+ amoprighttype | oid      | yes  | amoprighttype
+ amopstrategy  | smallint | yes  | amopstrategy
+unique, btree, for table "pg_catalog.pg_amop"
+
+Index "pg_catalog.pg_amop_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_amop"
+
+ Index "pg_catalog.pg_amop_opr_fam_index"
+   Column    |  Type  | Key? | Definition  
+-------------+--------+------+-------------
+ amopopr     | oid    | yes  | amopopr
+ amoppurpose | "char" | yes  | amoppurpose
+ amopfamily  | oid    | yes  | amopfamily
+unique, btree, for table "pg_catalog.pg_amop"
+
+                Table "pg_catalog.pg_amproc"
+     Column      |   Type   | Collation | Nullable | Default 
+-----------------+----------+-----------+----------+---------
+ oid             | oid      |           | not null | 
+ amprocfamily    | oid      |           | not null | 
+ amproclefttype  | oid      |           | not null | 
+ amprocrighttype | oid      |           | not null | 
+ amprocnum       | smallint |           | not null | 
+ amproc          | regproc  |           | not null | 
+Indexes:
+    "pg_amproc_oid_index" PRIMARY KEY, btree (oid)
+    "pg_amproc_fam_proc_index" UNIQUE CONSTRAINT, btree (amprocfamily, amproclefttype, amprocrighttype, amprocnum)
+
+     Index "pg_catalog.pg_amproc_fam_proc_index"
+     Column      |   Type   | Key? |   Definition    
+-----------------+----------+------+-----------------
+ amprocfamily    | oid      | yes  | amprocfamily
+ amproclefttype  | oid      | yes  | amproclefttype
+ amprocrighttype | oid      | yes  | amprocrighttype
+ amprocnum       | smallint | yes  | amprocnum
+unique, btree, for table "pg_catalog.pg_amproc"
+
+Index "pg_catalog.pg_amproc_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_amproc"
+
+              Table "pg_catalog.pg_attrdef"
+ Column  |     Type     | Collation | Nullable | Default 
+---------+--------------+-----------+----------+---------
+ oid     | oid          |           | not null | 
+ adrelid | oid          |           | not null | 
+ adnum   | smallint     |           | not null | 
+ adbin   | pg_node_tree | C         | not null | 
+Indexes:
+    "pg_attrdef_oid_index" PRIMARY KEY, btree (oid)
+    "pg_attrdef_adrelid_adnum_index" UNIQUE CONSTRAINT, btree (adrelid, adnum)
+
+Index "pg_catalog.pg_attrdef_adrelid_adnum_index"
+ Column  |   Type   | Key? | Definition 
+---------+----------+------+------------
+ adrelid | oid      | yes  | adrelid
+ adnum   | smallint | yes  | adnum
+unique, btree, for table "pg_catalog.pg_attrdef"
+
+Index "pg_catalog.pg_attrdef_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_attrdef"
+
+               Table "pg_catalog.pg_attribute"
+     Column     |   Type    | Collation | Nullable | Default 
+----------------+-----------+-----------+----------+---------
+ attrelid       | oid       |           | not null | 
+ attname        | name      |           | not null | 
+ atttypid       | oid       |           | not null | 
+ attlen         | smallint  |           | not null | 
+ attnum         | smallint  |           | not null | 
+ attcacheoff    | integer   |           | not null | 
+ atttypmod      | integer   |           | not null | 
+ attndims       | smallint  |           | not null | 
+ attbyval       | boolean   |           | not null | 
+ attalign       | "char"    |           | not null | 
+ attstorage     | "char"    |           | not null | 
+ attcompression | "char"    |           | not null | 
+ attnotnull     | boolean   |           | not null | 
+ atthasdef      | boolean   |           | not null | 
+ atthasmissing  | boolean   |           | not null | 
+ attidentity    | "char"    |           | not null | 
+ attgenerated   | "char"    |           | not null | 
+ attisdropped   | boolean   |           | not null | 
+ attislocal     | boolean   |           | not null | 
+ attinhcount    | smallint  |           | not null | 
+ attstattarget  | smallint  |           | not null | 
+ attcollation   | oid       |           | not null | 
+ attacl         | aclitem[] |           |          | 
+ attoptions     | text[]    | C         |          | 
+ attfdwoptions  | text[]    | C         |          | 
+ attmissingval  | anyarray  |           |          | 
+Indexes:
+    "pg_attribute_relid_attnum_index" PRIMARY KEY, btree (attrelid, attnum)
+    "pg_attribute_relid_attnam_index" UNIQUE CONSTRAINT, btree (attrelid, attname)
+
+Index "pg_catalog.pg_attribute_relid_attnam_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ attrelid | oid     | yes  | attrelid
+ attname  | cstring | yes  | attname
+unique, btree, for table "pg_catalog.pg_attribute"
+
+Index "pg_catalog.pg_attribute_relid_attnum_index"
+  Column  |   Type   | Key? | Definition 
+----------+----------+------+------------
+ attrelid | oid      | yes  | attrelid
+ attnum   | smallint | yes  | attnum
+primary key, btree, for table "pg_catalog.pg_attribute"
+
+            Table "pg_catalog.pg_auth_members"
+     Column     |  Type   | Collation | Nullable | Default 
+----------------+---------+-----------+----------+---------
+ oid            | oid     |           | not null | 
+ roleid         | oid     |           | not null | 
+ member         | oid     |           | not null | 
+ grantor        | oid     |           | not null | 
+ admin_option   | boolean |           | not null | 
+ inherit_option | boolean |           | not null | 
+ set_option     | boolean |           | not null | 
+Indexes:
+    "pg_auth_members_oid_index" PRIMARY KEY, btree (oid), tablespace "pg_global"
+    "pg_auth_members_grantor_index" btree (grantor), tablespace "pg_global"
+    "pg_auth_members_member_role_index" UNIQUE CONSTRAINT, btree (member, roleid, grantor), tablespace "pg_global"
+    "pg_auth_members_role_member_index" UNIQUE CONSTRAINT, btree (roleid, member, grantor), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_auth_members_grantor_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ grantor | oid  | yes  | grantor
+btree, for table "pg_catalog.pg_auth_members"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_auth_members_member_role_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ member  | oid  | yes  | member
+ roleid  | oid  | yes  | roleid
+ grantor | oid  | yes  | grantor
+unique, btree, for table "pg_catalog.pg_auth_members"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_auth_members_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_auth_members"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_auth_members_role_member_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ roleid  | oid  | yes  | roleid
+ member  | oid  | yes  | member
+ grantor | oid  | yes  | grantor
+unique, btree, for table "pg_catalog.pg_auth_members"
+Tablespace: "pg_global"
+
+                        Table "pg_catalog.pg_authid"
+     Column     |           Type           | Collation | Nullable | Default 
+----------------+--------------------------+-----------+----------+---------
+ oid            | oid                      |           | not null | 
+ rolname        | name                     |           | not null | 
+ rolsuper       | boolean                  |           | not null | 
+ rolinherit     | boolean                  |           | not null | 
+ rolcreaterole  | boolean                  |           | not null | 
+ rolcreatedb    | boolean                  |           | not null | 
+ rolcanlogin    | boolean                  |           | not null | 
+ rolreplication | boolean                  |           | not null | 
+ rolbypassrls   | boolean                  |           | not null | 
+ rolconnlimit   | integer                  |           | not null | 
+ rolpassword    | text                     | C         |          | 
+ rolvaliduntil  | timestamp with time zone |           |          | 
+Indexes:
+    "pg_authid_oid_index" PRIMARY KEY, btree (oid), tablespace "pg_global"
+    "pg_authid_rolname_index" UNIQUE CONSTRAINT, btree (rolname), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_authid_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_authid"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_authid_rolname_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ rolname | cstring | yes  | rolname
+unique, btree, for table "pg_catalog.pg_authid"
+Tablespace: "pg_global"
+
+   View "pg_catalog.pg_available_extension_versions"
+   Column    |  Type   | Collation | Nullable | Default 
+-------------+---------+-----------+----------+---------
+ name        | name    |           |          | 
+ version     | text    |           |          | 
+ installed   | boolean |           |          | 
+ superuser   | boolean |           |          | 
+ trusted     | boolean |           |          | 
+ relocatable | boolean |           |          | 
+ schema      | name    |           |          | 
+ requires    | name[]  |           |          | 
+ comment     | text    |           |          | 
+
+         View "pg_catalog.pg_available_extensions"
+      Column       | Type | Collation | Nullable | Default 
+-------------------+------+-----------+----------+---------
+ name              | name |           |          | 
+ default_version   | text |           |          | 
+ installed_version | text | C         |          | 
+ comment           | text |           |          | 
+
+       View "pg_catalog.pg_backend_memory_contexts"
+    Column     |  Type   | Collation | Nullable | Default 
+---------------+---------+-----------+----------+---------
+ name          | text    |           |          | 
+ ident         | text    |           |          | 
+ parent        | text    |           |          | 
+ level         | integer |           |          | 
+ total_bytes   | bigint  |           |          | 
+ total_nblocks | bigint  |           |          | 
+ free_bytes    | bigint  |           |          | 
+ free_chunks   | bigint  |           |          | 
+ used_bytes    | bigint  |           |          | 
+
+              Table "pg_catalog.pg_cast"
+   Column    |  Type  | Collation | Nullable | Default 
+-------------+--------+-----------+----------+---------
+ oid         | oid    |           | not null | 
+ castsource  | oid    |           | not null | 
+ casttarget  | oid    |           | not null | 
+ castfunc    | oid    |           | not null | 
+ castcontext | "char" |           | not null | 
+ castmethod  | "char" |           | not null | 
+Indexes:
+    "pg_cast_oid_index" PRIMARY KEY, btree (oid)
+    "pg_cast_source_target_index" UNIQUE CONSTRAINT, btree (castsource, casttarget)
+
+Index "pg_catalog.pg_cast_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_cast"
+
+Index "pg_catalog.pg_cast_source_target_index"
+   Column   | Type | Key? | Definition 
+------------+------+------+------------
+ castsource | oid  | yes  | castsource
+ casttarget | oid  | yes  | casttarget
+unique, btree, for table "pg_catalog.pg_cast"
+
+                     Table "pg_catalog.pg_class"
+       Column        |     Type     | Collation | Nullable | Default 
+---------------------+--------------+-----------+----------+---------
+ oid                 | oid          |           | not null | 
+ relname             | name         |           | not null | 
+ relnamespace        | oid          |           | not null | 
+ reltype             | oid          |           | not null | 
+ reloftype           | oid          |           | not null | 
+ relowner            | oid          |           | not null | 
+ relam               | oid          |           | not null | 
+ relfilenode         | oid          |           | not null | 
+ reltablespace       | oid          |           | not null | 
+ relpages            | integer      |           | not null | 
+ reltuples           | real         |           | not null | 
+ relallvisible       | integer      |           | not null | 
+ reltoastrelid       | oid          |           | not null | 
+ relhasindex         | boolean      |           | not null | 
+ relisshared         | boolean      |           | not null | 
+ relpersistence      | "char"       |           | not null | 
+ relkind             | "char"       |           | not null | 
+ relnatts            | smallint     |           | not null | 
+ relchecks           | smallint     |           | not null | 
+ relhasrules         | boolean      |           | not null | 
+ relhastriggers      | boolean      |           | not null | 
+ relhassubclass      | boolean      |           | not null | 
+ relrowsecurity      | boolean      |           | not null | 
+ relforcerowsecurity | boolean      |           | not null | 
+ relispopulated      | boolean      |           | not null | 
+ relreplident        | "char"       |           | not null | 
+ relispartition      | boolean      |           | not null | 
+ relrewrite          | oid          |           | not null | 
+ relfrozenxid        | xid          |           | not null | 
+ relminmxid          | xid          |           | not null | 
+ relacl              | aclitem[]    |           |          | 
+ reloptions          | text[]       | C         |          | 
+ relpartbound        | pg_node_tree | C         |          | 
+Indexes:
+    "pg_class_oid_index" PRIMARY KEY, btree (oid)
+    "pg_class_relname_nsp_index" UNIQUE CONSTRAINT, btree (relname, relnamespace)
+    "pg_class_tblspc_relfilenode_index" btree (reltablespace, relfilenode)
+
+Index "pg_catalog.pg_class_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_class"
+
+Index "pg_catalog.pg_class_relname_nsp_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ relname      | cstring | yes  | relname
+ relnamespace | oid     | yes  | relnamespace
+unique, btree, for table "pg_catalog.pg_class"
+
+Index "pg_catalog.pg_class_tblspc_relfilenode_index"
+    Column     | Type | Key? |  Definition   
+---------------+------+------+---------------
+ reltablespace | oid  | yes  | reltablespace
+ relfilenode   | oid  | yes  | relfilenode
+btree, for table "pg_catalog.pg_class"
+
+                Table "pg_catalog.pg_collation"
+       Column        |  Type   | Collation | Nullable | Default 
+---------------------+---------+-----------+----------+---------
+ oid                 | oid     |           | not null | 
+ collname            | name    |           | not null | 
+ collnamespace       | oid     |           | not null | 
+ collowner           | oid     |           | not null | 
+ collprovider        | "char"  |           | not null | 
+ collisdeterministic | boolean |           | not null | 
+ collencoding        | integer |           | not null | 
+ collcollate         | text    | C         |          | 
+ collctype           | text    | C         |          | 
+ colliculocale       | text    | C         |          | 
+ collicurules        | text    | C         |          | 
+ collversion         | text    | C         |          | 
+Indexes:
+    "pg_collation_oid_index" PRIMARY KEY, btree (oid)
+    "pg_collation_name_enc_nsp_index" UNIQUE CONSTRAINT, btree (collname, collencoding, collnamespace)
+
+Index "pg_catalog.pg_collation_name_enc_nsp_index"
+    Column     |  Type   | Key? |  Definition   
+---------------+---------+------+---------------
+ collname      | cstring | yes  | collname
+ collencoding  | integer | yes  | collencoding
+ collnamespace | oid     | yes  | collnamespace
+unique, btree, for table "pg_catalog.pg_collation"
+
+Index "pg_catalog.pg_collation_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_collation"
+
+           View "pg_catalog.pg_config"
+ Column  | Type | Collation | Nullable | Default 
+---------+------+-----------+----------+---------
+ name    | text |           |          | 
+ setting | text |           |          | 
+
+                Table "pg_catalog.pg_constraint"
+     Column     |     Type     | Collation | Nullable | Default 
+----------------+--------------+-----------+----------+---------
+ oid            | oid          |           | not null | 
+ conname        | name         |           | not null | 
+ connamespace   | oid          |           | not null | 
+ contype        | "char"       |           | not null | 
+ condeferrable  | boolean      |           | not null | 
+ condeferred    | boolean      |           | not null | 
+ convalidated   | boolean      |           | not null | 
+ conrelid       | oid          |           | not null | 
+ contypid       | oid          |           | not null | 
+ conindid       | oid          |           | not null | 
+ conparentid    | oid          |           | not null | 
+ confrelid      | oid          |           | not null | 
+ confupdtype    | "char"       |           | not null | 
+ confdeltype    | "char"       |           | not null | 
+ confmatchtype  | "char"       |           | not null | 
+ conislocal     | boolean      |           | not null | 
+ coninhcount    | smallint     |           | not null | 
+ connoinherit   | boolean      |           | not null | 
+ conkey         | smallint[]   |           |          | 
+ confkey        | smallint[]   |           |          | 
+ conpfeqop      | oid[]        |           |          | 
+ conppeqop      | oid[]        |           |          | 
+ conffeqop      | oid[]        |           |          | 
+ confdelsetcols | smallint[]   |           |          | 
+ conexclop      | oid[]        |           |          | 
+ conbin         | pg_node_tree | C         |          | 
+Indexes:
+    "pg_constraint_oid_index" PRIMARY KEY, btree (oid)
+    "pg_constraint_conname_nsp_index" btree (conname, connamespace)
+    "pg_constraint_conparentid_index" btree (conparentid)
+    "pg_constraint_conrelid_contypid_conname_index" UNIQUE CONSTRAINT, btree (conrelid, contypid, conname)
+    "pg_constraint_contypid_index" btree (contypid)
+
+Index "pg_catalog.pg_constraint_conname_nsp_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ conname      | cstring | yes  | conname
+ connamespace | oid     | yes  | connamespace
+btree, for table "pg_catalog.pg_constraint"
+
+Index "pg_catalog.pg_constraint_conparentid_index"
+   Column    | Type | Key? | Definition  
+-------------+------+------+-------------
+ conparentid | oid  | yes  | conparentid
+btree, for table "pg_catalog.pg_constraint"
+
+Index "pg_catalog.pg_constraint_conrelid_contypid_conname_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ conrelid | oid     | yes  | conrelid
+ contypid | oid     | yes  | contypid
+ conname  | cstring | yes  | conname
+unique, btree, for table "pg_catalog.pg_constraint"
+
+Index "pg_catalog.pg_constraint_contypid_index"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ contypid | oid  | yes  | contypid
+btree, for table "pg_catalog.pg_constraint"
+
+Index "pg_catalog.pg_constraint_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_constraint"
+
+             Table "pg_catalog.pg_conversion"
+     Column     |  Type   | Collation | Nullable | Default 
+----------------+---------+-----------+----------+---------
+ oid            | oid     |           | not null | 
+ conname        | name    |           | not null | 
+ connamespace   | oid     |           | not null | 
+ conowner       | oid     |           | not null | 
+ conforencoding | integer |           | not null | 
+ contoencoding  | integer |           | not null | 
+ conproc        | regproc |           | not null | 
+ condefault     | boolean |           | not null | 
+Indexes:
+    "pg_conversion_oid_index" PRIMARY KEY, btree (oid)
+    "pg_conversion_default_index" UNIQUE CONSTRAINT, btree (connamespace, conforencoding, contoencoding, oid)
+    "pg_conversion_name_nsp_index" UNIQUE CONSTRAINT, btree (conname, connamespace)
+
+  Index "pg_catalog.pg_conversion_default_index"
+     Column     |  Type   | Key? |   Definition   
+----------------+---------+------+----------------
+ connamespace   | oid     | yes  | connamespace
+ conforencoding | integer | yes  | conforencoding
+ contoencoding  | integer | yes  | contoencoding
+ oid            | oid     | yes  | oid
+unique, btree, for table "pg_catalog.pg_conversion"
+
+Index "pg_catalog.pg_conversion_name_nsp_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ conname      | cstring | yes  | conname
+ connamespace | oid     | yes  | connamespace
+unique, btree, for table "pg_catalog.pg_conversion"
+
+Index "pg_catalog.pg_conversion_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_conversion"
+
+                       View "pg_catalog.pg_cursors"
+    Column     |           Type           | Collation | Nullable | Default 
+---------------+--------------------------+-----------+----------+---------
+ name          | text                     |           |          | 
+ statement     | text                     |           |          | 
+ is_holdable   | boolean                  |           |          | 
+ is_binary     | boolean                  |           |          | 
+ is_scrollable | boolean                  |           |          | 
+ creation_time | timestamp with time zone |           |          | 
+
+               Table "pg_catalog.pg_database"
+     Column     |   Type    | Collation | Nullable | Default 
+----------------+-----------+-----------+----------+---------
+ oid            | oid       |           | not null | 
+ datname        | name      |           | not null | 
+ datdba         | oid       |           | not null | 
+ encoding       | integer   |           | not null | 
+ datlocprovider | "char"    |           | not null | 
+ datistemplate  | boolean   |           | not null | 
+ datallowconn   | boolean   |           | not null | 
+ datconnlimit   | integer   |           | not null | 
+ datfrozenxid   | xid       |           | not null | 
+ datminmxid     | xid       |           | not null | 
+ dattablespace  | oid       |           | not null | 
+ datcollate     | text      | C         | not null | 
+ datctype       | text      | C         | not null | 
+ daticulocale   | text      | C         |          | 
+ daticurules    | text      | C         |          | 
+ datcollversion | text      | C         |          | 
+ datacl         | aclitem[] |           |          | 
+Indexes:
+    "pg_database_oid_index" PRIMARY KEY, btree (oid), tablespace "pg_global"
+    "pg_database_datname_index" UNIQUE CONSTRAINT, btree (datname), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_database_datname_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ datname | cstring | yes  | datname
+unique, btree, for table "pg_catalog.pg_database"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_database_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_database"
+Tablespace: "pg_global"
+
+         Table "pg_catalog.pg_db_role_setting"
+   Column    |  Type  | Collation | Nullable | Default 
+-------------+--------+-----------+----------+---------
+ setdatabase | oid    |           | not null | 
+ setrole     | oid    |           | not null | 
+ setconfig   | text[] | C         |          | 
+Indexes:
+    "pg_db_role_setting_databaseid_rol_index" PRIMARY KEY, btree (setdatabase, setrole), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_db_role_setting_databaseid_rol_index"
+   Column    | Type | Key? | Definition  
+-------------+------+------+-------------
+ setdatabase | oid  | yes  | setdatabase
+ setrole     | oid  | yes  | setrole
+primary key, btree, for table "pg_catalog.pg_db_role_setting"
+Tablespace: "pg_global"
+
+              Table "pg_catalog.pg_default_acl"
+     Column      |   Type    | Collation | Nullable | Default 
+-----------------+-----------+-----------+----------+---------
+ oid             | oid       |           | not null | 
+ defaclrole      | oid       |           | not null | 
+ defaclnamespace | oid       |           | not null | 
+ defaclobjtype   | "char"    |           | not null | 
+ defaclacl       | aclitem[] |           | not null | 
+Indexes:
+    "pg_default_acl_oid_index" PRIMARY KEY, btree (oid)
+    "pg_default_acl_role_nsp_obj_index" UNIQUE CONSTRAINT, btree (defaclrole, defaclnamespace, defaclobjtype)
+
+Index "pg_catalog.pg_default_acl_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_default_acl"
+
+Index "pg_catalog.pg_default_acl_role_nsp_obj_index"
+     Column      |  Type  | Key? |   Definition    
+-----------------+--------+------+-----------------
+ defaclrole      | oid    | yes  | defaclrole
+ defaclnamespace | oid    | yes  | defaclnamespace
+ defaclobjtype   | "char" | yes  | defaclobjtype
+unique, btree, for table "pg_catalog.pg_default_acl"
+
+              Table "pg_catalog.pg_depend"
+   Column    |  Type   | Collation | Nullable | Default 
+-------------+---------+-----------+----------+---------
+ classid     | oid     |           | not null | 
+ objid       | oid     |           | not null | 
+ objsubid    | integer |           | not null | 
+ refclassid  | oid     |           | not null | 
+ refobjid    | oid     |           | not null | 
+ refobjsubid | integer |           | not null | 
+ deptype     | "char"  |           | not null | 
+Indexes:
+    "pg_depend_depender_index" btree (classid, objid, objsubid)
+    "pg_depend_reference_index" btree (refclassid, refobjid, refobjsubid)
+
+Index "pg_catalog.pg_depend_depender_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ classid  | oid     | yes  | classid
+ objid    | oid     | yes  | objid
+ objsubid | integer | yes  | objsubid
+btree, for table "pg_catalog.pg_depend"
+
+Index "pg_catalog.pg_depend_reference_index"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ refclassid  | oid     | yes  | refclassid
+ refobjid    | oid     | yes  | refobjid
+ refobjsubid | integer | yes  | refobjsubid
+btree, for table "pg_catalog.pg_depend"
+
+           Table "pg_catalog.pg_description"
+   Column    |  Type   | Collation | Nullable | Default 
+-------------+---------+-----------+----------+---------
+ objoid      | oid     |           | not null | 
+ classoid    | oid     |           | not null | 
+ objsubid    | integer |           | not null | 
+ description | text    | C         | not null | 
+Indexes:
+    "pg_description_o_c_o_index" PRIMARY KEY, btree (objoid, classoid, objsubid)
+
+Index "pg_catalog.pg_description_o_c_o_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ objoid   | oid     | yes  | objoid
+ classoid | oid     | yes  | classoid
+ objsubid | integer | yes  | objsubid
+primary key, btree, for table "pg_catalog.pg_description"
+
+              Table "pg_catalog.pg_enum"
+    Column     | Type | Collation | Nullable | Default 
+---------------+------+-----------+----------+---------
+ oid           | oid  |           | not null | 
+ enumtypid     | oid  |           | not null | 
+ enumsortorder | real |           | not null | 
+ enumlabel     | name |           | not null | 
+Indexes:
+    "pg_enum_oid_index" PRIMARY KEY, btree (oid)
+    "pg_enum_typid_label_index" UNIQUE CONSTRAINT, btree (enumtypid, enumlabel)
+    "pg_enum_typid_sortorder_index" UNIQUE CONSTRAINT, btree (enumtypid, enumsortorder)
+
+Index "pg_catalog.pg_enum_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_enum"
+
+Index "pg_catalog.pg_enum_typid_label_index"
+  Column   |  Type   | Key? | Definition 
+-----------+---------+------+------------
+ enumtypid | oid     | yes  | enumtypid
+ enumlabel | cstring | yes  | enumlabel
+unique, btree, for table "pg_catalog.pg_enum"
+
+Index "pg_catalog.pg_enum_typid_sortorder_index"
+    Column     | Type | Key? |  Definition   
+---------------+------+------+---------------
+ enumtypid     | oid  | yes  | enumtypid
+ enumsortorder | real | yes  | enumsortorder
+unique, btree, for table "pg_catalog.pg_enum"
+
+         Table "pg_catalog.pg_event_trigger"
+   Column   |  Type  | Collation | Nullable | Default 
+------------+--------+-----------+----------+---------
+ oid        | oid    |           | not null | 
+ evtname    | name   |           | not null | 
+ evtevent   | name   |           | not null | 
+ evtowner   | oid    |           | not null | 
+ evtfoid    | oid    |           | not null | 
+ evtenabled | "char" |           | not null | 
+ evttags    | text[] | C         |          | 
+Indexes:
+    "pg_event_trigger_oid_index" PRIMARY KEY, btree (oid)
+    "pg_event_trigger_evtname_index" UNIQUE CONSTRAINT, btree (evtname)
+
+Index "pg_catalog.pg_event_trigger_evtname_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ evtname | cstring | yes  | evtname
+unique, btree, for table "pg_catalog.pg_event_trigger"
+
+Index "pg_catalog.pg_event_trigger_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_event_trigger"
+
+              Table "pg_catalog.pg_extension"
+     Column     |  Type   | Collation | Nullable | Default 
+----------------+---------+-----------+----------+---------
+ oid            | oid     |           | not null | 
+ extname        | name    |           | not null | 
+ extowner       | oid     |           | not null | 
+ extnamespace   | oid     |           | not null | 
+ extrelocatable | boolean |           | not null | 
+ extversion     | text    | C         | not null | 
+ extconfig      | oid[]   |           |          | 
+ extcondition   | text[]  | C         |          | 
+Indexes:
+    "pg_extension_oid_index" PRIMARY KEY, btree (oid)
+    "pg_extension_name_index" UNIQUE CONSTRAINT, btree (extname)
+
+Index "pg_catalog.pg_extension_name_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ extname | cstring | yes  | extname
+unique, btree, for table "pg_catalog.pg_extension"
+
+Index "pg_catalog.pg_extension_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_extension"
+
+          View "pg_catalog.pg_file_settings"
+   Column   |  Type   | Collation | Nullable | Default 
+------------+---------+-----------+----------+---------
+ sourcefile | text    |           |          | 
+ sourceline | integer |           |          | 
+ seqno      | integer |           |          | 
+ name       | text    |           |          | 
+ setting    | text    |           |          | 
+ applied    | boolean |           |          | 
+ error      | text    |           |          | 
+
+        Table "pg_catalog.pg_foreign_data_wrapper"
+    Column    |   Type    | Collation | Nullable | Default 
+--------------+-----------+-----------+----------+---------
+ oid          | oid       |           | not null | 
+ fdwname      | name      |           | not null | 
+ fdwowner     | oid       |           | not null | 
+ fdwhandler   | oid       |           | not null | 
+ fdwvalidator | oid       |           | not null | 
+ fdwacl       | aclitem[] |           |          | 
+ fdwoptions   | text[]    | C         |          | 
+Indexes:
+    "pg_foreign_data_wrapper_oid_index" PRIMARY KEY, btree (oid)
+    "pg_foreign_data_wrapper_name_index" UNIQUE CONSTRAINT, btree (fdwname)
+
+Index "pg_catalog.pg_foreign_data_wrapper_name_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ fdwname | cstring | yes  | fdwname
+unique, btree, for table "pg_catalog.pg_foreign_data_wrapper"
+
+Index "pg_catalog.pg_foreign_data_wrapper_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_foreign_data_wrapper"
+
+          Table "pg_catalog.pg_foreign_server"
+   Column   |   Type    | Collation | Nullable | Default 
+------------+-----------+-----------+----------+---------
+ oid        | oid       |           | not null | 
+ srvname    | name      |           | not null | 
+ srvowner   | oid       |           | not null | 
+ srvfdw     | oid       |           | not null | 
+ srvtype    | text      | C         |          | 
+ srvversion | text      | C         |          | 
+ srvacl     | aclitem[] |           |          | 
+ srvoptions | text[]    | C         |          | 
+Indexes:
+    "pg_foreign_server_oid_index" PRIMARY KEY, btree (oid)
+    "pg_foreign_server_name_index" UNIQUE CONSTRAINT, btree (srvname)
+
+Index "pg_catalog.pg_foreign_server_name_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ srvname | cstring | yes  | srvname
+unique, btree, for table "pg_catalog.pg_foreign_server"
+
+Index "pg_catalog.pg_foreign_server_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_foreign_server"
+
+         Table "pg_catalog.pg_foreign_table"
+  Column   |  Type  | Collation | Nullable | Default 
+-----------+--------+-----------+----------+---------
+ ftrelid   | oid    |           | not null | 
+ ftserver  | oid    |           | not null | 
+ ftoptions | text[] | C         |          | 
+Indexes:
+    "pg_foreign_table_relid_index" PRIMARY KEY, btree (ftrelid)
+
+Index "pg_catalog.pg_foreign_table_relid_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ ftrelid | oid  | yes  | ftrelid
+primary key, btree, for table "pg_catalog.pg_foreign_table"
+
+            View "pg_catalog.pg_group"
+  Column  | Type  | Collation | Nullable | Default 
+----------+-------+-----------+----------+---------
+ groname  | name  |           |          | 
+ grosysid | oid   |           |          | 
+ grolist  | oid[] |           |          | 
+
+          View "pg_catalog.pg_hba_file_rules"
+   Column    |  Type   | Collation | Nullable | Default 
+-------------+---------+-----------+----------+---------
+ rule_number | integer |           |          | 
+ file_name   | text    |           |          | 
+ line_number | integer |           |          | 
+ type        | text    |           |          | 
+ database    | text[]  |           |          | 
+ user_name   | text[]  |           |          | 
+ address     | text    |           |          | 
+ netmask     | text    |           |          | 
+ auth_method | text    |           |          | 
+ options     | text[]  |           |          | 
+ error       | text    |           |          | 
+
+        View "pg_catalog.pg_ident_file_mappings"
+   Column    |  Type   | Collation | Nullable | Default 
+-------------+---------+-----------+----------+---------
+ map_number  | integer |           |          | 
+ file_name   | text    |           |          | 
+ line_number | integer |           |          | 
+ map_name    | text    |           |          | 
+ sys_name    | text    |           |          | 
+ pg_username | text    |           |          | 
+ error       | text    |           |          | 
+
+                     Table "pg_catalog.pg_index"
+       Column        |     Type     | Collation | Nullable | Default 
+---------------------+--------------+-----------+----------+---------
+ indexrelid          | oid          |           | not null | 
+ indrelid            | oid          |           | not null | 
+ indnatts            | smallint     |           | not null | 
+ indnkeyatts         | smallint     |           | not null | 
+ indisunique         | boolean      |           | not null | 
+ indnullsnotdistinct | boolean      |           | not null | 
+ indisprimary        | boolean      |           | not null | 
+ indisexclusion      | boolean      |           | not null | 
+ indimmediate        | boolean      |           | not null | 
+ indisclustered      | boolean      |           | not null | 
+ indisvalid          | boolean      |           | not null | 
+ indcheckxmin        | boolean      |           | not null | 
+ indisready          | boolean      |           | not null | 
+ indislive           | boolean      |           | not null | 
+ indisreplident      | boolean      |           | not null | 
+ indkey              | int2vector   |           | not null | 
+ indcollation        | oidvector    |           | not null | 
+ indclass            | oidvector    |           | not null | 
+ indoption           | int2vector   |           | not null | 
+ indexprs            | pg_node_tree | C         |          | 
+ indpred             | pg_node_tree | C         |          | 
+Indexes:
+    "pg_index_indexrelid_index" PRIMARY KEY, btree (indexrelid)
+    "pg_index_indrelid_index" btree (indrelid)
+
+Index "pg_catalog.pg_index_indexrelid_index"
+   Column   | Type | Key? | Definition 
+------------+------+------+------------
+ indexrelid | oid  | yes  | indexrelid
+primary key, btree, for table "pg_catalog.pg_index"
+
+Index "pg_catalog.pg_index_indrelid_index"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ indrelid | oid  | yes  | indrelid
+btree, for table "pg_catalog.pg_index"
+
+            View "pg_catalog.pg_indexes"
+   Column   | Type | Collation | Nullable | Default 
+------------+------+-----------+----------+---------
+ schemaname | name |           |          | 
+ tablename  | name |           |          | 
+ indexname  | name |           |          | 
+ tablespace | name |           |          | 
+ indexdef   | text |           |          | 
+
+               Table "pg_catalog.pg_inherits"
+      Column      |  Type   | Collation | Nullable | Default 
+------------------+---------+-----------+----------+---------
+ inhrelid         | oid     |           | not null | 
+ inhparent        | oid     |           | not null | 
+ inhseqno         | integer |           | not null | 
+ inhdetachpending | boolean |           | not null | 
+Indexes:
+    "pg_inherits_relid_seqno_index" PRIMARY KEY, btree (inhrelid, inhseqno)
+    "pg_inherits_parent_index" btree (inhparent)
+
+Index "pg_catalog.pg_inherits_parent_index"
+  Column   | Type | Key? | Definition 
+-----------+------+------+------------
+ inhparent | oid  | yes  | inhparent
+btree, for table "pg_catalog.pg_inherits"
+
+Index "pg_catalog.pg_inherits_relid_seqno_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ inhrelid | oid     | yes  | inhrelid
+ inhseqno | integer | yes  | inhseqno
+primary key, btree, for table "pg_catalog.pg_inherits"
+
+            Table "pg_catalog.pg_init_privs"
+  Column   |   Type    | Collation | Nullable | Default 
+-----------+-----------+-----------+----------+---------
+ objoid    | oid       |           | not null | 
+ classoid  | oid       |           | not null | 
+ objsubid  | integer   |           | not null | 
+ privtype  | "char"    |           | not null | 
+ initprivs | aclitem[] |           | not null | 
+Indexes:
+    "pg_init_privs_o_c_o_index" PRIMARY KEY, btree (objoid, classoid, objsubid)
+
+Index "pg_catalog.pg_init_privs_o_c_o_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ objoid   | oid     | yes  | objoid
+ classoid | oid     | yes  | classoid
+ objsubid | integer | yes  | objsubid
+primary key, btree, for table "pg_catalog.pg_init_privs"
+
+               Table "pg_catalog.pg_language"
+    Column     |   Type    | Collation | Nullable | Default 
+---------------+-----------+-----------+----------+---------
+ oid           | oid       |           | not null | 
+ lanname       | name      |           | not null | 
+ lanowner      | oid       |           | not null | 
+ lanispl       | boolean   |           | not null | 
+ lanpltrusted  | boolean   |           | not null | 
+ lanplcallfoid | oid       |           | not null | 
+ laninline     | oid       |           | not null | 
+ lanvalidator  | oid       |           | not null | 
+ lanacl        | aclitem[] |           |          | 
+Indexes:
+    "pg_language_oid_index" PRIMARY KEY, btree (oid)
+    "pg_language_name_index" UNIQUE CONSTRAINT, btree (lanname)
+
+Index "pg_catalog.pg_language_name_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ lanname | cstring | yes  | lanname
+unique, btree, for table "pg_catalog.pg_language"
+
+Index "pg_catalog.pg_language_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_language"
+
+         Table "pg_catalog.pg_largeobject"
+ Column |  Type   | Collation | Nullable | Default 
+--------+---------+-----------+----------+---------
+ loid   | oid     |           | not null | 
+ pageno | integer |           | not null | 
+ data   | bytea   |           | not null | 
+Indexes:
+    "pg_largeobject_loid_pn_index" PRIMARY KEY, btree (loid, pageno)
+
+Index "pg_catalog.pg_largeobject_loid_pn_index"
+ Column |  Type   | Key? | Definition 
+--------+---------+------+------------
+ loid   | oid     | yes  | loid
+ pageno | integer | yes  | pageno
+primary key, btree, for table "pg_catalog.pg_largeobject"
+
+      Table "pg_catalog.pg_largeobject_metadata"
+  Column  |   Type    | Collation | Nullable | Default 
+----------+-----------+-----------+----------+---------
+ oid      | oid       |           | not null | 
+ lomowner | oid       |           | not null | 
+ lomacl   | aclitem[] |           |          | 
+Indexes:
+    "pg_largeobject_metadata_oid_index" PRIMARY KEY, btree (oid)
+
+Index "pg_catalog.pg_largeobject_metadata_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_largeobject_metadata"
+
+                           View "pg_catalog.pg_locks"
+       Column       |           Type           | Collation | Nullable | Default 
+--------------------+--------------------------+-----------+----------+---------
+ locktype           | text                     |           |          | 
+ database           | oid                      |           |          | 
+ relation           | oid                      |           |          | 
+ page               | integer                  |           |          | 
+ tuple              | smallint                 |           |          | 
+ virtualxid         | text                     |           |          | 
+ transactionid      | xid                      |           |          | 
+ classid            | oid                      |           |          | 
+ objid              | oid                      |           |          | 
+ objsubid           | smallint                 |           |          | 
+ virtualtransaction | text                     |           |          | 
+ pid                | integer                  |           |          | 
+ mode               | text                     |           |          | 
+ granted            | boolean                  |           |          | 
+ fastpath           | boolean                  |           |          | 
+ waitstart          | timestamp with time zone |           |          | 
+
+              View "pg_catalog.pg_matviews"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ schemaname   | name    |           |          | 
+ matviewname  | name    |           |          | 
+ matviewowner | name    |           |          | 
+ tablespace   | name    |           |          | 
+ hasindexes   | boolean |           |          | 
+ ispopulated  | boolean |           |          | 
+ definition   | text    |           |          | 
+
+            Table "pg_catalog.pg_namespace"
+  Column  |   Type    | Collation | Nullable | Default 
+----------+-----------+-----------+----------+---------
+ oid      | oid       |           | not null | 
+ nspname  | name      |           | not null | 
+ nspowner | oid       |           | not null | 
+ nspacl   | aclitem[] |           |          | 
+Indexes:
+    "pg_namespace_oid_index" PRIMARY KEY, btree (oid)
+    "pg_namespace_nspname_index" UNIQUE CONSTRAINT, btree (nspname)
+
+Index "pg_catalog.pg_namespace_nspname_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ nspname | cstring | yes  | nspname
+unique, btree, for table "pg_catalog.pg_namespace"
+
+Index "pg_catalog.pg_namespace_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_namespace"
+
+              Table "pg_catalog.pg_opclass"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ oid          | oid     |           | not null | 
+ opcmethod    | oid     |           | not null | 
+ opcname      | name    |           | not null | 
+ opcnamespace | oid     |           | not null | 
+ opcowner     | oid     |           | not null | 
+ opcfamily    | oid     |           | not null | 
+ opcintype    | oid     |           | not null | 
+ opcdefault   | boolean |           | not null | 
+ opckeytype   | oid     |           | not null | 
+Indexes:
+    "pg_opclass_oid_index" PRIMARY KEY, btree (oid)
+    "pg_opclass_am_name_nsp_index" UNIQUE CONSTRAINT, btree (opcmethod, opcname, opcnamespace)
+
+Index "pg_catalog.pg_opclass_am_name_nsp_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ opcmethod    | oid     | yes  | opcmethod
+ opcname      | cstring | yes  | opcname
+ opcnamespace | oid     | yes  | opcnamespace
+unique, btree, for table "pg_catalog.pg_opclass"
+
+Index "pg_catalog.pg_opclass_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_opclass"
+
+             Table "pg_catalog.pg_operator"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ oid          | oid     |           | not null | 
+ oprname      | name    |           | not null | 
+ oprnamespace | oid     |           | not null | 
+ oprowner     | oid     |           | not null | 
+ oprkind      | "char"  |           | not null | 
+ oprcanmerge  | boolean |           | not null | 
+ oprcanhash   | boolean |           | not null | 
+ oprleft      | oid     |           | not null | 
+ oprright     | oid     |           | not null | 
+ oprresult    | oid     |           | not null | 
+ oprcom       | oid     |           | not null | 
+ oprnegate    | oid     |           | not null | 
+ oprcode      | regproc |           | not null | 
+ oprrest      | regproc |           | not null | 
+ oprjoin      | regproc |           | not null | 
+Indexes:
+    "pg_operator_oid_index" PRIMARY KEY, btree (oid)
+    "pg_operator_oprname_l_r_n_index" UNIQUE CONSTRAINT, btree (oprname, oprleft, oprright, oprnamespace)
+
+Index "pg_catalog.pg_operator_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_operator"
+
+Index "pg_catalog.pg_operator_oprname_l_r_n_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ oprname      | cstring | yes  | oprname
+ oprleft      | oid     | yes  | oprleft
+ oprright     | oid     | yes  | oprright
+ oprnamespace | oid     | yes  | oprnamespace
+unique, btree, for table "pg_catalog.pg_operator"
+
+            Table "pg_catalog.pg_opfamily"
+    Column    | Type | Collation | Nullable | Default 
+--------------+------+-----------+----------+---------
+ oid          | oid  |           | not null | 
+ opfmethod    | oid  |           | not null | 
+ opfname      | name |           | not null | 
+ opfnamespace | oid  |           | not null | 
+ opfowner     | oid  |           | not null | 
+Indexes:
+    "pg_opfamily_oid_index" PRIMARY KEY, btree (oid)
+    "pg_opfamily_am_name_nsp_index" UNIQUE CONSTRAINT, btree (opfmethod, opfname, opfnamespace)
+
+Index "pg_catalog.pg_opfamily_am_name_nsp_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ opfmethod    | oid     | yes  | opfmethod
+ opfname      | cstring | yes  | opfname
+ opfnamespace | oid     | yes  | opfnamespace
+unique, btree, for table "pg_catalog.pg_opfamily"
+
+Index "pg_catalog.pg_opfamily_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_opfamily"
+
+         Table "pg_catalog.pg_parameter_acl"
+ Column  |   Type    | Collation | Nullable | Default 
+---------+-----------+-----------+----------+---------
+ oid     | oid       |           | not null | 
+ parname | text      | C         | not null | 
+ paracl  | aclitem[] |           |          | 
+Indexes:
+    "pg_parameter_acl_oid_index" PRIMARY KEY, btree (oid), tablespace "pg_global"
+    "pg_parameter_acl_parname_index" UNIQUE CONSTRAINT, btree (parname), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_parameter_acl_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_parameter_acl"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_parameter_acl_parname_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ parname | text | yes  | parname
+unique, btree, for table "pg_catalog.pg_parameter_acl"
+Tablespace: "pg_global"
+
+            Table "pg_catalog.pg_partitioned_table"
+    Column     |     Type     | Collation | Nullable | Default 
+---------------+--------------+-----------+----------+---------
+ partrelid     | oid          |           | not null | 
+ partstrat     | "char"       |           | not null | 
+ partnatts     | smallint     |           | not null | 
+ partdefid     | oid          |           | not null | 
+ partattrs     | int2vector   |           | not null | 
+ partclass     | oidvector    |           | not null | 
+ partcollation | oidvector    |           | not null | 
+ partexprs     | pg_node_tree | C         |          | 
+Indexes:
+    "pg_partitioned_table_partrelid_index" PRIMARY KEY, btree (partrelid)
+
+Index "pg_catalog.pg_partitioned_table_partrelid_index"
+  Column   | Type | Key? | Definition 
+-----------+------+------+------------
+ partrelid | oid  | yes  | partrelid
+primary key, btree, for table "pg_catalog.pg_partitioned_table"
+
+            View "pg_catalog.pg_policies"
+   Column   |  Type  | Collation | Nullable | Default 
+------------+--------+-----------+----------+---------
+ schemaname | name   |           |          | 
+ tablename  | name   |           |          | 
+ policyname | name   |           |          | 
+ permissive | text   |           |          | 
+ roles      | name[] |           |          | 
+ cmd        | text   |           |          | 
+ qual       | text   | C         |          | 
+ with_check | text   | C         |          | 
+
+                 Table "pg_catalog.pg_policy"
+    Column     |     Type     | Collation | Nullable | Default 
+---------------+--------------+-----------+----------+---------
+ oid           | oid          |           | not null | 
+ polname       | name         |           | not null | 
+ polrelid      | oid          |           | not null | 
+ polcmd        | "char"       |           | not null | 
+ polpermissive | boolean      |           | not null | 
+ polroles      | oid[]        |           | not null | 
+ polqual       | pg_node_tree | C         |          | 
+ polwithcheck  | pg_node_tree | C         |          | 
+Indexes:
+    "pg_policy_oid_index" PRIMARY KEY, btree (oid)
+    "pg_policy_polrelid_polname_index" UNIQUE CONSTRAINT, btree (polrelid, polname)
+
+Index "pg_catalog.pg_policy_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_policy"
+
+Index "pg_catalog.pg_policy_polrelid_polname_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ polrelid | oid     | yes  | polrelid
+ polname  | cstring | yes  | polname
+unique, btree, for table "pg_catalog.pg_policy"
+
+                  View "pg_catalog.pg_prepared_statements"
+     Column      |           Type           | Collation | Nullable | Default 
+-----------------+--------------------------+-----------+----------+---------
+ name            | text                     |           |          | 
+ statement       | text                     |           |          | 
+ prepare_time    | timestamp with time zone |           |          | 
+ parameter_types | regtype[]                |           |          | 
+ result_types    | regtype[]                |           |          | 
+ from_sql        | boolean                  |           |          | 
+ generic_plans   | bigint                   |           |          | 
+ custom_plans    | bigint                   |           |          | 
+
+                   View "pg_catalog.pg_prepared_xacts"
+   Column    |           Type           | Collation | Nullable | Default 
+-------------+--------------------------+-----------+----------+---------
+ transaction | xid                      |           |          | 
+ gid         | text                     |           |          | 
+ prepared    | timestamp with time zone |           |          | 
+ owner       | name                     |           |          | 
+ database    | name                     |           |          | 
+
+                   Table "pg_catalog.pg_proc"
+     Column      |     Type     | Collation | Nullable | Default 
+-----------------+--------------+-----------+----------+---------
+ oid             | oid          |           | not null | 
+ proname         | name         |           | not null | 
+ pronamespace    | oid          |           | not null | 
+ proowner        | oid          |           | not null | 
+ prolang         | oid          |           | not null | 
+ procost         | real         |           | not null | 
+ prorows         | real         |           | not null | 
+ provariadic     | oid          |           | not null | 
+ prosupport      | regproc      |           | not null | 
+ prokind         | "char"       |           | not null | 
+ prosecdef       | boolean      |           | not null | 
+ proleakproof    | boolean      |           | not null | 
+ proisstrict     | boolean      |           | not null | 
+ proretset       | boolean      |           | not null | 
+ provolatile     | "char"       |           | not null | 
+ proparallel     | "char"       |           | not null | 
+ pronargs        | smallint     |           | not null | 
+ pronargdefaults | smallint     |           | not null | 
+ prorettype      | oid          |           | not null | 
+ proargtypes     | oidvector    |           | not null | 
+ proallargtypes  | oid[]        |           |          | 
+ proargmodes     | "char"[]     |           |          | 
+ proargnames     | text[]       | C         |          | 
+ proargdefaults  | pg_node_tree | C         |          | 
+ protrftypes     | oid[]        |           |          | 
+ prosrc          | text         | C         | not null | 
+ probin          | text         | C         |          | 
+ prosqlbody      | pg_node_tree | C         |          | 
+ proconfig       | text[]       | C         |          | 
+ proacl          | aclitem[]    |           |          | 
+Indexes:
+    "pg_proc_oid_index" PRIMARY KEY, btree (oid)
+    "pg_proc_proname_args_nsp_index" UNIQUE CONSTRAINT, btree (proname, proargtypes, pronamespace)
+
+Index "pg_catalog.pg_proc_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_proc"
+
+Index "pg_catalog.pg_proc_proname_args_nsp_index"
+    Column    |   Type    | Key? |  Definition  
+--------------+-----------+------+--------------
+ proname      | cstring   | yes  | proname
+ proargtypes  | oidvector | yes  | proargtypes
+ pronamespace | oid       | yes  | pronamespace
+unique, btree, for table "pg_catalog.pg_proc"
+
+            Table "pg_catalog.pg_publication"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ oid          | oid     |           | not null | 
+ pubname      | name    |           | not null | 
+ pubowner     | oid     |           | not null | 
+ puballtables | boolean |           | not null | 
+ pubinsert    | boolean |           | not null | 
+ pubupdate    | boolean |           | not null | 
+ pubdelete    | boolean |           | not null | 
+ pubtruncate  | boolean |           | not null | 
+ pubviaroot   | boolean |           | not null | 
+Indexes:
+    "pg_publication_oid_index" PRIMARY KEY, btree (oid)
+    "pg_publication_pubname_index" UNIQUE CONSTRAINT, btree (pubname)
+
+   Table "pg_catalog.pg_publication_namespace"
+ Column  | Type | Collation | Nullable | Default 
+---------+------+-----------+----------+---------
+ oid     | oid  |           | not null | 
+ pnpubid | oid  |           | not null | 
+ pnnspid | oid  |           | not null | 
+Indexes:
+    "pg_publication_namespace_oid_index" PRIMARY KEY, btree (oid)
+    "pg_publication_namespace_pnnspid_pnpubid_index" UNIQUE CONSTRAINT, btree (pnnspid, pnpubid)
+
+Index "pg_catalog.pg_publication_namespace_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_publication_namespace"
+
+Index "pg_catalog.pg_publication_namespace_pnnspid_pnpubid_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ pnnspid | oid  | yes  | pnnspid
+ pnpubid | oid  | yes  | pnpubid
+unique, btree, for table "pg_catalog.pg_publication_namespace"
+
+Index "pg_catalog.pg_publication_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_publication"
+
+Index "pg_catalog.pg_publication_pubname_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ pubname | cstring | yes  | pubname
+unique, btree, for table "pg_catalog.pg_publication"
+
+          Table "pg_catalog.pg_publication_rel"
+ Column  |     Type     | Collation | Nullable | Default 
+---------+--------------+-----------+----------+---------
+ oid     | oid          |           | not null | 
+ prpubid | oid          |           | not null | 
+ prrelid | oid          |           | not null | 
+ prqual  | pg_node_tree | C         |          | 
+ prattrs | int2vector   |           |          | 
+Indexes:
+    "pg_publication_rel_oid_index" PRIMARY KEY, btree (oid)
+    "pg_publication_rel_prpubid_index" btree (prpubid)
+    "pg_publication_rel_prrelid_prpubid_index" UNIQUE CONSTRAINT, btree (prrelid, prpubid)
+
+Index "pg_catalog.pg_publication_rel_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_publication_rel"
+
+Index "pg_catalog.pg_publication_rel_prpubid_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ prpubid | oid  | yes  | prpubid
+btree, for table "pg_catalog.pg_publication_rel"
+
+Index "pg_catalog.pg_publication_rel_prrelid_prpubid_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ prrelid | oid  | yes  | prrelid
+ prpubid | oid  | yes  | prpubid
+unique, btree, for table "pg_catalog.pg_publication_rel"
+
+       View "pg_catalog.pg_publication_tables"
+   Column   |  Type  | Collation | Nullable | Default 
+------------+--------+-----------+----------+---------
+ pubname    | name   |           |          | 
+ schemaname | name   |           |          | 
+ tablename  | name   |           |          | 
+ attnames   | name[] |           |          | 
+ rowfilter  | text   |           |          | 
+
+               Table "pg_catalog.pg_range"
+    Column     |  Type   | Collation | Nullable | Default 
+---------------+---------+-----------+----------+---------
+ rngtypid      | oid     |           | not null | 
+ rngsubtype    | oid     |           | not null | 
+ rngmultitypid | oid     |           | not null | 
+ rngcollation  | oid     |           | not null | 
+ rngsubopc     | oid     |           | not null | 
+ rngcanonical  | regproc |           | not null | 
+ rngsubdiff    | regproc |           | not null | 
+Indexes:
+    "pg_range_rngtypid_index" PRIMARY KEY, btree (rngtypid)
+    "pg_range_rngmultitypid_index" UNIQUE CONSTRAINT, btree (rngmultitypid)
+
+Index "pg_catalog.pg_range_rngmultitypid_index"
+    Column     | Type | Key? |  Definition   
+---------------+------+------+---------------
+ rngmultitypid | oid  | yes  | rngmultitypid
+unique, btree, for table "pg_catalog.pg_range"
+
+Index "pg_catalog.pg_range_rngtypid_index"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ rngtypid | oid  | yes  | rngtypid
+primary key, btree, for table "pg_catalog.pg_range"
+
+    Table "pg_catalog.pg_replication_origin"
+ Column  | Type | Collation | Nullable | Default 
+---------+------+-----------+----------+---------
+ roident | oid  |           | not null | 
+ roname  | text | C         | not null | 
+Indexes:
+    "pg_replication_origin_roiident_index" PRIMARY KEY, btree (roident), tablespace "pg_global"
+    "pg_replication_origin_roname_index" UNIQUE CONSTRAINT, btree (roname), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_replication_origin_roiident_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ roident | oid  | yes  | roident
+primary key, btree, for table "pg_catalog.pg_replication_origin"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_replication_origin_roname_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ roname | text | yes  | roname
+unique, btree, for table "pg_catalog.pg_replication_origin"
+Tablespace: "pg_global"
+
+    View "pg_catalog.pg_replication_origin_status"
+   Column    |  Type  | Collation | Nullable | Default 
+-------------+--------+-----------+----------+---------
+ local_id    | oid    |           |          | 
+ external_id | text   |           |          | 
+ remote_lsn  | pg_lsn |           |          | 
+ local_lsn   | pg_lsn |           |          | 
+
+             View "pg_catalog.pg_replication_slots"
+       Column        |  Type   | Collation | Nullable | Default 
+---------------------+---------+-----------+----------+---------
+ slot_name           | name    |           |          | 
+ plugin              | name    |           |          | 
+ slot_type           | text    |           |          | 
+ datoid              | oid     |           |          | 
+ database            | name    |           |          | 
+ temporary           | boolean |           |          | 
+ active              | boolean |           |          | 
+ active_pid          | integer |           |          | 
+ xmin                | xid     |           |          | 
+ catalog_xmin        | xid     |           |          | 
+ restart_lsn         | pg_lsn  |           |          | 
+ confirmed_flush_lsn | pg_lsn  |           |          | 
+ wal_status          | text    |           |          | 
+ safe_wal_size       | bigint  |           |          | 
+ two_phase           | boolean |           |          | 
+ conflicting         | boolean |           |          | 
+
+               Table "pg_catalog.pg_rewrite"
+   Column   |     Type     | Collation | Nullable | Default 
+------------+--------------+-----------+----------+---------
+ oid        | oid          |           | not null | 
+ rulename   | name         |           | not null | 
+ ev_class   | oid          |           | not null | 
+ ev_type    | "char"       |           | not null | 
+ ev_enabled | "char"       |           | not null | 
+ is_instead | boolean      |           | not null | 
+ ev_qual    | pg_node_tree | C         | not null | 
+ ev_action  | pg_node_tree | C         | not null | 
+Indexes:
+    "pg_rewrite_oid_index" PRIMARY KEY, btree (oid)
+    "pg_rewrite_rel_rulename_index" UNIQUE CONSTRAINT, btree (ev_class, rulename)
+
+Index "pg_catalog.pg_rewrite_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_rewrite"
+
+Index "pg_catalog.pg_rewrite_rel_rulename_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ ev_class | oid     | yes  | ev_class
+ rulename | cstring | yes  | rulename
+unique, btree, for table "pg_catalog.pg_rewrite"
+
+                         View "pg_catalog.pg_roles"
+     Column     |           Type           | Collation | Nullable | Default 
+----------------+--------------------------+-----------+----------+---------
+ rolname        | name                     |           |          | 
+ rolsuper       | boolean                  |           |          | 
+ rolinherit     | boolean                  |           |          | 
+ rolcreaterole  | boolean                  |           |          | 
+ rolcreatedb    | boolean                  |           |          | 
+ rolcanlogin    | boolean                  |           |          | 
+ rolreplication | boolean                  |           |          | 
+ rolconnlimit   | integer                  |           |          | 
+ rolpassword    | text                     |           |          | 
+ rolvaliduntil  | timestamp with time zone |           |          | 
+ rolbypassrls   | boolean                  |           |          | 
+ rolconfig      | text[]                   | C         |          | 
+ oid            | oid                      |           |          | 
+
+             View "pg_catalog.pg_rules"
+   Column   | Type | Collation | Nullable | Default 
+------------+------+-----------+----------+---------
+ schemaname | name |           |          | 
+ tablename  | name |           |          | 
+ rulename   | name |           |          | 
+ definition | text |           |          | 
+
+           Table "pg_catalog.pg_seclabel"
+  Column  |  Type   | Collation | Nullable | Default 
+----------+---------+-----------+----------+---------
+ objoid   | oid     |           | not null | 
+ classoid | oid     |           | not null | 
+ objsubid | integer |           | not null | 
+ provider | text    | C         | not null | 
+ label    | text    | C         | not null | 
+Indexes:
+    "pg_seclabel_object_index" PRIMARY KEY, btree (objoid, classoid, objsubid, provider)
+
+Index "pg_catalog.pg_seclabel_object_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ objoid   | oid     | yes  | objoid
+ classoid | oid     | yes  | classoid
+ objsubid | integer | yes  | objsubid
+ provider | text    | yes  | provider
+primary key, btree, for table "pg_catalog.pg_seclabel"
+
+             View "pg_catalog.pg_seclabels"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ objoid       | oid     |           |          | 
+ classoid     | oid     |           |          | 
+ objsubid     | integer |           |          | 
+ objtype      | text    |           |          | 
+ objnamespace | oid     |           |          | 
+ objname      | text    | C         |          | 
+ provider     | text    | C         |          | 
+ label        | text    | C         |          | 
+
+             Table "pg_catalog.pg_sequence"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ seqrelid     | oid     |           | not null | 
+ seqtypid     | oid     |           | not null | 
+ seqstart     | bigint  |           | not null | 
+ seqincrement | bigint  |           | not null | 
+ seqmax       | bigint  |           | not null | 
+ seqmin       | bigint  |           | not null | 
+ seqcache     | bigint  |           | not null | 
+ seqcycle     | boolean |           | not null | 
+Indexes:
+    "pg_sequence_seqrelid_index" PRIMARY KEY, btree (seqrelid)
+
+Index "pg_catalog.pg_sequence_seqrelid_index"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ seqrelid | oid  | yes  | seqrelid
+primary key, btree, for table "pg_catalog.pg_sequence"
+
+              View "pg_catalog.pg_sequences"
+    Column     |  Type   | Collation | Nullable | Default 
+---------------+---------+-----------+----------+---------
+ schemaname    | name    |           |          | 
+ sequencename  | name    |           |          | 
+ sequenceowner | name    |           |          | 
+ data_type     | regtype |           |          | 
+ start_value   | bigint  |           |          | 
+ min_value     | bigint  |           |          | 
+ max_value     | bigint  |           |          | 
+ increment_by  | bigint  |           |          | 
+ cycle         | boolean |           |          | 
+ cache_size    | bigint  |           |          | 
+ last_value    | bigint  |           |          | 
+
+               View "pg_catalog.pg_settings"
+     Column      |  Type   | Collation | Nullable | Default 
+-----------------+---------+-----------+----------+---------
+ name            | text    |           |          | 
+ setting         | text    |           |          | 
+ unit            | text    |           |          | 
+ category        | text    |           |          | 
+ short_desc      | text    |           |          | 
+ extra_desc      | text    |           |          | 
+ context         | text    |           |          | 
+ vartype         | text    |           |          | 
+ source          | text    |           |          | 
+ min_val         | text    |           |          | 
+ max_val         | text    |           |          | 
+ enumvals        | text[]  |           |          | 
+ boot_val        | text    |           |          | 
+ reset_val       | text    |           |          | 
+ sourcefile      | text    |           |          | 
+ sourceline      | integer |           |          | 
+ pending_restart | boolean |           |          | 
+
+                       View "pg_catalog.pg_shadow"
+    Column    |           Type           | Collation | Nullable | Default 
+--------------+--------------------------+-----------+----------+---------
+ usename      | name                     |           |          | 
+ usesysid     | oid                      |           |          | 
+ usecreatedb  | boolean                  |           |          | 
+ usesuper     | boolean                  |           |          | 
+ userepl      | boolean                  |           |          | 
+ usebypassrls | boolean                  |           |          | 
+ passwd       | text                     | C         |          | 
+ valuntil     | timestamp with time zone |           |          | 
+ useconfig    | text[]                   | C         |          | 
+
+            Table "pg_catalog.pg_shdepend"
+   Column   |  Type   | Collation | Nullable | Default 
+------------+---------+-----------+----------+---------
+ dbid       | oid     |           | not null | 
+ classid    | oid     |           | not null | 
+ objid      | oid     |           | not null | 
+ objsubid   | integer |           | not null | 
+ refclassid | oid     |           | not null | 
+ refobjid   | oid     |           | not null | 
+ deptype    | "char"  |           | not null | 
+Indexes:
+    "pg_shdepend_depender_index" btree (dbid, classid, objid, objsubid), tablespace "pg_global"
+    "pg_shdepend_reference_index" btree (refclassid, refobjid), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_shdepend_depender_index"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ dbid     | oid     | yes  | dbid
+ classid  | oid     | yes  | classid
+ objid    | oid     | yes  | objid
+ objsubid | integer | yes  | objsubid
+btree, for table "pg_catalog.pg_shdepend"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_shdepend_reference_index"
+   Column   | Type | Key? | Definition 
+------------+------+------+------------
+ refclassid | oid  | yes  | refclassid
+ refobjid   | oid  | yes  | refobjid
+btree, for table "pg_catalog.pg_shdepend"
+Tablespace: "pg_global"
+
+         Table "pg_catalog.pg_shdescription"
+   Column    | Type | Collation | Nullable | Default 
+-------------+------+-----------+----------+---------
+ objoid      | oid  |           | not null | 
+ classoid    | oid  |           | not null | 
+ description | text | C         | not null | 
+Indexes:
+    "pg_shdescription_o_c_index" PRIMARY KEY, btree (objoid, classoid), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_shdescription_o_c_index"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ objoid   | oid  | yes  | objoid
+ classoid | oid  | yes  | classoid
+primary key, btree, for table "pg_catalog.pg_shdescription"
+Tablespace: "pg_global"
+
+          View "pg_catalog.pg_shmem_allocations"
+     Column     |  Type  | Collation | Nullable | Default 
+----------------+--------+-----------+----------+---------
+ name           | text   |           |          | 
+ off            | bigint |           |          | 
+ size           | bigint |           |          | 
+ allocated_size | bigint |           |          | 
+
+         Table "pg_catalog.pg_shseclabel"
+  Column  | Type | Collation | Nullable | Default 
+----------+------+-----------+----------+---------
+ objoid   | oid  |           | not null | 
+ classoid | oid  |           | not null | 
+ provider | text | C         | not null | 
+ label    | text | C         | not null | 
+Indexes:
+    "pg_shseclabel_object_index" PRIMARY KEY, btree (objoid, classoid, provider), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_shseclabel_object_index"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ objoid   | oid  | yes  | objoid
+ classoid | oid  | yes  | classoid
+ provider | text | yes  | provider
+primary key, btree, for table "pg_catalog.pg_shseclabel"
+Tablespace: "pg_global"
+
+                      View "pg_catalog.pg_stat_activity"
+      Column      |           Type           | Collation | Nullable | Default 
+------------------+--------------------------+-----------+----------+---------
+ datid            | oid                      |           |          | 
+ datname          | name                     |           |          | 
+ pid              | integer                  |           |          | 
+ leader_pid       | integer                  |           |          | 
+ usesysid         | oid                      |           |          | 
+ usename          | name                     |           |          | 
+ application_name | text                     |           |          | 
+ client_addr      | inet                     |           |          | 
+ client_hostname  | text                     |           |          | 
+ client_port      | integer                  |           |          | 
+ backend_start    | timestamp with time zone |           |          | 
+ xact_start       | timestamp with time zone |           |          | 
+ query_start      | timestamp with time zone |           |          | 
+ state_change     | timestamp with time zone |           |          | 
+ wait_event_type  | text                     |           |          | 
+ wait_event       | text                     |           |          | 
+ state            | text                     |           |          | 
+ backend_xid      | xid                      |           |          | 
+ backend_xmin     | xid                      |           |          | 
+ query_id         | bigint                   |           |          | 
+ query            | text                     |           |          | 
+ backend_type     | text                     |           |          | 
+
+                   View "pg_catalog.pg_stat_all_indexes"
+    Column     |           Type           | Collation | Nullable | Default 
+---------------+--------------------------+-----------+----------+---------
+ relid         | oid                      |           |          | 
+ indexrelid    | oid                      |           |          | 
+ schemaname    | name                     |           |          | 
+ relname       | name                     |           |          | 
+ indexrelname  | name                     |           |          | 
+ idx_scan      | bigint                   |           |          | 
+ last_idx_scan | timestamp with time zone |           |          | 
+ idx_tup_read  | bigint                   |           |          | 
+ idx_tup_fetch | bigint                   |           |          | 
+
+                      View "pg_catalog.pg_stat_all_tables"
+       Column        |           Type           | Collation | Nullable | Default 
+---------------------+--------------------------+-----------+----------+---------
+ relid               | oid                      |           |          | 
+ schemaname          | name                     |           |          | 
+ relname             | name                     |           |          | 
+ seq_scan            | bigint                   |           |          | 
+ last_seq_scan       | timestamp with time zone |           |          | 
+ seq_tup_read        | bigint                   |           |          | 
+ idx_scan            | bigint                   |           |          | 
+ last_idx_scan       | timestamp with time zone |           |          | 
+ idx_tup_fetch       | bigint                   |           |          | 
+ n_tup_ins           | bigint                   |           |          | 
+ n_tup_upd           | bigint                   |           |          | 
+ n_tup_del           | bigint                   |           |          | 
+ n_tup_hot_upd       | bigint                   |           |          | 
+ n_tup_newpage_upd   | bigint                   |           |          | 
+ n_live_tup          | bigint                   |           |          | 
+ n_dead_tup          | bigint                   |           |          | 
+ n_mod_since_analyze | bigint                   |           |          | 
+ n_ins_since_vacuum  | bigint                   |           |          | 
+ last_vacuum         | timestamp with time zone |           |          | 
+ last_autovacuum     | timestamp with time zone |           |          | 
+ last_analyze        | timestamp with time zone |           |          | 
+ last_autoanalyze    | timestamp with time zone |           |          | 
+ vacuum_count        | bigint                   |           |          | 
+ autovacuum_count    | bigint                   |           |          | 
+ analyze_count       | bigint                   |           |          | 
+ autoanalyze_count   | bigint                   |           |          | 
+
+                       View "pg_catalog.pg_stat_archiver"
+       Column       |           Type           | Collation | Nullable | Default 
+--------------------+--------------------------+-----------+----------+---------
+ archived_count     | bigint                   |           |          | 
+ last_archived_wal  | text                     |           |          | 
+ last_archived_time | timestamp with time zone |           |          | 
+ failed_count       | bigint                   |           |          | 
+ last_failed_wal    | text                     |           |          | 
+ last_failed_time   | timestamp with time zone |           |          | 
+ stats_reset        | timestamp with time zone |           |          | 
+
+                        View "pg_catalog.pg_stat_bgwriter"
+        Column         |           Type           | Collation | Nullable | Default 
+-----------------------+--------------------------+-----------+----------+---------
+ checkpoints_timed     | bigint                   |           |          | 
+ checkpoints_req       | bigint                   |           |          | 
+ checkpoint_write_time | double precision         |           |          | 
+ checkpoint_sync_time  | double precision         |           |          | 
+ buffers_checkpoint    | bigint                   |           |          | 
+ buffers_clean         | bigint                   |           |          | 
+ maxwritten_clean      | bigint                   |           |          | 
+ buffers_backend       | bigint                   |           |          | 
+ buffers_backend_fsync | bigint                   |           |          | 
+ buffers_alloc         | bigint                   |           |          | 
+ stats_reset           | timestamp with time zone |           |          | 
+
+                          View "pg_catalog.pg_stat_database"
+          Column          |           Type           | Collation | Nullable | Default 
+--------------------------+--------------------------+-----------+----------+---------
+ datid                    | oid                      |           |          | 
+ datname                  | name                     |           |          | 
+ numbackends              | integer                  |           |          | 
+ xact_commit              | bigint                   |           |          | 
+ xact_rollback            | bigint                   |           |          | 
+ blks_read                | bigint                   |           |          | 
+ blks_hit                 | bigint                   |           |          | 
+ tup_returned             | bigint                   |           |          | 
+ tup_fetched              | bigint                   |           |          | 
+ tup_inserted             | bigint                   |           |          | 
+ tup_updated              | bigint                   |           |          | 
+ tup_deleted              | bigint                   |           |          | 
+ conflicts                | bigint                   |           |          | 
+ temp_files               | bigint                   |           |          | 
+ temp_bytes               | bigint                   |           |          | 
+ deadlocks                | bigint                   |           |          | 
+ checksum_failures        | bigint                   |           |          | 
+ checksum_last_failure    | timestamp with time zone |           |          | 
+ blk_read_time            | double precision         |           |          | 
+ blk_write_time           | double precision         |           |          | 
+ session_time             | double precision         |           |          | 
+ active_time              | double precision         |           |          | 
+ idle_in_transaction_time | double precision         |           |          | 
+ sessions                 | bigint                   |           |          | 
+ sessions_abandoned       | bigint                   |           |          | 
+ sessions_fatal           | bigint                   |           |          | 
+ sessions_killed          | bigint                   |           |          | 
+ stats_reset              | timestamp with time zone |           |          | 
+
+            View "pg_catalog.pg_stat_database_conflicts"
+          Column          |  Type  | Collation | Nullable | Default 
+--------------------------+--------+-----------+----------+---------
+ datid                    | oid    |           |          | 
+ datname                  | name   |           |          | 
+ confl_tablespace         | bigint |           |          | 
+ confl_lock               | bigint |           |          | 
+ confl_snapshot           | bigint |           |          | 
+ confl_bufferpin          | bigint |           |          | 
+ confl_deadlock           | bigint |           |          | 
+ confl_active_logicalslot | bigint |           |          | 
+
+                 View "pg_catalog.pg_stat_gssapi"
+        Column         |  Type   | Collation | Nullable | Default 
+-----------------------+---------+-----------+----------+---------
+ pid                   | integer |           |          | 
+ gss_authenticated     | boolean |           |          | 
+ principal             | text    |           |          | 
+ encrypted             | boolean |           |          | 
+ credentials_delegated | boolean |           |          | 
+
+                        View "pg_catalog.pg_stat_io"
+     Column     |           Type           | Collation | Nullable | Default 
+----------------+--------------------------+-----------+----------+---------
+ backend_type   | text                     |           |          | 
+ object         | text                     |           |          | 
+ context        | text                     |           |          | 
+ reads          | bigint                   |           |          | 
+ read_time      | double precision         |           |          | 
+ writes         | bigint                   |           |          | 
+ write_time     | double precision         |           |          | 
+ writebacks     | bigint                   |           |          | 
+ writeback_time | double precision         |           |          | 
+ extends        | bigint                   |           |          | 
+ extend_time    | double precision         |           |          | 
+ op_bytes       | bigint                   |           |          | 
+ hits           | bigint                   |           |          | 
+ evictions      | bigint                   |           |          | 
+ reuses         | bigint                   |           |          | 
+ fsyncs         | bigint                   |           |          | 
+ fsync_time     | double precision         |           |          | 
+ stats_reset    | timestamp with time zone |           |          | 
+
+              View "pg_catalog.pg_stat_progress_analyze"
+          Column           |  Type   | Collation | Nullable | Default 
+---------------------------+---------+-----------+----------+---------
+ pid                       | integer |           |          | 
+ datid                     | oid     |           |          | 
+ datname                   | name    |           |          | 
+ relid                     | oid     |           |          | 
+ phase                     | text    |           |          | 
+ sample_blks_total         | bigint  |           |          | 
+ sample_blks_scanned       | bigint  |           |          | 
+ ext_stats_total           | bigint  |           |          | 
+ ext_stats_computed        | bigint  |           |          | 
+ child_tables_total        | bigint  |           |          | 
+ child_tables_done         | bigint  |           |          | 
+ current_child_table_relid | oid     |           |          | 
+
+          View "pg_catalog.pg_stat_progress_basebackup"
+        Column        |  Type   | Collation | Nullable | Default 
+----------------------+---------+-----------+----------+---------
+ pid                  | integer |           |          | 
+ phase                | text    |           |          | 
+ backup_total         | bigint  |           |          | 
+ backup_streamed      | bigint  |           |          | 
+ tablespaces_total    | bigint  |           |          | 
+ tablespaces_streamed | bigint  |           |          | 
+
+           View "pg_catalog.pg_stat_progress_cluster"
+       Column        |  Type   | Collation | Nullable | Default 
+---------------------+---------+-----------+----------+---------
+ pid                 | integer |           |          | 
+ datid               | oid     |           |          | 
+ datname             | name    |           |          | 
+ relid               | oid     |           |          | 
+ command             | text    |           |          | 
+ phase               | text    |           |          | 
+ cluster_index_relid | oid     |           |          | 
+ heap_tuples_scanned | bigint  |           |          | 
+ heap_tuples_written | bigint  |           |          | 
+ heap_blks_total     | bigint  |           |          | 
+ heap_blks_scanned   | bigint  |           |          | 
+ index_rebuild_count | bigint  |           |          | 
+
+           View "pg_catalog.pg_stat_progress_copy"
+      Column      |  Type   | Collation | Nullable | Default 
+------------------+---------+-----------+----------+---------
+ pid              | integer |           |          | 
+ datid            | oid     |           |          | 
+ datname          | name    |           |          | 
+ relid            | oid     |           |          | 
+ command          | text    |           |          | 
+ type             | text    |           |          | 
+ bytes_processed  | bigint  |           |          | 
+ bytes_total      | bigint  |           |          | 
+ tuples_processed | bigint  |           |          | 
+ tuples_excluded  | bigint  |           |          | 
+
+        View "pg_catalog.pg_stat_progress_create_index"
+       Column       |  Type   | Collation | Nullable | Default 
+--------------------+---------+-----------+----------+---------
+ pid                | integer |           |          | 
+ datid              | oid     |           |          | 
+ datname            | name    |           |          | 
+ relid              | oid     |           |          | 
+ index_relid        | oid     |           |          | 
+ command            | text    |           |          | 
+ phase              | text    |           |          | 
+ lockers_total      | bigint  |           |          | 
+ lockers_done       | bigint  |           |          | 
+ current_locker_pid | bigint  |           |          | 
+ blocks_total       | bigint  |           |          | 
+ blocks_done        | bigint  |           |          | 
+ tuples_total       | bigint  |           |          | 
+ tuples_done        | bigint  |           |          | 
+ partitions_total   | bigint  |           |          | 
+ partitions_done    | bigint  |           |          | 
+
+           View "pg_catalog.pg_stat_progress_vacuum"
+       Column       |  Type   | Collation | Nullable | Default 
+--------------------+---------+-----------+----------+---------
+ pid                | integer |           |          | 
+ datid              | oid     |           |          | 
+ datname            | name    |           |          | 
+ relid              | oid     |           |          | 
+ phase              | text    |           |          | 
+ heap_blks_total    | bigint  |           |          | 
+ heap_blks_scanned  | bigint  |           |          | 
+ heap_blks_vacuumed | bigint  |           |          | 
+ index_vacuum_count | bigint  |           |          | 
+ max_dead_tuples    | bigint  |           |          | 
+ num_dead_tuples    | bigint  |           |          | 
+
+                View "pg_catalog.pg_stat_recovery_prefetch"
+     Column     |           Type           | Collation | Nullable | Default 
+----------------+--------------------------+-----------+----------+---------
+ stats_reset    | timestamp with time zone |           |          | 
+ prefetch       | bigint                   |           |          | 
+ hit            | bigint                   |           |          | 
+ skip_init      | bigint                   |           |          | 
+ skip_new       | bigint                   |           |          | 
+ skip_fpw       | bigint                   |           |          | 
+ skip_rep       | bigint                   |           |          | 
+ wal_distance   | integer                  |           |          | 
+ block_distance | integer                  |           |          | 
+ io_depth       | integer                  |           |          | 
+
+                    View "pg_catalog.pg_stat_replication"
+      Column      |           Type           | Collation | Nullable | Default 
+------------------+--------------------------+-----------+----------+---------
+ pid              | integer                  |           |          | 
+ usesysid         | oid                      |           |          | 
+ usename          | name                     |           |          | 
+ application_name | text                     |           |          | 
+ client_addr      | inet                     |           |          | 
+ client_hostname  | text                     |           |          | 
+ client_port      | integer                  |           |          | 
+ backend_start    | timestamp with time zone |           |          | 
+ backend_xmin     | xid                      |           |          | 
+ state            | text                     |           |          | 
+ sent_lsn         | pg_lsn                   |           |          | 
+ write_lsn        | pg_lsn                   |           |          | 
+ flush_lsn        | pg_lsn                   |           |          | 
+ replay_lsn       | pg_lsn                   |           |          | 
+ write_lag        | interval                 |           |          | 
+ flush_lag        | interval                 |           |          | 
+ replay_lag       | interval                 |           |          | 
+ sync_priority    | integer                  |           |          | 
+ sync_state       | text                     |           |          | 
+ reply_time       | timestamp with time zone |           |          | 
+
+               View "pg_catalog.pg_stat_replication_slots"
+    Column    |           Type           | Collation | Nullable | Default 
+--------------+--------------------------+-----------+----------+---------
+ slot_name    | text                     |           |          | 
+ spill_txns   | bigint                   |           |          | 
+ spill_count  | bigint                   |           |          | 
+ spill_bytes  | bigint                   |           |          | 
+ stream_txns  | bigint                   |           |          | 
+ stream_count | bigint                   |           |          | 
+ stream_bytes | bigint                   |           |          | 
+ total_txns   | bigint                   |           |          | 
+ total_bytes  | bigint                   |           |          | 
+ stats_reset  | timestamp with time zone |           |          | 
+
+                      View "pg_catalog.pg_stat_slru"
+    Column    |           Type           | Collation | Nullable | Default 
+--------------+--------------------------+-----------+----------+---------
+ name         | text                     |           |          | 
+ blks_zeroed  | bigint                   |           |          | 
+ blks_hit     | bigint                   |           |          | 
+ blks_read    | bigint                   |           |          | 
+ blks_written | bigint                   |           |          | 
+ blks_exists  | bigint                   |           |          | 
+ flushes      | bigint                   |           |          | 
+ truncates    | bigint                   |           |          | 
+ stats_reset  | timestamp with time zone |           |          | 
+
+              View "pg_catalog.pg_stat_ssl"
+    Column     |  Type   | Collation | Nullable | Default 
+---------------+---------+-----------+----------+---------
+ pid           | integer |           |          | 
+ ssl           | boolean |           |          | 
+ version       | text    |           |          | 
+ cipher        | text    |           |          | 
+ bits          | integer |           |          | 
+ client_dn     | text    |           |          | 
+ client_serial | numeric |           |          | 
+ issuer_dn     | text    |           |          | 
+
+                      View "pg_catalog.pg_stat_subscription"
+        Column         |           Type           | Collation | Nullable | Default 
+-----------------------+--------------------------+-----------+----------+---------
+ subid                 | oid                      |           |          | 
+ subname               | name                     |           |          | 
+ pid                   | integer                  |           |          | 
+ leader_pid            | integer                  |           |          | 
+ relid                 | oid                      |           |          | 
+ received_lsn          | pg_lsn                   |           |          | 
+ last_msg_send_time    | timestamp with time zone |           |          | 
+ last_msg_receipt_time | timestamp with time zone |           |          | 
+ latest_end_lsn        | pg_lsn                   |           |          | 
+ latest_end_time       | timestamp with time zone |           |          | 
+
+                 View "pg_catalog.pg_stat_subscription_stats"
+      Column       |           Type           | Collation | Nullable | Default 
+-------------------+--------------------------+-----------+----------+---------
+ subid             | oid                      |           |          | 
+ subname           | name                     |           |          | 
+ apply_error_count | bigint                   |           |          | 
+ sync_error_count  | bigint                   |           |          | 
+ stats_reset       | timestamp with time zone |           |          | 
+
+                   View "pg_catalog.pg_stat_sys_indexes"
+    Column     |           Type           | Collation | Nullable | Default 
+---------------+--------------------------+-----------+----------+---------
+ relid         | oid                      |           |          | 
+ indexrelid    | oid                      |           |          | 
+ schemaname    | name                     |           |          | 
+ relname       | name                     |           |          | 
+ indexrelname  | name                     |           |          | 
+ idx_scan      | bigint                   |           |          | 
+ last_idx_scan | timestamp with time zone |           |          | 
+ idx_tup_read  | bigint                   |           |          | 
+ idx_tup_fetch | bigint                   |           |          | 
+
+                      View "pg_catalog.pg_stat_sys_tables"
+       Column        |           Type           | Collation | Nullable | Default 
+---------------------+--------------------------+-----------+----------+---------
+ relid               | oid                      |           |          | 
+ schemaname          | name                     |           |          | 
+ relname             | name                     |           |          | 
+ seq_scan            | bigint                   |           |          | 
+ last_seq_scan       | timestamp with time zone |           |          | 
+ seq_tup_read        | bigint                   |           |          | 
+ idx_scan            | bigint                   |           |          | 
+ last_idx_scan       | timestamp with time zone |           |          | 
+ idx_tup_fetch       | bigint                   |           |          | 
+ n_tup_ins           | bigint                   |           |          | 
+ n_tup_upd           | bigint                   |           |          | 
+ n_tup_del           | bigint                   |           |          | 
+ n_tup_hot_upd       | bigint                   |           |          | 
+ n_tup_newpage_upd   | bigint                   |           |          | 
+ n_live_tup          | bigint                   |           |          | 
+ n_dead_tup          | bigint                   |           |          | 
+ n_mod_since_analyze | bigint                   |           |          | 
+ n_ins_since_vacuum  | bigint                   |           |          | 
+ last_vacuum         | timestamp with time zone |           |          | 
+ last_autovacuum     | timestamp with time zone |           |          | 
+ last_analyze        | timestamp with time zone |           |          | 
+ last_autoanalyze    | timestamp with time zone |           |          | 
+ vacuum_count        | bigint                   |           |          | 
+ autovacuum_count    | bigint                   |           |          | 
+ analyze_count       | bigint                   |           |          | 
+ autoanalyze_count   | bigint                   |           |          | 
+
+            View "pg_catalog.pg_stat_user_functions"
+   Column   |       Type       | Collation | Nullable | Default 
+------------+------------------+-----------+----------+---------
+ funcid     | oid              |           |          | 
+ schemaname | name             |           |          | 
+ funcname   | name             |           |          | 
+ calls      | bigint           |           |          | 
+ total_time | double precision |           |          | 
+ self_time  | double precision |           |          | 
+
+                  View "pg_catalog.pg_stat_user_indexes"
+    Column     |           Type           | Collation | Nullable | Default 
+---------------+--------------------------+-----------+----------+---------
+ relid         | oid                      |           |          | 
+ indexrelid    | oid                      |           |          | 
+ schemaname    | name                     |           |          | 
+ relname       | name                     |           |          | 
+ indexrelname  | name                     |           |          | 
+ idx_scan      | bigint                   |           |          | 
+ last_idx_scan | timestamp with time zone |           |          | 
+ idx_tup_read  | bigint                   |           |          | 
+ idx_tup_fetch | bigint                   |           |          | 
+
+                      View "pg_catalog.pg_stat_user_tables"
+       Column        |           Type           | Collation | Nullable | Default 
+---------------------+--------------------------+-----------+----------+---------
+ relid               | oid                      |           |          | 
+ schemaname          | name                     |           |          | 
+ relname             | name                     |           |          | 
+ seq_scan            | bigint                   |           |          | 
+ last_seq_scan       | timestamp with time zone |           |          | 
+ seq_tup_read        | bigint                   |           |          | 
+ idx_scan            | bigint                   |           |          | 
+ last_idx_scan       | timestamp with time zone |           |          | 
+ idx_tup_fetch       | bigint                   |           |          | 
+ n_tup_ins           | bigint                   |           |          | 
+ n_tup_upd           | bigint                   |           |          | 
+ n_tup_del           | bigint                   |           |          | 
+ n_tup_hot_upd       | bigint                   |           |          | 
+ n_tup_newpage_upd   | bigint                   |           |          | 
+ n_live_tup          | bigint                   |           |          | 
+ n_dead_tup          | bigint                   |           |          | 
+ n_mod_since_analyze | bigint                   |           |          | 
+ n_ins_since_vacuum  | bigint                   |           |          | 
+ last_vacuum         | timestamp with time zone |           |          | 
+ last_autovacuum     | timestamp with time zone |           |          | 
+ last_analyze        | timestamp with time zone |           |          | 
+ last_autoanalyze    | timestamp with time zone |           |          | 
+ vacuum_count        | bigint                   |           |          | 
+ autovacuum_count    | bigint                   |           |          | 
+ analyze_count       | bigint                   |           |          | 
+ autoanalyze_count   | bigint                   |           |          | 
+
+                        View "pg_catalog.pg_stat_wal"
+      Column      |           Type           | Collation | Nullable | Default 
+------------------+--------------------------+-----------+----------+---------
+ wal_records      | bigint                   |           |          | 
+ wal_fpi          | bigint                   |           |          | 
+ wal_bytes        | numeric                  |           |          | 
+ wal_buffers_full | bigint                   |           |          | 
+ wal_write        | bigint                   |           |          | 
+ wal_sync         | bigint                   |           |          | 
+ wal_write_time   | double precision         |           |          | 
+ wal_sync_time    | double precision         |           |          | 
+ stats_reset      | timestamp with time zone |           |          | 
+
+                      View "pg_catalog.pg_stat_wal_receiver"
+        Column         |           Type           | Collation | Nullable | Default 
+-----------------------+--------------------------+-----------+----------+---------
+ pid                   | integer                  |           |          | 
+ status                | text                     |           |          | 
+ receive_start_lsn     | pg_lsn                   |           |          | 
+ receive_start_tli     | integer                  |           |          | 
+ written_lsn           | pg_lsn                   |           |          | 
+ flushed_lsn           | pg_lsn                   |           |          | 
+ received_tli          | integer                  |           |          | 
+ last_msg_send_time    | timestamp with time zone |           |          | 
+ last_msg_receipt_time | timestamp with time zone |           |          | 
+ latest_end_lsn        | pg_lsn                   |           |          | 
+ latest_end_time       | timestamp with time zone |           |          | 
+ slot_name             | text                     |           |          | 
+ sender_host           | text                     |           |          | 
+ sender_port           | integer                  |           |          | 
+ conninfo              | text                     |           |          | 
+
+          View "pg_catalog.pg_stat_xact_all_tables"
+      Column       |  Type  | Collation | Nullable | Default 
+-------------------+--------+-----------+----------+---------
+ relid             | oid    |           |          | 
+ schemaname        | name   |           |          | 
+ relname           | name   |           |          | 
+ seq_scan          | bigint |           |          | 
+ seq_tup_read      | bigint |           |          | 
+ idx_scan          | bigint |           |          | 
+ idx_tup_fetch     | bigint |           |          | 
+ n_tup_ins         | bigint |           |          | 
+ n_tup_upd         | bigint |           |          | 
+ n_tup_del         | bigint |           |          | 
+ n_tup_hot_upd     | bigint |           |          | 
+ n_tup_newpage_upd | bigint |           |          | 
+
+          View "pg_catalog.pg_stat_xact_sys_tables"
+      Column       |  Type  | Collation | Nullable | Default 
+-------------------+--------+-----------+----------+---------
+ relid             | oid    |           |          | 
+ schemaname        | name   |           |          | 
+ relname           | name   |           |          | 
+ seq_scan          | bigint |           |          | 
+ seq_tup_read      | bigint |           |          | 
+ idx_scan          | bigint |           |          | 
+ idx_tup_fetch     | bigint |           |          | 
+ n_tup_ins         | bigint |           |          | 
+ n_tup_upd         | bigint |           |          | 
+ n_tup_del         | bigint |           |          | 
+ n_tup_hot_upd     | bigint |           |          | 
+ n_tup_newpage_upd | bigint |           |          | 
+
+         View "pg_catalog.pg_stat_xact_user_functions"
+   Column   |       Type       | Collation | Nullable | Default 
+------------+------------------+-----------+----------+---------
+ funcid     | oid              |           |          | 
+ schemaname | name             |           |          | 
+ funcname   | name             |           |          | 
+ calls      | bigint           |           |          | 
+ total_time | double precision |           |          | 
+ self_time  | double precision |           |          | 
+
+         View "pg_catalog.pg_stat_xact_user_tables"
+      Column       |  Type  | Collation | Nullable | Default 
+-------------------+--------+-----------+----------+---------
+ relid             | oid    |           |          | 
+ schemaname        | name   |           |          | 
+ relname           | name   |           |          | 
+ seq_scan          | bigint |           |          | 
+ seq_tup_read      | bigint |           |          | 
+ idx_scan          | bigint |           |          | 
+ idx_tup_fetch     | bigint |           |          | 
+ n_tup_ins         | bigint |           |          | 
+ n_tup_upd         | bigint |           |          | 
+ n_tup_del         | bigint |           |          | 
+ n_tup_hot_upd     | bigint |           |          | 
+ n_tup_newpage_upd | bigint |           |          | 
+
+         View "pg_catalog.pg_statio_all_indexes"
+    Column     |  Type  | Collation | Nullable | Default 
+---------------+--------+-----------+----------+---------
+ relid         | oid    |           |          | 
+ indexrelid    | oid    |           |          | 
+ schemaname    | name   |           |          | 
+ relname       | name   |           |          | 
+ indexrelname  | name   |           |          | 
+ idx_blks_read | bigint |           |          | 
+ idx_blks_hit  | bigint |           |          | 
+
+      View "pg_catalog.pg_statio_all_sequences"
+   Column   |  Type  | Collation | Nullable | Default 
+------------+--------+-----------+----------+---------
+ relid      | oid    |           |          | 
+ schemaname | name   |           |          | 
+ relname    | name   |           |          | 
+ blks_read  | bigint |           |          | 
+ blks_hit   | bigint |           |          | 
+
+          View "pg_catalog.pg_statio_all_tables"
+     Column      |  Type  | Collation | Nullable | Default 
+-----------------+--------+-----------+----------+---------
+ relid           | oid    |           |          | 
+ schemaname      | name   |           |          | 
+ relname         | name   |           |          | 
+ heap_blks_read  | bigint |           |          | 
+ heap_blks_hit   | bigint |           |          | 
+ idx_blks_read   | bigint |           |          | 
+ idx_blks_hit    | bigint |           |          | 
+ toast_blks_read | bigint |           |          | 
+ toast_blks_hit  | bigint |           |          | 
+ tidx_blks_read  | bigint |           |          | 
+ tidx_blks_hit   | bigint |           |          | 
+
+         View "pg_catalog.pg_statio_sys_indexes"
+    Column     |  Type  | Collation | Nullable | Default 
+---------------+--------+-----------+----------+---------
+ relid         | oid    |           |          | 
+ indexrelid    | oid    |           |          | 
+ schemaname    | name   |           |          | 
+ relname       | name   |           |          | 
+ indexrelname  | name   |           |          | 
+ idx_blks_read | bigint |           |          | 
+ idx_blks_hit  | bigint |           |          | 
+
+      View "pg_catalog.pg_statio_sys_sequences"
+   Column   |  Type  | Collation | Nullable | Default 
+------------+--------+-----------+----------+---------
+ relid      | oid    |           |          | 
+ schemaname | name   |           |          | 
+ relname    | name   |           |          | 
+ blks_read  | bigint |           |          | 
+ blks_hit   | bigint |           |          | 
+
+          View "pg_catalog.pg_statio_sys_tables"
+     Column      |  Type  | Collation | Nullable | Default 
+-----------------+--------+-----------+----------+---------
+ relid           | oid    |           |          | 
+ schemaname      | name   |           |          | 
+ relname         | name   |           |          | 
+ heap_blks_read  | bigint |           |          | 
+ heap_blks_hit   | bigint |           |          | 
+ idx_blks_read   | bigint |           |          | 
+ idx_blks_hit    | bigint |           |          | 
+ toast_blks_read | bigint |           |          | 
+ toast_blks_hit  | bigint |           |          | 
+ tidx_blks_read  | bigint |           |          | 
+ tidx_blks_hit   | bigint |           |          | 
+
+        View "pg_catalog.pg_statio_user_indexes"
+    Column     |  Type  | Collation | Nullable | Default 
+---------------+--------+-----------+----------+---------
+ relid         | oid    |           |          | 
+ indexrelid    | oid    |           |          | 
+ schemaname    | name   |           |          | 
+ relname       | name   |           |          | 
+ indexrelname  | name   |           |          | 
+ idx_blks_read | bigint |           |          | 
+ idx_blks_hit  | bigint |           |          | 
+
+      View "pg_catalog.pg_statio_user_sequences"
+   Column   |  Type  | Collation | Nullable | Default 
+------------+--------+-----------+----------+---------
+ relid      | oid    |           |          | 
+ schemaname | name   |           |          | 
+ relname    | name   |           |          | 
+ blks_read  | bigint |           |          | 
+ blks_hit   | bigint |           |          | 
+
+          View "pg_catalog.pg_statio_user_tables"
+     Column      |  Type  | Collation | Nullable | Default 
+-----------------+--------+-----------+----------+---------
+ relid           | oid    |           |          | 
+ schemaname      | name   |           |          | 
+ relname         | name   |           |          | 
+ heap_blks_read  | bigint |           |          | 
+ heap_blks_hit   | bigint |           |          | 
+ idx_blks_read   | bigint |           |          | 
+ idx_blks_hit    | bigint |           |          | 
+ toast_blks_read | bigint |           |          | 
+ toast_blks_hit  | bigint |           |          | 
+ tidx_blks_read  | bigint |           |          | 
+ tidx_blks_hit   | bigint |           |          | 
+
+             Table "pg_catalog.pg_statistic"
+   Column    |   Type   | Collation | Nullable | Default 
+-------------+----------+-----------+----------+---------
+ starelid    | oid      |           | not null | 
+ staattnum   | smallint |           | not null | 
+ stainherit  | boolean  |           | not null | 
+ stanullfrac | real     |           | not null | 
+ stawidth    | integer  |           | not null | 
+ stadistinct | real     |           | not null | 
+ stakind1    | smallint |           | not null | 
+ stakind2    | smallint |           | not null | 
+ stakind3    | smallint |           | not null | 
+ stakind4    | smallint |           | not null | 
+ stakind5    | smallint |           | not null | 
+ staop1      | oid      |           | not null | 
+ staop2      | oid      |           | not null | 
+ staop3      | oid      |           | not null | 
+ staop4      | oid      |           | not null | 
+ staop5      | oid      |           | not null | 
+ stacoll1    | oid      |           | not null | 
+ stacoll2    | oid      |           | not null | 
+ stacoll3    | oid      |           | not null | 
+ stacoll4    | oid      |           | not null | 
+ stacoll5    | oid      |           | not null | 
+ stanumbers1 | real[]   |           |          | 
+ stanumbers2 | real[]   |           |          | 
+ stanumbers3 | real[]   |           |          | 
+ stanumbers4 | real[]   |           |          | 
+ stanumbers5 | real[]   |           |          | 
+ stavalues1  | anyarray |           |          | 
+ stavalues2  | anyarray |           |          | 
+ stavalues3  | anyarray |           |          | 
+ stavalues4  | anyarray |           |          | 
+ stavalues5  | anyarray |           |          | 
+Indexes:
+    "pg_statistic_relid_att_inh_index" PRIMARY KEY, btree (starelid, staattnum, stainherit)
+
+              Table "pg_catalog.pg_statistic_ext"
+    Column     |     Type     | Collation | Nullable | Default 
+---------------+--------------+-----------+----------+---------
+ oid           | oid          |           | not null | 
+ stxrelid      | oid          |           | not null | 
+ stxname       | name         |           | not null | 
+ stxnamespace  | oid          |           | not null | 
+ stxowner      | oid          |           | not null | 
+ stxstattarget | integer      |           | not null | 
+ stxkeys       | int2vector   |           | not null | 
+ stxkind       | "char"[]     |           | not null | 
+ stxexprs      | pg_node_tree | C         |          | 
+Indexes:
+    "pg_statistic_ext_oid_index" PRIMARY KEY, btree (oid)
+    "pg_statistic_ext_name_index" UNIQUE CONSTRAINT, btree (stxname, stxnamespace)
+    "pg_statistic_ext_relid_index" btree (stxrelid)
+
+              Table "pg_catalog.pg_statistic_ext_data"
+      Column      |      Type       | Collation | Nullable | Default 
+------------------+-----------------+-----------+----------+---------
+ stxoid           | oid             |           | not null | 
+ stxdinherit      | boolean         |           | not null | 
+ stxdndistinct    | pg_ndistinct    | C         |          | 
+ stxddependencies | pg_dependencies | C         |          | 
+ stxdmcv          | pg_mcv_list     | C         |          | 
+ stxdexpr         | pg_statistic[]  |           |          | 
+Indexes:
+    "pg_statistic_ext_data_stxoid_inh_index" PRIMARY KEY, btree (stxoid, stxdinherit)
+
+Index "pg_catalog.pg_statistic_ext_data_stxoid_inh_index"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ stxoid      | oid     | yes  | stxoid
+ stxdinherit | boolean | yes  | stxdinherit
+primary key, btree, for table "pg_catalog.pg_statistic_ext_data"
+
+Index "pg_catalog.pg_statistic_ext_name_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ stxname      | cstring | yes  | stxname
+ stxnamespace | oid     | yes  | stxnamespace
+unique, btree, for table "pg_catalog.pg_statistic_ext"
+
+Index "pg_catalog.pg_statistic_ext_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_statistic_ext"
+
+Index "pg_catalog.pg_statistic_ext_relid_index"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ stxrelid | oid  | yes  | stxrelid
+btree, for table "pg_catalog.pg_statistic_ext"
+
+Index "pg_catalog.pg_statistic_relid_att_inh_index"
+   Column   |   Type   | Key? | Definition 
+------------+----------+------+------------
+ starelid   | oid      | yes  | starelid
+ staattnum  | smallint | yes  | staattnum
+ stainherit | boolean  | yes  | stainherit
+primary key, btree, for table "pg_catalog.pg_statistic"
+
+                     View "pg_catalog.pg_stats"
+         Column         |   Type   | Collation | Nullable | Default 
+------------------------+----------+-----------+----------+---------
+ schemaname             | name     |           |          | 
+ tablename              | name     |           |          | 
+ attname                | name     |           |          | 
+ inherited              | boolean  |           |          | 
+ null_frac              | real     |           |          | 
+ avg_width              | integer  |           |          | 
+ n_distinct             | real     |           |          | 
+ most_common_vals       | anyarray |           |          | 
+ most_common_freqs      | real[]   |           |          | 
+ histogram_bounds       | anyarray |           |          | 
+ correlation            | real     |           |          | 
+ most_common_elems      | anyarray |           |          | 
+ most_common_elem_freqs | real[]   |           |          | 
+ elem_count_histogram   | real[]   |           |          | 
+
+                        View "pg_catalog.pg_stats_ext"
+         Column         |        Type        | Collation | Nullable | Default 
+------------------------+--------------------+-----------+----------+---------
+ schemaname             | name               |           |          | 
+ tablename              | name               |           |          | 
+ statistics_schemaname  | name               |           |          | 
+ statistics_name        | name               |           |          | 
+ statistics_owner       | name               |           |          | 
+ attnames               | name[]             |           |          | 
+ exprs                  | text[]             |           |          | 
+ kinds                  | "char"[]           |           |          | 
+ inherited              | boolean            |           |          | 
+ n_distinct             | pg_ndistinct       | C         |          | 
+ dependencies           | pg_dependencies    | C         |          | 
+ most_common_vals       | text[]             |           |          | 
+ most_common_val_nulls  | boolean[]          |           |          | 
+ most_common_freqs      | double precision[] |           |          | 
+ most_common_base_freqs | double precision[] |           |          | 
+
+                View "pg_catalog.pg_stats_ext_exprs"
+         Column         |   Type   | Collation | Nullable | Default 
+------------------------+----------+-----------+----------+---------
+ schemaname             | name     |           |          | 
+ tablename              | name     |           |          | 
+ statistics_schemaname  | name     |           |          | 
+ statistics_name        | name     |           |          | 
+ statistics_owner       | name     |           |          | 
+ expr                   | text     |           |          | 
+ inherited              | boolean  |           |          | 
+ null_frac              | real     |           |          | 
+ avg_width              | integer  |           |          | 
+ n_distinct             | real     |           |          | 
+ most_common_vals       | anyarray |           |          | 
+ most_common_freqs      | real[]   |           |          | 
+ histogram_bounds       | anyarray |           |          | 
+ correlation            | real     |           |          | 
+ most_common_elems      | anyarray |           |          | 
+ most_common_elem_freqs | real[]   |           |          | 
+ elem_count_histogram   | real[]   |           |          | 
+
+               Table "pg_catalog.pg_subscription"
+       Column        |  Type   | Collation | Nullable | Default 
+---------------------+---------+-----------+----------+---------
+ oid                 | oid     |           | not null | 
+ subdbid             | oid     |           | not null | 
+ subskiplsn          | pg_lsn  |           | not null | 
+ subname             | name    |           | not null | 
+ subowner            | oid     |           | not null | 
+ subenabled          | boolean |           | not null | 
+ subbinary           | boolean |           | not null | 
+ substream           | "char"  |           | not null | 
+ subtwophasestate    | "char"  |           | not null | 
+ subdisableonerr     | boolean |           | not null | 
+ subpasswordrequired | boolean |           | not null | 
+ subrunasowner       | boolean |           | not null | 
+ subconninfo         | text    | C         | not null | 
+ subslotname         | name    |           |          | 
+ subsynccommit       | text    | C         | not null | 
+ subpublications     | text[]  | C         | not null | 
+ suborigin           | text    | C         |          | 
+Indexes:
+    "pg_subscription_oid_index" PRIMARY KEY, btree (oid), tablespace "pg_global"
+    "pg_subscription_subname_index" UNIQUE CONSTRAINT, btree (subdbid, subname), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_subscription_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_subscription"
+Tablespace: "pg_global"
+
+        Table "pg_catalog.pg_subscription_rel"
+   Column   |  Type  | Collation | Nullable | Default 
+------------+--------+-----------+----------+---------
+ srsubid    | oid    |           | not null | 
+ srrelid    | oid    |           | not null | 
+ srsubstate | "char" |           | not null | 
+ srsublsn   | pg_lsn |           |          | 
+Indexes:
+    "pg_subscription_rel_srrelid_srsubid_index" PRIMARY KEY, btree (srrelid, srsubid)
+
+Index "pg_catalog.pg_subscription_rel_srrelid_srsubid_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ srrelid | oid  | yes  | srrelid
+ srsubid | oid  | yes  | srsubid
+primary key, btree, for table "pg_catalog.pg_subscription_rel"
+
+Index "pg_catalog.pg_subscription_subname_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ subdbid | oid     | yes  | subdbid
+ subname | cstring | yes  | subname
+unique, btree, for table "pg_catalog.pg_subscription"
+Tablespace: "pg_global"
+
+              View "pg_catalog.pg_tables"
+   Column    |  Type   | Collation | Nullable | Default 
+-------------+---------+-----------+----------+---------
+ schemaname  | name    |           |          | 
+ tablename   | name    |           |          | 
+ tableowner  | name    |           |          | 
+ tablespace  | name    |           |          | 
+ hasindexes  | boolean |           |          | 
+ hasrules    | boolean |           |          | 
+ hastriggers | boolean |           |          | 
+ rowsecurity | boolean |           |          | 
+
+            Table "pg_catalog.pg_tablespace"
+   Column   |   Type    | Collation | Nullable | Default 
+------------+-----------+-----------+----------+---------
+ oid        | oid       |           | not null | 
+ spcname    | name      |           | not null | 
+ spcowner   | oid       |           | not null | 
+ spcacl     | aclitem[] |           |          | 
+ spcoptions | text[]    | C         |          | 
+Indexes:
+    "pg_tablespace_oid_index" PRIMARY KEY, btree (oid), tablespace "pg_global"
+    "pg_tablespace_spcname_index" UNIQUE CONSTRAINT, btree (spcname), tablespace "pg_global"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_tablespace_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_tablespace"
+Tablespace: "pg_global"
+
+Index "pg_catalog.pg_tablespace_spcname_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ spcname | cstring | yes  | spcname
+unique, btree, for table "pg_catalog.pg_tablespace"
+Tablespace: "pg_global"
+
+         View "pg_catalog.pg_timezone_abbrevs"
+   Column   |   Type   | Collation | Nullable | Default 
+------------+----------+-----------+----------+---------
+ abbrev     | text     |           |          | 
+ utc_offset | interval |           |          | 
+ is_dst     | boolean  |           |          | 
+
+          View "pg_catalog.pg_timezone_names"
+   Column   |   Type   | Collation | Nullable | Default 
+------------+----------+-----------+----------+---------
+ name       | text     |           |          | 
+ abbrev     | text     |           |          | 
+ utc_offset | interval |           |          | 
+ is_dst     | boolean  |           |          | 
+
+            Table "pg_catalog.pg_transform"
+   Column   |  Type   | Collation | Nullable | Default 
+------------+---------+-----------+----------+---------
+ oid        | oid     |           | not null | 
+ trftype    | oid     |           | not null | 
+ trflang    | oid     |           | not null | 
+ trffromsql | regproc |           | not null | 
+ trftosql   | regproc |           | not null | 
+Indexes:
+    "pg_transform_oid_index" PRIMARY KEY, btree (oid)
+    "pg_transform_type_lang_index" UNIQUE CONSTRAINT, btree (trftype, trflang)
+
+Index "pg_catalog.pg_transform_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_transform"
+
+Index "pg_catalog.pg_transform_type_lang_index"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ trftype | oid  | yes  | trftype
+ trflang | oid  | yes  | trflang
+unique, btree, for table "pg_catalog.pg_transform"
+
+                 Table "pg_catalog.pg_trigger"
+     Column     |     Type     | Collation | Nullable | Default 
+----------------+--------------+-----------+----------+---------
+ oid            | oid          |           | not null | 
+ tgrelid        | oid          |           | not null | 
+ tgparentid     | oid          |           | not null | 
+ tgname         | name         |           | not null | 
+ tgfoid         | oid          |           | not null | 
+ tgtype         | smallint     |           | not null | 
+ tgenabled      | "char"       |           | not null | 
+ tgisinternal   | boolean      |           | not null | 
+ tgconstrrelid  | oid          |           | not null | 
+ tgconstrindid  | oid          |           | not null | 
+ tgconstraint   | oid          |           | not null | 
+ tgdeferrable   | boolean      |           | not null | 
+ tginitdeferred | boolean      |           | not null | 
+ tgnargs        | smallint     |           | not null | 
+ tgattr         | int2vector   |           | not null | 
+ tgargs         | bytea        |           | not null | 
+ tgqual         | pg_node_tree | C         |          | 
+ tgoldtable     | name         |           |          | 
+ tgnewtable     | name         |           |          | 
+Indexes:
+    "pg_trigger_oid_index" PRIMARY KEY, btree (oid)
+    "pg_trigger_tgconstraint_index" btree (tgconstraint)
+    "pg_trigger_tgrelid_tgname_index" UNIQUE CONSTRAINT, btree (tgrelid, tgname)
+
+Index "pg_catalog.pg_trigger_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_trigger"
+
+Index "pg_catalog.pg_trigger_tgconstraint_index"
+    Column    | Type | Key? |  Definition  
+--------------+------+------+--------------
+ tgconstraint | oid  | yes  | tgconstraint
+btree, for table "pg_catalog.pg_trigger"
+
+Index "pg_catalog.pg_trigger_tgrelid_tgname_index"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ tgrelid | oid     | yes  | tgrelid
+ tgname  | cstring | yes  | tgname
+unique, btree, for table "pg_catalog.pg_trigger"
+
+           Table "pg_catalog.pg_ts_config"
+    Column    | Type | Collation | Nullable | Default 
+--------------+------+-----------+----------+---------
+ oid          | oid  |           | not null | 
+ cfgname      | name |           | not null | 
+ cfgnamespace | oid  |           | not null | 
+ cfgowner     | oid  |           | not null | 
+ cfgparser    | oid  |           | not null | 
+Indexes:
+    "pg_ts_config_oid_index" PRIMARY KEY, btree (oid)
+    "pg_ts_config_cfgname_index" UNIQUE CONSTRAINT, btree (cfgname, cfgnamespace)
+
+Index "pg_catalog.pg_ts_config_cfgname_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ cfgname      | cstring | yes  | cfgname
+ cfgnamespace | oid     | yes  | cfgnamespace
+unique, btree, for table "pg_catalog.pg_ts_config"
+
+           Table "pg_catalog.pg_ts_config_map"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ mapcfg       | oid     |           | not null | 
+ maptokentype | integer |           | not null | 
+ mapseqno     | integer |           | not null | 
+ mapdict      | oid     |           | not null | 
+Indexes:
+    "pg_ts_config_map_index" PRIMARY KEY, btree (mapcfg, maptokentype, mapseqno)
+
+  Index "pg_catalog.pg_ts_config_map_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ mapcfg       | oid     | yes  | mapcfg
+ maptokentype | integer | yes  | maptokentype
+ mapseqno     | integer | yes  | mapseqno
+primary key, btree, for table "pg_catalog.pg_ts_config_map"
+
+Index "pg_catalog.pg_ts_config_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_ts_config"
+
+             Table "pg_catalog.pg_ts_dict"
+     Column     | Type | Collation | Nullable | Default 
+----------------+------+-----------+----------+---------
+ oid            | oid  |           | not null | 
+ dictname       | name |           | not null | 
+ dictnamespace  | oid  |           | not null | 
+ dictowner      | oid  |           | not null | 
+ dicttemplate   | oid  |           | not null | 
+ dictinitoption | text | C         |          | 
+Indexes:
+    "pg_ts_dict_oid_index" PRIMARY KEY, btree (oid)
+    "pg_ts_dict_dictname_index" UNIQUE CONSTRAINT, btree (dictname, dictnamespace)
+
+  Index "pg_catalog.pg_ts_dict_dictname_index"
+    Column     |  Type   | Key? |  Definition   
+---------------+---------+------+---------------
+ dictname      | cstring | yes  | dictname
+ dictnamespace | oid     | yes  | dictnamespace
+unique, btree, for table "pg_catalog.pg_ts_dict"
+
+Index "pg_catalog.pg_ts_dict_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_ts_dict"
+
+             Table "pg_catalog.pg_ts_parser"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ oid          | oid     |           | not null | 
+ prsname      | name    |           | not null | 
+ prsnamespace | oid     |           | not null | 
+ prsstart     | regproc |           | not null | 
+ prstoken     | regproc |           | not null | 
+ prsend       | regproc |           | not null | 
+ prsheadline  | regproc |           | not null | 
+ prslextype   | regproc |           | not null | 
+Indexes:
+    "pg_ts_parser_oid_index" PRIMARY KEY, btree (oid)
+    "pg_ts_parser_prsname_index" UNIQUE CONSTRAINT, btree (prsname, prsnamespace)
+
+Index "pg_catalog.pg_ts_parser_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_ts_parser"
+
+Index "pg_catalog.pg_ts_parser_prsname_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ prsname      | cstring | yes  | prsname
+ prsnamespace | oid     | yes  | prsnamespace
+unique, btree, for table "pg_catalog.pg_ts_parser"
+
+            Table "pg_catalog.pg_ts_template"
+    Column     |  Type   | Collation | Nullable | Default 
+---------------+---------+-----------+----------+---------
+ oid           | oid     |           | not null | 
+ tmplname      | name    |           | not null | 
+ tmplnamespace | oid     |           | not null | 
+ tmplinit      | regproc |           | not null | 
+ tmpllexize    | regproc |           | not null | 
+Indexes:
+    "pg_ts_template_oid_index" PRIMARY KEY, btree (oid)
+    "pg_ts_template_tmplname_index" UNIQUE CONSTRAINT, btree (tmplname, tmplnamespace)
+
+Index "pg_catalog.pg_ts_template_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_ts_template"
+
+Index "pg_catalog.pg_ts_template_tmplname_index"
+    Column     |  Type   | Key? |  Definition   
+---------------+---------+------+---------------
+ tmplname      | cstring | yes  | tmplname
+ tmplnamespace | oid     | yes  | tmplnamespace
+unique, btree, for table "pg_catalog.pg_ts_template"
+
+                   Table "pg_catalog.pg_type"
+     Column     |     Type     | Collation | Nullable | Default 
+----------------+--------------+-----------+----------+---------
+ oid            | oid          |           | not null | 
+ typname        | name         |           | not null | 
+ typnamespace   | oid          |           | not null | 
+ typowner       | oid          |           | not null | 
+ typlen         | smallint     |           | not null | 
+ typbyval       | boolean      |           | not null | 
+ typtype        | "char"       |           | not null | 
+ typcategory    | "char"       |           | not null | 
+ typispreferred | boolean      |           | not null | 
+ typisdefined   | boolean      |           | not null | 
+ typdelim       | "char"       |           | not null | 
+ typrelid       | oid          |           | not null | 
+ typsubscript   | regproc      |           | not null | 
+ typelem        | oid          |           | not null | 
+ typarray       | oid          |           | not null | 
+ typinput       | regproc      |           | not null | 
+ typoutput      | regproc      |           | not null | 
+ typreceive     | regproc      |           | not null | 
+ typsend        | regproc      |           | not null | 
+ typmodin       | regproc      |           | not null | 
+ typmodout      | regproc      |           | not null | 
+ typanalyze     | regproc      |           | not null | 
+ typalign       | "char"       |           | not null | 
+ typstorage     | "char"       |           | not null | 
+ typnotnull     | boolean      |           | not null | 
+ typbasetype    | oid          |           | not null | 
+ typtypmod      | integer      |           | not null | 
+ typndims       | integer      |           | not null | 
+ typcollation   | oid          |           | not null | 
+ typdefaultbin  | pg_node_tree | C         |          | 
+ typdefault     | text         | C         |          | 
+ typacl         | aclitem[]    |           |          | 
+Indexes:
+    "pg_type_oid_index" PRIMARY KEY, btree (oid)
+    "pg_type_typname_nsp_index" UNIQUE CONSTRAINT, btree (typname, typnamespace)
+
+Index "pg_catalog.pg_type_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_type"
+
+ Index "pg_catalog.pg_type_typname_nsp_index"
+    Column    |  Type   | Key? |  Definition  
+--------------+---------+------+--------------
+ typname      | cstring | yes  | typname
+ typnamespace | oid     | yes  | typnamespace
+unique, btree, for table "pg_catalog.pg_type"
+
+                        View "pg_catalog.pg_user"
+    Column    |           Type           | Collation | Nullable | Default 
+--------------+--------------------------+-----------+----------+---------
+ usename      | name                     |           |          | 
+ usesysid     | oid                      |           |          | 
+ usecreatedb  | boolean                  |           |          | 
+ usesuper     | boolean                  |           |          | 
+ userepl      | boolean                  |           |          | 
+ usebypassrls | boolean                  |           |          | 
+ passwd       | text                     |           |          | 
+ valuntil     | timestamp with time zone |           |          | 
+ useconfig    | text[]                   | C         |          | 
+
+         Table "pg_catalog.pg_user_mapping"
+  Column   |  Type  | Collation | Nullable | Default 
+-----------+--------+-----------+----------+---------
+ oid       | oid    |           | not null | 
+ umuser    | oid    |           | not null | 
+ umserver  | oid    |           | not null | 
+ umoptions | text[] | C         |          | 
+Indexes:
+    "pg_user_mapping_oid_index" PRIMARY KEY, btree (oid)
+    "pg_user_mapping_user_server_index" UNIQUE CONSTRAINT, btree (umuser, umserver)
+
+Index "pg_catalog.pg_user_mapping_oid_index"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ oid    | oid  | yes  | oid
+primary key, btree, for table "pg_catalog.pg_user_mapping"
+
+Index "pg_catalog.pg_user_mapping_user_server_index"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ umuser   | oid  | yes  | umuser
+ umserver | oid  | yes  | umserver
+unique, btree, for table "pg_catalog.pg_user_mapping"
+
+         View "pg_catalog.pg_user_mappings"
+  Column   |  Type  | Collation | Nullable | Default 
+-----------+--------+-----------+----------+---------
+ umid      | oid    |           |          | 
+ srvid     | oid    |           |          | 
+ srvname   | name   |           |          | 
+ umuser    | oid    |           |          | 
+ usename   | name   |           |          | 
+ umoptions | text[] | C         |          | 
+
+             View "pg_catalog.pg_views"
+   Column   | Type | Collation | Nullable | Default 
+------------+------+-----------+----------+---------
+ schemaname | name |           |          | 
+ viewname   | name |           |          | 
+ viewowner  | name |           |          | 
+ definition | text |           |          | 
+
+                                             Table "public.actor"
+   Column    |              Type              | Collation | Nullable |                 Default                 
+-------------+--------------------------------+-----------+----------+-----------------------------------------
+ actor_id    | integer                        |           | not null | nextval('actor_actor_id_seq'::regclass)
+ first_name  | character varying(45)          |           | not null | 
+ last_name   | character varying(45)          |           | not null | 
+ last_update | timestamp(6) without time zone |           | not null | now()
+Indexes:
+    "actor_pkey" PRIMARY KEY, btree (actor_id)
+    "idx_actor_last_name" btree (last_name)
+Triggers:
+    last_updated BEFORE UPDATE ON actor FOR EACH ROW EXECUTE FUNCTION last_updated()
+
+                Sequence "public.actor_actor_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |   203 |       1 | 2147483647 |         1 | no      |     1
+
+       Index "public.actor_pkey"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ actor_id | integer | yes  | actor_id
+primary key, btree, for table "public.actor"
+
+                                        Table "public.album"
+  Column   |          Type          | Collation | Nullable |                 Default                 
+-----------+------------------------+-----------+----------+-----------------------------------------
+ album_id  | integer                |           | not null | nextval('album_album_id_seq'::regclass)
+ title     | character varying(160) |           | not null | 
+ artist_id | integer                |           | not null | 
+Indexes:
+    "pk_album" PRIMARY KEY, btree (album_id)
+    "ifk_album_artist_id" btree (artist_id)
+Foreign-key constraints:
+    "fk_album_artist_id" FOREIGN KEY (artist_id) REFERENCES artist(artist_id)
+Referenced by:
+    TABLE "track" CONSTRAINT "fk_track_album_id" FOREIGN KEY (album_id) REFERENCES album(album_id)
+
+                Sequence "public.album_album_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |   347 |       1 | 2147483647 |         1 | no      |     1
+
+                                         Table "public.artist"
+  Column   |          Type          | Collation | Nullable |                  Default                  
+-----------+------------------------+-----------+----------+-------------------------------------------
+ artist_id | integer                |           | not null | nextval('artist_artist_id_seq'::regclass)
+ name      | character varying(120) |           |          | 
+Indexes:
+    "pk_artist" PRIMARY KEY, btree (artist_id)
+Referenced by:
+    TABLE "album" CONSTRAINT "fk_album_artist_id" FOREIGN KEY (artist_id) REFERENCES artist(artist_id)
+
+               Sequence "public.artist_artist_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |   275 |       1 | 2147483647 |         1 | no      |     1
+
+                                               Table "public.category"
+   Column    |              Type              | Collation | Nullable |                    Default                    
+-------------+--------------------------------+-----------+----------+-----------------------------------------------
+ category_id | integer                        |           | not null | nextval('category_category_id_seq'::regclass)
+ name        | character varying(25)          |           | not null | 
+ last_update | timestamp(6) without time zone |           | not null | now()
+Indexes:
+    "category_pkey" PRIMARY KEY, btree (category_id)
+Triggers:
+    last_updated BEFORE UPDATE ON category FOR EACH ROW EXECUTE FUNCTION last_updated()
+
+             Sequence "public.category_category_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |    16 |       1 | 2147483647 |         1 | no      |     1
+
+        Index "public.category_pkey"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ category_id | integer | yes  | category_id
+primary key, btree, for table "public.category"
+
+                                            Table "public.customer"
+     Column     |         Type          | Collation | Nullable |                    Default                    
+----------------+-----------------------+-----------+----------+-----------------------------------------------
+ customer_id    | integer               |           | not null | nextval('customer_customer_id_seq'::regclass)
+ first_name     | character varying(40) |           | not null | 
+ last_name      | character varying(20) |           | not null | 
+ company        | character varying(80) |           |          | 
+ address        | character varying(70) |           |          | 
+ city           | character varying(40) |           |          | 
+ state          | character varying(40) |           |          | 
+ country        | character varying(40) |           |          | 
+ postal_code    | character varying(10) |           |          | 
+ phone          | character varying(24) |           |          | 
+ fax            | character varying(24) |           |          | 
+ email          | character varying(60) |           | not null | 
+ support_rep_id | integer               |           |          | 
+Indexes:
+    "pk_customer" PRIMARY KEY, btree (customer_id)
+    "ifk_customer_support_rep_id" btree (support_rep_id)
+Foreign-key constraints:
+    "fk_customer_support_rep_id" FOREIGN KEY (support_rep_id) REFERENCES employee(employee_id)
+Referenced by:
+    TABLE "invoice" CONSTRAINT "fk_invoice_customer_id" FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+
+             Sequence "public.customer_customer_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |    59 |       1 | 2147483647 |         1 | no      |     1
+
+                                             Table "public.employee"
+   Column    |            Type             | Collation | Nullable |                    Default                    
+-------------+-----------------------------+-----------+----------+-----------------------------------------------
+ employee_id | integer                     |           | not null | nextval('employee_employee_id_seq'::regclass)
+ last_name   | character varying(20)       |           | not null | 
+ first_name  | character varying(20)       |           | not null | 
+ title       | character varying(30)       |           |          | 
+ reports_to  | integer                     |           |          | 
+ birth_date  | timestamp without time zone |           |          | 
+ hire_date   | timestamp without time zone |           |          | 
+ address     | character varying(70)       |           |          | 
+ city        | character varying(40)       |           |          | 
+ state       | character varying(40)       |           |          | 
+ country     | character varying(40)       |           |          | 
+ postal_code | character varying(10)       |           |          | 
+ phone       | character varying(24)       |           |          | 
+ fax         | character varying(24)       |           |          | 
+ email       | character varying(60)       |           |          | 
+Indexes:
+    "pk_employee" PRIMARY KEY, btree (employee_id)
+    "ifk_employee_reports_to" btree (reports_to)
+Foreign-key constraints:
+    "fk_employee_reports_to" FOREIGN KEY (reports_to) REFERENCES employee(employee_id)
+Referenced by:
+    TABLE "customer" CONSTRAINT "fk_customer_support_rep_id" FOREIGN KEY (support_rep_id) REFERENCES employee(employee_id)
+    TABLE "employee" CONSTRAINT "fk_employee_reports_to" FOREIGN KEY (reports_to) REFERENCES employee(employee_id)
+
+             Sequence "public.employee_employee_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |     8 |       1 | 2147483647 |         1 | no      |     1
+
+                                               Table "public.film"
+      Column      |              Type              | Collation | Nullable |                Default                
+------------------+--------------------------------+-----------+----------+---------------------------------------
+ film_id          | integer                        |           | not null | nextval('film_film_id_seq'::regclass)
+ title            | character varying(255)         |           | not null | 
+ description      | text                           |           |          | 
+ release_year     | integer                        |           |          | 
+ language_id      | smallint                       |           | not null | 
+ rental_duration  | smallint                       |           | not null | 3
+ rental_rate      | numeric(4,2)                   |           | not null | 4.99
+ length           | smallint                       |           |          | 
+ replacement_cost | numeric(5,2)                   |           | not null | 19.99
+ rating           | text                           |           |          | 'G'::text
+ last_update      | timestamp(6) without time zone |           | not null | now()
+ special_features | text[]                         |           |          | 
+ fulltext         | tsvector                       |           | not null | 
+Indexes:
+    "film_pkey" PRIMARY KEY, btree (film_id)
+    "film_fulltext_idx" gist (fulltext)
+    "idx_fk_language_id" btree (language_id)
+    "idx_title" btree (title)
+Triggers:
+    film_fulltext_trigger BEFORE INSERT OR UPDATE ON film FOR EACH ROW EXECUTE FUNCTION tsvector_update_trigger('fulltext', 'pg_catalog.english', 'title', 'description')
+    last_updated BEFORE UPDATE ON film FOR EACH ROW EXECUTE FUNCTION last_updated()
+
+                           Table "public.film_actor"
+   Column    |              Type              | Collation | Nullable | Default 
+-------------+--------------------------------+-----------+----------+---------
+ actor_id    | smallint                       |           | not null | 
+ film_id     | smallint                       |           | not null | 
+ last_update | timestamp(6) without time zone |           | not null | now()
+Indexes:
+    "film_actor_pkey" PRIMARY KEY, btree (actor_id, film_id)
+    "idx_fk_film_id" btree (film_id)
+Triggers:
+    last_updated BEFORE UPDATE ON film_actor FOR EACH ROW EXECUTE FUNCTION last_updated()
+
+     Index "public.film_actor_pkey"
+  Column  |   Type   | Key? | Definition 
+----------+----------+------+------------
+ actor_id | smallint | yes  | actor_id
+ film_id  | smallint | yes  | film_id
+primary key, btree, for table "public.film_actor"
+
+                         Table "public.film_category"
+   Column    |              Type              | Collation | Nullable | Default 
+-------------+--------------------------------+-----------+----------+---------
+ film_id     | smallint                       |           | not null | 
+ category_id | smallint                       |           | not null | 
+ last_update | timestamp(6) without time zone |           | not null | now()
+
+                 Sequence "public.film_film_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |  1000 |       1 | 2147483647 |         1 | no      |     1
+
+     Index "public.film_fulltext_idx"
+  Column  |   Type    | Key? | Definition 
+----------+-----------+------+------------
+ fulltext | gtsvector | yes  | fulltext
+gist, for table "public.film"
+
+       Index "public.film_pkey"
+ Column  |  Type   | Key? | Definition 
+---------+---------+------+------------
+ film_id | integer | yes  | film_id
+primary key, btree, for table "public.film"
+
+                                        Table "public.genre"
+  Column  |          Type          | Collation | Nullable |                 Default                 
+----------+------------------------+-----------+----------+-----------------------------------------
+ genre_id | integer                |           | not null | nextval('genre_genre_id_seq'::regclass)
+ name     | character varying(120) |           |          | 
+Indexes:
+    "pk_genre" PRIMARY KEY, btree (genre_id)
+Referenced by:
+    TABLE "track" CONSTRAINT "fk_track_genre_id" FOREIGN KEY (genre_id) REFERENCES genre(genre_id)
+
+                Sequence "public.genre_genre_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |    25 |       1 | 2147483647 |         1 | no      |     1
+
+          Index "public.idx_actor_last_name"
+  Column   |         Type          | Key? | Definition 
+-----------+-----------------------+------+------------
+ last_name | character varying(45) | yes  | last_name
+btree, for table "public.actor"
+
+     Index "public.idx_fk_film_id"
+ Column  |   Type   | Key? | Definition 
+---------+----------+------+------------
+ film_id | smallint | yes  | film_id
+btree, for table "public.film_actor"
+
+      Index "public.idx_fk_language_id"
+   Column    |   Type   | Key? | Definition  
+-------------+----------+------+-------------
+ language_id | smallint | yes  | language_id
+btree, for table "public.film"
+
+              Index "public.idx_title"
+ Column |          Type          | Key? | Definition 
+--------+------------------------+------+------------
+ title  | character varying(255) | yes  | title
+btree, for table "public.film"
+
+   Index "public.ifk_album_artist_id"
+  Column   |  Type   | Key? | Definition 
+-----------+---------+------+------------
+ artist_id | integer | yes  | artist_id
+btree, for table "public.album"
+
+    Index "public.ifk_customer_support_rep_id"
+     Column     |  Type   | Key? |   Definition   
+----------------+---------+------+----------------
+ support_rep_id | integer | yes  | support_rep_id
+btree, for table "public.customer"
+
+  Index "public.ifk_employee_reports_to"
+   Column   |  Type   | Key? | Definition 
+------------+---------+------+------------
+ reports_to | integer | yes  | reports_to
+btree, for table "public.employee"
+
+   Index "public.ifk_invoice_customer_id"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ customer_id | integer | yes  | customer_id
+btree, for table "public.invoice"
+
+Index "public.ifk_invoice_line_invoice_id"
+   Column   |  Type   | Key? | Definition 
+------------+---------+------+------------
+ invoice_id | integer | yes  | invoice_id
+btree, for table "public.invoice_line"
+
+Index "public.ifk_invoice_line_track_id"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ track_id | integer | yes  | track_id
+btree, for table "public.invoice_line"
+
+Index "public.ifk_playlist_track_track_id"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ track_id | integer | yes  | track_id
+btree, for table "public.playlist_track"
+
+   Index "public.ifk_track_album_id"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ album_id | integer | yes  | album_id
+btree, for table "public.track"
+
+   Index "public.ifk_track_genre_id"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ genre_id | integer | yes  | genre_id
+btree, for table "public.track"
+
+     Index "public.ifk_track_media_type_id"
+    Column     |  Type   | Key? |  Definition   
+---------------+---------+------+---------------
+ media_type_id | integer | yes  | media_type_id
+btree, for table "public.track"
+
+                                                 Table "public.invoice"
+       Column        |            Type             | Collation | Nullable |                   Default                   
+---------------------+-----------------------------+-----------+----------+---------------------------------------------
+ invoice_id          | integer                     |           | not null | nextval('invoice_invoice_id_seq'::regclass)
+ customer_id         | integer                     |           | not null | 
+ invoice_date        | timestamp without time zone |           | not null | 
+ billing_address     | character varying(70)       |           |          | 
+ billing_city        | character varying(40)       |           |          | 
+ billing_state       | character varying(40)       |           |          | 
+ billing_country     | character varying(40)       |           |          | 
+ billing_postal_code | character varying(10)       |           |          | 
+ total               | numeric(10,2)               |           | not null | 
+Indexes:
+    "pk_invoice" PRIMARY KEY, btree (invoice_id)
+    "ifk_invoice_customer_id" btree (customer_id)
+Foreign-key constraints:
+    "fk_invoice_customer_id" FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+Referenced by:
+    TABLE "invoice_line" CONSTRAINT "fk_invoice_line_invoice_id" FOREIGN KEY (invoice_id) REFERENCES invoice(invoice_id)
+
+              Sequence "public.invoice_invoice_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |   412 |       1 | 2147483647 |         1 | no      |     1
+
+                                         Table "public.invoice_line"
+     Column      |     Type      | Collation | Nullable |                       Default                       
+-----------------+---------------+-----------+----------+-----------------------------------------------------
+ invoice_line_id | integer       |           | not null | nextval('invoiceline_invoiceline_id_seq'::regclass)
+ invoice_id      | integer       |           | not null | 
+ track_id        | integer       |           | not null | 
+ unit_price      | numeric(10,2) |           | not null | 
+ quantity        | integer       |           | not null | 
+Indexes:
+    "ok_invoice_line" PRIMARY KEY, btree (invoice_line_id)
+    "ifk_invoice_line_invoice_id" btree (invoice_id)
+    "ifk_invoice_line_track_id" btree (track_id)
+Foreign-key constraints:
+    "fk_invoice_line_invoice_id" FOREIGN KEY (invoice_id) REFERENCES invoice(invoice_id)
+    "fk_invoice_line_track_id" FOREIGN KEY (track_id) REFERENCES track(track_id)
+
+          Sequence "public.invoiceline_invoiceline_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |  2240 |       1 | 2147483647 |         1 | no      |     1
+
+                                            Table "public.media_type"
+    Column     |          Type          | Collation | Nullable |                     Default                     
+---------------+------------------------+-----------+----------+-------------------------------------------------
+ media_type_id | integer                |           | not null | nextval('mediatype_mediatype_id_seq'::regclass)
+ name          | character varying(120) |           |          | 
+Indexes:
+    "pk_media_type" PRIMARY KEY, btree (media_type_id)
+Referenced by:
+    TABLE "track" CONSTRAINT "fk_track_media_type_id" FOREIGN KEY (media_type_id) REFERENCES media_type(media_type_id)
+
+            Sequence "public.mediatype_mediatype_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |     5 |       1 | 2147483647 |         1 | no      |     1
+
+           Index "public.ok_invoice_line"
+     Column      |  Type   | Key? |   Definition    
+-----------------+---------+------+-----------------
+ invoice_line_id | integer | yes  | invoice_line_id
+primary key, btree, for table "public.invoice_line"
+
+        Index "public.pk_album"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ album_id | integer | yes  | album_id
+primary key, btree, for table "public.album"
+
+        Index "public.pk_artist"
+  Column   |  Type   | Key? | Definition 
+-----------+---------+------+------------
+ artist_id | integer | yes  | artist_id
+primary key, btree, for table "public.artist"
+
+         Index "public.pk_customer"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ customer_id | integer | yes  | customer_id
+primary key, btree, for table "public.customer"
+
+         Index "public.pk_employee"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ employee_id | integer | yes  | employee_id
+primary key, btree, for table "public.employee"
+
+        Index "public.pk_genre"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ genre_id | integer | yes  | genre_id
+primary key, btree, for table "public.genre"
+
+        Index "public.pk_invoice"
+   Column   |  Type   | Key? | Definition 
+------------+---------+------+------------
+ invoice_id | integer | yes  | invoice_id
+primary key, btree, for table "public.invoice"
+
+          Index "public.pk_media_type"
+    Column     |  Type   | Key? |  Definition   
+---------------+---------+------+---------------
+ media_type_id | integer | yes  | media_type_id
+primary key, btree, for table "public.media_type"
+
+         Index "public.pk_playlist"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ playlist_id | integer | yes  | playlist_id
+primary key, btree, for table "public.playlist"
+
+      Index "public.pk_playlist_track"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ playlist_id | integer | yes  | playlist_id
+ track_id    | integer | yes  | track_id
+primary key, btree, for table "public.playlist_track"
+
+        Index "public.pk_track"
+  Column  |  Type   | Key? | Definition 
+----------+---------+------+------------
+ track_id | integer | yes  | track_id
+primary key, btree, for table "public.track"
+
+                                           Table "public.playlist"
+   Column    |          Type          | Collation | Nullable |                    Default                    
+-------------+------------------------+-----------+----------+-----------------------------------------------
+ playlist_id | integer                |           | not null | nextval('playlist_playlist_id_seq'::regclass)
+ name        | character varying(120) |           |          | 
+Indexes:
+    "pk_playlist" PRIMARY KEY, btree (playlist_id)
+Referenced by:
+    TABLE "playlist_track" CONSTRAINT "fk_playlist_track_playlist_id" FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id)
+
+             Sequence "public.playlist_playlist_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |    18 |       1 | 2147483647 |         1 | no      |     1
+
+             Table "public.playlist_track"
+   Column    |  Type   | Collation | Nullable | Default 
+-------------+---------+-----------+----------+---------
+ playlist_id | integer |           | not null | 
+ track_id    | integer |           | not null | 
+Indexes:
+    "pk_playlist_track" PRIMARY KEY, btree (playlist_id, track_id)
+    "ifk_playlist_track_track_id" btree (track_id)
+Foreign-key constraints:
+    "fk_playlist_track_playlist_id" FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id)
+    "fk_playlist_track_track_id" FOREIGN KEY (track_id) REFERENCES track(track_id)
+
+                                          Table "public.track"
+    Column     |          Type          | Collation | Nullable |                 Default                 
+---------------+------------------------+-----------+----------+-----------------------------------------
+ track_id      | integer                |           | not null | nextval('track_track_id_seq'::regclass)
+ name          | character varying(200) |           | not null | 
+ album_id      | integer                |           |          | 
+ media_type_id | integer                |           | not null | 
+ genre_id      | integer                |           |          | 
+ composer      | character varying(220) |           |          | 
+ milliseconds  | integer                |           | not null | 
+ bytes         | integer                |           |          | 
+ unit_price    | numeric(10,2)          |           | not null | 
+Indexes:
+    "pk_track" PRIMARY KEY, btree (track_id)
+    "ifk_track_album_id" btree (album_id)
+    "ifk_track_genre_id" btree (genre_id)
+    "ifk_track_media_type_id" btree (media_type_id)
+Foreign-key constraints:
+    "fk_track_album_id" FOREIGN KEY (album_id) REFERENCES album(album_id)
+    "fk_track_genre_id" FOREIGN KEY (genre_id) REFERENCES genre(genre_id)
+    "fk_track_media_type_id" FOREIGN KEY (media_type_id) REFERENCES media_type(media_type_id)
+Referenced by:
+    TABLE "invoice_line" CONSTRAINT "fk_invoice_line_track_id" FOREIGN KEY (track_id) REFERENCES track(track_id)
+    TABLE "playlist_track" CONSTRAINT "fk_playlist_track_track_id" FOREIGN KEY (track_id) REFERENCES track(track_id)
+
+                Sequence "public.track_track_id_seq"
+  Type  | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+--------+-------+---------+------------+-----------+---------+-------
+ bigint |  3503 |       1 | 2147483647 |         1 | no      |     1
+

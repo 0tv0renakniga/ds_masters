@@ -1,26 +1,87 @@
 %------------------
 % Question
 %------------------
-Question 7:\item Multiclass kernel SVM. In this problem, we'll use support vector machines to classify the MNIST data set of handwritten digits.
+Question 8:  \item \textbf{Credit Card Fraud Data.} Download the data set at \url{https://www.kaggle.com/mlg-ulb/creditcardfraud}. This data set has details of 284,807 credit card transactions, some of which are fraudulent. Each transaction is represented by 28 features (scrambled using PCA) and has a corresponding label (1 is fraudulent and 0 is legitimate).
 \begin{enumerate}
-    \item Load in the MNIST data: a training set of 60,000 points and a separate test set of 10,000 points.
-    \item Learn a linear SVM classifier using \texttt{sklearn.svm.LinearSVC}. You will need to set \texttt{loss='hinge'}. Try different values of the tradeoff parameter: $C = 0.01, 0.1, 1.0, 10.0, 100.0$. In each case, report the training error and test error. Do you think this data is linearly separable?
-    \item Now try kernel SVM with a quadratic kernel. You can do this with \texttt{sklearn.svm.SVC}, setting \texttt{kernel='poly'} and \texttt{degree=2}. Just try the single setting $C = 1.0$. Report the training error, the test error, and the number of support vectors.
-\end{enumerate}
-%-----------------
-%Python code
-%-----------------
-## load the MNIST training set
-train_data = load_mnist_images('train-images-idx3-ubyte.gz')
-## normalize the data to be between 0 and 1
-train_data = train_data//255
-train_labels = load_mnist_labels('train-labels-idx1-ubyte.gz')
+  \item How many of the transactions are fraudulent? Why might this be problematic when learning a classifier?
+  \item Downsample the legitimate transactions to make the data set more balanced. For instance, you might try to make sure that each class (legitimate or fraudulent) makes up at least 25\% of the data set.
+  \item Fit three kinds of classifier to the data:
+    \begin{itemize}
+      \item Decision tree
+      \item Boosted decision stumps
+      \item Random forest
+    \end{itemize}
+  In each case, use cross-validation to estimate the confusion matrix. For cross-validation, you might find \texttt{sklearn.model\_selection.cross\_val\_predict} helpful; for the confusion matrix, use \texttt{sklearn.metrics.confusion\_matrix} or \texttt{sklearn.metrics.ConfusionMatrixDisplay}.
+\end{enumerate} 
 
-## load the MNIST testing set
-test_data = load_mnist_images('t10k-images-idx3-ubyte.gz')
-## normalize the data to be between 0 and 1
-test_data = test_data//255
-test_labels = load_mnist_labels('t10k-labels-idx1-ubyte.gz')
+
+%-----------------
+% preview creditcard.csv
+%----------------
+"Time","V1","V2","V3","V4","V5","V6","V7","V8","V9","V10","V11","V12","V13","V14","V15","V16","V17","V18","V19","V20","V21","V22","V23","V24","V25","V26","V27","V28","Amount","Class"
+0,-1.3598071336738,-0.0727811733098497,2.53634673796914,1.37815522427443,-0.338320769942518,0.462387777762292,0.239598554061257,0.0986979012610507,0.363786969611213,0.0907941719789316,-0.551599533260813,-0.617800855762348,-0.991389847235408,-0.311169353699879,1.46817697209427,-0.470400525259478,0.207971241929242,0.0257905801985591,0.403992960255733,0.251412098239705,-0.018306777944153,0.277837575558899,-0.110473910188767,0.0669280749146731,0.128539358273528,-0.189114843888824,0.133558376740387,-0.0210530534538215,149.62,"0"
+
+
+%------------------
+% Question
+%------------------
+Question 7:  \item \textbf{A Toy 2-D Data Set for Decision Trees and Boosting.} Obtain the data set \texttt{mini-data.txt} from the course webpage. Each line has a two-dimensional data point followed by a label (0 or 1).
+\begin{enumerate}
+  \item Plot this data to see what it looks like. Show this plot in your writeup.
+  \item Use \texttt{sklearn.tree.DecisionTreeClassifier} to fit a decision tree to the data. What stopping criterion did you use?
+  \item Display the tree using \texttt{sklearn.tree.plot\_tree}.
+  \item Fit boosted decision stumps to this data using \texttt{sklearn.ensemble.AdaBoostClassifier}. Use a relatively small number of stumps, and display each of them.
+  \item Give a table showing how accuracy on the training data improves as each successive stump is added.
+\end{enumerate}
+
+
+%-----------------
+% mini-data.txt preview
+%-----------------
+0.0976270078546495 0.43037873274483895 1.0
+0.20552675214328775 0.08976636599379373 1.0
+-0.15269040132219058 0.29178822613331223 1.0
+-0.12482557747461498 0.7835460015641595 0.0
+0.9273255210020586 -0.2331169623484446 0.0
+0.5834500761653292 0.05778983950580896 0.0
+0.13608912218786462 0.8511932765853221 0.0
+-0.8579278836042261 -0.8257414005969186 0.0
+-0.9595632051193486 0.665239691095876 0.0
+0.556313501899701 0.7400242964936383 0.0
+
+%-----------------
+% Python read data and initial plot
+%-----------------
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+## Load data from mini-data.txt and data2.txt
+data = np.loadtxt('mini-data.txt')
+
+# Initialize x, y from mini-data.txt
+x_data = data[:, :2]
+y_data = data[:, 2].astype(dtype=int)
+
+## quick look at mini-data.txt
+fig, ax = plt.subplots(1,1,figsize=(6,6))
+fig.suptitle('Sneak Peak at mini-data.txt')
+
+sns.scatterplot(x=x_data[:,0],y=x_data[:,1],hue=y_data,ax=ax)
+
+x_min, x_max = x_data[:,0].min(), x_data[:,0].max()
+y_min, y_max = x_data[:,1].min(), x_data[:,1].max()
+x_buffer = (x_max - x_min) * 0.1 
+y_buffer = (y_max - y_min) * 0.1
+
+ax.set_xlim(x_min - x_buffer, x_max + x_buffer)
+ax.set_ylim(y_min - y_buffer, y_max + y_buffer)
+ax.set_xlabel('x1')
+ax.set_ylabel('x2')
+
+legend = ax.legend(bbox_to_anchor=(0.65, 1.09), ncol=2,frameon=False)
+
+plt.show()
 %------------------
 %Example Solution Format
 %------------------

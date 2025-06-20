@@ -1,0 +1,5 @@
+classifier	test_accuracy
+logistic regression	0.9542
+k-NN (k=1)	0.9673
+k-NN (k=3)	0.9542
+k-NN (k=5)	0.9608

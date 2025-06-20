@@ -1,0 +1,616 @@
+## Quiz 2
+
+If the primary key of a relation consists of the attributes A;B, then no record can have A = B.
+
+Group of answer choices
+
+
+True
+
+
+False
+
+The table Arc(x,y) currently has the following tuples (note there are duplicates): (1,2), (1,2), (2,3), (3,4), (3,4), (4,1), (4,1), (4,1), (4,2). Compute the result of the query:Which of the following tuples is in the result?
+
+SELECT a1.x, a2.y, COUNT(*)
+
+FROM Arc a1, Arc a2
+
+WHERE a1.y = a2.x
+
+GROUP BY a1.x, a2.y;
+
+Group of answer choices
+
+
+(1,2,4)
+
+
+(3,3,1)
+
+
+(2,4,6)
+
+
+(4,3,1) 
+
+For any set of attributes X, the set $X^{+}$ is a superkey.
+
+True or False? 
+
+## Quiz 3
+
+Given a relation with 4 attributes, how many different hash indexes can be built on this relation?
+Group of answer choices
+12
+20
+-18
+14
+
+Which of the following kinds of predicates in a selection query is amenable to being sped up using both a hash index and B+ tree index?
+Group of answer choices
+Greater than or equal to
+Less than
+-Equal to
+Not equal to
+
+Which of the following is often a key benefit of declarativity in data systems?
+Group of answer choices
+Higher productivity for users
+-All of the three
+Easier portability across evolving hardware
+Enables more automated runtime optimizations
+
+
+
+
+Compute the intersection of the relations R(A,B,C):
+
+R = 
+
+A
+	
+
+B
+	
+
+C
+
+1
+	
+
+2
+	
+
+3
+
+4
+	
+
+2
+	
+
+3
+
+4
+	
+
+5
+	
+
+6
+
+2
+	
+
+5
+	
+
+3
+
+1
+	
+
+2
+	
+
+6
+
+S = 
+
+A
+	
+
+B
+	
+
+C
+
+2
+	
+
+5
+	
+
+3
+
+2
+	
+
+5
+	
+
+4
+
+4
+	
+
+5
+	
+
+6
+
+1
+	
+
+2
+	
+
+3
+
+Which of the following tuples appears in R ∩ S?
+Group of answer choices
+(2,4,3)
+(1,2,6)
+(2,5,4)
+-(1,2,3)
+
+
+
+
+Suppose relation R(A,B) has the tuples:
+
+R = 
+
+A
+	
+
+B
+
+1
+	
+
+2
+
+3
+	
+
+4
+
+5
+	
+
+6
+
+and the relation S(B,C,D) has tuples:
+
+S = 
+
+B
+	
+
+C
+	
+
+D
+
+2
+	
+
+4
+	
+
+6
+
+4
+	
+
+6
+	
+
+8
+
+4
+	
+
+7
+	
+
+9
+
+Compute the theta-join of R and S with the condition R.A < S.C AND R.B < S.D. Then, identify from the list below one of the tuples in R |><|R.A < S.C AND R.B < S.D S. You may assume the schema of the result is (A, R.B, S.B, C, D).
+Group of answer choices
+(1,2,2,6,8)
+(3,4,5,7,9)
+-(1,2,2,4,6)
+(5,6,2,4,6)
+
+
+
+
+What is the selectivity of the following query when applied to the following instance of the Ratings relation?
+
+SELECT * FROM Ratings WHERE NOT (Stars > 3.0);
+RatingID 	Stars 	UserID 	MovieID
+1 	4.0 	79 	42
+2 	3.0 	80 	20
+3 	4.0 	79 	53
+4 	2.0 	123 	42
+5 	5.0 	32 	20
+Group of answer choices
+60%
+20%
+80%
+40%
+
+
+
+
+Consider the following chart showing Pareto tradeoffs of 4 different ML models on two metrics of interest. Suppose you are told that model D is Pareto-optimal. For which of the following metrics on the X axis will that make sense?
+
+Module 1:2 Midterm Question 7 Image.png
+Group of answer choices
+-Training throughput (examples per second)
+Training cost (dollars)
+Space footprint (bytes)
+Inference latency (seconds)
+
+Which structured data model(s) support(s) in-place edits to the data?
+Group of answer choices
+Relation
+DataFrame
+Matrix
+-All of the three
+
+Which of the following best describes the relational data model?
+Group of answer choices
+A data model that organizes data into a hierarchy of entities and relationships
+A data model that organizes data into a tree structure
+A data model that organizes data into a set of tables with columns and rows
+A data model that organizes data into a graph structure
+
+here is a table representing a rlation named s
+
+student_id,name,age,gender,
+1,john,22,male
+2,jane,20,female
+3,zhang,21,male
+
+which is NOT a true statement
+age is an attribute
+s has four attributes
+(3,zhang,21,male is a tuple of R)
+S has four tuples
+
+
+suppose relations R(A,B) and S(B,C,D)
+
+R=
+A,B
+1,2
+3,4
+5,6
+
+S=
+B,C,D
+2,4,6
+4,6,8
+4,7,9
+
+SELECT A, R.B, S.B,C,D
+FROM R,S
+WHERE R.A<S.C AND R.B < S.D 
+
+identify one of the tuples in the result 
+(1,2,2,4,6)
+(5,6,2,4,6)
+(3,4,4,7,8)
+(3,4,5,7,9)
+
+suppose R(A,B) has a tuple t:(A=2,B=NULL)
+The following query outputs t
+SELECT *
+FROM R 
+WHERE(((A IS NULL) or (B=2)) AND (B IS NULL))
+
+Given R(A,B,C)
+A,B,C
+0,1,2
+0,1,3
+4,5,6
+4,6,3
+compute the generized projection $\pi_{B,A+C,B}(R)$ and id which tuple is in the projection
+(10,5,10)
+(1,1,3)
+(1,3,0)
+(6,7,6)
+
+TRUE/FAALSE a left outer join can always be written using a right outter join
+
+Consider the following query on the Netfix database scheme discussed in the lecters with ratings relation alias R and movies relation alias M. which is the query that is equikivant to this query
+$\sigma Year = 2021 ∩ Stars =5.0(R|><|M) 
+
+\sigma Year =2021(R) \bowtie \sigmaStars =5.0(M)
+$\sigma Year = 2021 ∩ Stars =5.0(R)\bowtie(M) 
+$\sigma Year = 2021 ∩ Stars =5.0(M)\bowtie(R)
+\sigma Year =2021(M) \bowtie \sigmaStars =5.0(R)
+
+a primary index is necessarily also the following type of index
+
+A. none of these
+B. Composite
+C. Unique
+D. Secondary
+
+
+
+consider the following schema:
+student(snum:integer,sname:string, major:string,level:string,age,integer)
+class(cname:string,meets_at:time,room:string,fid:integer)
+faculty(fid:integer,fname:string,depid:integer)
+enrolled(snm:integer,cname:string)
+
+a) write the SQL statement required to create the above relations, including the appropriate versions of all primary and forigen keywordstyle
+b) write the SQL statements that finds the names of all senior studnets(Student.level="Junior") who have less than 25 years old (Student.age<25) and enrolled in a class taught by Prof.Gupta(Faulcuty.fname="Gupta")
+c) write the SQL statements that finds the names of faulculty names of faculty members for who the combined enrollment of courses they teach is less than 3
+d) for each level print the lvel an the avgerage age of student for that level
+e) write the SQL statements that for each faculty member that taught classes only in room "R2010" prints the faculty members name and the total number of classes he or she has taught
+f) write the SQL statements that computes the average age of all students who are majoring in "DATA SCIENCE" and are enrolled in "DSC80" and "DSC 100"
+g) write the SQL statement that find the names of students not enrolled in any class
+h) Find the names of studnet that are either junior(Student.level="Junior" or enrolled in at most 2 courses)
+
+
+-- University Database SQL Solutions
+
+-- Schema:
+-- student(snum:integer, sname:string, major:string, level:string, age:integer)
+-- class(cname:string, meets_at:time, room:string, fid:integer)
+-- faculty(fid:integer, fname:string, depid:integer)
+-- enrolled(snum:integer, cname:string)
+
+-- a) SQL statements to create the relations with primary and foreign keys
+
+-- Create the student table
+CREATE TABLE student (
+    snum INTEGER PRIMARY KEY,
+    sname VARCHAR(100) NOT NULL,
+    major VARCHAR(50),
+    level VARCHAR(20),
+    age INTEGER
+);
+
+-- Create the faculty table
+CREATE TABLE faculty (
+    fid INTEGER PRIMARY KEY,
+    fname VARCHAR(100) NOT NULL,
+    depid INTEGER
+);
+
+-- Create the class table with foreign key to faculty
+CREATE TABLE class (
+    cname VARCHAR(50) PRIMARY KEY,
+    meets_at TIME,
+    room VARCHAR(20),
+    fid INTEGER,
+    FOREIGN KEY (fid) REFERENCES faculty(fid)
+);
+
+-- Create the enrolled table with composite primary key and foreign keys
+-- Note: There's a typo in the schema (snm instead of snum), corrected here
+CREATE TABLE enrolled (
+    snum INTEGER,
+    cname VARCHAR(50),
+    PRIMARY KEY (snum, cname),
+    FOREIGN KEY (snum) REFERENCES student(snum),
+    FOREIGN KEY (cname) REFERENCES class(cname)
+);
+
+-- b) Find names of junior students under 25 enrolled in Prof. Gupta's class
+-- Note: There's a discrepancy in the problem (says "senior students" but condition is "Junior")
+SELECT DISTINCT s.sname
+FROM student s
+JOIN enrolled e ON s.snum = e.snum
+JOIN class c ON e.cname = c.cname
+JOIN faculty f ON c.fid = f.fid
+WHERE s.level = 'Junior'
+  AND s.age < 25
+  AND f.fname = 'Gupta';
+
+-- c) Find faculty members with combined enrollment less than 3
+SELECT f.fname
+FROM faculty f
+JOIN class c ON f.fid = c.fid
+LEFT JOIN enrolled e ON c.cname = e.cname
+GROUP BY f.fid, f.fname
+HAVING COUNT(e.snum) < 3;
+
+-- d) For each level, print the level and average age of students
+SELECT level, AVG(age) AS average_age
+FROM student
+GROUP BY level;
+
+-- e) For each faculty member teaching only in room "R2010", print name and total classes taught
+SELECT f.fname, COUNT(c.cname) AS total_classes
+FROM faculty f
+JOIN class c ON f.fid = c.fid
+WHERE f.fid NOT IN (
+    SELECT fid
+    FROM class
+    WHERE room != 'R2010'
+)
+GROUP BY f.fid, f.fname
+HAVING COUNT(c.cname) > 0;
+
+-- f) Average age of DATA SCIENCE majors enrolled in both DSC80 and DSC100
+SELECT AVG(s.age) AS average_age
+FROM student s
+WHERE s.major = 'DATA SCIENCE'
+  AND EXISTS (
+      SELECT 1 FROM enrolled e1
+      WHERE e1.snum = s.snum AND e1.cname = 'DSC80'
+  )
+  AND EXISTS (
+      SELECT 1 FROM enrolled e2
+      WHERE e2.snum = s.snum AND e2.cname = 'DSC100'
+  );
+
+-- g) Find students not enrolled in any class
+SELECT s.sname
+FROM student s
+WHERE NOT EXISTS (
+    SELECT 1 FROM enrolled e
+    WHERE e.snum = s.snum
+);
+
+-- Alternative using LEFT JOIN
+-- SELECT s.sname
+-- FROM student s
+-- LEFT JOIN enrolled e ON s.snum = e.snum
+-- WHERE e.snum IS NULL;
+
+-- h) Find students who are either juniors or enrolled in at most 2 courses
+SELECT DISTINCT s.sname
+FROM student s
+LEFT JOIN (
+    SELECT snum, COUNT(cname) AS course_count
+    FROM enrolled
+    GROUP BY snum
+) e ON s.snum = e.snum
+WHERE s.level = 'Junior' 
+   OR COALESCE(e.course_count, 0) <= 2;
+
+
+
+
+
+
+
+
+-- Create the student table
+CREATE TABLE student (
+    snum INTEGER PRIMARY KEY,
+    sname VARCHAR(100) NOT NULL,
+    major VARCHAR(50),
+    level VARCHAR(20),
+    age INTEGER
+);
+
+-- Create the faculty table
+CREATE TABLE faculty (
+    fid INTEGER PRIMARY KEY,
+    fname VARCHAR(100) NOT NULL,
+    depid INTEGER
+);
+
+-- Create the class table with foreign key to faculty
+CREATE TABLE class (
+    cname VARCHAR(50) PRIMARY KEY,
+    meets_at TIME,
+    room VARCHAR(20),
+    fid INTEGER,
+    FOREIGN KEY (fid) REFERENCES faculty(fid)
+);
+
+-- Create the enrolled table with composite primary key and foreign keys
+CREATE TABLE enrolled (
+    snum INTEGER,
+    cname VARCHAR(50),
+    PRIMARY KEY (snum, cname),
+    FOREIGN KEY (snum) REFERENCES student(snum),
+    FOREIGN KEY (cname) REFERENCES class(cname)
+);
+B
+SELECT DISTINCT s.sname
+FROM student s
+JOIN enrolled e ON s.snum = e.snum
+JOIN class c ON e.cname = c.cname
+JOIN faculty f ON c.fid = f.fid
+WHERE s.level = 'Junior'
+  AND s.age < 25
+  AND f.fname = 'Gupta';
+
+C  
+SELECT f.fname
+FROM faculty f
+JOIN class c ON f.fid = c.fid
+LEFT JOIN enrolled e ON c.cname = e.cname
+GROUP BY f.fid, f.fname
+HAVING COUNT(e.snum) < 3;
+
+D
+
+
+E
+
+
+F
+
+
+
+
+
+Consider the following schema:
+
+Supplier  (sid: integer, sname: string, city: string ,  state: string)
+
+Part      (pid: integer, pname: string, size: string, color: string )
+
+Supply   (sid: integer,  pid: integer, cost: real)
+
+The keys are underlined, and the domain of each attribute is listed after the attribute name. The “Supply” relation consists of the prices for parts supplied by the Suppliers. (ρR(E) renames the result of expression E as R)
+
+Write the SQL queries corresponding to the following RA expressions: 
+
+a.  πsid(πpid(σcity='La Jolla' ∧ state = 'CA' Supplier) ⋈ σcost >100 Supply 
+
+ 
+
+b. πcity(σc >1000(city, count(*) c (Part ⋈ (σcost<100 Supply) ⋈ (σstate='CA' Supplier)))
+
+ 
+
+c. ρR1(πsid(( πpidsize>200 Part) ⋈ Supply))
+
+ρR2(πsidstate='WA' ⋁ state='CA' Supplier)
+
+R1 ⋃ R2
+
+
+
+Consider the Netflix database schema discussed in the lectures:
+
+R (RatingID, Stars, RateDate, UID, MID)
+
+U (UID, Name, Age, JoinDate)
+
+M (MID, Name, Year, Director)
+
+For each query given below, write a CREATE INDEX statement that can help speed up that query. Make sure to clearly mention the index type and SearchKey.
+
+a. SELECT Director FROM M WHERE Year >= 2022;
+
+b. SELECT Name FROM U WHERE Age = 18;
+
+c. SELECT * FROM R, U WHERE R.UID = U.UID;
+
+d. SELECT * FROM R WHERE RateDate >= 01/01/2021;
+
+Given the following schema:
+
+Product(ProductID, Brand, Type, Price)
+
+Orders(OrderID, ProductID, OrderDate, Amount)
+
+The primary key columns are underlined, and the foreign key ProductID in the Product table references the ProductID column in the Product table.
+
+Write a SQL query that calculates the total sales for each brand and type including brands and  types that have no sales, and orders for which the product information is missing, i.e., their product ID is NULL. The query must be executable on SQLite, which means you can only use SQL constructs that are supported by SQLite.

@@ -1,0 +1,148 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, enumitem, geometry, hyperref}
+\geometry{margin=1in}
+\setlist[enumerate]{leftmargin=0.5in}
+\title{DSC 208 Module 2 and 3 Questions}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Module 2 Questions}
+
+\begin{enumerate}
+    \item \textbf{Name three common forms of structured data with application examples.}
+    \begin{itemize}
+        \item \textbf{Relational Data:} Ubiquitous; e.g., a transactional database.
+        \item \textbf{Data Frame Data:} Common in recommendation systems and tabular analysis.
+        \item \textbf{Matrix and Tensor Data:} Used in statistical and scientific computing.
+    \end{itemize}
+
+    \item \textbf{What is Parquet? Explain one pro and one con of using Parquet versus CSVs.}
+    \begin{itemize}
+        \item \textbf{Definition:} Parquet is a columnar, compressed file format for structured and semi-structured data.
+        \item \textbf{Pro:} Smaller file size and faster access via column pruning.
+        \item \textbf{Con:} Not human-readable or easily editable.
+    \end{itemize}
+
+    \item \textbf{What is a data lake? How is it different from an RDBMS?}
+    \begin{itemize}
+        \item \textbf{Data Lake:} A file system storing diverse native-format files; supports direct file access.
+        \item \textbf{Difference:} RDBMS uses query stacks and may not allow direct file access; data lake does.
+    \end{itemize}
+
+    \item \textbf{Explain two reasons why data acquisition can be challenging and how to mitigate them.}
+    \begin{itemize}
+        \item \textbf{Heterogeneity:} Mitigate by assessing source necessity.
+        \item \textbf{Access Control:} Mitigate by learning and adhering to access policies.
+        \item \textbf{Manual Errors:} Address with robust validation and error handling.
+    \end{itemize}
+
+    \item \textbf{Explain two best practices for data reorganization or preparation.}
+    \begin{itemize}
+        \item \textbf{Automation:} Use workflow tools.
+        \item \textbf{Documentation:} Maintain shared, clear documentation.
+    \end{itemize}
+
+    \item \textbf{Explain one pro and one con of programmatic (over)labeling.}
+    \begin{itemize}
+        \item \textbf{Pro:} Increases productivity and reduces costs.
+        \item \textbf{Con:} Requires coding skill; not universally applicable.
+    \end{itemize}
+
+    \item \textbf{Name a data privacy law that affects many web companies.}
+    \begin{itemize}
+        \item GDPR and CCPA/CPRA.
+    \end{itemize}
+
+    \item \textbf{What is data governance? Why should we track it?}
+    \begin{itemize}
+        \item \textbf{Definition:} Management of data availability, usability, integrity, and security.
+        \item \textbf{Purpose:} Ensures auditability, compliance, and continuity.
+    \end{itemize}
+\end{enumerate}
+
+\section*{Module 3 Questions: Semi-Structured Data and Graph Databases}
+
+\begin{enumerate}
+    \item \textbf{Two ways semi-structured data models differ from relational data:}
+    \begin{itemize}
+        \item Schema flexibility
+        \item Heterogeneous records
+        \item Nested structures
+    \end{itemize}
+
+    \item \textbf{Two applications for semi-structured data models:}
+    \begin{itemize}
+        \item User profile management
+        \item Data exchange and integration
+    \end{itemize}
+
+    \item \textbf{Difference between XML and JSON:}
+    \begin{itemize}
+        \item XML uses tags; JSON uses key-value pairs and is less verbose.
+    \end{itemize}
+
+    \item \textbf{Difference between a tag and an attribute in XML:}
+    \begin{itemize}
+        \item \textbf{Tags:} Define elements and can contain sub-elements.
+        \item \textbf{Attributes:} Provide metadata and are atomic.
+    \end{itemize}
+
+    \item \textbf{Basic form of an XQuery statement:}
+    \begin{verbatim}
+FOR $var IN ...
+[LET $var := ...]
+[WHERE condition]
+RETURN expression
+    \end{verbatim}
+
+    \item \textbf{How XQuery resembles sequence syntax:}
+    \begin{itemize}
+        \item WHERE clause acts like a predicate; path expressions used for selection.
+    \end{itemize}
+
+    \item \textbf{One way JSON is better than XML:}
+    \begin{itemize}
+        \item Simpler syntax; easier to parse and read.
+    \end{itemize}
+
+    \item \textbf{Motivation for key-value/NoSQL stores:}
+    \begin{itemize}
+        \item Needed scalability, availability, and schema flexibility for large-scale web applications.
+    \end{itemize}
+
+    \item \textbf{Two major types of graph processing systems:}
+    \begin{itemize}
+        \item OLTP-like (Transactional)
+        \item OLAP-like (Analytical)
+    \end{itemize}
+
+    \item \textbf{Key benefit of GraphX over custom graph DBMSs:}
+    \begin{itemize}
+        \item Integrated with Spark; no separate system required; supports hybrid relational-graph operations.
+    \end{itemize}
+\end{enumerate}
+
+\section*{Quiz 2}
+
+\begin{itemize}
+    \item \textbf{Primary key (A, B) implies A = B:} \textbf{False}
+    \item \textbf{Query Result Tuple:} \textbf{(4,3,1)}
+    \item \textbf{$X^{+}$ is always a superkey:} \textbf{True}
+\end{itemize}
+
+\section*{Quiz 3}
+
+\begin{itemize}
+    \item \textbf{Hash indexes for 4 attributes:} \textbf{18}
+    \item \textbf{Predicate supported by both hash and B+ tree:} \textbf{Equal to}
+    \item \textbf{Benefit of declarativity:} \textbf{All of the three}
+    \item \textbf{Intersection tuple in R $\cap$ S:} \textbf{(1,2,3)}
+    \item \textbf{Theta-join result tuple:} \textbf{(1,2,2,4,6)}
+    \item \textbf{Selectivity of NOT(Stars > 3.0):} \textbf{40\%}
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{subcaption}
+
+\title{Homework 6}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Mathematical and conceptual exercises}
+
+\begin{enumerate}
+    \item Draw the decision boundary in $\mathbb{R}^{2}$ that corresponds to the prediction rule $\left(2 x_{1}-x_{2}-6\right)$. Make sure to clearly indicate where this boundary intersects the axes. Show which side of the boundary is classified as positive and which side as negative.
+
+    \item A particular labeled data of $n$ points is randomly permuted and then the Perceptron algorithm is run on it, repeatedly cycling through the points until convergence. It converges after making $k$ updates. For each of the following statements, say whether it is definitely true or possibly false, and give a brief reason.
+    \begin{enumerate}
+        \item The data set is linearly separable.
+        \item If the process were repeated with a different random permutation, it would again converge.
+        \item If the process were repeated with a different random permutation, it would again converge after making $k$ updates.
+        \item $k$ is at most $n$.
+    \end{enumerate}
+
+    \item The Perceptron algorithm is run on a data set, and converges after performing $p+q$ updates. Of these updates, $p$ are on data points whose label is -1 and $q$ are on data points whose label is +1. What is the final value of the parameter $b$?
+
+    \item An SVM classifier is learned for a data set in $\mathbb{R}^{2}$. It is given by $w=(3,4)$ and $b=-12$.
+    \begin{enumerate}
+        \item Draw the decision boundary, making sure to clearly indicate where it intersects the axes.
+        \item Draw the left- and right-hand boundaries, also clearly making where they intersect the axes.
+        \item What is the margin of this classifier?
+        \item How would the point $(2,2)$ be classified?
+    \end{enumerate}
+
+    \item The picture below shows the decision boundary obtained upon running soft-margin SVM on a small data set of blue squares and red circles.
+    \begin{enumerate}
+        \item Copy this figure and mark the support vectors. For each, indicate the approximate value of the corresponding slack variable.
+        \item Suppose the factor $C$ in the soft-margin SVM optimization problem were increased. Would you expect the margin to increase or decrease?
+    \end{enumerate}
+
+    \item The dual form of the Perceptron algorithm is used to learn a binary classifier, based on $n$ training points. It converges after $k$ updates, and returns a vector $\alpha$ and a number $b$. For each of the following statements, indicate whether it is necessarily true or possibly false, and give a brief justification.
+    \begin{enumerate}
+        \item Each $\alpha_{i}$ is either 0 or 1.
+        \item $\sum_{i} \alpha_{i}=k$.
+        \item $\alpha$ has at most $k$ nonzero coordinates.
+        \item The training data must be linearly separable.
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Programming exercises}
+
+\begin{enumerate}
+    \item Binary Perceptron. In this problem, you will code up the (binary) Perceptron algorithm and use it to classify the Iris data set.
+    \begin{enumerate}
+        \item Write code for two functions:
+        \begin{itemize}
+            \item The first function takes as input parameters $w, b$ of a linear classifier as well as a data point $x$, and returns the label for that point: $\operatorname{sign}(w \cdot x+b)$. The label is either +1 or -1.
+            \item The second function takes as input an array of data points and an array of labels (where each label is +1 or -1), and runs the Perceptron algorithm to learn a linear classifier $w, b$. The algorithm should begin by randomly permuting the data points.
+        \end{itemize}
+        In your writeup, give the code for these two functions.
+
+        \item Load in the Iris data set. You can do this by simply invoking:
+        \begin{verbatim}
+        from sklearn import datasets
+        iris = datasets.load_iris()
+        x = iris.data
+        y = iris.target
+        \end{verbatim}
+        The data has four features and three labels. Restrict it to features 1 and 3 (the second and fourth columns, sepal width and petal width) and to labels 0,1. Recode label 0 as -1, since this is what the Perceptron algorithm is expecting.
+
+        \item Now run the Perceptron algorithm on the data. In your writeup, show a plot with the data points (where the two labels have different colors) and the resulting decision boundary.
+
+        \item Now modify your code from part (a) to count the number of updates made by the Perceptron algorithm while it is learning. Run the algorithm 20 times and keep track of the number of updates needed each time. In your writeup, include a histogram of these values.
+    \end{enumerate}
+
+    \item Support vector machine. As you did with the Perceptron, use the Iris data set, but this time use features 0 and 2, and labels $1,2$.
+    \begin{enumerate}
+        \item Is this data linearly separable?
+
+        \item Use sklearn.svm.SVC to fit a support vector machine classifier to the data. You will need to invoke the option kernel='linear'. Try at least 10 different values of the slack parameter $C$. In your writeup, include a table that shows these values of $C$ and for each of them gives the training error and the number of support vectors.
+
+        \item Which value of $C$ do you think is best? For this value, include a plot of the data points and the linear decision boundary.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

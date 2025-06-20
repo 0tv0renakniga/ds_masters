@@ -1,0 +1,170 @@
+%------------------
+% Question
+%------------------
+Question 6 :     \item \textbf{A computer vision classification task.} In this problem, we'll train a classifier that takes as input an image of an ant or a bee, and determines which it is.
+
+When you unzip \texttt{hymenoptera.zip}, you will see a Jupyter notebook, called \texttt{ants-bees.ipynb} and a directory called \texttt{hymenoptera\_data}.
+
+\begin{enumerate}
+    \item The \texttt{hymenoptera\_data} directory has a subdirectory with the training set (\texttt{train}) and another with the test set (\texttt{val}). Take a look at some of the images. They are of varying sizes, with diverse backgrounds. And there are only 244 training images: not an easy learning problem!
+
+    Run the first few cells of the notebook to see how the images are normalized in size. Pick an image from the directory and show both the original version and the normalized version.
+
+    \item Run the remaining cells of the notebook to see how the ResNet50 network is used to produce a 2048-dimensional representation for each image, and how a logistic regression classifier is constructed on top of this. Report the test accuracy of the logistic regression classifier.
+
+    \item Now, use this same 2048-d representation to construct a $k$-nearest neighbor classifier. Give the test accuracies obtained for $k=1, 3, 5$. Note: If you use \texttt{sklearn.neighbors.KNeighborsClassifier}, you might want to set \texttt{algorithm='kd\_tree'}.
+\end{enumerate}
+
+%------------------
+%Existing python code
+%------------------
+## import libraries
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+# Torch stuff
+import torch
+import torch.nn as nn
+# Torchvision stuff
+from torchvision import datasets, models, transforms
+# sklearn stuff
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix,accuracy_score
+
+## load data
+'''
+### <font color='red'>Loading Dataset</font>
+
+For both the train and test data, the images need to be normalized to the particular size, 224x224x3, that is required by the ResNet50 network that we will apply to them. This is achieved by a series of transforms.
+
+- The (normalized) training set is in image_datasets['train']
+- The (normalized) test set is in image_datasets['val']
+'''
+data_transforms = {
+    'train': transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+    'val': transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+}
+
+data_dir = './hymenoptera_data'
+image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x), data_transforms[x])
+                  for x in ['train', 'val']}
+
+## look at classes and data set sizes
+class_names = image_datasets['train'].classes
+class_names
+
+dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
+dataset_sizes
+
+## print a sample (transformed) image
+item = 200
+[itemx,itemy] = image_datasets['train'].__getitem__(item)
+print("Label: {}\n".format(class_names[itemy]))
+plt.imshow(itemx.permute(1, 2, 0))
+plt.show()
+
+## load pre-trained ResNet50
+resnet50 = models.resnet50(pretrained = True)
+modules = list(resnet50.children())[:-1]
+resnet50 = nn.Sequential(*modules)
+for p in resnet50.parameters():
+    p.requires_grad = False
+
+## extract ResNet features from dataset
+'''
+We'll use ResNet to produce a 2048-dimensional representation for each image.
+
+The resulting training set will be in the Numpy arrays (X_train, y_train) and the test set will be in the Numpy arrays (X_test, y_test).
+'''
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x])
+              for x in ['train', 'val']}
+for batch,data in enumerate(dataloaders['train']):
+    if batch==0:
+        X_train = torch.squeeze(resnet50(data[0])).numpy()
+        y_train = data[1].numpy()
+    else:
+        X_train = np.vstack((X_train,torch.squeeze(resnet50(data[0])).numpy()))
+        y_train = np.hstack((y_train,data[1].numpy()))
+
+
+for batch,data in enumerate(dataloaders['val']):
+    if batch==0:
+        X_test = torch.squeeze(resnet50(data[0])).numpy()
+        y_test = data[1].numpy()
+    else:
+        X_test = np.vstack((X_test,torch.squeeze(resnet50(data[0])).numpy()))
+        y_test = np.hstack((y_test,data[1].numpy()))
+
+        np.shape(X_train), np.shape(y_train), np.shape(X_test), np.shape(y_test)
+
+## train logistc regression classifier on ResNet features then evalue performance on test set
+clf = LogisticRegression(solver='liblinear',random_state=0,max_iter=1000)
+clf.fit(X_train, y_train)
+
+y_pred = clf.predict(X_test)
+print("Accuracy: {}\n".format(accuracy_score(y_test,y_pred)))
+print("Confusion matrix: \n {}".format(confusion_matrix(y_test,y_pred)))
+
+'''
+use this same 2048-d representation to construct a k-nearest neighbor classifier. Give the test
+accuracies obtained for k = 1, 3, 5. Note: If you use sklearn.neighbors.KNeighborsClassifier,
+you might want to set algorithm='kd tree'
+'''
+%------------------
+%Example Solution Format
+%------------------
+\subsection*{Solution 4 (a)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+
+explain step 1.
+Given the following equation:\\
+
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+
+explain step 2\\
+
+}
+
+\subsubsection*{\normalfont}{$\therefore$ conclusion statement}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsection*{Solution 4 (b)}
+\noindent\rule{\textwidth}{0.4pt}\\
+
+\subsubsection*{Step 1}
+\parbox{\textwidth}{
+
+explain step 1.
+Given the following equation:\\
+
+}
+
+\subsubsection*{Step 2}
+\parbox{\textwidth}{
+
+explain step 2\\
+
+}
+
+\subsubsection*{\normalfont}{$\therefore$ conclusion statement}
+
+\noindent\rule{\textwidth}{0.4pt}\\
+
+
